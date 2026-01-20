@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/main.css">
     <title>Document</title>
-</head>
-
+    <!-- ملف يتبعه جميع المبرمجين -->
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <!-- ملف الايكونات  -->
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <!-- ملف bootstrab . css  -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <!--  ملفات عدل الاسم css الخارجيه -->
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
 <body>
-    <h1>hello</h1>
-</body>
+<main class="d-flex">
+  <div class="container-fluid vh-100">
+    <div class="row h-100">
 
+      <!-- left -->
+      <div class="col-lg-6 image-side d-none d-lg-flex justify-content-center align-items-center">
+        <div class="text-white text-center">
+          <h1>Welcome to <span class="text-warning">HOMUNITY</span></h1>
+          <p>Smart, safe, and well-managed housing for university students</p>
+        </div>
+      
+
+      <!-- right -->
+      <div class="col-lg-6 d-flex justify-content-center align-items-center">
+        <div class="form-box d-flex justify-content-center align-items-center rounded-5">
+
+          <!-- signup form -->
+          <form class="d-flex flex-column">
+            <h2>Create Your Account</h2>
+
+            <div class="mb-3">
+              <label>First Name</label>
+              <input class="form-control" placeholder="Enter your first name">
+            </div>
+
+            <div class="mb-3">
+              <label>Last Name</label>
+              <input class="form-control" placeholder="Enter your last name">
+            </div>
+
+            <div class="mb-3">
+              <label>Phone</label>
+              <input class="form-control" placeholder="Enter your phone">
+            </div>
+
+            <div class="mb-3">
+              <label>Password</label>
+              <input type="password" class="form-control" placeholder="Create password">
+            </div>
+
+            <div class="mb-4 d-flex gap-3 flex-column">
+              <label>Select Your Role</label>
+              <div>
+              <input type="radio" name="role"> Student
+              </div>
+              <div>
+              <input type="radio" name="role"> Owner
+              </div>
+            </div>
+
+            <button type="button" class="border-0 rounded-3 submit-btn w-100 mb-3">Submit</button>
+
+            <p class="text-center small">
+              Already have an account?
+              <a href="#" class="text-decoration-none text-warning">Login</a>
+            </p>
+        </form>
+    </div>
+</main>
+</body>
 </html>
