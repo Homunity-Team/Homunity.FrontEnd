@@ -1,16 +1,5 @@
 # 🌐 Homunity Frontend Starter Kit
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/render?type=waving&color=007bff&height=200&section=header&text=Homunity%20Starter%20Kit&fontSize=50&animation=fadeIn" alt="Header" />
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintained" />
-  <img src="https://img.shields.io/badge/Team-Homunity-007bff" alt="Team" />
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen" alt="Status" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" />
-</p>
-
 ---
 
 ### 📝 وصف المشروع
@@ -35,7 +24,7 @@
 │   ├── all.min.css         # 🚩 Font Awesome Icons
 │   ├── normalize.css       # 📏 توحيد العرض بين المتصفحات
 │   └── main.css            # 🎨 ملف التصميم الأساسي (نشتغل عليه فقط)
-├── html/
+├── html/                   # ➕ اي صفحات جديده هتتنشي هنا       
 │   └── form.html           # 📄 صفحات إضافية
 ├── img/
 │   ├── screenshots/        # 📸 صور الشرح للـ README
@@ -46,3 +35,4 @@
 ├── webfonts/              # 🔡 خطوط Font Awesome
 ├── index.html             # 🏠 الصفحة الرئيسية
 └── README.md              # 📝 هذا الملف
+
