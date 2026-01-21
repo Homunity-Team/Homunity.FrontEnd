@@ -1,18 +1,22 @@
 .image-side {
   width: 100%;
-  background: url("../img/photo_6001546408055916892_y 1.png") center/cover no-repeat;
+  background: url("../img/img.svg") center/cover no-repeat;
+  background-color: #212e43;
+  height: 100%;
+}
+.image-side2 {
+  width: 100%;
+  background: url("../img/img2.svg") center/cover no-repeat;
   background-color: #212e43;
   height: 100%;
 }
 
 .form-box {
-  width: 90%;
-  max-width: 450px;
-  height: 100vh;
+  width: 100%;
+  width: 450px;
+  padding: 40px;
   background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 50px 0 0 60px;
 }
 
 .submit-btn {
