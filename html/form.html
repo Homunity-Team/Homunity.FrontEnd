@@ -26,7 +26,9 @@
             class="col-lg-6 w-100 vh-100 d-flex justify-content-center align-items-center"
           >
             <div class="text-white text-center">
-              <h1>Welcome to <span class="fw-bold text-warning">HOMUNITY</span></h1>
+              <h1>
+                Welcome to <span class="fw-bold text-warning">HOMUNITY</span>
+              </h1>
               <p class="Welcome-secondry-line-signin pt-4">
                 Smart, safe, and well-managed housing for university students
               </p>
@@ -39,14 +41,14 @@
               <div
                 class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0"
               >
-              <img
-                src="../img\HOMUNITY (4) 1.svg"
-                alt="logo"
-                class="homunity-logo2 position-fixed top-0 end-0 m-4"
-              />
+                <img
+                  src="../img\HOMUNITY (4) 1.svg"
+                  alt="logo"
+                  class="homunity-logo2 position-fixed top-0 end-0 m-4"
+                />
                 <!-- signup form -->
                 <form id="signupForm" class="d-flex flex-column">
-                  <h2  class="fw-bolder">Create Your Account</h2>
+                  <h2 class="fw-bolder">Create Your Account</h2>
 
                   <div class="mb-3">
                     <label class="fw-bold">First Name</label>
@@ -88,10 +90,12 @@
                   <div class="mb-4 d-flex gap-3 flex-column">
                     <label class="fw-bold">Select Your Role</label>
                     <div>
-                      <input value="2" type="radio" name="role" /> <span class="radio-option">Student</span>
+                      <input value="2" type="radio" name="role" />
+                      <span class="radio-option">Student</span>
                     </div>
                     <div>
-                      <input value="3" type="radio" name="role" /> <span class="radio-option">Owner</span>
+                      <input value="3" type="radio" name="role" />
+                      <span class="radio-option">Owner</span>
                     </div>
                   </div>
 
@@ -128,7 +132,8 @@
               class="text-container text-white text-center d-flex flex-column text-wrap-content"
             >
               <h1 class="">
-                Welcome back to <span class="fw-bold text-warning">HOMUNITY</span>
+                Welcome back to
+                <span class="fw-bold text-warning">HOMUNITY</span>
               </h1>
               <p class="Welcome-secondry-line pt-4">
                 Log in to manage your university housing and stay connected with
@@ -149,11 +154,11 @@
               <div
                 class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0"
               >
-              <img
-                src="../img\HOMUNITY (4) 1.svg"
-                alt="logo"
-                class="homunity-logo2 position-fixed top-0 end-0 m-3"
-              />
+                <img
+                  src="../img\HOMUNITY (4) 1.svg"
+                  alt="logo"
+                  class="homunity-logo2 position-fixed top-0 end-0 m-3"
+                />
                 <!-- login form -->
                 <form id="loginForm" class="d-flex flex-column">
                   <h2 class="fw-bolder">Login to your account</h2>
@@ -176,7 +181,7 @@
                       placeholder="Create password"
                     />
                   </div>
-                  <p class=" forget-line mt-2 forget-line">Forget password?</p>
+                  <p class="forget-line mt-2 forget-line">Forget password?</p>
 
                   <button
                     type="submit"
@@ -202,6 +207,12 @@
       </div>
     </main>
     <script>
+      // check if user is already logged in
+      const userId = localStorage.getItem("userId");
+      if (userId !== null) {
+        window.location.href = "index.html"; // Redirect to home page
+      }
+
       // ===== Signup Form Handler =====
       const signupForm = document.getElementById("signupForm");
 
@@ -234,6 +245,11 @@
           );
 
           const result = await response.json();
+          // Store user ID in localStorage
+          if (result.userID !== undefined) {
+            localStorage.setItem("userId", result.userID);
+            window.location.href = "home.html";
+          }
           console.log("Signup Response:", result);
         } catch (err) {
           console.error("Signup Error:", err);
@@ -265,6 +281,11 @@
           });
 
           const result = await response.json();
+          // Store user ID in localStorage
+          if (result.userID !== undefined) {
+            localStorage.setItem("userId", result.userID);
+            window.location.href = "home.html";
+          }
           console.log("Login Response:", result);
         } catch (err) {
           console.error("Login Error:", err);
