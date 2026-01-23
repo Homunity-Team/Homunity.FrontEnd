@@ -93,3 +93,7 @@ label {
 .radio-option {
   color: var(--font-primary-color);
 }
+
+input[type="radio"] {
+  accent-color: var(--font-primary-color);
+}
