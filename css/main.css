@@ -1,4 +1,91 @@
+ :root{
+   --gold: rgba(239, 184, 30, 1);
+;
+   --blue: rgba(33, 46, 67, 1);
+
+ } 
 body{
-    background-color: red;
-    font-family: 'Work Sans', sans-serif;
+    overflow-y: auto;
 }
+
+/* الصندوق الأساسي للداشبورد */
+.dashboard-container {
+    display: flex; /* بيخلي السايد بار والمحتوى جنب بعض */
+}
+
+ nav {
+    width: 220px;
+    height: 80vh;
+    background-color: var(--blue); 
+  color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    position: fixed;
+    left: -5px;
+    top: 128px;
+    border-top-right-radius: 80px;
+}
+
+/* تعديل اللوجو عشان يظبط مع الـ HTML بتاعك */
+.logo {
+    padding: 0 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 120px; /* حجم اللوجو */
+}
+
+.logo h2 {
+color: var(--gold); 
+    font-size: 1.2rem;
+    font-family: Lucida ;
+font-weight: 100;
+font-style: bold;
+font-size: 30px;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+
+    
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+/* تعديل القائمة */
+.sidebar nav ul li {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar nav ul li:hover, 
+.sidebar nav ul li.active {
+    background-color: rgba(255, 255, 255, 0.1);
+color: var(--gold); 
+}
+
+/* زر تسجيل الخروج */
+.logout {
+    margin-top: auto; 
+    padding: 20px 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+color: var(--gold); 
+    background-color: var(--blue); 
+        width: 220px;
+
+
+}
+
