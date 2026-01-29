@@ -21,19 +21,11 @@
 </head>
 
 <body>
-
-
-    <div class="container">
-        <a href="html/form.html">form</a>
-    </div>
-<!-- owner-dashboard  -->
-                <div class="dashboard-container">
+ <!-- owner-dashboard  -->
+    <div class="dashboard-container">
+                     <!--  Side Bar  -->
         <aside class="sidebar">
-            <div class="logo">
-                <img  src="img/Homunity_Logo.png" alt="Homunity Logo">
-                <h2>Owner Dashboard</h2>
-            </div>
-            <nav class="navbar navbar-expand-lg sticky-top">
+             <nav class="navbar navbar-expand-lg sticky-top">
                 <ul>
                     <li><i class="fa-solid fa-house"></i> Properties</li>
                     <li><i class="fa-solid fa-plus"></i> Add Property</li>
@@ -48,8 +40,141 @@
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </div>
         </aside>
+                    <!-- Header -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="logo">
+                    <a class="navbar-brand" href="#">
+                        <img src="img/Homunity_Logo.png" alt="Logo" style="max-height: 120px">
+                        <h2>Owner Dashboard</h2>
+                    </a>
+                </div>
+                <div class="user-avatar-wrapper">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </header>
+                     <!-- Cards -->
+            <section class="stats-container">
+                <div class="stat-card">
+                    <h4>Total Properties</h4>
+                    <span class="gold-text" id="total-props">15</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Properties Status</h4>
+                    <div class="sub-stat">
+                        <span>Approved:</span> <span class="gold-text" id="approved-count">10</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span>Rejected:</span> 
+                        <span class="gold-text" id="rejected-count">5</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h4>Booking</h4>
+                    <div class="sub-stat">
+                        <span>In progress:</span>
+                         <span class="gold-text" id="pending-booking">5</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span>Booked:</span> 
+                        <span class="gold-text" id="booked-count">10</span>
+                    </div>
+                </div>
+            </section>
+<!-- List  -->
+<div class="property-list-section mt-5">
+    <div class="property-header-container">
+    <h3>Property List</h3>
+    <button class="add-Property">Add Property</button>
+</div>
 
-       
+    <div class="property-horizontal-card shadow-sm mb-3">
+        <div class="card-body-flex">
+            
+            <div class="left-side">
+                <div class="img-box">
+                    <img src="img/Modern_Studio.jpg" alt="Room">
+                </div>
+                <div class="info-box">
+                    <h5 class="fw-bold mb-1">Modern Studio</h5>
+                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
+                    <h6 class="fw-bold mb-0">$500 / month</h6>
+                </div>
+            </div>
+
+            <div class="right-side">
+                <span class="badge-status in-progress">In Progress</span>
+                <button class="btn btn-dark-custom">2 Booking Requests</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="property-horizontal-card shadow-sm mb-3">
+        <div class="card-body-flex">
+            <div class="left-side">
+                <div class="img-box">
+                    <img src="img/modern_bedroom.jpg" alt="Room">
+                </div>
+                <div class="info-box">
+                    <h5 class="fw-bold mb-1"> modern_bedroom</h5>
+                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
+                    <h6 class="fw-bold mb-0">$350 / month</h6>
+                </div>
+            </div>
+            <div class="right-side">
+                <span class="badge-status approved">Approved</span>
+                <button class="btn btn-dark-custom">View Details</button>
+            </div>
+        </div>
+    </div>
+     <div class="property-horizontal-card shadow-sm mb-3">
+        <div class="card-body-flex">
+            
+            <div class="left-side">
+                <div class="img-box">
+                    <img src="img/img1.png" alt="Room">
+                </div>
+                <div class="info-box">
+                    <h5 class="fw-bold mb-1">modern_bedroom</h5>
+                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
+                    <h6 class="fw-bold mb-0">$150 / month</h6>
+                </div>
+            </div>
+
+            <div class="right-side">
+                <span class="badge-status in-progress">Rejected</span>
+                <button class="btn btn-dark-custom">1 Booking Requests</button>
+            </div>
+
+        </div>
+    </div>
+     <div class="property-horizontal-card shadow-sm mb-3">
+        <div class="card-body-flex">
+            
+            <div class="left-side">
+                <div class="img-box">
+                    <img src="img/ddcde91c75903c15d112f90e87e3a614a09a3187.jpg" alt="Room">
+                </div>
+                <div class="info-box">
+                    <h5 class="fw-bold mb-1">modern_bedroom</h5>
+                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
+                    <h6 class="fw-bold mb-0">$150 / month</h6>
+                </div>
+            </div>
+
+            <div class="right-side">
+                <span class="badge-status in-progress">Rejected</span>
+                <button class="btn btn-dark-custom"> View Details</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+        </main> 
+    </div>
+
+<!-- List  -->
 
 
 
