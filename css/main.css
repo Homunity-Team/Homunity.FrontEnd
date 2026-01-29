@@ -31,10 +31,6 @@ body {
     sans-serif;
 }
 
-
-
-
-
 .image-side {
   width: 100%;
   background: url("../img/img.svg") center/cover no-repeat;
@@ -91,7 +87,7 @@ label {
 }
 
 .forget-line {
-  color: #7C7C7C;
+  color: #7c7c7c;
 }
 
 .radio-option {
@@ -100,4 +96,10 @@ label {
 
 input[type="radio"] {
   accent-color: var(--font-primary-color);
+}
+
+.phone-warning,
+.password-warning {
+  color: #ff0000;
+  font-size: 14px;
 }

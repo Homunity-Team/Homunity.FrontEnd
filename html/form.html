@@ -1,248 +1,342 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <title>Homunity</title>
+    <!-- ملف يتبعه جميع المبرمجين -->
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <!-- ملف الايكونات  -->
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <!-- ملف bootstrab . css  -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <!--  ملفات عدل الاسم css الخارجيه -->
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
 
-<head>
-  <title>Homunity</title>
-  <!-- ملف يتبعه جميع المبرمجين -->
-  <link rel="stylesheet" href="../css/normalize.css" />
-  <!-- ملف الايكونات  -->
-  <link rel="stylesheet" href="../css/all.min.css" />
-  <!-- ملف bootstrab . css  -->
-  <link rel="stylesheet" href="../css/bootstrap.min.css" />
-  <!--  ملفات عدل الاسم css الخارجيه -->
-  <link rel="stylesheet" href="../css/main.css" />
-</head>
+  <body>
+    <main>
+      <div class="signup d-none image-side position-relative vh-100">
+        <img
+          src="../img/HOMUNITY (3) 3.svg (3) 3.svg"
+          alt="logo"
+          class="homunity-logo position-fixed top-0 start-0"
+        />
+        <div class="container row">
+          <!-- left -->
+          <div
+            class="col-lg-6 w-100 vh-100 d-flex justify-content-center align-items-center"
+          >
+            <div class="text-white text-center">
+              <h1>
+                Welcome to <span class="fw-bold text-warning">HOMUNITY</span>
+              </h1>
+              <p class="Welcome-secondry-line-signin pt-4">
+                Smart, safe, and well-managed housing for university students
+              </p>
+            </div>
 
-<body>
-  <main>
-    <div class="signup d-none image-side position-relative vh-100">
-      <img src="../img\HOMUNITY (3) 3.svg" alt="logo" class="homunity-logo position-fixed top-0 start-0" />
-      <div class="container row">
-        <!-- left -->
-        <div class="col-lg-6 w-100 vh-100 d-flex justify-content-center align-items-center">
-          <div class="text-white text-center">
-            <h1>
-              Welcome to <span class="fw-bold text-warning">HOMUNITY</span>
-            </h1>
-            <p class="Welcome-secondry-line-signin pt-4">
-              Smart, safe, and well-managed housing for university students
-            </p>
-          </div>
+            <!-- right -->
+            <div
+              class="col-lg-6 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0"
+              >
+                <img
+                  src="../img/HOMUNITY (4) 1.svg"
+                  alt="logo"
+                  class="homunity-logo2 position-fixed top-0 end-0 m-4"
+                />
+                <!-- signup form -->
+                <form id="signupForm" class="d-flex flex-column">
+                  <h2 class="fw-bolder">Create Your Account</h2>
 
-          <!-- right -->
-          <div class="col-lg-6 d-flex justify-content-center align-items-center">
-            <div class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0">
-              <img src="../img\HOMUNITY (4) 1.svg" alt="logo" class="homunity-logo2 position-fixed top-0 end-0 m-4" />
-              <!-- signup form -->
-              <form id="signupForm" class="d-flex flex-column">
-                <h2 class="fw-bolder">Create Your Account</h2>
-
-                <div class="mb-3">
-                  <label class="fw-bold">First Name</label>
-                  <input name="firstName" class="form-control" placeholder="Enter your first name" />
-                </div>
-
-                <div class="mb-3">
-                  <label class="fw-bold">Last Name</label>
-                  <input name="lastName" class="form-control" placeholder="Enter your last name" />
-                </div>
-
-                <div class="mb-3">
-                  <label class="fw-bold">Phone</label>
-                  <input name="phone" class="form-control" placeholder="Enter your phone" />
-                </div>
-
-                <div class="mb-3">
-                  <label class="fw-bold">Password</label>
-                  <input name="password" type="password" class="form-control" placeholder="Create password" />
-                </div>
-
-                <div class="mb-4 d-flex gap-3 flex-column">
-                  <label class="fw-bold">Select Your Role</label>
-                  <div>
-                    <input value="3" type="radio" name="role" />
-                    <span class="radio-option">Student</span>
+                  <div class="mb-3">
+                    <label class="fw-bold">First Name</label>
+                    <input
+                      name="firstName"
+                      class="form-control"
+                      placeholder="Enter your first name"
+                    />
                   </div>
-                  <div>
-                    <input value="2" type="radio" name="role" />
-                    <span class="radio-option">Owner</span>
+
+                  <div class="mb-3">
+                    <label class="fw-bold">Last Name</label>
+                    <input
+                      name="lastName"
+                      class="form-control"
+                      placeholder="Enter your last name"
+                    />
                   </div>
-                </div>
 
-                <button type="submit" class="border-0 rounded-3 submit-btn w-100 mb-3">
-                  Submit
-                </button>
+                  <div class="mb-3">
+                    <label class="fw-bold">Phone</label>
+                    <input
+                      name="phone"
+                      class="form-control js-phone"
+                      placeholder="Enter your phone"
+                    />
+                    <small class="phone-warning"></small>
+                  </div>
 
-                <p class="text-center small">
-                  Already have an account?
-                  <a id="bSignup" href="#" class="text-decoration-none text-warning">Login</a>
-                </p>
-              </form>
+                  <div class="mb-3">
+                    <label class="fw-bold">Password</label>
+                    <input
+                      name="password"
+                      type="password"
+                      class="form-control js-password"
+                      placeholder="Create password"
+                    />
+                    <small class="password-warning"></small>
+                  </div>
+
+                  <div class="mb-4 d-flex gap-3 flex-column">
+                    <label class="fw-bold">Select Your Role</label>
+                    <div>
+                      <input value="3" type="radio" name="role" />
+                      <span class="radio-option">Student</span>
+                    </div>
+                    <div>
+                      <input value="2" type="radio" name="role" />
+                      <span class="radio-option">Owner</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="border-0 rounded-3 submit-btn w-100 mb-3"
+                  >
+                    Submit
+                  </button>
+
+                  <p class="text-center small">
+                    Already have an account?
+                    <a
+                      id="bSignup"
+                      href="#"
+                      class="text-decoration-none text-warning"
+                      >Login</a
+                    >
+                  </p>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="login container-fluid vh-100">
-      <div class="row h-100">
-        <!-- left -->
-        <div class="image-side2 d-flex justify-content-center align-items-center">
-          <div class="text-container text-white text-center d-flex flex-column text-wrap-content">
-            <h1 class="">
-              Welcome back to
-              <span class="fw-bold text-warning">HOMUNITY</span>
-            </h1>
-            <p class="Welcome-secondry-line pt-4">
-              Log in to manage your university housing and stay connected with
-              your community
-            </p>
-          </div>
+      <div class="login container-fluid vh-100">
+        <div class="row h-100">
+          <!-- left -->
+          <div
+            class="image-side2 d-flex justify-content-center align-items-center"
+          >
+            <div
+              class="text-container text-white text-center d-flex flex-column text-wrap-content"
+            >
+              <h1 class="">
+                Welcome back to
+                <span class="fw-bold text-warning">HOMUNITY</span>
+              </h1>
+              <p class="Welcome-secondry-line pt-4">
+                Log in to manage your university housing and stay connected with
+                your community
+              </p>
+            </div>
 
-          <!-- right -->
-          <div class="col-lg-6 d-flex justify-content-center align-items-center">
-            <img src="../img\HOMUNITY (3) 3.svg" alt="logo" class="homunity-logo position-fixed top-0 start-0" />
+            <!-- right -->
+            <div
+              class="col-lg-6 d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="../img/HOMUNITY (3) 3.svg"
+                alt="logo"
+                class="homunity-logo position-fixed top-0 start-0"
+              />
 
-            <div class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0">
-              <img src="../img\HOMUNITY (4) 1.svg" alt="logo" class="homunity-logo2 position-fixed top-0 end-0 m-3" />
-              <!-- login form -->
-              <form id="loginForm" class="d-flex flex-column">
-                <h2 class="fw-bolder">Login to your account</h2>
+              <div
+                class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0"
+              >
+                <img
+                  src="../img/HOMUNITY (4) 1.svg"
+                  alt="logo"
+                  class="homunity-logo2 position-fixed top-0 end-0 m-3"
+                />
+                <!-- login form -->
+                <form id="loginForm" class="d-flex flex-column">
+                  <h2 class="fw-bolder">Login to your account</h2>
 
-                <div class="mb-3">
-                  <label class="fw-bold">Phone</label>
-                  <input name="phoneL" class="form-control" placeholder="Enter your phone" />
-                </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Phone</label>
+                    <input
+                      name="phoneL"
+                      class="form-control"
+                      placeholder="Enter your phone"
+                    />
+                  </div>
 
-                <div class="mb-3">
-                  <label class="fw-bold">Password</label>
-                  <input name="passwordL" type="password" class="form-control" placeholder="Create password" />
-                </div>
-                <p class="forget-line mt-2 forget-line">Forget password?</p>
+                  <div class="mb-3">
+                    <label class="fw-bold">Password</label>
+                    <input
+                      name="passwordL"
+                      type="password"
+                      class="form-control"
+                      placeholder="Create password"
+                    />
+                  </div>
+                  <p class="forget-line mt-2 forget-line">Forget password?</p>
 
-                <button type="submit" class="border-0 rounded-3 submit-btn w-100 mb-3">
-                  Submit
-                </button>
+                  <button
+                    type="submit"
+                    class="border-0 rounded-3 submit-btn w-100 mb-3"
+                  >
+                    Submit
+                  </button>
 
-                <p class="text-center small">
-                  Don't have an account?
-                  <a id="bLogin" href="#" class="text-decoration-none text-warning">register</a>
-                </p>
-              </form>
+                  <p class="text-center small">
+                    Don't have an account?
+                    <a
+                      id="bLogin"
+                      href="#"
+                      class="text-decoration-none text-warning"
+                      >register</a
+                    >
+                  </p>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-  <script>
+    </main>
+    <script>
+      // check if user is already logged in
+      const userId = localStorage.getItem("userId");
+      if (userId !== null) {
+        window.location.href = "../index.html"; // Redirect to home page
+      }
 
+      // validation
+      const phoneInput = document.querySelector(".js-phone");
+      const phoneWarning = document.querySelector(".phone-warning");
+      phoneInput.addEventListener("input", () => {
+        phoneInput.value = phoneInput.value.replace(/\D/g, "");
+        // Limit to 11 digits
+        if (phoneInput.value.length > 11) {
+          phoneInput.value = phoneInput.value.slice(0, 11);
+        } else if (phoneInput.value.length < 11) {
+          phoneWarning.textContent = "Phone number must be exactly 11 digits.";
+        } else {
+          phoneWarning.textContent = "";
+        }
+      });
 
+      const passwordInputs = document.querySelector(".js-password");
+      const passwordWarning = document.querySelector(".password-warning");
 
+      passwordInputs.addEventListener("input", () => {
+        // Enforce minimum length of 6 characters
+        if (passwordInputs.value.length < 6) {
+          passwordWarning.textContent =
+            "Password must be at least 6 characters long.";
+        } else {
+          passwordWarning.textContent = "";
+        }
+      });
 
+      // Signup Form Handler
+      const signupForm = document.getElementById("signupForm");
 
+      signupForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    // check if user is already logged in
-    const userId = localStorage.getItem("userId");
-    if (userId !== null) {
-      window.location.href = "../index.html"; // Redirect to home page
-    }
+        const formData = new FormData(signupForm);
 
-    // ===== Signup Form Handler =====
-    const signupForm = document.getElementById("signupForm");
+        const data = {
+          firstName: formData.get("firstName"),
+          lastName: formData.get("lastName"),
+          phone: formData.get("phone"),
+          password: formData.get("password"),
+          roleId: formData.get("role"),
+          isActive: true,
+        };
 
-    signupForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
+        console.log("Signup Data:", data);
 
-      const formData = new FormData(signupForm);
+        try {
+          const response = await fetch(
+            "https://homunityapiv1.runasp.net/api/Users/Register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            },
+          );
 
-      const data = {
-        firstName: formData.get("firstName"),
-        lastName: formData.get("lastName"),
-        phone: formData.get("phone"),
-        password: formData.get("password"),
-        roleId: formData.get("role"),
-        isActive: true,
-      };
+          const result = await response.json();
+          // Store user ID in localStorage
+          if (result.userID !== undefined) {
+            localStorage.setItem("userId", result.userID);
+            window.location.href = "../index.html";
+          }
+          console.log("Signup Response:", result);
+        } catch (err) {
+          console.error("Signup Error:", err);
+        }
+      });
 
-      console.log("Signup Data:", data);
+      //  Login Form Handler
+      const loginForm = document.getElementById("loginForm");
 
-      try {
-        const response = await fetch(
-          "https://homunityapiv1.runasp.net/api/Users/Register",
-          {
+      loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const phone = loginForm.querySelector('input[name="phoneL"]').value;
+        const password = loginForm.querySelector(
+          'input[name="passwordL"]',
+        ).value;
+
+        const url = `https://homunityapiv1.runasp.net/api/Users/Login?phone=${encodeURIComponent(
+          phone,
+        )}&password=${encodeURIComponent(password)}`;
+
+        try {
+          const response = await fetch(url, {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+              accept: "*/*",
             },
-            body: JSON.stringify(data),
-          },
-        );
+            body: "",
+          });
 
-        const result = await response.json();
-        // Store user ID in localStorage
-        if (result.userID !== undefined) {
-          localStorage.setItem("userId", result.userID);
-          window.location.href = "../index.html";
+          const result = await response.json();
+          // Store user ID in localStorage
+          if (result.userID !== undefined) {
+            localStorage.setItem("userId", result.userID);
+            window.location.href = "../index.html";
+          }
+          console.log("Login Response:", result);
+        } catch (err) {
+          console.error("Login Error:", err);
         }
-        console.log("Signup Response:", result);
-      } catch (err) {
-        console.error("Signup Error:", err);
-      }
-    });
+      });
 
-    // ===== Login Form Handler =====
-    const loginForm = document.getElementById("loginForm");
+      // Switch Between Signup and Login
+      const bLogin = document.getElementById("bLogin");
+      const bSignup = document.getElementById("bSignup");
+      const signupSection = document.getElementsByClassName("signup")[0];
+      const loginSection = document.getElementsByClassName("login")[0];
 
-    loginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
+      bLogin.addEventListener("click", () => {
+        loginSection.classList.add("d-none");
+        signupSection.classList.remove("d-none");
+      });
 
-      const phone = loginForm.querySelector('input[name="phoneL"]').value;
-      const password = loginForm.querySelector(
-        'input[name="passwordL"]',
-      ).value;
-
-      const url = `https://homunityapiv1.runasp.net/api/Users/Login?phone=${encodeURIComponent(
-        phone,
-      )}&password=${encodeURIComponent(password)}`;
-
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            accept: "*/*",
-          },
-          body: "",
-        });
-
-        const result = await response.json();
-        // Store user ID in localStorage
-        if (result.userID !== undefined) {
-          localStorage.setItem("userId", result.userID);
-          window.location.href = "../index.html";
-        }
-        console.log("Login Response:", result);
-      } catch (err) {
-        console.error("Login Error:", err);
-      }
-    });
-
-    // ===== Switch Between Signup and Login =====
-    const bLogin = document.getElementById("bLogin");
-    const bSignup = document.getElementById("bSignup");
-    const signupSection = document.getElementsByClassName("signup")[0];
-    const loginSection = document.getElementsByClassName("login")[0];
-
-    bLogin.addEventListener("click", () => {
-      loginSection.classList.add("d-none");
-      signupSection.classList.remove("d-none");
-    });
-
-    bSignup.addEventListener("click", () => {
-      signupSection.classList.add("d-none");
-      loginSection.classList.remove("d-none");
-    });
-  </script>
-</body>
-
+      bSignup.addEventListener("click", () => {
+        signupSection.classList.add("d-none");
+        loginSection.classList.remove("d-none");
+      });
+    </script>
+  </body>
 </html>
