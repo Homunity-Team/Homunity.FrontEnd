@@ -1,16 +1,78 @@
-.hero-wrapper {
-    background: linear-gradient(rgba(200, 205, 215, 0.8), rgba(200, 205, 215, 0.8)), 
-                url('building-image.jpg'); /* حطي مسار صورتك هنا */
+
+.hp-hero-wrapper {
+    background: linear-gradient(rgba(0, 14, 37, 0.24), rgba(0, 14, 37, 0.24)), 
+                url('../img/hp-hero.png');
     background-size: cover;
     background-position: center;
-    min-height: 80vh;
-    border-radius: 30px; /* عشان الدوران اللي في الأطراف */
-    padding: 20px;
+    min-height: 90vh;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+    position: relative;
+    padding-top: 0;
+}
+.hp-navbar {
+    background-color: white;
+    width: 60%;
+    margin: 0 auto;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.search-container {
-    background: rgba(255, 255, 255, 0.2); /* خلفية شفافة للصندوق */
-    backdrop-filter: blur(10px); /* تأثير الزجاج المغبش */
-    border-radius: 15px;
+.hp-nav-links .nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+.hp-auth-link {
+    color: #C5A059 !important;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hp-hero-content {
+    margin-top: 80px;
+}
+
+.hp-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #1a2b3c;
+    max-width: 700px;
+    margin: 0 auto 20px;
+}
+
+.hp-subtitle {
+    font-size: 1.2rem;
+    color: #444;
+}
+
+.hp-search-container {
+    background: rgba(45, 62, 80, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 40px;
     max-width: 900px;
+    margin-top: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hp-search-label {
+    color: #1a2b3c;
+    font-weight: 600;
+}
+.hp-field {
+    border-radius: 50px !important;
+    border: none;
+    padding: 12px 20px;
+}
+
+.hp-btn-search {
+    background-color: #1a2b3c !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 12px;
+    font-weight: bold;
 }
