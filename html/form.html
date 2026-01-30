@@ -75,7 +75,7 @@
                       class="form-control js-phone"
                       placeholder="Enter your phone"
                     />
-                    <small class="phone-warning"></small>
+                    <small class="phone-warning text-danger"></small>
                   </div>
 
                   <div class="mb-3">
@@ -86,7 +86,7 @@
                       class="form-control js-password"
                       placeholder="Create password"
                     />
-                    <small class="password-warning"></small>
+                    <small class="password-warning text-danger"></small>
                   </div>
 
                   <div class="mb-4 d-flex gap-3 flex-column">
@@ -100,13 +100,15 @@
                       <span class="radio-option">Owner</span>
                     </div>
                   </div>
-
-                  <button
-                    type="submit"
-                    class="border-0 rounded-3 submit-btn w-100 mb-3"
-                  >
-                    Submit
-                  </button>
+                  <div class="d-flex flex-wrap justify-content-evenly">
+                    <button
+                      type="submit"
+                      class="border-0 rounded-3 submit-btn w-100 mb-3"
+                    >
+                      Submit
+                    </button>
+                    <small class="empty-fields-for-signup text-danger"></small>
+                  </div>
 
                   <p class="text-center small">
                     Already have an account?
@@ -184,13 +186,15 @@
                     />
                   </div>
                   <p class="forget-line mt-2 forget-line">Forget password?</p>
-
-                  <button
-                    type="submit"
-                    class="border-0 rounded-3 submit-btn w-100 mb-3"
-                  >
-                    Submit
-                  </button>
+                  <div class="d-flex flex-wrap justify-content-evenly">
+                    <button
+                      type="submit"
+                      class="border-0 rounded-3 submit-btn w-100 mb-3"
+                    >
+                      Submit
+                    </button>
+                    <small class="empty-fields-for-login text-danger"></small>
+                  </div>
 
                   <p class="text-center small">
                     Don't have an account?
@@ -259,6 +263,19 @@
           roleId: formData.get("role"),
           isActive: true,
         };
+        const nullFieldsForSignup = document.querySelector(
+          ".empty-fields-for-signup",
+        );
+        if (
+          data.firstName == null ||
+          data.lastName == null ||
+          data.phone == null ||
+          data.password == null ||
+          data.roleId == null
+        ) {
+          nullFieldsForSignup.textContent = "Please fill in all fields.";
+          return;
+        }
 
         console.log("Signup Data:", data);
 
@@ -300,7 +317,12 @@
         const url = `https://homunityapiv1.runasp.net/api/Users/Login?phone=${encodeURIComponent(
           phone,
         )}&password=${encodeURIComponent(password)}`;
-
+        const nullFieldsLogin = document.querySelector(
+          ".empty-fields-for-login",
+        );
+        if (phone == "" || password == "") {
+          nullFieldsLogin.textContent = "Please fill in all fields.";
+        }
         try {
           const response = await fetch(url, {
             method: "POST",

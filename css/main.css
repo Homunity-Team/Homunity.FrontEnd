@@ -97,9 +97,3 @@ label {
 input[type="radio"] {
   accent-color: var(--font-primary-color);
 }
-
-.phone-warning,
-.password-warning {
-  color: #ff0000;
-  font-size: 14px;
-}
