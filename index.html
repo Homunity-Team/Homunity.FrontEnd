@@ -20,15 +20,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
-    <section class="hp-hero-wrapper">
-
-        <nav class="navbar navbar-expand-lg hp-navbar">
+ <body>
+    
+       <nav class="navbar navbar-expand-lg hp-navbar">
             <div class="container d-flex justify-content-between align-items-center">
-                <a class="navbar-brand hp-logo" href="#">
+                <a class="navbar-brand hp-logo" href="#"> 
                     <img src="img/logo.png" alt="Logo" width="179">
                 </a>
-
+                
                 <ul class="navbar-nav hp-nav-links d-flex flex-row">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></l>
                      <li class="nav-item"><a class="nav-link" href="#">Properties</a></li>
@@ -41,33 +40,33 @@
                 </div>
             </div>
         </nav>
-        <div class="container text-center hp-hero-content">
-            <h1 class="hp-title">Find Your Safe Home Away From Home</h1>
-            <p class="hp-subtitle">Our housing is designed to give expatriates a secure, comfortable.</p>
-            <div class="hp-search-container mx-auto">
-                <h5 class="hp-search-label text-start mb-3">Search For Available Properties</h5>
-                <div class="row g-2">
-                    <div class="col-md-3">
-                        <input type="text" id="location" class="form-control hp-field" placeholder="Location">
-                    </div>
-                    <div class="col-md-3">
-                        <select id="propertyType" class="form-select hp-field">
-                            <option selected>Property Type ▲</option>
-                            <option value="apartment">Apartment</option>
-                            <option value="villa">Villa</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" id="budget" class="form-control hp-field" placeholder="Budget">
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn hp-btn-search w-100" onclick="searchProperties()">Search</button>
+        <section class="hp-hero-wrapper">
+            <div class="container text-center hp-hero-content">
+                <h1 class="hp-title">Find Your Safe Home Away From Home</h1>
+                <p class="hp-subtitle">Our housing is designed to give expatriates a secure, comfortable.</p>
+                <div class="hp-search-container mx-auto">
+                    <h5 class="hp-search-label text-start mb-3">Search For Available Properties</h5>
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <input type="text" id="location" class="form-control hp-field" placeholder="Location">
+                        </div>
+                        <div class="col-md-3">
+                            <select id="propertyType" class="form-select hp-field">
+                                <option selected>Property Type ▲</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="villa">Villa</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="budget" class="form-control rounded-pull hp-field" placeholder="Budget">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn hp-btn-search w-100" onclick="searchProperties()">Search</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-    </section>
+        </section>
 
 
 
