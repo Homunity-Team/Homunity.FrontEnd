@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 /* ROOMS SECTION m/e */
 @font-face {
@@ -94,3 +95,21 @@ body {
 .explore-btn:hover {
   background-color: #212E43;
 }
+=======
+.hero-wrapper {
+    background: linear-gradient(rgba(200, 205, 215, 0.8), rgba(200, 205, 215, 0.8)), 
+                url('building-image.jpg'); /* حطي مسار صورتك هنا */
+    background-size: cover;
+    background-position: center;
+    min-height: 80vh;
+    border-radius: 30px; /* عشان الدوران اللي في الأطراف */
+    padding: 20px;
+}
+
+.search-container {
+    background: rgba(255, 255, 255, 0.2); /* خلفية شفافة للصندوق */
+    backdrop-filter: blur(10px); /* تأثير الزجاج المغبش */
+    border-radius: 15px;
+    max-width: 900px;
+}
+>>>>>>> 5f9fc5f01914d713533022a6396d248d54720f24
