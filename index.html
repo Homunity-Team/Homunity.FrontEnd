@@ -21,52 +21,68 @@
 </head>
 
  <body>
+    <nav class="navbar hp-navbar">
+        <div class="container d-flex justify-content-between align-items-start position-relative">
+            <div class="hp-logo-part">
+                <a class="navbar-brand" href="#"><img src="img/logo.png" width="179"></a>
+            </div>
     
-       <nav class="navbar navbar-expand-lg hp-navbar">
-            <div class="container d-flex justify-content-between align-items-center">
-                <a class="navbar-brand hp-logo" href="#"> 
-                    <img src="img/logo.png" alt="Logo" width="179">
-                </a>
-                
-                <ul class="navbar-nav hp-nav-links d-flex flex-row">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></l>
-                     <li class="nav-item"><a class="nav-link" href="#">Properties</a></li>
+            <div class="hp-nav-center-card">
+                <ul class="navbar-nav d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Properties</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                 </ul>
-                <div class="hp-auth">
-                    <a href="#" class="hp-auth-link">Login</a><span class="hp-auth-nt">/</span>
-                    <a href="#" class="hp-auth-link">Register</a>
-                </div>
             </div>
-        </nav>
-        <section class="hp-hero-wrapper">
-            <div class="container text-center hp-hero-content">
-                <h1 class="hp-title">Find Your Safe Home Away From Home</h1>
-                <p class="hp-subtitle">Our housing is designed to give expatriates a secure, comfortable.</p>
-                <div class="hp-search-container mx-auto">
-                    <h5 class="hp-search-label text-start mb-3">Search For Available Properties</h5>
-                    <div class="row g-2">
-                        <div class="col-md-3">
-                            <input type="text" id="location" class="form-control hp-field" placeholder="Location">
-                        </div>
-                        <div class="col-md-3">
-                            <select id="propertyType" class="form-select hp-field">
-                                <option selected>Property Type ▲</option>
-                                <option value="apartment">Apartment</option>
-                                <option value="villa">Villa</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" id="budget" class="form-control rounded-pull hp-field" placeholder="Budget">
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn hp-btn-search w-100" onclick="searchProperties()">Search</button>
-                        </div>
-                    </div>
-                </div>
+    
+            <div class="hp-auth-section">
+                <a href="#" class="hp-login-link">Login / Register</a>
             </div>
-        </section>
+        </div>
+    </nav>
+<header class="hp-hero-section">
+  <div class="container text-center">
+      <h1 class="hp-hero-title">Find Your Safe Home Away From<br> Home</h1>
+      <p class="hp-hero-subtitle">Our housing is designed to give expatriates a secure, comfortable.</p>
+
+      <div class="hp-search-container p-4 mt-5">
+        <h5 class="hp-search-label text-start mb-4">Search For Available Properties</h5>
+          <div class="row g-3">
+              <div class="col-md-3 align-items-center">
+                  <input type="text" id="Locationinput" class="form-control hp-custom-input" placeholder="Location">
+              </div>
+              <div class="col-md-3">
+                  <select  id="typeselect" class="form-select hp-custom-input">
+                      <option value="" selected>Property Type ▲</option>
+                      <option value="Apartment">Apartment</option>
+                      <option value="Villa">Villa</option>
+                  </select>
+              </div>
+              <div class="col-md-3">
+                  <input type="number" id="Budgetinput" class="form-control hp-custom-input" placeholder="Budget">
+              </div>
+              <div class="col-md-3">
+                  <button id="Searchbtn" class="btn btn-dark w-100 hp-btn-search">Search</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="hp-floating-badge">
+      <img src="img/nn.png" alt="Icon">
+  </div>
+</header>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -78,6 +94,5 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/index.js"></script>
     <!-- ملف bootstrab . js  -->
-</body>
-
+ </body>
 </html>
