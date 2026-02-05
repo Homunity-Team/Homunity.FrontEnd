@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsContainer.innerHTML = "<p class='text-center'>Searching for properties...</p>";
 
         try {
-          const response= await fetch(`https://api.example.com/filter?location=${loc}&type=${type}&price=${budget}`);
+          const response= await fetch(`https://api.example.com/filter?location=${loc}&type=${type}&price=${Budget}`);
          
             const data = await response.json(); 
 
