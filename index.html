@@ -21,9 +21,11 @@
 </head>
 
 <body>
+    <!--  «الصفحة دي Owner Dashboard، يعني لوحة تحكم لمالك عقارات،
+       الهدف منها إنه يشوف عقاراته، حالتها، والحجوزات.»-->
  <!-- owner-dashboard  -->
     <div class="dashboard-container">
-                     <!--  Side Bar  -->
+                     <!--  Side Bar    فايدتها: التنقل بين أقسام الداشبورد -->
         <aside class="sidebar">
              <nav class="navbar navbar-expand-lg sticky-top">
                 <ul>
@@ -40,7 +42,7 @@
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </div>
         </aside>
-                    <!-- Header -->
+                    <!-- Header     ده الجزء الثابت اللي فوق-->
         <main class="main-content">
             <header class="top-header">
                 <div class="logo">
@@ -53,14 +55,14 @@
                     <i class="fa-solid fa-circle-user"></i>
                 </div>
             </header>
-                     <!-- Cards -->
+                     <!-- Cards  «الكروت دي بتعرض إحصائيات سريعة.» -->
             <section class="stats-container">
                 <div class="stat-card">
                     <h4>Total Properties</h4>
                     <span class="gold-text" id="total-props">15</span>
                 </div>
                 <div class="stat-card">
-                    <h4>Properties Status</h4>
+                    <h4>Properties Statue</h4>
                     <div class="sub-stat">
                         <span>Approved:</span> <span class="gold-text" id="approved-count">10</span>
                     </div>
@@ -72,7 +74,7 @@
                 <div class="stat-card">
                     <h4>Booking</h4>
                     <div class="sub-stat">
-                        <span>In progress:</span>
+                         <span>In progress:</span>
                          <span class="gold-text" id="pending-booking">5</span>
                     </div>
                     <div class="sub-stat">
@@ -81,13 +83,12 @@
                     </div>
                 </div>
             </section>
-<!-- List  -->
+<!-- List  «دي ليستة بكل العقارات اللي المالك ضايفها.» -->
 <div class="property-list-section mt-5">
     <div class="property-header-container">
     <h3>Property List</h3>
-    <button class="add-Property">Add Property</button>
+    <button class="add-Property"> <i class="fa-solid fa-plus"></i>  Add Property</button>
 </div>
-
     <div class="property-horizontal-card shadow-sm mb-3">
         <div class="card-body-flex">
             
@@ -143,7 +144,7 @@
             </div>
 
             <div class="right-side">
-                <span class="badge-status in-progress">Rejected</span>
+              <span class="badge-status rejected">Rejected</span>
                 <button class="btn btn-dark-custom">1 Booking Requests</button>
             </div>
 
@@ -164,8 +165,8 @@
             </div>
 
             <div class="right-side">
-                <span class="badge-status in-progress">Rejected</span>
-                <button class="btn btn-dark-custom"> View Details</button>
+<span class="badge-status rejected">Rejected</span>
+                   <button class="btn btn-dark-custom"> View Details</button>
             </div>
 
         </div>
@@ -173,8 +174,7 @@
 </div>
         </main> 
     </div>
-
-<!-- List  -->
+<!-- end List-->
 
 
 

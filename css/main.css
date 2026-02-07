@@ -74,7 +74,9 @@ body {
     width: calc(100% - 260px);
     display: flex;
     flex-direction: column;
-}
+    padding: 20px 40px;
+
+    }
 
 .top-header {
     display: flex;
@@ -139,38 +141,48 @@ font-style: bold;
 .stats-container {
     display: flex;
     gap: 20px;
-    padding: 0 30px; /* مسافة داخلية للمحتوى */
+    padding: 0 15px; /* مسافة داخلية للمحتوى */
 }
 
 .stat-card {
     background-color: var(--blue);
     color: white;
     flex: 1;
-    padding: 20px;
-    border-radius: 16px;
-    text-align: center;
+padding: 15px 25px;       
+border-radius: 16px;
+    text-align: left;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    height: 120px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 2px;
 }
 
 .stat-card h4 {
-    margin-bottom: 10px;
-    font-weight: 400;
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 .sub-stat {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     font-size: 14px;
+    margin-bottom: 0px;          /* تقليل المسافة بين السطرين */
+    gap: 10px;                   /* مسافة محددة بدلاً من توزيعها على كامل الكارت */
 }
 
 .gold-text {
     color: var(--gold);
     font-weight: bold;
     font-size: 20px;
+}
+.property-list-section {
+    margin-top: 50px;
+}
+.property-header-container {
+    margin-bottom: 30px;
 }
 
 /* الحاوية الكبيرة للكارت */
@@ -217,7 +229,7 @@ font-style: bold;
     padding: 8px 10px;
     border-radius: 20px;
     font-size: 13px;
-    font-weight: 50;
+    font-weight: 50; 
     width: 204;
 height: 62;
 opacity: 1;
@@ -235,7 +247,10 @@ left: 25px;
     background-color:var(--gold);
     color: var(--blue);
 }
-
+.badge-status.rejected{
+    background-color:var(--gold);
+    color: var(--blue);
+}
 /* الزرار الأسود */
 .btn-dark-custom {
     background-color: var(--blue) !important;
@@ -262,4 +277,5 @@ left: 25px;
     border-radius: 14px;
     padding: 10px;
 
-}
+} 
+
