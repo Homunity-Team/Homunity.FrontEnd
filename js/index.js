@@ -7,7 +7,7 @@ if (userId !== null) {
   const apiUrl = `https://homunityapiv1.runasp.net/api/Users/Get Profile By ID?id=${userId}`;
   fetch(apiUrl)
     .then((response) => {
-      if (!response.ok) throw new Error("حدث خطأ أثناء جلب البيانات");
+      if (!response.ok) throw new Error("Network response was not ok");
       return response.json();
     })
     .then((user) => {
