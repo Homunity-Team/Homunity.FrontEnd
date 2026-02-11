@@ -277,5 +277,41 @@ left: 25px;
     border-radius: 14px;
     padding: 10px;
 
-} 
+}
+/* --- التعديلات النهائية لضبط التصميم --- */
 
+/* 1. إظهار اللوجو وتثبيت الهيدر */
+.top-header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000 !important;
+    background: white !important;
+    height: 100px !important;
+}
+
+.logo {
+    margin-left: 0 !important; /* عشان اللوجو يظهر ومايستخباش */
+}
+
+/* 2. تثبيت السايد بار والـ Logout تحت خالص */
+.sidebar {
+    position: fixed !important;
+    top: 100px !important; 
+    height: calc(100vh - 100px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.logout {
+    margin-top: auto !important; /* بيزق Logout لآخر السايد بار من تحت */
+    padding-bottom: 25px !important;
+}
+
+/* 3. إزاحة المحتوى عشان مايدخلش تحت السايد بار */
+.main-content {
+    margin-left: 260px !important;
+    margin-top: 100px !important;
+    width: calc(100% - 260px) !important;
+}
