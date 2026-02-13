@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     overlay.style.display = 'none';
 
-    // فتح المودال
     document.querySelectorAll('.delete-trigger').forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // إغلاق المودال
     modalClose.addEventListener('click', closeModal);
     cancelBtn.addEventListener('click', closeModal);
 
@@ -48,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // تنفيذ الحذف
     deleteBtn.addEventListener('click', async () => {
         if (!propertyIdToDelete || !currentDeleteButton) {
-            // 🔁 استبدال alert بـ SweetAlert
+            // sweetaletr not defaut alert
             Swal.fire({
                 icon: 'warning',
                 title: 'No property selected',
@@ -71,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                // ✅ نجاح الحذف
                 Swal.fire({
                     icon: 'success',
                     title: 'Deleted!',
@@ -95,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } else {
-                // ❌ فشل الحذف
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -106,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Fetch error:', error);
-            // 🌐 فشل الاتصال
             Swal.fire({
                 icon: 'error',
                 title: 'Connection Error',
@@ -123,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
+        if (e.target == overlay) {
             closeModal();
         }
     });
