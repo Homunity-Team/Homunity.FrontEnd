@@ -300,6 +300,29 @@ left: 25px;
         }
 
 
+     .back-button {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #212E43;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+     display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: #212E43;
+    font-size: 22px;
+    transition: 0.3s;
+}
+     
+     
+
+
+    .back-button:hover {
+    background-color: #2f3b4c;
+    color: #ffffff;
+}
+
         .booking-table {
             border-collapse: separate; 
             border-spacing: 0 14px; 
@@ -321,8 +344,8 @@ left: 25px;
             padding: 15px;
             vertical-align: middle;
             text-align: center;
-            border-top: 1px solid #f0f0f0;
-            border-bottom: 1px solid #f0f0f0;
+            border-top: 1px solid #ffffff;
+            border-bottom: 1px solid #ffffff;
             color:#212E43 ;
         }
         .booking-table tbody tr td:first-child {

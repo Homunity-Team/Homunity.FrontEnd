@@ -185,11 +185,12 @@
 
 <!--Booking Request-->
 
-
 <div class="booking-page">
 
     <div class="page-header">
         <h2>Booking Requests</h2>
+         <a href="#" class="back-button" >&#8592;
+    </a>
     </div>
 
     <div class="table-responsive">
@@ -243,60 +244,5 @@
     <script src="js/index.js"></script>
     <!-- ملف bootstrab . js  -->
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 1. تعريف العناصر من السايد بار
-        // سنبحث عن العناصر بناءً على النص الموجود بداخلها لضمان الدقة
-        const allSidebarItems = document.querySelectorAll('.sidebar nav ul li');
-        
-        let bookingBtn, propertiesBtn;
-        
-        allSidebarItems.forEach(item => {
-            if (item.textContent.includes('Booking Request')) bookingBtn = item;
-            if (item.textContent.includes('Properties')) propertiesBtn = item;
-        });
-
-        // 2. تعريف أقسام الصفحة
-        const propertySection = document.querySelector('.property-list-section');
-        const statsContainer = document.querySelector('.stats-container');
-        const bookingSection = document.getElementById('booking-requests-section');
-
-        // --- وظيفة إظهار صفحة طلبات الحجز ---
-        if (bookingBtn) {
-            bookingBtn.addEventListener('click', function () {
-                // إخفاء العناصر الأصلية
-                if (propertySection) propertySection.style.display = 'none';
-                if (statsContainer) statsContainer.style.display = 'none';
-                
-                // إظهار القسم الخاص بك
-                if (bookingSection) {
-                    bookingSection.style.display = 'block';
-                }
-
-                // تغيير الحالة النشطة (Active) في السايد بار
-                allSidebarItems.forEach(li => li.classList.remove('active'));
-                bookingBtn.classList.add('active');
-            });
-        }
-
-        // --- وظيفة العودة لصفحة العقارات الأصلية ---
-        if (propertiesBtn) {
-            propertiesBtn.addEventListener('click', function () {
-                // إظهار العناصر الأصلية
-                if (propertySection) propertySection.style.display = 'block';
-                if (statsContainer) statsContainer.style.display = 'flex';
-                
-                // إخفاء قسم طلبات الحجز
-                if (bookingSection) {
-                    bookingSection.style.display = 'none';
-                }
-
-                // تغيير الحالة النشطة (Active)
-                allSidebarItems.forEach(li => li.classList.remove('active'));
-                propertiesBtn.classList.add('active');
-            });
-        }
-    });
-</script>
 </body>
 </html>
