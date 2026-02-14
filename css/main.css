@@ -333,21 +333,46 @@ left: 25px;
     width: 470px;
     height: 150px;
     flex-shrink: 0;
+
 }
+.side-img-box img {
+    width: 250%; 
+    height: 100%;
+    object-fit: cover;
+    position: absolute; /* عشان نقدر نحركها بالـ left */
+    transition: 0.5s;
+}
+
 
 .side-img-box {
     width: 150px; 
     height: 150px;
     overflow: hidden;
     flex-shrink: 0;
+     position: relative; 
 }
 .side-img-box.left img {
-    object-position: right;
+ left: 0;
+    animation: moveLeft 8s linear infinite alternate;
 }
 
 .side-img-box.right img {
-    object-position: left;
+ right: 0;
+    animation: moveRight 8s linear infinite alternate;
 }
+
+/* تعريف الحركات */
+@keyframes moveLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-40%); } 
+}
+
+@keyframes moveRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(40%); }
+}
+
+
 .gallery-img {
     width: 100%;
     height: 100%;
@@ -357,13 +382,6 @@ left: 25px;
 
 /*         Studio section     */
 
-
-.info-card {
-    border: 2px solid var(--blue);
-    border-radius: 20px;
-    padding: 25px;
-    background: white;
-}
 
 .studio-title {
     color: var(--gold); 
@@ -486,14 +504,24 @@ left: 25px;
 
 }
 
-/* عشان نلغي أي هوامش زيادة ممكن تبعدهم عن بعض */
 .row {
     margin-right:0;
     margin-left: 0 ;
 }
 
+/*  السهم */
+.back-btn {
+    font-size: 30px;         
+    color: var(--blue);     
+    text-decoration: none;
+    transition: 0.3s;
+    opacity: 0.9; 
+}
 
-
+.back-btn:hover {
+    color: var(--gold);         
+    transform: scale(1);  
+}
 
 
 

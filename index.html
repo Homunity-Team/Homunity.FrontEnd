@@ -24,22 +24,54 @@
  <!-- owner-dashboard  -->
     <div class="dashboard-container">
                      <!--  Side Bar    فايدتها: التنقل بين أقسام الداشبورد -->
-        <aside class="sidebar">
-             <nav class="navbar navbar-expand-lg sticky-top">
-                <ul>
-                    <li><i class="fa-solid fa-house"></i> Properties</li>
-                    <li><i class="fa-solid fa-plus"></i> Add Property</li>
-                    <li><i class="fa-solid fa-arrows-rotate"></i> Update Property</li>
-                    <li><i class="fa-solid fa-trash"></i> Delete Property</li>
-                    <li><i class="fa-solid fa-message"></i> Messages</li>
-                    <li><i class="fa-solid fa-gear"></i> Settings</li>
-                    <li><i class="fa-solid fa-calendar-check"></i> Booking Request</li>
-                </ul>
-            </nav>
-            <div class="logout">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </div>
-        </aside>
+        
+<aside class="sidebar">
+    <nav class="navbar sticky-top">
+        <ul class="nav-list">
+            <li>
+            <a href="#" class="nav-link" data-section="property-details-section">
+                        <i class="fa-solid fa-house"></i> Properties
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="add-property-section">
+                    <i class="fa-solid fa-plus"></i> Add Property
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="update-property-section">
+                    <i class="fa-solid fa-arrows-rotate"></i> Update Property
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="delete-property-section">
+                    <i class="fa-solid fa-trash"></i> Delete Property
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="messages-section">
+                    <i class="fa-solid fa-message"></i> Messages
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="settings-section">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="booking-section">
+                    <i class="fa-solid fa-calendar-check"></i> Booking Request
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="logout">
+        <a href="login.html" style="color: inherit; text-decoration: none;">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+    </div>
+</aside>
+
                     <!-- Header     ده الجزء الثابت اللي فوق-->
         <main class="main-content">
             <header class="top-header">
@@ -53,7 +85,7 @@
                     <i class="fa-solid fa-circle-user"></i>
                 </div>
             </header>
-            <section id="main-dashboard-section" style="display: none">
+            <section id="main-dashboard-section"  class="content-section ">
                      <!-- Cards  «الكروت دي بتعرض إحصائيات سريعة.» -->
             <section class="stats-container">
                 <div class="stat-card">
@@ -176,14 +208,17 @@
 <!-- end List-->
 
 
-<section id="property-details-section" class="mt-4"> 
+<section id="property-details-section" class=" content-section mt-4"  >  
     <div class="container-fluid px-4">
         
-        <div class="d-flex justify-content-between align-items-center mb-4"> 
-            <div class="Property "> 
+        <div class="d-flex justify-content-between align-items-center mb-4 px-3"> 
                 <h2 class="fw-bold mb-0">Property Details</h2>
-            </div>
-        </div>
+
+        <a href="index.html" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+        </a>
+    </div>
+
 <!-- Stats-->
         <section class="details-stats-wrapper mb-4" style="top: 134px;">
     
