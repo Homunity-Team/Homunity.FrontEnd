@@ -30,7 +30,7 @@ body {
     flex-direction: column;
     position: fixed;
     left: 0;
-    top: 120px; /* بيبدأ بعد الهيدر */
+    top: 136px; 
     border-top-right-radius: 80px;
     z-index: 1000;
 }
@@ -81,13 +81,18 @@ body {
     display: flex;
     justify-content: space-between; 
     align-items: center;
-    width: 100%;
+    width:calc(100% - 260px);
     height: 120px;
     padding: 0 40px;
     background-color: transparent;
+    position: fixed;   
+    left: 260px;  
+ z-index: 1001; 
+ background-color: var(--light-gray);
+ top: 0;
 }
 
-/* اللوجو (فوق السايد بار) */
+/* اللوجو) */
 .logo {
     width: 260px; 
     display: flex;
@@ -122,6 +127,8 @@ font-style: bold;
 /* أيقونة الشخص */
 .user-avatar-wrapper {
     cursor: pointer;
+    right: 40px; 
+    top: 50%;
 }
 
 .user-avatar-wrapper i {
@@ -135,11 +142,12 @@ font-style: bold;
     transform: scale(1.1);
 }
 
-/*  الكروت */
+/*  stat-card*/
 .stats-container {
     display: flex;
     gap: 20px;
-    padding: 0 15px; 
+    padding: 0 15px;
+    margin-top: 140px;  
 }
 
 .stat-card {
@@ -281,43 +289,6 @@ left: 25px;
 
 
 
-/*<!-- Stats-->*/
-.details-stats-wrapper {
-    display: flex;
-    gap: 20px;
-    padding: 0 15px;
-    margin-top: 20px;
-}
-
-.detail-stat-item {
-    background-color:var(--blue) ;
-    color: white ;
-    flex: 1;
-    padding: 15px 25px;
-    border-radius: 16px;
-    text-align: left;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-    max-width: 1000px; 
-}
-
-.detail-stat-item h4 {
-    margin: 0;
-    font-size: 0.85rem;
-    font-weight: 400;
-}
-
-.highlight-value {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin: 0;
-    color:var(--gold);
-    align-items: center;
-    text-align: center
-}
 
 /* تنسيق الصور */
 .featured-gallery-wrapper {
@@ -339,7 +310,7 @@ left: 25px;
     width: 250%; 
     height: 100%;
     object-fit: cover;
-    position: absolute; /* عشان نقدر نحركها بالـ left */
+    position: absolute; 
     transition: 0.5s;
 }
 
@@ -524,7 +495,9 @@ left: 25px;
 }
 
 
-
+.d-flex{
+    margin-top: 90px;
+}
 
 
 
