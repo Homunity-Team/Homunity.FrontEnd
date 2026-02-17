@@ -1,317 +1,360 @@
 /* المتغيرات الأساسية */
 :root {
-    --gold: rgba(239, 184, 30, 1);
-    --blue: rgba(33, 46, 67, 1);
-    --light-gray: #f9f9f9;
+  --gold: rgba(239, 184, 30, 1);
+  --blue: rgba(33, 46, 67, 1);
+  --light-gray: #f9f9f9;
 }
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+@font-face {
+  font-family: "LBRITE";
+  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
+    format("woff");
+  font-display: swap;
 }
 
 body {
-    overflow-x: hidden;
-    background-color: var(--light-gray);
+  font-family:
+    "LBRITE",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+:root {
+  --font-primary-color: #212e43;
+  --secondary-color: #f4c430;
 }
 
 .dashboard-container {
-    display: flex;
+  display: flex;
 }
 
-                     /*  Side Bar  */
+/*  Side Bar  */
 .sidebar {
-    width: 260px;
-    height: calc(100vh - 120px);
-    background-color: var(--blue);
-    color: var(--light-gray);
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    left: 0;
-    top: 120px; /* بيبدأ بعد الهيدر */
-    border-top-right-radius: 80px;
-    z-index: 1000;
+  width: 260px;
+  height: calc(100vh - 120px);
+  background-color: var(--blue);
+  color: var(--light-gray);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 120px; /* بيبدأ بعد الهيدر */
+  border-top-right-radius: 80px;
+  z-index: 1000;
 }
 
 .sidebar nav ul {
-    list-style: none;
-    margin-top: 30px;
+  list-style: none;
+  margin-top: 30px;
 }
 /* تعديل القائمة */
 .sidebar nav ul li {
-    padding: 14px 25px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 15px;
+  padding: 14px 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
 }
 
-.sidebar nav ul li:hover, 
+.sidebar nav ul li:hover,
 .sidebar nav ul li.active {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--gold);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--gold);
 }
 
 .logout {
-    margin-top: auto;
-    padding: 20px 25px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: var(--gold);
+  margin-top: auto;
+  padding: 20px 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--gold);
 }
 
 /* Main Content Styles */
 .main-content {
-    margin-left: 260px; 
-    width: calc(100% - 260px);
-    display: flex;
-    flex-direction: column;
-    padding: 20px 40px;
-
-    }
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+}
 
 .top-header {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    width: 100%;
-    height: 120px;
-    padding: 0 40px;
-    background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  padding: 0 40px;
+  background-color: transparent;
 }
 
 /* اللوجو (فوق السايد بار) */
 .logo {
-    width: 260px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: -290px; /* لضبط المحاذاة مع السايد بار */
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: -290px; /* لضبط المحاذاة مع السايد بار */
 }
 
 .logo a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
 .logo img {
-    width: 100px;
-    max-height: 80px;
+  width: 100px;
+  max-height: 80px;
 }
 
 .logo h2 {
-    color: var(--gold);
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 0;
- font-family: Lucida ;
-font-style: bold;
-
-
-
+  color: var(--gold);
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  font-family: Lucida;
+  font-style: bold;
 }
 
 /* أيقونة الشخص */
 .user-avatar-wrapper {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .user-avatar-wrapper i {
-    font-size: 45px;
-    color: var(--blue);
-    transition: 0.3s;
+  font-size: 45px;
+  color: var(--blue);
+  transition: 0.3s;
 }
 
 .user-avatar-wrapper i:hover {
-    color: var(--gold);
-    transform: scale(1.1);
+  color: var(--gold);
+  transform: scale(1.1);
 }
 
 /*  الكروت */
 .stats-container {
-    display: flex;
-    gap: 20px;
-    padding: 0 15px; /* مسافة داخلية للمحتوى */
+  display: flex;
+  gap: 20px;
+  padding: 0 15px; /* مسافة داخلية للمحتوى */
 }
 
 .stat-card {
-    background-color: var(--blue);
-    color: white;
-    flex: 1;
-padding: 15px 25px;       
-border-radius: 16px;
-    text-align: left;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2px;
+  background-color: var(--blue);
+  color: white;
+  flex: 1;
+  padding: 15px 25px;
+  border-radius: 16px;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
 }
 
 .stat-card h4 {
-    margin-bottom: 2px;
-    font-size: 0.95rem;
-    font-weight: 500;
+  margin-bottom: 2px;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .sub-stat {
-    display: flex;
-    justify-content: flex-start;
-    font-size: 14px;
-    margin-bottom: 0px;          /* تقليل المسافة بين السطرين */
-    gap: 10px;                   /* مسافة محددة بدلاً من توزيعها على كامل الكارت */
+  display: flex;
+  justify-content: flex-start;
+  font-size: 14px;
+  margin-bottom: 0px; /* تقليل المسافة بين السطرين */
+  gap: 10px; /* مسافة محددة بدلاً من توزيعها على كامل الكارت */
 }
 
 .gold-text {
-    color: var(--gold);
-    font-weight: bold;
-    font-size: 20px;
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 20px;
 }
 .property-list-section {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 .property-header-container {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 /* الحاوية الكبيرة للكارت */
 .property-horizontal-card {
-    background: white;
-    border-radius: 15px;
-    border: 1px solid var(--gold);
-    padding: 10px 20px;
-    width: 100%;
-    margin-bottom: 30px;
-
+  background: white;
+  border-radius: 15px;
+  border: 1px solid var(--gold);
+  padding: 10px 20px;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 /* الرصة الداخلية */
 .card-body-flex {
-    display: flex;
-    justify-content: space-between; /* ده اللي بيحدف يمين وشمال */
-    align-items: center;
+  display: flex;
+  justify-content: space-between; /* ده اللي بيحدف يمين وشمال */
+  align-items: center;
 }
 
 /* الجزء الشمال */
 .left-side {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* مسافة بين الصورة والكلام */
+  display: flex;
+  align-items: center;
+  gap: 20px; /* مسافة بين الصورة والكلام */
 }
 
 .img-box img {
-    width: 140px;
-    height: 90px;
-    border-radius: 12px;
-    object-fit: cover;
+  width: 140px;
+  height: 90px;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 /* الجزء اليمين */
 .right-side {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* ستايل الحالة (Badges) */
 .badge-status {
-    padding: 8px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 50; 
-    width: 204;
-height: 62;
-opacity: 1;
-top: 2035px;
-left: 25px;
-
+  padding: 8px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 50;
+  width: 204;
+  height: 62;
+  opacity: 1;
+  top: 2035px;
+  left: 25px;
 }
 
 .badge-status.in-progress {
-    background-color: var(--gold);
-    color: var(--blue);
+  background-color: var(--gold);
+  color: var(--blue);
 }
 
 .badge-status.approved {
-    background-color:var(--gold);
-    color: var(--blue);
+  background-color: var(--gold);
+  color: var(--blue);
 }
-.badge-status.rejected{
-    background-color:var(--gold);
-    color: var(--blue);
+.badge-status.rejected {
+  background-color: var(--gold);
+  color: var(--blue);
 }
 /* الزرار الأسود */
 .btn-dark-custom {
-    background-color: var(--blue) !important;
-    color: white !important;
-    border-radius: 12px;
-    padding: 10px 20px;
-    font-size: 14px;
-    border: none;
+  background-color: var(--blue) !important;
+  color: white !important;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
 }
 
 .property-header-container {
-    display: flex !important;           /* إجبار على وضع السطر الواحد */
-    flex-direction: row !important;     /* التأكيد إنهم جنب بعض مش تحت بعض */
-    justify-content: space-between;     /* واحد يمين وواحد شمال */
-    align-items: center;                /* توسيط رأسي */
-    width: 100%;
-    top: 14px;
-
+  display: flex !important; /* إجبار على وضع السطر الواحد */
+  flex-direction: row !important; /* التأكيد إنهم جنب بعض مش تحت بعض */
+  justify-content: space-between; /* واحد يمين وواحد شمال */
+  align-items: center; /* توسيط رأسي */
+  width: 100%;
+  top: 14px;
 }
 
-.add-Property{
-    background-color: var(--blue);
-    color: var(--light-gray);
-    border-radius: 14px;
-    padding: 10px;
-
+.add-Property {
+  background-color: var(--blue);
+  color: var(--light-gray);
+  border-radius: 14px;
+  padding: 10px;
 }
 /* --- التعديلات النهائية لضبط التصميم --- */
 
 /* 1. إظهار اللوجو وتثبيت الهيدر */
 .top-header {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 2000 !important;
-    background: white !important;
-    height: 100px !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000 !important;
+  background: white !important;
+  height: 100px !important;
 }
 
 .logo {
-    margin-left: 0 !important; /* عشان اللوجو يظهر ومايستخباش */
+  margin-left: 0 !important; /* عشان اللوجو يظهر ومايستخباش */
 }
 
 /* 2. تثبيت السايد بار والـ Logout تحت خالص */
 .sidebar {
-    position: fixed !important;
-    top: 100px !important; 
-    height: calc(100vh - 100px) !important;
-    display: flex !important;
-    flex-direction: column !important;
+  position: fixed !important;
+  top: 100px !important;
+  height: calc(100vh - 100px) !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .logout {
-    margin-top: auto !important; /* بيزق Logout لآخر السايد بار من تحت */
-    padding-bottom: 25px !important;
+  margin-top: auto !important; /* بيزق Logout لآخر السايد بار من تحت */
+  padding-bottom: 25px !important;
 }
 
 /* 3. إزاحة المحتوى عشان مايدخلش تحت السايد بار */
 .main-content {
-    margin-left: 260px !important;
-    margin-top: 100px !important;
-    width: calc(100% - 260px) !important;
+  margin-left: 260px !important;
+  margin-top: 100px !important;
+  width: calc(100% - 260px) !important;
+}
+
+/* messages */
+
+.back-button {
+  background: none;
+  border: 2px solid var(--font-primary-color);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: var(--font-primary-color);
+  color: white;
+}
+
+.message-card-container {
+  background-color: var(--font-primary-color);
+  color: #f9f9f9;
+  border: var(--secondary-color) 3px solid;
+  border-radius: 25px;
+  padding: 30px;
+}
+
+.reject-btn {
+  color: var(--font-primary-color);
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 30px;
+  font-size: 50px;
+  font-weight: 600;
+  height: 70px;
+}
+
+.card-img-message {
+    width: 150px;
+    border-radius: 25px;
 }
