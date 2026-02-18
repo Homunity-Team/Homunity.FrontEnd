@@ -607,3 +607,35 @@ body {
   font-weight: bold;
   padding: 10px 25px;
 }
+.title {
+  color: var(--gold-color);
+}
+/* اللون الكحلي المستخدم في الخلفية */
+.bGBlue {
+  background-color: var(--dark-blue) !important;
+}
+
+/* زر الاستبدال */
+.btn-replace {
+  background-color: #ced4da; /* لون رمادي فاتح */
+  color: var(--dark-blue);
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-replace:hover {
+  background-color: var(--gold-color); /* يتحول للذهبي عند التمرير */
+}
+
+.img-wrapper img {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* لجعل الصورة مربعة تماماً */
+  object-fit: cover;
+  border-color: var(--gold-color) !important; /* لون الإطار الذهبي */
+}
+
+.upload-gallery-container {
+  min-height: 200px;
+}
