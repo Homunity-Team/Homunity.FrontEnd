@@ -19,10 +19,29 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+  --dark-blue: #1b263b;
+  --gold-color: #f1b42f;
+  --light-gray: #f9f9f9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--light-gray);
+
 }
 
 .dashboard-container {
   display: flex;
+}
+.bGBlue {
+  background-color: var(--blue);
 }
 
 /*  Side Bar  */
@@ -36,6 +55,7 @@ body {
   position: fixed;
   left: 0;
   top: 120px;
+  top: 120px; /* بيبدأ بعد الهيدر */
   border-top-right-radius: 80px;
   z-index: 1000;
 }
@@ -45,6 +65,17 @@ body {
   margin-top: 30px;
 }
 
+.sidebar nav ul li {
+  padding: 14px 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+}
+
+/* تعديل القائمة */
 .sidebar nav ul li {
   padding: 14px 25px;
   display: flex;
@@ -98,6 +129,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-left: -290px;
+  margin-left: -290px; /* لضبط المحاذاة مع السايد بار */
 }
 
 .logo a {
@@ -118,6 +150,8 @@ body {
   font-weight: bold;
   margin: 0;
   font-family: Lucida, serif;
+  font-family: Lucida;
+  font-style: bold;
 }
 
 /* أيقونة الشخص */
@@ -141,6 +175,7 @@ body {
   display: flex;
   gap: 20px;
   padding: 0 15px;
+  padding: 0 15px; /* مسافة داخلية للمحتوى */
 }
 
 .stat-card {
@@ -170,6 +205,8 @@ body {
   font-size: 14px;
   margin-bottom: 0px;
   gap: 10px;
+  margin-bottom: 0px; /* تقليل المسافة بين السطرين */
+  gap: 10px; /* مسافة محددة بدلاً من توزيعها على كامل الكارت */
 }
 
 .gold-text {
@@ -180,6 +217,9 @@ body {
 
 .property-list-section {
   margin-top: 50px;
+}
+.property-header-container {
+  margin-bottom: 30px;
 }
 
 /* الحاوية الكبيرة للكارت */
@@ -195,7 +235,7 @@ body {
 /* الرصة الداخلية */
 .card-body-flex {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* ده اللي بيحدف يمين وشمال */
   align-items: center;
 }
 
@@ -204,6 +244,7 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
+ /* مسافة بين الصورة والكلام */
 }
 
 .img-box img {
@@ -234,10 +275,31 @@ body {
 .badge-status.in-progress,
 .badge-status.approved,
 .badge-status.rejected {
+  padding: 8px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 50;
+  width: 204;
+  height: 62;
+  opacity: 1;
+  top: 2035px;
+  left: 25px;
+}
+
+.badge-status.in-progress {
   background-color: var(--gold);
   color: var(--blue);
 }
 
+.badge-status.approved {
+  background-color: var(--gold);
+  color: var(--blue);
+}
+.badge-status.rejected {
+  background-color: var(--gold);
+  color: var(--blue);
+}
+/* الزرار الأسود */
 .btn-dark-custom {
   background-color: var(--blue) !important;
   color: white !important;
@@ -245,6 +307,7 @@ body {
   padding: 10px 20px;
   font-size: 14px;
   border: none;
+
 }
 
 .btn-dark-custom:hover {
@@ -273,6 +336,15 @@ body {
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
+}
+
+.property-header-container {
+  display: flex !important; /* إجبار على وضع السطر الواحد */
+  flex-direction: row !important; /* التأكيد إنهم جنب بعض مش تحت بعض */
+  justify-content: space-between; /* واحد يمين وواحد شمال */
+  align-items: center; /* توسيط رأسي */
+  width: 100%;
+  top: 14px;
 }
 
 .add-Property {
@@ -476,4 +548,62 @@ body {
 
 .swal2-container {
     z-index: 10000 !important;  /* أعلى من z-index بتاع الـ overlay */
+}
+
+.custom-card {
+  border: 1px solid #dee2e6;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 30px;
+}
+.card-header-custom {
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* تنسيق حقول الإدخال */
+.form-control,
+.form-select {
+  border-radius: 20px;
+  border: 1px solid #ced4da;
+}
+.required-star {
+  color: var(--gold-color);
+}
+
+/* قسم رفع الميديا المظلم */
+.upload-section {
+  background-color: var(--dark-blue);
+  border-radius: 15px;
+  color: white;
+  padding: 25px;
+}
+.upload-divider {
+  border-right: 2px solid var(--gold-color);
+  padding-right: 20px;
+}
+.text-gold {
+  color: var(--gold-color) !important;
+}
+
+/* الأزرار */
+.btn-submit {
+  background-color: var(--gold-color);
+  color: var(--dark-blue);
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  padding: 10px 25px;
+}
+.btn-cancel {
+  background-color: var(--dark-blue);
+  color: var(--gold-color);
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  padding: 10px 25px;
 }
