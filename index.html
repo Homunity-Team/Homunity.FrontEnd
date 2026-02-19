@@ -101,6 +101,130 @@
           <div class="property-horizontal-card shadow-sm mb-3">
             <div class="card-body-flex">
               <div class="left-side">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- ملف يتبعه جميع المبرمجين -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <!-- ملف الايكونات  -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <!-- ملف bootstrab . css  -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--  ملفات عدل الاسم css الخارجيه -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- تنسقات خطوط جوجل  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+ <!-- owner-dashboard  -->
+    <div class="dashboard-container">
+                     <!--  Side Bar    فايدتها: التنقل بين أقسام الداشبورد -->
+        
+<aside class="sidebar">
+    <nav class="navbar sticky-top">
+        <ul class="nav-list">
+            <li>
+            <a href="#" class="nav-link" data-section="property-details-section">
+                        <i class="fa-solid fa-house"></i> Properties
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="add-property-section">
+                    <i class="fa-solid fa-plus"></i> Add Property
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="update-property-section">
+                    <i class="fa-solid fa-arrows-rotate"></i> Update Property
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="delete-property-section">
+                    <i class="fa-solid fa-trash"></i> Delete Property
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="messages-section">
+                    <i class="fa-solid fa-message"></i> Messages
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="settings-section">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-section="booking-section">
+                    <i class="fa-solid fa-calendar-check"></i> Booking Request
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="logout">
+        <a href="login.html" style="color: inherit; text-decoration: none;">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+    </div>
+</aside>
+
+                    <!-- Header     ده الجزء الثابت اللي فوق-->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="logo">
+                    <a class="navbar-brand" href="#">
+                        <img src="img/Homunity_Logo.png" alt="Logo" style="max-height: 120px">
+                        <h2>Owner Dashboard</h2>
+                    </a>
+                </div>
+                <div class="user-avatar-wrapper">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </header>
+            <section id="main-dashboard-section"  class="content-section ">
+                     <!-- Cards  «الكروت دي بتعرض إحصائيات سريعة.» -->
+            <section class="stats-container">
+                <div class="stat-card">
+                    <h4>Total Properties</h4>
+                    <span class="gold-text" id="total-props">15</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Properties Statue</h4>
+                    <div class="sub-stat">
+                        <span>Approved:</span> <span class="gold-text" id="approved-count">10</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span>Rejected:</span> 
+                        <span class="gold-text" id="rejected-count">5</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h4>Booking</h4>
+                    <div class="sub-stat">
+                         <span>In progress:</span>
+                         <span class="gold-text" id="pending-booking">5</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span>Booked:</span> 
+                        <span class="gold-text" id="booked-count">10</span>
+                    </div>
+                </div>
+            </section>
+<!-- List  «دي ليستة بكل العقارات اللي المالك ضايفها.» -->
+<div class="property-list-section mt-5">
+    <div class="property-header-container">
+    <h3>Property List</h3>
+    <button class="add-Property"> <i class="fa-solid fa-plus"></i>  Add Property</button>
+</div>
+    <div class="property-horizontal-card shadow-sm mb-3">
+        <div class="card-body-flex">
+            <div class="left-side">
                 <div class="img-box">
                   <img src="img/Modern_Studio.jpg" alt="Modern Studio" />
                 </div>
@@ -433,6 +557,8 @@
         </main>
     </div>
     <!-- end List-->
+</div>
+</section>
 <!-- end List-->
  
 <!-- messages -->
@@ -474,7 +600,11 @@
     </div>
 
 
-
+<section id="property-details-section" class=" content-section mt-4"  >  
+    <div class="container-fluid px-4">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4 px-3"> 
+                <h2 class="fw-bold mb-0">Property Details</h2>
     <div class="message-card-container d-flex flex-row justify-content-between">
       <img src="../img/1.jpg" class="card-img-message" alt="" srcset="" />
       <div
@@ -493,6 +623,102 @@
     </div>
 
     <script src="js/bootstrap.bundle.min.js"></script>
+        <a href="index.html" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+        </a>
+    </div>
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-12"> 
+        <div class="featured-gallery-wrapper gap-5 mb-4">
+            <div class="side-img-box left">
+                <img src="img/imag1.jpg" class="gallery-img ">
+            </div>
+ <div class="main-img-box">
+            <img src="img/img2 (2).jpg" class=" gallery-img" >
+        </div>
+            <div class="side-img-box right">
+                <img src="img/img3 (2).jpg" class=" gallery-img" >
+            </div>
+          </div>
+
+<div class="col-12 d-flex justify-content-center gap-5 mt-5">
+    <img src="img/img3 (2).jpg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;"> 
+        <img src="img/imag1.jpg" class="rounded-3" style="width: 100px; height: 50px; ;">
+    <img src="img/img2 (2).jpg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
+</div>
+  </div> 
+ </div>
+</div>
+<section class="studio-details-section">
+<!-- Studio section -->
+<div class="row mt-4 px-2 justify-content-center align-items-stretch g-4">
+    <div class="col-md-12 ">
+        <div class="row gap-4">
+
+            <div class="col-12 col-md-7 info-card">
+        <h3 class="studio-title">modern studio</h3>
+        <h5 class="studio-address">101 UI Street, City</h5>
+        <p class="studio-desc">A comfortable and secure room located in a quiet area, designed to provide students with a safe and relaxing living environment close to essential services.</p>
+        
+        <ul class="details-list">
+            <li><i class="fas fa-diamond"></i> Price $350 / month</li>
+            <li><i class="fas fa-diamond"></i> 1 Bedroom</li>
+            <li><i class="fas fa-diamond"></i> 1 Kitchen</li>
+            <li><i class="fas fa-diamond"></i> 1 Bathroom</li>
+        </ul>
+    </div>
+
+            <div class="col-12 col-md-4 info-card">
+        <h3 class="studio-title">modern studio</h3>
+        <ul class="amenities-list">
+            <li><span class="check-box"></span>wifi</li>
+            <li><span class="check-box"></span>Parking</li>
+            <li><span class="check-box"></span>Gym</li>
+            <li><span class="check-box"></span> Air Conditionirg</li>
+        </ul>
+    </div>
+</div>
+
+        </div>
+        </div>
+<!--reservations table -->
+<div class="row mt-5 md-4 px-4  justify-content-center  ">
+    <div class="col-12 table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Check-in</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sarah Johnson</td>
+                    <td>2024-04-29</td>
+                    <td><span class="status-badge confirmed">Confirmed</span></td>
+                </tr>
+                <tr>
+                    <td>David Miller</td>
+                    <td>2024-05-10</td>
+                    <td><span class="status-badge pending">Pending</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+        
+    </div>
+</div>
+</section>
+</section> 
+    
+ </div>
+</main> 
+
+
+
+    <script src="js/bootstrap.bundle.min.js"> </script>
     <script src="js/index.js"></script>
   </body>
 </html>

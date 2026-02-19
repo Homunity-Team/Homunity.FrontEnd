@@ -9,8 +9,12 @@
   src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
     format("woff");
   font-display: swap;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
+}
 body {
   font-family:
     "LBRITE",
@@ -58,6 +62,17 @@ body {
   top: 120px; /* بيبدأ بعد الهيدر */
   border-top-right-radius: 80px;
   z-index: 1000;
+    width: 260px;
+    height: calc(100vh - 120px);
+    background-color: var(--blue);
+    color: var(--light-gray);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 136px; 
+    border-top-right-radius: 80px;
+    z-index: 1000;
 }
 
 .sidebar nav ul {
@@ -120,9 +135,21 @@ body {
   height: 120px;
   padding: 0 40px;
   background-color: transparent;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width:calc(100% - 260px);
+    height: 120px;
+    padding: 0 40px;
+    background-color: transparent;
+    position: fixed;   
+    left: 260px;  
+ z-index: 1001; 
+ background-color: var(--light-gray);
+ top: 0;
 }
 
-/* اللوجو (فوق السايد بار) */
+/* اللوجو) */
 .logo {
   width: 260px;
   display: flex;
@@ -130,6 +157,11 @@ body {
   align-items: center;
   margin-left: -290px;
   margin-left: -290px; /* لضبط المحاذاة مع السايد بار */
+    width: 260px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -290px; 
 }
 
 .logo a {
@@ -152,11 +184,19 @@ body {
   font-family: Lucida, serif;
   font-family: Lucida;
   font-style: bold;
+    color: var(--gold);
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+font-style: bold;
 }
 
 /* أيقونة الشخص */
 .user-avatar-wrapper {
   cursor: pointer;
+    cursor: pointer;
+    right: 40px; 
+    top: 50%;
 }
 
 .user-avatar-wrapper i {
@@ -169,7 +209,6 @@ body {
   color: var(--gold);
   transform: scale(1.1);
 }
-
 /* الكروت */
 .stats-container {
   display: flex;
@@ -192,6 +231,29 @@ body {
   justify-content: center;
   gap: 2px;
 }
+/*  stat-card*/
+.stats-container {
+    display: flex;
+    gap: 20px;
+    padding: 0 15px;
+    margin-top: 140px;  
+}
+
+.stat-card {
+    background-color: var(--blue);
+    color: white;
+    flex: 1;
+padding: 15px 25px;       
+border-radius: 16px;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+        max-width: 1000px; 
+}
 
 .stat-card h4 {
   margin-bottom: 2px;
@@ -207,6 +269,11 @@ body {
   gap: 10px;
   margin-bottom: 0px; /* تقليل المسافة بين السطرين */
   gap: 10px; /* مسافة محددة بدلاً من توزيعها على كامل الكارت */
+    display: flex;
+    justify-content: flex-start;
+    font-size: 14px;
+    margin-bottom: 0px;          
+    gap: 10px;                   
 }
 
 .gold-text {
@@ -237,6 +304,9 @@ body {
   display: flex;
   justify-content: space-between; /* ده اللي بيحدف يمين وشمال */
   align-items: center;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
 }
 
 /* الجزء الشمال */
@@ -245,6 +315,9 @@ body {
   align-items: center;
   gap: 20px;
  /* مسافة بين الصورة والكلام */
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .img-box img {
@@ -336,6 +409,21 @@ body {
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
+    background-color: var(--blue) ;
+    color: white ;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+}
+
+.property-header-container {
+    display: flex !important;       
+    flex-direction: row !important;    
+    justify-content: space-between;     
+    align-items: center;                
+    width: 100%;
+    top: 14px;
 }
 
 .property-header-container {
@@ -606,4 +694,213 @@ body {
   border-radius: 8px;
   font-weight: bold;
   padding: 10px 25px;
+}
+
+/* تنسيق الصور */
+.featured-gallery-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    overflow: hidden; 
+    width: 100%;
+}
+
+.main-img-box {
+    width: 470px;
+    height: 150px;
+    flex-shrink: 0;
+
+}
+.side-img-box img {
+    width: 250%; 
+    height: 100%;
+    object-fit: cover;
+    position: absolute; 
+    transition: 0.5s;
+}
+
+
+.side-img-box {
+    width: 150px; 
+    height: 150px;
+    overflow: hidden;
+    flex-shrink: 0;
+     position: relative; 
+}
+.side-img-box.left img {
+ left: 0;
+    animation: moveLeft 8s linear infinite alternate;
+}
+
+.side-img-box.right img {
+ right: 0;
+    animation: moveRight 8s linear infinite alternate;
+}
+
+/* تعريف الحركات */
+@keyframes moveLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-40%); } 
+}
+
+@keyframes moveRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(40%); }
+}
+
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/*         Studio section     */
+
+
+.studio-title {
+    color: var(--gold); 
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.studio-address {
+    color: var(--blue);
+    font-weight: 675;
+}
+
+.studio-desc {
+    font-size: 0.85rem;
+    color: var(--blue);
+    line-height: 1.2;
+}
+
+/* قائمة التفاصيل */
+.details-list, .amenities-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+}
+
+.details-list li {
+    font-weight: 600;
+    margin-bottom:6px;
+    color: var(--blue);
+}
+
+.details-list li i {
+    color: var(--gold);
+    margin-right: 10px;
+    font-size: 0.8rem;
+}
+
+/*  box  */
+.check-box {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--gold);
+    border-radius: 4px;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+.amenities-list li {
+    font-size: 1.2rem;
+    font-weight: 675;
+    margin-bottom: 15px;
+    color: var(--blue);
+}
+
+/* table*/
+.table-container {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table thead {
+    background-color: var(--blue); 
+    color: white;
+ overflow: hidden;
+
+}
+.custom-table thead tr th:first-child {
+    border-top-left-radius: 15px;
+}
+
+.custom-table thead tr th:last-child {
+    border-top-right-radius: 15px;
+}
+
+.custom-table th, .custom-table td {
+    padding: 15px 25px;
+    text-align: left;
+}
+
+.custom-table td {
+    font-weight: 600;
+    color: var(--blue);
+    border-bottom: 1px solid #eee;
+}
+
+/* (Badges) */
+.status-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--gold);
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+}
+
+.confirmed { 
+    background-color: var(--blue);
+ }
+.pending { 
+    background-color: var(--blue); 
+    opacity: 0.9; }
+.info-card {
+    border: 2px solid var(--blue); 
+    border-radius: 20px;
+    padding: 25px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+        height: 100%;
+    margin-bottom: 15px;
+
+}
+
+.row {
+    margin-right:0;
+    margin-left: 0 ;
+}
+
+/*  السهم */
+.back-btn {
+    font-size: 30px;         
+    color: var(--blue);     
+    text-decoration: none;
+    transition: 0.3s;
+    opacity: 0.9; 
+}
+
+.back-btn:hover {
+    color: var(--gold);         
+    transform: scale(1);  
+}
+
+
+.d-flex{
+    margin-top: 90px;
 }
