@@ -106,10 +106,10 @@
   <div class="dashboard-container">
 
     <!-- Header     ده الجزء الثابت اللي فوق-->
-    <main class="main-content">
+    <main class="main-content ">
 
       <section id="sectionDeleteProperties" class="d-none">
-        <div class="property-list-section mt-5">
+        <div class="property-list-section ">
           <div class="property-header-container">
             <h3>Property List</h3>
             <button class="add-Property">
@@ -223,15 +223,12 @@
           </div>
         </div>
       </section>
-
       <section id="sectionAddProperties" class="d-none">
-
         <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
-          <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
-            Basic Info
-          </h2>
+          <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
 
-          <form action="" class="px-4 py-4">
+          <!-- فورم واحد فقط لكل البيانات -->
+          <form id="addPropertyForm" class="px-4 py-4">
             <div class="row g-4">
               <div class="col-lg-6 col-12">
                 <div class="mb-3">
@@ -274,36 +271,34 @@
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-        <div class="container">
-          <form>
-            <div class="custom-card shadow-sm">
+
+            <!-- Location + Services -->
+            <div class="custom-card shadow-sm mt-4">
               <div class="card-header-custom">Location</div>
               <div class="p-4">
                 <div class="row align-items-end">
                   <div class="col-md-3 mb-3">
                     <label class="form-label fw-bold h5">City</label>
-                    <select class="form-select text-muted">
-                      <option>Property Type</option>
+                    <select id="citySelect" class="form-select text-muted">
+                      <option selected disabled>Choose City</option>
                     </select>
                   </div>
                   <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Area <span class="required-star">*</span></label>
-                    <select class="form-select text-muted">
-                      <option>Property Type</option>
+                    <label class="form-label fw-bold h5">Area</label>
+                    <select id="areaSelect" class="form-select text-muted">
+                      <option selected disabled>Choose Area</option>
                     </select>
                   </div>
                   <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Street <span class="required-star">*</span></label>
-                    <input type="text" class="form-control" placeholder="Street Name">
+                    <label class="form-label fw-bold h5">Street</label>
+                    <input type="text" id="streetAdd" class="form-control" placeholder="Street Name">
                   </div>
                   <div class="col-md-3 mb-3 border-start ps-4">
                     <h5 class="fw-bold">Services</h5>
                     <div class="row">
                       <div class="col-6">
                         <div class="form-check"><input class="form-check-input" type="checkbox" id="wifi"><label
-                            class="form-check-label small" for="wifi">wifi</label></div>
+                            class="form-check-label small" for="wifi">Wifi</label></div>
                       </div>
                       <div class="col-6">
                         <div class="form-check"><input class="form-check-input" type="checkbox" id="parking"><label
@@ -315,8 +310,7 @@
                       </div>
                       <div class="col-6">
                         <div class="form-check"><input class="form-check-input" type="checkbox" id="ac"><label
-                            class="form-check-label small" for="ac">Air
-                          </label></div>
+                            class="form-check-label small" for="ac">Air</label></div>
                       </div>
                     </div>
                   </div>
@@ -324,27 +318,23 @@
               </div>
             </div>
 
-            <div class="custom-card shadow-sm">
-              <div class="card-header-custom">Services</div>
+            <!-- Media Upload -->
+            <div class="custom-card shadow-sm mt-4">
+              <div class="card-header-custom">Media Upload</div>
               <div class="p-4">
-                <h4 class="mb-4">Media Upload</h4>
-                <div class="upload-section">
-                  <div class="row align-items-center">
-                    <div class="col-auto text-center upload-divider">
-                      <input type="file" name="img" accept=" image/png, image/jpg ,  image/webp">
-                      <div class="small my-1">Or</div>
-                      <input type="file" name="video" size="30MB">
-                    </div>
-                    <div class="col ps-4">
-                      <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
-                      <p class="mb-1 small">Drag & drop up to 6 images (<span class="text-gold">jpg / png /
-                          webp</span>)</p>
-                      <p class="mb-3 small">Max size: 2MB each</p>
-
-                      <p class="mb-1 fw-bold">Upload a video</p>
-                      <p class="mb-0 small">Max: 1 video</p>
-                      <p class="mb-0 small">Maximum size: 30MB</p>
-                    </div>
+                <div class="row align-items-center">
+                  <div class="col-auto text-center upload-divider">
+                    <input type="file" name="img" accept="image/png, image/jpg, image/webp">
+                    <div class="small my-1">Or</div>
+                    <input type="file" name="video" size="30MB">
+                  </div>
+                  <div class="col ps-4">
+                    <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
+                    <p class="mb-1 small">Drag & drop up to 6 images (jpg/png/webp)</p>
+                    <p class="mb-3 small">Max size: 2MB each</p>
+                    <p class="mb-1 fw-bold">Upload a video</p>
+                    <p class="mb-0 small">Max: 1 video</p>
+                    <p class="mb-0 small">Maximum size: 30MB</p>
                   </div>
                 </div>
               </div>
@@ -357,8 +347,104 @@
           </form>
         </div>
       </section>
-      <section id="sectionProperties" class="d-none">
-        <div id="property-details-section" class=" content-section mt-4">
+   <section id="sectionUpdateProperties" class="d-none">
+  <div class="property-list-section">
+    <div class="property-header-container">
+      <h3 class="title">Update Property</h3>
+    </div>
+
+    <!-- فورم واحد فقط -->
+    <form id="updatePropertyForm" class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4">
+      <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
+
+      <div class="row g-4 mt-3">
+        <div class="col-lg-6 col-12">
+          <div class="mb-3">
+            <label class="form-label fw-bold" for="titleUpdate">Title</label>
+            <input class="form-control form-control-lg rounded-3" id="titleUpdate" type="text" placeholder="Enter Title">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold" for="priceUpdate">Price / Month</label>
+            <input class="form-control form-control-lg rounded-3" id="priceUpdate" type="number" placeholder="0.00">
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fw-bold" for="roomsUpdate">Rooms Count</label>
+            <input class="form-control form-control-lg rounded-3" id="roomsUpdate" type="number" placeholder="e.g. 3">
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
+          <div class="mb-3">
+            <label class="form-label fw-bold" for="descriptionUpdate">Description</label>
+            <textarea class="form-control rounded-3" id="descriptionUpdate" rows="4" placeholder="Describe the property..."></textarea>
+          </div>
+
+          <div class="mb-2">
+            <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
+            <div class="d-flex gap-4">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="apartmentUpdate" name="propertyTypeUpdate" checked>
+                <label class="form-check-label fs-6" for="apartmentUpdate">Apartment</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="roomUpdate" name="propertyTypeUpdate">
+                <label class="form-check-label fs-6" for="roomUpdate">Room</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location + Services -->
+      <div class="custom-card shadow-sm mt-4 p-4">
+        <h4 class="mb-3 fw-bold">Location</h4>
+        <div class="row align-items-end">
+          <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold h5">City</label>
+            <select id="cityUpdate" class="form-select text-muted">
+              <option selected disabled>Choose City</option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold h5">Area</label>
+            <select id="areaUpdate" class="form-select text-muted">
+              <option selected disabled>Choose Area</option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold h5">Street</label>
+            <input type="text" id="streetUpdate" class="form-control" placeholder="Street Name">
+          </div>
+          <div class="col-md-3 mb-3 border-start ps-4">
+            <h5 class="fw-bold">Services</h5>
+            <div class="row">
+              <div class="col-6"><div class="form-check"><input class="form-check-input" type="checkbox" id="wifiUpdate"><label class="form-check-label small" for="wifiUpdate">Wifi</label></div></div>
+              <div class="col-6"><div class="form-check"><input class="form-check-input" type="checkbox" id="parkingUpdate"><label class="form-check-label small" for="parkingUpdate">Parking</label></div></div>
+              <div class="col-6"><div class="form-check"><input class="form-check-input" type="checkbox" id="gymUpdate"><label class="form-check-label small" for="gymUpdate">Gym</label></div></div>
+              <div class="col-6"><div class="form-check"><input class="form-check-input" type="checkbox" id="acUpdate"><label class="form-check-label small" for="acUpdate">Air</label></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Media Upload -->
+      <div class="custom-card shadow-sm mt-4 p-4">
+        <h4 class="mb-3 fw-bold">Media Upload</h4>
+        <input type="file" name="imgUpdate" accept="image/png, image/jpg, image/webp">
+        <input type="file" name="videoUpdate" size="30MB">
+      </div>
+
+      <div class="d-flex gap-3 mt-4">
+        <button type="submit" class="btn btn-submit">Update Property</button>
+        <button type="button" class="btn btn-cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>
+      <section id="sectionProperties" class="d-none ">
+        <div id="property-details-section" class=" content-section ">
           <div class="container-fluid px-4">
 
             <div class="d-flex justify-content-between align-items-center mb-4 px-3">
