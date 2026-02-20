@@ -1,186 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <!-- ملف يتبعه جميع المبرمجين -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- ملف الايكونات  -->
-    <link rel="stylesheet" href="css/all.min.css">
-    <!-- ملف bootstrab . css  -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!--  ملفات عدل الاسم css الخارجيه -->
-    <link rel="stylesheet" href="css/main.css">
-    <!-- تنسقات خطوط جوجل  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    <!--  «الصفحة دي Owner Dashboard، يعني لوحة تحكم لمالك عقارات،
-       الهدف منها إنه يشوف عقاراته، حالتها، والحجوزات.»-->
- <!-- owner-dashboard  -->
+  <head>
+    <meta charset="UTF-8" />
+    <title>Owner Dashboard</title>
+    <!-- normalize -->
+    <link rel="stylesheet" href="css/normalize.css" />
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="css/all.min.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- css -->
+    <link rel="stylesheet" href="css/main.css" />
+    <!-- SweetAlert2 CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
     <div class="dashboard-container">
-                     <!--  Side Bar    فايدتها: التنقل بين أقسام الداشبورد -->
-        <aside class="sidebar">
-             <nav class="navbar navbar-expand-lg sticky-top">
-                <ul>
-                    <li><i class="fa-solid fa-house"></i> Properties</li>
-                    <li><i class="fa-solid fa-plus"></i> Add Property</li>
-                    <li><i class="fa-solid fa-arrows-rotate"></i> Update Property</li>
-                    <li><i class="fa-solid fa-trash"></i> Delete Property</li>
-                    <li><i class="fa-solid fa-message"></i> Messages</li>
-                    <li><i class="fa-solid fa-gear"></i> Settings</li>
-                    <li><i class="fa-solid fa-calendar-check"></i> Booking Request</li>
-                </ul>
-            </nav>
-            <div class="logout">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <nav class="navbar navbar-expand-lg sticky-top">
+          <ul>
+            <li><i class="fa-solid fa-house"></i> Properties</li>
+            <li><i class="fa-solid fa-plus"></i> Add Property</li>
+            <li><i class="fa-solid fa-arrows-rotate"></i> Update Property</li>
+            <li><i class="fa-solid fa-trash"></i> Delete Property</li>
+            <li><i class="fa-solid fa-message"></i> Messages</li>
+            <li><i class="fa-solid fa-gear"></i> Settings</li>
+            <li><i class="fa-solid fa-calendar-check"></i> Booking Request</li>
+          </ul>
+        </nav>
+        <div class="logout">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+          <div class="logo">
+            <a class="navbar-brand" href="#">
+              <img
+                src="img/Homunity_Logo.png"
+                alt="Logo"
+                style="max-height: 120px"
+              />
+              <h2>Owner Dashboard</h2>
+            </a>
+          </div>
+          <div class="user-avatar-wrapper">
+            <i class="fa-solid fa-circle-user"></i>
+          </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="stats-container">
+          <div class="stat-card">
+            <h4>Total Properties</h4>
+            <span class="gold-text" id="total-props">4</span>
+          </div>
+          <div class="stat-card">
+            <h4>Properties Statue</h4>
+            <div class="sub-stat">
+              <span>Approved:</span>
+              <span class="gold-text" id="approved-count">1</span>
             </div>
-        </aside>
-                    <!-- Header     ده الجزء الثابت اللي فوق-->
-        <main class="main-content">
-            <header class="top-header">
-                <div class="logo">
-                    <a class="navbar-brand" href="#">
-                        <img src="img/Homunity_Logo.png" alt="Logo" style="max-height: 120px">
-                        <h2>Owner Dashboard</h2>
-                    </a>
-                </div>
-                <div class="user-avatar-wrapper">
-                    <i class="fa-solid fa-circle-user"></i>
-                </div>
-            </header>
-                     <!-- Cards  «الكروت دي بتعرض إحصائيات سريعة.» -->
-            <section class="stats-container">
-                <div class="stat-card">
-                    <h4>Total Properties</h4>
-                    <span class="gold-text" id="total-props">15</span>
-                </div>
-                <div class="stat-card">
-                    <h4>Properties Statue</h4>
-                    <div class="sub-stat">
-                        <span>Approved:</span> <span class="gold-text" id="approved-count">10</span>
-                    </div>
-                    <div class="sub-stat">
-                        <span>Rejected:</span> 
-                        <span class="gold-text" id="rejected-count">5</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <h4>Booking</h4>
-                    <div class="sub-stat">
-                         <span>In progress:</span>
-                         <span class="gold-text" id="pending-booking">5</span>
-                    </div>
-                    <div class="sub-stat">
-                        <span>Booked:</span> 
-                        <span class="gold-text" id="booked-count">10</span>
-                    </div>
-                </div>
-            </section>
-<!-- List  «دي ليستة بكل العقارات اللي المالك ضايفها.» -->
-<div class="property-list-section mt-5">
-    <div class="property-header-container">
-    <h3>Property List</h3>
-    <button class="add-Property"> <i class="fa-solid fa-plus"></i>  Add Property</button>
-</div>
-    <div class="property-horizontal-card shadow-sm mb-3">
-        <div class="card-body-flex">
-            
-            <div class="left-side">
+            <div class="sub-stat">
+              <span>Rejected:</span>
+              <span class="gold-text" id="rejected-count">2</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <h4>Booking</h4>
+            <div class="sub-stat">
+              <span>In progress:</span>
+              <span class="gold-text" id="pending-booking">2</span>
+            </div>
+            <div class="sub-stat">
+              <span>Booked:</span>
+              <span class="gold-text" id="booked-count">3</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Property List -->
+        <div class="property-list-section mt-5">
+          <div class="property-header-container">
+            <h3>Property List</h3>
+            <button class="add-Property">
+              <i class="fa-solid fa-plus"></i> Add Property
+            </button>
+          </div>
+
+          <!-- property cards -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
                 <div class="img-box">
-                    <img src="img/Modern_Studio.jpg" alt="Room">
+                  <img src="img/Modern_Studio.jpg" alt="Modern Studio" />
                 </div>
                 <div class="info-box">
-                    <h5 class="fw-bold mb-1">Modern Studio</h5>
-                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
-                    <h6 class="fw-bold mb-0">$500 / month</h6>
+                  <h5 class="fw-bold mb-1">Modern Studio</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 1234 Sample St,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$500 / month</h6>
                 </div>
-            </div>
+              </div>
 
-            <div class="right-side">
+              <!-- delete bu -->
+               <!-- data-id I will change it later -->
+              <div class="right-side">
                 <span class="badge-status in-progress">In Progress</span>
                 <button class="btn btn-dark-custom">2 Booking Requests</button>
+                <button
+                  class="btn btn-outline-danger delete-trigger"
+                  data-id="1"
+                  data-title="Modern Studio"
+                  data-location="1234 Sample St, City"
+                  data-img="img/Modern_Studio.jpg"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
             </div>
+          </div>
 
-        </div>
-    </div>
-
-    <div class="property-horizontal-card shadow-sm mb-3">
-        <div class="card-body-flex">
-            <div class="left-side">
+          <!--   2  -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
                 <div class="img-box">
-                    <img src="img/modern_bedroom.jpg" alt="Room">
+                  <img src="img/modern_bedroom.jpg" alt="Modern Bedroom" />
                 </div>
                 <div class="info-box">
-                    <h5 class="fw-bold mb-1"> modern_bedroom</h5>
-                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
-                    <h6 class="fw-bold mb-0">$350 / month</h6>
+                  <h5 class="fw-bold mb-1">Modern Bedroom</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 5678 Second Ave,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$350 / month</h6>
                 </div>
-            </div>
-            <div class="right-side">
+              </div>
+
+              <div class="right-side">
                 <span class="badge-status approved">Approved</span>
                 <button class="btn btn-dark-custom">View Details</button>
-            </div>
-        </div>
-    </div>
-     <div class="property-horizontal-card shadow-sm mb-3">
-        <div class="card-body-flex">
             
-            <div class="left-side">
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!--   3  -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
                 <div class="img-box">
-                    <img src="img/img1.png" alt="Room">
+                  <img src="img/img1.png" alt="Cozy Room" />
                 </div>
                 <div class="info-box">
-                    <h5 class="fw-bold mb-1">modern_bedroom</h5>
-                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
-                    <h6 class="fw-bold mb-0">$150 / month</h6>
+                  <h5 class="fw-bold mb-1">Cozy Room</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 9101 Third Blvd,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$150 / month</h6>
                 </div>
-            </div>
+              </div>
 
-            <div class="right-side">
-              <span class="badge-status rejected">Rejected</span>
+              <div class="right-side">
+                <span class="badge-status rejected">Rejected</span>
                 <button class="btn btn-dark-custom">1 Booking Requests</button>
+              </div>
             </div>
+          </div>
 
-        </div>
-    </div>
-     <div class="property-horizontal-card shadow-sm mb-3">
-        <div class="card-body-flex">
-            
-            <div class="left-side">
+          <!--   4  -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
                 <div class="img-box">
-                    <img src="img/ddcde91c75903c15d112f90e87e3a614a09a3187.jpg" alt="Room">
+                  <img
+                    src="img/ddcde91c75903c15d112f90e87e3a614a09a3187.jpg"
+                    alt="Luxury Suite"
+                  />
                 </div>
                 <div class="info-box">
-                    <h5 class="fw-bold mb-1">modern_bedroom</h5>
-                    <p class="text-muted mb-1"><i class="fa-solid fa-location-dot"></i> 1234 Sample St, City</p>
-                    <h6 class="fw-bold mb-0">$150 / month</h6>
+                  <h5 class="fw-bold mb-1">Luxury Suite</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 1213 Fourth St,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$250 / month</h6>
                 </div>
-            </div>
+              </div>
 
-            <div class="right-side">
-<span class="badge-status rejected">Rejected</span>
-                   <button class="btn btn-dark-custom"> View Details</button>
+              <div class="right-side">
+                <span class="badge-status rejected">Rejected</span>
+                <button class="btn btn-dark-custom">View Details</button>
+                </button>
+              </div>
             </div>
-
+          </div>
         </div>
+      </main>
     </div>
-</div>
-        </main> 
+
+    <!-- delete alert -->
+    <div class="overlay" style="display: none">
+      <!-- style مضمن للاحتياط ، لكنه موجود في CSS أيضاً -->
+      <div class="modal">
+        <button class="modal-close" aria-label="Close">×</button>
+
+        <div class="modal-header">
+          <i class="fa-solid fa-trash"></i> Delete Property
+        </div>
+
+        <div class="modal-text">
+          <p>Are you sure you want to delete this property?</p>
+          <small>
+            This action cannot be undone. All data including bookings and
+            messages related to this property will be permanently removed.
+          </small>
+        </div>
+
+        <div class="property-card">
+          <img src="img/Modern_Studio.jpg" alt="Property preview" />
+          <!-- for test purposes -->
+          <div class="property-info">
+            <h3>modern studio</h3>
+            <p>101 UI Street, City</p>
+            <span class="status">Pending</span>
+          </div>
+        </div>
+
+        <div class="warning-box" id="booking-warning">
+          2 bookings related to this property will be deleted
+        </div>
+        <div class="warning-box" id="message-warning">
+          5 messages related to this property will be deleted
+        </div>
+
+        <div class="modal-buttons">
+          <button id="confirmDeleteBtn" class="btn-delete">Delete</button>
+          <button id="cancelBtn" class="btn-cancel">Cancel</button>
+        </div>
+      </div>
     </div>
-<!-- end List-->
-
-
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/index.js"></script>
-    <!-- ملف bootstrab . js  -->
-</body>
-
+  </body>
 </html>
