@@ -19,17 +19,17 @@
 </head>
 
 <body>
-  <div class="dashboard-container">
+  <div class="dashboard-container ">
     <!-- Sidebar -->
     <aside class="sidebar">
       <nav class="navbar navbar-expand-lg sticky-top">
         <ul>
-          <li><i class="fa-solid fa-house"></i> Properties</li>
-          <li><i class="fa-solid fa-plus"></i> Add Property</li>
-          <li><i class="fa-solid fa-arrows-rotate"></i> Update Property</li>
-          <li><i class="fa-solid fa-trash"></i> Delete Property</li>
-          <li><i class="fa-solid fa-message"></i> Messages</li>
-          <li><i class="fa-solid fa-gear"></i> Settings</li>
+          <li id="properties"><i class="fa-solid fa-house"></i> Properties</li>
+          <li id="addProperties"><i class="fa-solid fa-plus"></i> Add Property</li>
+          <li id="updateProperties"><i class="fa-solid fa-arrows-rotate"></i> Update Property</li>
+          <li id="deleteProperties"><i class="fa-solid fa-trash"></i> Delete Property</li>
+          <li id="massageProperties"><i class="fa-solid fa-message"></i> Messages</li>
+          <li id="settingProperties"><i class="fa-solid fa-gear"></i> Settings</li>
           <li><i class="fa-solid fa-calendar-check"></i> Booking Request</li>
         </ul>
       </nav>
@@ -54,151 +54,11 @@
       </header>
 
       <!-- Stats Cards -->
-      <section class="stats-container">
-        <div class="stat-card">
-          <h4>Total Properties</h4>
-          <span class="gold-text" id="total-props">4</span>
-        </div>
-        <div class="stat-card">
-          <h4>Properties Statue</h4>
-          <div class="sub-stat">
-            <span>Approved:</span>
-            <span class="gold-text" id="approved-count">1</span>
-          </div>
-          <div class="sub-stat">
-            <span>Rejected:</span>
-            <span class="gold-text" id="rejected-count">2</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <h4>Booking</h4>
-          <div class="sub-stat">
-            <span>In progress:</span>
-            <span class="gold-text" id="pending-booking">2</span>
-          </div>
-          <div class="sub-stat">
-            <span>Booked:</span>
-            <span class="gold-text" id="booked-count">3</span>
-          </div>
-        </div>
-      </section>
 
-      <!-- Property List -->
-      <div class="property-list-section mt-5">
-        <div class="property-header-container">
-          <h3>Property List</h3>
-          <button class="add-Property">
-            <i class="fa-solid fa-plus"></i> Add Property
-          </button>
-        </div>
-
-        <!-- property cards -->
-        <div class="property-horizontal-card shadow-sm mb-3">
-          <div class="card-body-flex">
-            <div class="left-side">
-              <div class="img-box">
-                <img src="img/Modern_Studio.jpg" alt="Modern Studio" />
-              </div>
-              <div class="info-box">
-                <h5 class="fw-bold mb-1">Modern Studio</h5>
-                <p class="text-muted mb-1">
-                  <i class="fa-solid fa-location-dot"></i> 1234 Sample St,
-                  City
-                </p>
-                <h6 class="fw-bold mb-0">$500 / month</h6>
-              </div>
-            </div>
-
-            <!-- delete bu -->
-            <!-- data-id I will change it later -->
-            <div class="right-side">
-              <span class="badge-status in-progress">In Progress</span>
-              <button class="btn btn-dark-custom">2 Booking Requests</button>
-              <button class="btn btn-outline-danger delete-trigger" data-id="1" data-title="Modern Studio"
-                data-location="1234 Sample St, City" data-img="img/Modern_Studio.jpg">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!--   2  -->
-        <div class="property-horizontal-card shadow-sm mb-3">
-          <div class="card-body-flex">
-            <div class="left-side">
-              <div class="img-box">
-                <img src="img/modern_bedroom.jpg" alt="Modern Bedroom" />
-              </div>
-              <div class="info-box">
-                <h5 class="fw-bold mb-1">Modern Bedroom</h5>
-                <p class="text-muted mb-1">
-                  <i class="fa-solid fa-location-dot"></i> 5678 Second Ave,
-                  City
-                </p>
-                <h6 class="fw-bold mb-0">$350 / month</h6>
-              </div>
-            </div>
-
-            <div class="right-side">
-              <span class="badge-status approved">Approved</span>
-              <button class="btn btn-dark-custom">View Details</button>
-
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!--   3  -->
-        <div class="property-horizontal-card shadow-sm mb-3">
-          <div class="card-body-flex">
-            <div class="left-side">
-              <div class="img-box">
-                <img src="img/img1.png" alt="Cozy Room" />
-              </div>
-              <div class="info-box">
-                <h5 class="fw-bold mb-1">Cozy Room</h5>
-                <p class="text-muted mb-1">
-                  <i class="fa-solid fa-location-dot"></i> 9101 Third Blvd,
-                  City
-                </p>
-                <h6 class="fw-bold mb-0">$150 / month</h6>
-              </div>
-            </div>
-
-            <div class="right-side">
-              <span class="badge-status rejected">Rejected</span>
-              <button class="btn btn-dark-custom">1 Booking Requests</button>
-            </div>
-          </div>
-        </div>
-
-        <!--   4  -->
-        <div class="property-horizontal-card shadow-sm mb-3">
-          <div class="card-body-flex">
-            <div class="left-side">
-              <div class="img-box">
-                <img src="img/ddcde91c75903c15d112f90e87e3a614a09a3187.jpg" alt="Luxury Suite" />
-              </div>
-              <div class="info-box">
-                <h5 class="fw-bold mb-1">Luxury Suite</h5>
-                <p class="text-muted mb-1">
-                  <i class="fa-solid fa-location-dot"></i> 1213 Fourth St,
-                  City
-                </p>
-                <h6 class="fw-bold mb-0">$250 / month</h6>
-              </div>
-            </div>
-
-            <div class="right-side">
-              <span class="badge-status rejected">Rejected</span>
-              <button class="btn btn-dark-custom">View Details</button>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
   </div>
+
+
 
   <!-- delete alert -->
   <div class="overlay" style="display: none">
@@ -248,236 +108,242 @@
     <!-- Header     ده الجزء الثابت اللي فوق-->
     <main class="main-content">
 
-      <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
-        <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
-          Basic Info
-        </h2>
+      <section id="sectionAddProperties" class="d-none">
 
-        <form action="" class="px-4 py-4">
-          <div class="row g-4">
-            <div class="col-lg-6 col-12">
-              <div class="mb-3">
-                <label class="form-label fw-bold" for="titleAdd">Title</label>
-                <input class="form-control form-control-lg rounded-3" id="titleAdd" type="text"
-                  placeholder="Enter Title">
-              </div>
+        <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
+          <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
+            Basic Info
+          </h2>
 
-              <div class="mb-3">
-                <label class="form-label fw-bold" for="priceAdd">Price / Month</label>
-                <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="0.00">
-              </div>
+          <form action="" class="px-4 py-4">
+            <div class="row g-4">
+              <div class="col-lg-6 col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-bold" for="titleAdd">Title</label>
+                  <input class="form-control form-control-lg rounded-3" id="titleAdd" type="text"
+                    placeholder="Enter Title">
+                </div>
 
-              <div class="mb-0">
-                <label class="form-label fw-bold" for="roomsAdd">Rooms Count</label>
-                <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number" placeholder="e.g. 3">
-              </div>
-            </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold" for="priceAdd">Price / Month</label>
+                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="0.00">
+                </div>
 
-            <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
-              <div class="mb-3">
-                <label class="form-label fw-bold" for="descreptionAdd">Description</label>
-                <textarea class="form-control rounded-3" id="descreptionAdd" rows="4"
-                  placeholder="Describe the property..."></textarea>
-              </div>
-
-              <div class="mb-2">
-                <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
-                <div class="d-flex gap-4">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" id="apartmentApp" name="propertyType" checked>
-                    <label class="form-check-label fs-6" for="apartmentApp">Apartment</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" id="roomAdd" name="propertyType">
-                    <label class="form-check-label fs-6" for="roomAdd">Room</label>
-                  </div>
+                <div class="mb-0">
+                  <label class="form-label fw-bold" for="roomsAdd">Rooms Count</label>
+                  <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number"
+                    placeholder="e.g. 3">
                 </div>
               </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="container">
-        <form>
-          <div class="custom-card shadow-sm">
-            <div class="card-header-custom">Location</div>
-            <div class="p-4">
-              <div class="row align-items-end">
-                <div class="col-md-3 mb-3">
-                  <label class="form-label fw-bold h5">City</label>
-                  <select class="form-select text-muted">
-                    <option>Property Type</option>
-                  </select>
+
+              <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
+                <div class="mb-3">
+                  <label class="form-label fw-bold" for="descreptionAdd">Description</label>
+                  <textarea class="form-control rounded-3" id="descreptionAdd" rows="4"
+                    placeholder="Describe the property..."></textarea>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label class="form-label fw-bold h5">Area <span class="required-star">*</span></label>
-                  <select class="form-select text-muted">
-                    <option>Property Type</option>
-                  </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label class="form-label fw-bold h5">Street <span class="required-star">*</span></label>
-                  <input type="text" class="form-control" placeholder="Street Name">
-                </div>
-                <div class="col-md-3 mb-3 border-start ps-4">
-                  <h5 class="fw-bold">Services</h5>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="wifi"><label
-                          class="form-check-label small" for="wifi">wifi</label></div>
+
+                <div class="mb-2">
+                  <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
+                  <div class="d-flex gap-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" id="apartmentApp" name="propertyType" checked>
+                      <label class="form-check-label fs-6" for="apartmentApp">Apartment</label>
                     </div>
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="parking"><label
-                          class="form-check-label small" for="parking">Parking</label></div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="gym"><label
-                          class="form-check-label small" for="gym">Gym</label></div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="ac"><label
-                          class="form-check-label small" for="ac">Air
-                        </label></div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" id="roomAdd" name="propertyType">
+                      <label class="form-check-label fs-6" for="roomAdd">Room</label>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="custom-card shadow-sm">
-            <div class="card-header-custom">Services</div>
-            <div class="p-4">
-              <h4 class="mb-4">Media Upload</h4>
-              <div class="upload-section">
-                <div class="row align-items-center">
-                  <div class="col-auto text-center upload-divider">
-                    <input type="file" name="img" accept=" image/png, image/jpg ,  image/webp">
-                    <div class="small my-1">Or</div>
-                    <input type="file" name="video" size="30MB">
+          </form>
+        </div>
+        <div class="container">
+          <form>
+            <div class="custom-card shadow-sm">
+              <div class="card-header-custom">Location</div>
+              <div class="p-4">
+                <div class="row align-items-end">
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold h5">City</label>
+                    <select class="form-select text-muted">
+                      <option>Property Type</option>
+                    </select>
                   </div>
-                  <div class="col ps-4">
-                    <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
-                    <p class="mb-1 small">Drag & drop up to 6 images (<span class="text-gold">jpg / png /
-                        webp</span>)</p>
-                    <p class="mb-3 small">Max size: 2MB each</p>
-
-                    <p class="mb-1 fw-bold">Upload a video</p>
-                    <p class="mb-0 small">Max: 1 video</p>
-                    <p class="mb-0 small">Maximum size: 30MB</p>
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold h5">Area <span class="required-star">*</span></label>
+                    <select class="form-select text-muted">
+                      <option>Property Type</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold h5">Street <span class="required-star">*</span></label>
+                    <input type="text" class="form-control" placeholder="Street Name">
+                  </div>
+                  <div class="col-md-3 mb-3 border-start ps-4">
+                    <h5 class="fw-bold">Services</h5>
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="wifi"><label
+                            class="form-check-label small" for="wifi">wifi</label></div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="parking"><label
+                            class="form-check-label small" for="parking">Parking</label></div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="gym"><label
+                            class="form-check-label small" for="gym">Gym</label></div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="ac"><label
+                            class="form-check-label small" for="ac">Air
+                          </label></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="d-flex gap-3 mt-4">
-            <button type="submit" class="btn btn-submit">Submit Property</button>
-            <button type="button" class="btn btn-cancel">Cancel</button>
-          </div>
-        </form>
-      </div>
+            <div class="custom-card shadow-sm">
+              <div class="card-header-custom">Services</div>
+              <div class="p-4">
+                <h4 class="mb-4">Media Upload</h4>
+                <div class="upload-section">
+                  <div class="row align-items-center">
+                    <div class="col-auto text-center upload-divider">
+                      <input type="file" name="img" accept=" image/png, image/jpg ,  image/webp">
+                      <div class="small my-1">Or</div>
+                      <input type="file" name="video" size="30MB">
+                    </div>
+                    <div class="col ps-4">
+                      <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
+                      <p class="mb-1 small">Drag & drop up to 6 images (<span class="text-gold">jpg / png /
+                          webp</span>)</p>
+                      <p class="mb-3 small">Max size: 2MB each</p>
 
-      <section id="property-details-section" class=" content-section mt-4">
-        <div class="container-fluid px-4">
-
-          <div class="d-flex justify-content-between align-items-center mb-4 px-3">
-            <h2 class="fw-bold mb-0">Property Details</h2>
-            <a href="index.html" class="back-btn">
-              <i class="fa-regular fa-circle-left"></i>
-            </a>
-          </div>
-          <div class="row justify-content-center mt-5">
-            <div class="col-lg-12">
-              <div class="featured-gallery-wrapper gap-5 mb-4">
-                <div class="side-img-box left">
-                  <img src="img/imag1.jpg" class="gallery-img ">
+                      <p class="mb-1 fw-bold">Upload a video</p>
+                      <p class="mb-0 small">Max: 1 video</p>
+                      <p class="mb-0 small">Maximum size: 30MB</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="main-img-box">
-                  <img src="img/img2 (2).jpg" class=" gallery-img">
+              </div>
+            </div>
+
+            <div class="d-flex gap-3 mt-4">
+              <button type="submit" class="btn btn-submit">Submit Property</button>
+              <button type="button" class="btn btn-cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section id="sectionProperties" class="d-none">
+        <div id="property-details-section" class=" content-section mt-4">
+          <div class="container-fluid px-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4 px-3">
+              <h2 class="fw-bold mb-0">Property Details</h2>
+              <a href="index.html" class="back-btn">
+                <i class="fa-regular fa-circle-left"></i>
+              </a>
+            </div>
+            <div class="row justify-content-center mt-5">
+              <div class="col-lg-12">
+                <div class="featured-gallery-wrapper gap-5 mb-4">
+                  <div class="side-img-box left">
+                    <img src="img/imag1.jpg" class="gallery-img ">
+                  </div>
+                  <div class="main-img-box">
+                    <img src="img/img2 (2).jpg" class=" gallery-img">
+                  </div>
+                  <div class="side-img-box right">
+                    <img src="img/img3 (2).jpg" class=" gallery-img">
+                  </div>
+                           
                 </div>
-                <div class="side-img-box right">
-                  <img src="img/img3 (2).jpg" class=" gallery-img">
+
+                <div class="col-12 d-flex justify-content-center gap-5 mt-5">
+                  <img src="img/img3 (2).jpg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
+                  <img src="img/imag1.jpg" class="rounded-3" style="width: 100px; height: 50px; ;">
+                  <img src="img/img2 (2).jpg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
                 </div>
                          
               </div>
-
-              <div class="col-12 d-flex justify-content-center gap-5 mt-5">
-                <img src="img/img3 (2).jpg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
-                <img src="img/imag1.jpg" class="rounded-3" style="width: 100px; height: 50px; ;">
-                <img src="img/img2 (2).jpg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
-              </div>
                        
             </div>
-                     
+               
           </div>
-             
+
         </div>
+        <div class="studio-details-section">
+          <!-- Studio section -->
+          <div class="row mt-4 px-2 justify-content-center align-items-stretch g-4">
+            <div class="col-md-12 ">
+              <div class="row gap-4">
 
-      </section>
-      <section class="studio-details-section">
-        <!-- Studio section -->
-        <div class="row mt-4 px-2 justify-content-center align-items-stretch g-4">
-          <div class="col-md-12 ">
-            <div class="row gap-4">
+                <div class="col-12 col-md-7 info-card">
+                  <h3 class="studio-title">modern studio</h3>
+                  <h5 class="studio-address">101 UI Street, City</h5>
+                  <p class="studio-desc">A comfortable and secure room located in a quiet area, designed to provide
+                    students
+                    with a safe and relaxing living environment close to essential services.</p>
 
-              <div class="col-12 col-md-7 info-card">
-                <h3 class="studio-title">modern studio</h3>
-                <h5 class="studio-address">101 UI Street, City</h5>
-                <p class="studio-desc">A comfortable and secure room located in a quiet area, designed to provide
-                  students
-                  with a safe and relaxing living environment close to essential services.</p>
+                  <ul class="details-list">
+                    <li><i class="fas fa-diamond"></i> Price $350 / month</li>
+                    <li><i class="fas fa-diamond"></i> 1 Bedroom</li>
+                    <li><i class="fas fa-diamond"></i> 1 Kitchen</li>
+                    <li><i class="fas fa-diamond"></i> 1 Bathroom</li>
+                  </ul>
+                </div>
 
-                <ul class="details-list">
-                  <li><i class="fas fa-diamond"></i> Price $350 / month</li>
-                  <li><i class="fas fa-diamond"></i> 1 Bedroom</li>
-                  <li><i class="fas fa-diamond"></i> 1 Kitchen</li>
-                  <li><i class="fas fa-diamond"></i> 1 Bathroom</li>
-                </ul>
+                <div class="col-12 col-md-4 info-card">
+                  <h3 class="studio-title">modern studio</h3>
+                  <ul class="amenities-list">
+                    <li><span class="check-box"></span>wifi</li>
+                    <li><span class="check-box"></span>Parking</li>
+                    <li><span class="check-box"></span>Gym</li>
+                    <li><span class="check-box"></span> Air Conditionirg</li>
+                  </ul>
+                </div>
               </div>
 
-              <div class="col-12 col-md-4 info-card">
-                <h3 class="studio-title">modern studio</h3>
-                <ul class="amenities-list">
-                  <li><span class="check-box"></span>wifi</li>
-                  <li><span class="check-box"></span>Parking</li>
-                  <li><span class="check-box"></span>Gym</li>
-                  <li><span class="check-box"></span> Air Conditionirg</li>
-                </ul>
-              </div>
             </div>
-
           </div>
-        </div>
-        <!--reservations table -->
-        <div class="row mt-5 md-4 px-4  justify-content-center  ">
-          <div class="col-12 table-container">
-            <table class="custom-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Check-in</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Sarah Johnson</td>
-                  <td>2024-04-29</td>
-                  <td><span class="status-badge confirmed">Confirmed</span></td>
-                </tr>
-                <tr>
-                  <td>David Miller</td>
-                  <td>2024-05-10</td>
-                  <td><span class="status-badge pending">Pending</span></td>
-                </tr>
-              </tbody>
-            </table>
+          <!--reservations table -->
+          <div class="row mt-5 md-4 px-4  justify-content-center  ">
+            <div class="col-12 table-container">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Check-in</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Sarah Johnson</td>
+                    <td>2024-04-29</td>
+                    <td><span class="status-badge confirmed">Confirmed</span></td>
+                  </tr>
+                  <tr>
+                    <td>David Miller</td>
+                    <td>2024-05-10</td>
+                    <td><span class="status-badge pending">Pending</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
+        </div>
   </div>
   </div>
+
   </section>
 
   </div>
