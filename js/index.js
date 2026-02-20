@@ -16,19 +16,25 @@ const menuItems = {
   settingProperties: document.getElementById("settingProperties"),
 };
 
-function hideAllSections() {
-  for (let key in sections) {
-    sections[key].classList.add("d-none");
+function hideAllSections(item, option) {
+  for (let key in item) {
+    if (option == "add") {
+      item[key].classList.add("d-none");
+    } else {
+      item[key].classList.remove("active");
+    }
   }
 }
 for (let key in menuItems) {
   menuItems[key].addEventListener("click", () => {
-    hideAllSections();
+    hideAllSections(sections, "add");
   });
 }
 
 for (let key in menuItems) {
-  menuItems[key].addEventListener("click", () => {
+  menuItems[key].addEventListener("click", (ele) => {
+    hideAllSections(menuItems, "a");
     sections[key].classList.remove("d-none");
+    menuItems[key].classList.add("active");
   });
 }
