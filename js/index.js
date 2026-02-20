@@ -1,8 +1,8 @@
 const sections = {
   properties: document.getElementById("sectionProperties"),
   addProperties: document.getElementById("sectionAddProperties"),
-  updateProperties: document.getElementById("sectionUpdateProperties"),
   deleteProperties: document.getElementById("sectionDeleteProperties"),
+  updateProperties: document.getElementById("sectionUpdateProperties"),
   massageProperties: document.getElementById("sectionMassageProperties"),
   settingProperties: document.getElementById("sectionSettingProperties"),
 };

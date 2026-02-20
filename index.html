@@ -108,6 +108,122 @@
     <!-- Header     ده الجزء الثابت اللي فوق-->
     <main class="main-content">
 
+      <section id="sectionDeleteProperties" class="d-none">
+        <div class="property-list-section mt-5">
+          <div class="property-header-container">
+            <h3>Property List</h3>
+            <button class="add-Property">
+              <i class="fa-solid fa-plus"></i> Add Property
+            </button>
+          </div>
+
+          <!-- property cards -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
+                <div class="img-box">
+                  <img src="img/Modern_Studio.jpg" alt="Modern Studio" />
+                </div>
+                <div class="info-box">
+                  <h5 class="fw-bold mb-1">Modern Studio</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 1234 Sample St,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$500 / month</h6>
+                </div>
+              </div>
+
+              <!-- delete bu -->
+              <!-- data-id I will change it later -->
+              <div class="right-side">
+                <span class="badge-status in-progress">In Progress</span>
+                <button class="btn btn-dark-custom">2 Booking Requests</button>
+                <button class="btn btn-outline-danger delete-trigger" data-id="1" data-title="Modern Studio"
+                  data-location="1234 Sample St, City" data-img="img/Modern_Studio.jpg">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!--   2  -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
+                <div class="img-box">
+                  <img src="img/modern_bedroom.jpg" alt="Modern Bedroom" />
+                </div>
+                <div class="info-box">
+                  <h5 class="fw-bold mb-1">Modern Bedroom</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 5678 Second Ave,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$350 / month</h6>
+                </div>
+              </div>
+
+              <div class="right-side">
+                <span class="badge-status approved">Approved</span>
+                <button class="btn btn-dark-custom">View Details</button>
+
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!--   3  -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
+                <div class="img-box">
+                  <img src="img/img1.png" alt="Cozy Room" />
+                </div>
+                <div class="info-box">
+                  <h5 class="fw-bold mb-1">Cozy Room</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 9101 Third Blvd,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$150 / month</h6>
+                </div>
+              </div>
+
+              <div class="right-side">
+                <span class="badge-status rejected">Rejected</span>
+                <button class="btn btn-dark-custom">1 Booking Requests</button>
+              </div>
+            </div>
+          </div>
+
+          <!--   4  -->
+          <div class="property-horizontal-card shadow-sm mb-3">
+            <div class="card-body-flex">
+              <div class="left-side">
+                <div class="img-box">
+                  <img src="img/ddcde91c75903c15d112f90e87e3a614a09a3187.jpg" alt="Luxury Suite" />
+                </div>
+                <div class="info-box">
+                  <h5 class="fw-bold mb-1">Luxury Suite</h5>
+                  <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot"></i> 1213 Fourth St,
+                    City
+                  </p>
+                  <h6 class="fw-bold mb-0">$250 / month</h6>
+                </div>
+              </div>
+
+              <div class="right-side">
+                <span class="badge-status rejected">Rejected</span>
+                <button class="btn btn-dark-custom">View Details</button>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="sectionAddProperties" class="d-none">
 
         <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
