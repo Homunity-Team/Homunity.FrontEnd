@@ -1,9 +1,12 @@
 :root {
   --gold: rgba(239, 184, 30, 1);
   --blue: rgba(33, 46, 67, 1);
+  --dark-blue: #1b263b;
+  --gold-color: #f1b42f;
   --light-gray: #f9f9f9;
 }
 
+/* Font */
 @font-face {
   font-family: "LBRITE";
   src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
@@ -11,31 +14,41 @@
   font-display: swap;
 }
 
-body {
-  font-family:
-    "LBRITE",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Body */
+body {
+  font-family: "LBRITE", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  background-color: var(--light-gray);
+}
+
+/* Utility */
+.bGBlue {
+  background-color: var(--blue);
+}
+
+/* Layout */
 .dashboard-container {
   display: flex;
 }
 
-/*  Side Bar  */
+/* Sidebar */
 .sidebar {
   width: 260px;
-  height: calc(100vh - 120px);
+  position: fixed;
+  top: 100px;
+  left: 0;
+  height: calc(100vh - 100px);
   background-color: var(--blue);
   color: var(--light-gray);
   display: flex;
   flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 120px;
   border-top-right-radius: 80px;
   z-index: 1000;
 }
@@ -72,32 +85,26 @@ body {
   color: var(--gold);
 }
 
-/* Main Content Styles */
-.main-content {
-  margin-left: 260px;
-  width: calc(100% - 260px);
-  display: flex;
-  flex-direction: column;
-  padding: 20px 40px;
-}
-
+/* Header */
 .top-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 120px;
   padding: 0 40px;
-  background-color: transparent;
+  z-index: 2000;
 }
 
-/* اللوجو (فوق السايد بار) */
 .logo {
   width: 260px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: -290px;
 }
 
 .logo a {
@@ -116,27 +123,19 @@ body {
   color: var(--gold);
   font-size: 1.1rem;
   font-weight: bold;
-  margin: 0;
-  font-family: Lucida, serif;
 }
 
-/* أيقونة الشخص */
-.user-avatar-wrapper {
-  cursor: pointer;
+/* Main Content */
+.main-content {
+  margin-left: 260px;
+  margin-top: 100px;
+  width: calc(100% - 260px);
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
 }
 
-.user-avatar-wrapper i {
-  font-size: 45px;
-  color: var(--blue);
-  transition: 0.3s;
-}
-
-.user-avatar-wrapper i:hover {
-  color: var(--gold);
-  transform: scale(1.1);
-}
-
-/* الكروت */
+/* Stats */
 .stats-container {
   display: flex;
   gap: 20px;
@@ -149,27 +148,10 @@ body {
   flex: 1;
   padding: 15px 25px;
   border-radius: 16px;
-  text-align: left;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
-}
-
-.stat-card h4 {
-  margin-bottom: 2px;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.sub-stat {
-  display: flex;
-  justify-content: flex-start;
-  font-size: 14px;
-  margin-bottom: 0px;
-  gap: 10px;
 }
 
 .gold-text {
@@ -178,28 +160,21 @@ body {
   font-size: 20px;
 }
 
-.property-list-section {
-  margin-top: 50px;
-}
-
-/* الحاوية الكبيرة للكارت */
+/* Property Card */
 .property-horizontal-card {
   background: white;
   border-radius: 15px;
   border: 1px solid var(--gold);
   padding: 10px 20px;
-  width: 100%;
   margin-bottom: 30px;
 }
 
-/* الرصة الداخلية */
 .card-body-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* الجزء الشمال */
 .left-side {
   display: flex;
   align-items: center;
@@ -213,66 +188,34 @@ body {
   object-fit: cover;
 }
 
-/* الجزء اليمين */
 .right-side {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* ستايل الحالة (Badges) */
+/* Badge */
 .badge-status {
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
-  width: auto;
-  height: auto;
   display: inline-block;
-}
-
-.badge-status.in-progress,
-.badge-status.approved,
-.badge-status.rejected {
   background-color: var(--gold);
   color: var(--blue);
 }
 
+/* Buttons */
 .btn-dark-custom {
-  background-color: var(--blue) !important;
-  color: white !important;
+  background-color: var(--blue);
+  color: white;
   border-radius: 12px;
   padding: 10px 20px;
-  font-size: 14px;
   border: none;
 }
 
 .btn-dark-custom:hover {
   opacity: 0.9;
-}
-
-/* delete button */
-.btn-outline-danger {
-  background: transparent;
-  border: 1px solid #dc3545;
-  color: #dc3545;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: 0.2s;
-}
-
-.btn-outline-danger:hover {
-  background: #dc3545;
-  color: white;
-}
-
-.property-header-container {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
 }
 
 .add-Property {
@@ -285,195 +228,72 @@ body {
   transition: 0.2s;
 }
 
-/* --- التعديلات النهائية لضبط التصميم --- */
-
-/* 1. إظهار اللوجو وتثبيت الهيدر */
-.top-header {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 2000 !important;
-  background: white !important;
-  height: 100px !important;
-}
-
-.logo {
-  margin-left: 0 !important; /* عشان اللوجو يظهر ومايستخباش */
-}
-
-/* 2. تثبيت السايد بار والـ Logout تحت خالص */
-.sidebar {
-  position: fixed !important;
-  top: 100px !important;
-  height: calc(100vh - 100px) !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.logout {
-  margin-top: auto !important; /* بيزق Logout لآخر السايد بار من تحت */
-  padding-bottom: 25px !important;
-}
-
-/* 3. إزاحة المحتوى عشان مايدخلش تحت السايد بار */
-.main-content {
-  margin-left: 260px !important;
-  margin-top: 100px !important;
-  width: calc(100% - 260px) !important;
-}
 .add-Property:hover {
   background-color: #1e2a3a;
   color: var(--gold);
 }
 
+/* Modal */
 .overlay {
   display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 9999;
 }
 
 .modal {
-  display: block;
-  background: #24344a;
+  background: var(--dark-blue);
   width: 600px;
-  height: auto;
   border-radius: 12px;
   padding: 25px;
   color: white;
   position: relative;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-.modal-header {
-  text-align: center;
-  color: #f2b705;
-  font-size: 26px;
+/* Form Section */
+.custom-card {
+  border: 1px solid #dee2e6;
+  border-radius: 15px;
+  background: #fff;
+  margin-bottom: 30px;
+}
+
+.card-header-custom {
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
 }
 
-.modal-close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #f2b705;
-  color: #24344a;
+.form-control,
+.form-select {
+  border-radius: 20px;
+}
+
+.upload-section {
+  background-color: var(--dark-blue);
+  border-radius: 15px;
+  color: white;
+  padding: 25px;
+}
+
+.btn-submit {
+  background-color: var(--gold-color);
+  color: var(--dark-blue);
   border: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 1;
-}
-
-.modal-text {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.modal-text small {
-  display: block;
-  margin-top: 10px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.property-card {
-  background: #f4f4f4;
-  color: #24344a;
-  border-radius: 10px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.property-card img {
-  width: 120px;
-  height: 80px;
   border-radius: 8px;
-  object-fit: cover;
-}
-
-.property-info h3 {
-  color: #f2b705;
-  margin: 0;
-  text-transform: capitalize;
-}
-
-.property-info p {
-  margin: 5px 0;
-}
-
-.status {
-  background: #24344a;
-  color: #f2b705;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  display: inline-block;
-}
-
-.warning-box {
-  background: #f4f4f4;
-  color: #24344a;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.btn-delete {
-  background: #f2b705;
-  border: none;
-  padding: 10px 35px;
-  border-radius: 6px;
   font-weight: bold;
-  cursor: pointer;
-  color: #24344a;
+  padding: 10px 25px;
 }
-
 .btn-cancel {
-  background: #24344a;
-  border: 2px solid #f2b705;
-  color: #f2b705;
-  padding: 10px 35px;
-  border-radius: 6px;
+  background-color: var(--dark-blue);
+  color: var(--gold-color);
+  border: none;
+  border-radius: 8px;
   font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-delete:hover {
-  opacity: 0.9;
-}
-
-.btn-cancel:hover {
-  background: #f2b705;
-  color: #24344a;
-}
-
-.swal2-container {
-  z-index: 10000 !important; /* أعلى من z-index بتاع الـ overlay */
+  padding: 10px 25px;
 }
