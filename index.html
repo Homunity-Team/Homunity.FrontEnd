@@ -1,235 +1,272 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Your safe home</title>
-    <!-- ملف يتبعه جميع المبرمجين -->
-    <link rel="stylesheet" href="css/normalize.css" />
-    <!-- ملف الايكونات  -->
-    <link rel="stylesheet" href="css/all.min.css" />
-    <!-- ملف bootstrab . css  -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <!--  ملفات عدل الاسم css الخارجيه -->
-    <link rel="stylesheet" href="css/main.css" />
-    <!-- تنسقات خطوط جوجل  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
 
-  <body>
-    <!--nada-->
-    <nav class="navbar hp-navbar">
-      <div
-        class="container d-flex justify-content-between align-items-start position-relative"
-      >
-        <div class="hp-logo-part">
-          <a class="navbar-brand" href="#"
-            ><img src="img/logo.png" width="179"
-          /></a>
+<head>
+  <meta charset="UTF-8" />
+  <title>Your safe home</title>
+  <!-- ملف يتبعه جميع المبرمجين -->
+  <link rel="stylesheet" href="css/normalize.css" />
+  <!-- ملف الايكونات  -->
+  <link rel="stylesheet" href="css/all.min.css" />
+  <!-- ملف bootstrab . css  -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <!--  ملفات عدل الاسم css الخارجيه -->
+  <link rel="stylesheet" href="css/main.css" />
+  <!-- تنسقات خطوط جوجل  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <!--nada-->
+  <nav class="navbar hp-navbar">
+    <div class="container d-flex justify-content-between align-items-start position-relative">
+      <div class="hp-logo-part">
+        <a class="navbar-brand" href="#"><img src="img/logo.png" width="179" /></a>
+      </div>
+
+      <div class="hp-nav-center-card">
+        <ul class="navbar-nav d-flex flex-row">
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Properties</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="hp-auth-section">
+        <a href="html/form.html" class="hp-login-link">Login / Register</a>
+      </div>
+    </div>
+  </nav>
+  <header class="hp-hero-section">
+    <div class="container text-center">
+      <h1 class="hp-hero-title">
+        Find Your Safe Home Away From<br />
+        Home
+      </h1>
+      <p class="hp-hero-subtitle">
+        Our housing is designed to give expatriates a secure, comfortable.
+      </p>
+
+      <nav class="">
+        <div class="container d-flex justify-content-between align-items-center">
         </div>
+      </nav>
 
-        <div class="hp-nav-center-card">
-          <ul class="navbar-nav d-flex flex-row">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Properties</a>
+      <div class="hp-search-container p-4 mt-5">
+        <h5 class="hp-search-label text-start mb-4">
+          Search For Available Properties
+        </h5>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <select id="citySelectSearch" class="form-select hp-custom-input">
+              <option selected disabled>Select City</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select id="areaSelectSearch" class="form-select hp-custom-input">
+              <option selected disabled>Select Area</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <input type="number" id="minPriceInput" class="form-control hp-custom-input" placeholder="Min Price" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" id="maxPriceInput" class="form-control hp-custom-input" placeholder="Max Price" />
+          </div>
+          <div class="col-md-2">
+            <button id="searchBtn" class="btn btn-dark w-100 hp-btn-search">Search</button>
+          </div>
+        </div>
+      </div>
+
+      <section id="searchResults" class="py-5">
+        <div class="container">
+          <div class="row g-4" id="searchResultsContainer">
+          </div>
+        </div>
+      </section>
+
+      <script>
+        const citySelect = document.getElementById("citySelectSearch");
+        const areaSelect = document.getElementById("areaSelectSearch");
+        const searchBtn = document.getElementById("searchBtn");
+        const minPriceInput = document.getElementById("minPriceInput");
+        const maxPriceInput = document.getElementById("maxPriceInput");
+        const resultsContainer = document.getElementById("searchResultsContainer");
+
+        fetch("https://homunityapiv1.runasp.net/api/Location/cities", {
+          headers: { accept: "*/*" }
+        })
+          .then(res => res.json())
+          .then(cities => {
+            cities.forEach(city => {
+              const option = document.createElement("option");
+              option.value = city;
+              option.textContent = city;
+              citySelect.appendChild(option);
+            });
+          })
+          .catch(err => console.error(err));
+
+        citySelect.addEventListener("change", () => {
+          const selectedCity = citySelect.value;
+          areaSelect.innerHTML = "<option selected disabled>Select Area</option>";
+
+          fetch(`https://homunityapiv1.runasp.net/api/Location/areas?city=${encodeURIComponent(selectedCity)}`, {
+            headers: { accept: "*/*" }
+          })
+            .then(res => res.json())
+            .then(areas => {
+              areas.forEach(area => {
+                const option = document.createElement("option");
+                option.value = area;
+                option.textContent = area;
+                areaSelect.appendChild(option);
+              });
+            })
+            .catch(err => console.error(err));
+        });
+
+        searchBtn.addEventListener("click", () => {
+          const city = citySelect.value;
+          const area = areaSelect.value;
+          const minPrice = minPriceInput.value || 0;
+          const maxPrice = maxPriceInput.value || 999999;
+
+          resultsContainer.innerHTML = ""; 
+
+          const url = `https://homunityapiv1.runasp.net/api/Properties/Search?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area)}&minPrice=${encodeURIComponent(minPrice)}&maxPrice=${encodeURIComponent(maxPrice)}`;
+
+          fetch(url)
+            .then(res => res.json())
+            .then(result => {
+              const properties = result.properties || [];
+              if (properties.length === 0) {
+                resultsContainer.innerHTML = "<p class='text-center'>No properties found.</p>";
+                return;
+              }
+
+              properties.forEach(property => {
+                const imgSrc = "img/img.2.jpeg"; 
+                const col = document.createElement("div");
+                col.className = "col-md-3 col-sm-6";
+
+                col.innerHTML = `
+        <div class="room-card text-center p-3">
+          <img src="${imgSrc}" class="room-img img-fluid mb-3" alt="${property.title}" />
+          <h5>${property.title}</h5>
+          <p class="room-info">${property.description}</p>
+          <p class="price">
+            <span class="dollar">$</span>${property.price}
+            <span class="month">/month</span>
+          </p>
+          <button class="btn book-btn">Book</button>
+        </div>
+      `;
+                resultsContainer.appendChild(col);
+              });
+            })
+            .catch(err => console.error("Error fetching properties:", err));
+        });
+      </script>
+    </div>
+
+    <div class="hp-floating-badge">
+      <img src="img/nn.png" alt="Icon" />
+    </div>
+  </header>
+  <!--End-->
+
+  <!--Menna-->
+  <section id="rooms" class="py-5">
+    <div class="container">
+      <h1 class="text-start p-3">
+        Find Your Perfect Room With
+        <span class="text-warning">HOMUNITY</span>
+      </h1>
+      <div class="row g-4" id="roomsContainer">
+      </div>
+    </div>
+  </section>
+  <!--line-->
+  <div class="divider-line"></div>
+  <!--why-homuity-->
+  <section class="why-homunity py-2">
+    <div class="container">
+      <div class="row align-items-start">
+        <div class="col-12 col-md-6 mb-4 mb-md-0">
+          <h2 class="fw-bold mb-4 section-title">
+            Why Choose <span class="text-warning">HOMUNITY</span>
+          </h2>
+          <ul class="list-unstyled mb-4 features-list mb-4">
+            <li>
+              <span class="feature-dot"></span>
+              We make finding your next home simple,
+              <p>secure, and stress-free.</p>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            <li>
+              <span class="feature-dot"></span>
+              With Homunity, finding a place to live feels
+              <p>easy and comfortable.</p>
+              <p></p>
+            </li>
+            <li>
+              <span class="feature-dot"></span>
+              We make finding your next home simple,
+              <p>secure, and stress-free.</p>
+            </li>
           </ul>
+          <a href="#" class="btn btn-dark rounded-4 px-2 py-2 explore-btn">Explore Rooms</a>
         </div>
-
-        <div class="hp-auth-section">
-          <a href="html/form.html" class="hp-login-link">Login / Register</a>
-        </div>
-      </div>
-    </nav>
-    <header class="hp-hero-section">
-      <div class="container text-center">
-        <h1 class="hp-hero-title">
-          Find Your Safe Home Away From<br />
-          Home
-        </h1>
-        <p class="hp-hero-subtitle">
-          Our housing is designed to give expatriates a secure, comfortable.
-        </p>
-
-        <nav class="">
-          <div
-            class="container d-flex justify-content-between align-items-center"
-          >
-          </div>
-        </nav>
-
-        <div class="hp-search-container p-4 mt-5">
-          <h5 class="hp-search-label text-start mb-4">
-            Search For Available Properties
-          </h5>
-          <div class="row g-3">
-            <div class="col-md-3 align-items-center">
-              <input
-                type="text"
-                id="Locationinput"
-                class="form-control hp-custom-input"
-                placeholder="Location"
-              />
-            </div>
-            <div class="col-md-3">
-              <select id="typeselect" class="form-select hp-custom-input">
-                <option value="" selected>Property Type <span class="traingle">▲</span></option>
-                <option value="Apartment">Apartment</option>
-                <option value="Villa">Villa</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <input
-                type="number"
-                id="Budgetinput"
-                class="form-control hp-custom-input"
-                placeholder="Budget"
-              />
-            </div>
-            <div class="col-md-3">
-              <button id="Searchbtn" class="btn btn-dark w-100 hp-btn-search">
-                Search
-              </button>
-            </div>
-          </div>
+        <div class="col-md-6 text-center text-md-start mt-4 mt-md-0">
+          <img src="img/img.6.jpeg" alt="Why Homunity" class="img-fluid rounded-3 w-75 ms-md-5" />
         </div>
       </div>
+    </div>
+  </section>
+  <!--End-->
+  <script>
+    const roomsContainer = document.getElementById("roomsContainer");
 
-      <div class="hp-floating-badge">
-        <img src="img/nn.png" alt="Icon" />
-      </div>
-    </header>
-    <!--End-->
+    fetch("https://homunityapiv1.runasp.net/api/Properties/GetAll")
+      .then(res => res.json())
+      .then(result => {
+        const properties = result.properties;
 
-    <!--Menna-->
-    <section id="rooms" class="py-5">
-      <div class="container">
-        <h1 class="text-start p-3">
-          Find Your Perfect Room With
-          <span class="text-warning">HOMUNITY</span>
-        </h1>
-        <div class="row g-4">
-          <div class="col-md-3 col-sm-6">
-            <div class="room-card text-center p-3">
-              <img
-                src="img/img.2.jpeg"
-                class="room-img img-fluid mb-3"
-                alt=""
-              />
-              <h5>Private Room</h5>
-              <p class="room-info">Near Unversity</p>
-              <p class="price">
-                <span class="dollar">$</span>350
-                <span class="month">/month</span>
-              </p>
-              <button class="btn book-btn">Book</button>
-            </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <div class="room-card text-center p-3">
-              <img
-                src="img/img.3.jpeg"
-                class="room-img img-fluid mb-3"
-                alt=""
-              />
-              <h5>Private Room</h5>
-              <p class="room-info">Downtown Area</p>
-              <p class="price">
-                <span class="dollar">$</span>250
-                <span class="month">/month</span>
-              </p>
-              <button class="btn book-btn">Book</button>
-            </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <div class="room-card text-center p-3">
-              <img
-                src="img/img.4.jpeg"
-                class="room-img img-fluid mb-3"
-                alt=""
-              />
-              <h5>Private Room</h5>
-              <p class="room-info">5 Minutes from campus</p>
-              <p class="price">
-                <span class="dollar">$</span>400
-                <span class="month">/month</span>
-              </p>
-              <button class="btn book-btn">Book</button>
-            </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <div class="room-card text-center p-3">
-              <img
-                src="img/img.5.jpeg"
-                class="room-img img-fluid mb-3"
-                alt=""
-              />
-              <h5>Private Room</h5>
-              <p class="room-info">Near Public Transport</p>
-              <p class="price">
-                <span class="dollar">$</span>450
-                <span class="month">/month</span>
-              </p>
-              <button class="btn book-btn">Book</button>
-            </div>
-          </div>
+        properties.forEach(property => {
+          const imgSrc = "img/img.2.jpeg";
+
+          const col = document.createElement("div");
+          col.className = "col-md-3 col-sm-6";
+
+          col.innerHTML = `
+        <div class="room-card text-center p-3">
+          <img src="${imgSrc}" class="room-img img-fluid mb-3" alt="${property.title}" />
+          <h5>${property.title}</h5>
+          <p class="room-info">${property.description}</p>
+          <p class="price">
+            <span class="dollar">$</span>${property.price}
+            <span class="month">/month</span>
+          </p>
+          <button class="btn book-btn">Book</button>
         </div>
-      </div>
-    </section>
-    <!--line-->
-    <div class="divider-line"></div>
-    <!--why-homuity-->
-    <section class="why-homunity py-2">
-      <div class="container">
-        <div class="row align-items-start">
-          <div class="col-12 col-md-6 mb-4 mb-md-0">
-            <h2 class="fw-bold mb-4 section-title">
-              Why Choose <span class="text-warning">HOMUNITY</span>
-            </h2>
-            <ul class="list-unstyled mb-4 features-list mb-4">
-              <li>
-                <span class="feature-dot"></span>
-                We make finding your next home simple,
-                <p>secure, and stress-free.</p>
-              </li>
-              <li>
-                <span class="feature-dot"></span>
-                With Homunity, finding a place to live feels
-                <p>easy and comfortable.</p>
-                <p></p>
-              </li>
-              <li>
-                <span class="feature-dot"></span>
-                We make finding your next home simple,
-                <p>secure, and stress-free.</p>
-              </li>
-            </ul>
-            <a href="#" class="btn btn-dark rounded-4 px-2 py-2 explore-btn"
-              >Explore Rooms</a
-            >
-          </div>
-          <div class="col-md-6 text-center text-md-start mt-4 mt-md-0">
-            <img
-              src="img/img.6.jpeg"
-              alt="Why Homunity"
-              class="img-fluid rounded-3 w-75 ms-md-5"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--End-->
+      `;
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/index.js"></script>
-    <!-- ملف bootstrab . js  -->
-  </body>
+          roomsContainer.appendChild(col);
+        });
+      })
+      .catch(err => console.error("Error fetching properties:", err));
+  </script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/index.js"></script>
+  <!-- ملف bootstrab . js  -->
+</body>
+
 </html>
