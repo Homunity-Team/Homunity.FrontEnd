@@ -585,3 +585,97 @@ body {
 .d-flex {
   margin-top: 90px;
 }
+
+/*Booking Request*/
+
+.booking-page {
+  max-width: 100%;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  color: #212e43;
+  font-family: serif;
+}
+
+.back-button {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #212e43;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: #212e43;
+  font-size: 22px;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #2f3b4c;
+  color: #ffffff;
+}
+
+.booking-table {
+  border-collapse: separate;
+  border-spacing: 0 14px;
+  width: 100%;
+}
+
+.booking-table thead th {
+  background-color: #212e43;
+  color: #f8cf5d;
+  border: none;
+  padding: 15px;
+  font-weight: 600;
+}
+
+.booking-table thead th:first-child {
+  border-radius: 12px 0 0 12px;
+}
+.booking-table thead th:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+.booking-table td {
+  padding: 15px;
+  vertical-align: middle;
+  text-align: center;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  color: #212e43;
+}
+.booking-table tbody tr td:first-child {
+  border-left: 1px solid #ffffff;
+  border-radius: 12px 0 0 12px;
+}
+.booking-table tbody tr td:last-child {
+  border-right: 1px solid #ffffff;
+  border-radius: 0 12px 12px 0;
+}
+
+.pending {
+  color: #212e43;
+}
+
+.btn-action {
+  background-color: #212e43;
+  color: #f8cf5d;
+  border: none;
+  padding: 6px 30px;
+  border-radius: 10px;
+  font-weight: bold;
+}

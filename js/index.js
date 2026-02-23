@@ -3,6 +3,7 @@ const sections = {
   addProperties: document.getElementById("sectionAddProperties"),
   deleteProperties: document.getElementById("sectionDeleteProperties"),
   updateProperties: document.getElementById("sectionUpdateProperties"),
+  booking: document.getElementById("sectionBooking"),
   massageProperties: document.getElementById("sectionMassageProperties"),
   settingProperties: document.getElementById("sectionSettingProperties"),
 };
@@ -12,6 +13,7 @@ const menuItems = {
   addProperties: document.getElementById("addProperties"),
   updateProperties: document.getElementById("updateProperties"),
   deleteProperties: document.getElementById("deleteProperties"),
+  booking: document.getElementById("BookingButton"),
   massageProperties: document.getElementById("massageProperties"),
   settingProperties: document.getElementById("settingProperties"),
 };
@@ -160,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const description = document.getElementById("descriptionUpdate").value;
     const price = Number(document.getElementById("priceUpdate").value);
     const rooms = Number(document.getElementById("roomsUpdate").value);
-    const locationID = 1 ; //Number(document.getElementById("areaUpdate").value); // مثال
+    const locationID = 1; //Number(document.getElementById("areaUpdate").value); // مثال
     const propertyStatusID = 1; // ثابت
     const propertyType = document.getElementById("apartmentUpdate").checked
       ? "Apartment"
