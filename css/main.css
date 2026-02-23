@@ -679,3 +679,154 @@ body {
   border-radius: 10px;
   font-weight: bold;
 }
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  padding-left: 0 !important;
+  margin-left: -290px;
+  width: 260px;
+  flex-direction: row;
+  justify-content: flex-start !important;
+}
+
+.brand-logo-large {
+  width: auto !important;
+  max-height: 80px;
+}
+
+.brand-text-gold {
+  font-size: 20px !important;
+  color: rgba(239, 184, 30, 1);
+  font-weight: 600;
+  margin: 0 !important;
+}
+.profile-avatar-area {
+  font-size: 3.5rem;
+  color: var(--dark-blue);
+}
+
+.section-main-title {
+  font-family: "Lucida Bright", serif;
+  font-size: 36px;
+  font-weight: 700;
+  margin: 35px 0;
+}
+.back-navigation {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 25px;
+  margin-top: 50px;
+}
+.circle-arrow-btn {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-decoration: none;
+  border-radius: 50%;
+  border: 2px solid #212e43;
+  transition: 0.3s;
+}
+.arrow-full-shape {
+  background-color: #212e43;
+  width: 14px;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+}
+.arrow-full-shape::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid #212e43;
+  border-bottom: 2px solid #212e43;
+  transform: translateY(-50%) rotate(45deg);
+}
+.circle-arrow-btn:hover {
+  background-color: rgba(33, 46, 67, 0.05);
+  transform: scale(1.05);
+}
+
+.main-form-card {
+  background-color: #ffffff !important;
+  padding: 0 !important;
+  overflow: hidden;
+  width: 100% !important;
+  border-radius: 0 0 30px 30px !important;
+  box-shadow: 0px 4px 4px rgba(0, 14, 37, 1) !important;
+  border-top: 0px solid transparent !important;
+}
+
+.form-sub-heading {
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(239, 184, 30, 1) !important;
+  font-weight: 700;
+  font-size: 1.6rem;
+  padding: 25px 50px 15px 50px !important;
+  margin-top: 0 s !important;
+  position: relative;
+  border-radius: 10px !important;
+  border-bottom: 2px solid rgba(239, 184, 30, 0.3) !important;
+  box-shadow: 0px 1px 1px rgba(0, 14, 37, 1) !important;
+  z-index: 2;
+}
+.main-form-card .row {
+  margin-top: 0 !important;
+  padding: 30px 50px 50px 50px !important;
+}
+
+.field-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.field-input {
+  background-color: #fafafa !important;
+  font-size: 1rem;
+  padding: 15px !important;
+  border-radius: 15px !important;
+  border: 1.5px solid #dcdcdc !important;
+  box-shadow: 1px 1px 1px 1px rgba(0, 14, 37, 1) !important;
+}
+.btn-save-data {
+  background-color: rgba(33, 46, 67, 1) !important;
+  color: rgba(239, 184, 30, 1) !important;
+  font-size: 1.1rem;
+  font-weight: 800 !important;
+  padding: 15px 60px !important;
+  border-radius: 10px !important;
+  border: 2px solid rgba(239, 184, 30, 1);
+  transition: all 0.3s ease;
+}
+
+.btn-save-data:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26, 34, 56, 0.3);
+}
+.action-bar-item {
+  display: flex;
+  background: #ffffff;
+  padding: 22px 30px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 18px;
+  border: 1px solid #eee;
+  cursor: pointer;
+  box-shadow: 0px 1px 1px rgba(0, 14, 37, 1) !important;
+}
+
+.gold-accent-icon {
+  color: var(--gold-color);
+  font-size: 1.3rem;
+}

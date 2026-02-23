@@ -4,8 +4,8 @@ const sections = {
   deleteProperties: document.getElementById("sectionDeleteProperties"),
   updateProperties: document.getElementById("sectionUpdateProperties"),
   booking: document.getElementById("sectionBooking"),
-  massageProperties: document.getElementById("sectionMassageProperties"),
   settingProperties: document.getElementById("sectionSettingProperties"),
+  massageProperties: document.getElementById("sectionMassageProperties"),
 };
 
 const menuItems = {
@@ -14,8 +14,8 @@ const menuItems = {
   updateProperties: document.getElementById("updateProperties"),
   deleteProperties: document.getElementById("deleteProperties"),
   booking: document.getElementById("BookingButton"),
-  massageProperties: document.getElementById("massageProperties"),
   settingProperties: document.getElementById("settingProperties"),
+  massageProperties: document.getElementById("massageProperties"),
 };
 
 function hideAllSections(item, option) {
