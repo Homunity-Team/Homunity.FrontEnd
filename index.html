@@ -234,18 +234,18 @@
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="titleAdd">Title</label>
                   <input class="form-control form-control-lg rounded-3" id="titleAdd" type="text"
-                    placeholder="Enter Title">
+                    placeholder="Enter Title"  minlength="5" maxlength="15" required>
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="priceAdd">Price / Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="0.00">
+                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="0.00" min="100" required>
                 </div>
 
                 <div class="mb-0">
                   <label class="form-label fw-bold" for="roomsAdd">Rooms Count</label>
                   <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number"
-                    placeholder="e.g. 3">
+                    placeholder="e.g. 3" min="1" max="1o" required>
                 </div>
               </div>
 
@@ -279,19 +279,19 @@
                 <div class="row align-items-end">
                   <div class="col-md-3 mb-3">
                     <label class="form-label fw-bold h5">City</label>
-                    <select id="citySelect" class="form-select text-muted">
+                    <select id="citySelect" class="form-select text-muted" required >
                       <option selected disabled>Choose City</option>
                     </select>
                   </div>
                   <div class="col-md-3 mb-3">
                     <label class="form-label fw-bold h5">Area</label>
-                    <select id="areaSelect" class="form-select text-muted">
+                    <select id="areaSelect" class="form-select text-muted" required>
                       <option selected disabled>Choose Area</option>
                     </select>
                   </div>
                   <div class="col-md-3 mb-3">
                     <label class="form-label fw-bold h5">Street</label>
-                    <input type="text" id="streetAdd" class="form-control" placeholder="Street Name">
+                    <input type="text" id="streetAdd" class="form-control" placeholder="Street Name" required>
                   </div>
                   <div class="col-md-3 mb-3 border-start ps-4">
                     <h5 class="fw-bold">Services</h5>
@@ -363,19 +363,19 @@
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="titleUpdate">Title</label>
                   <input class="form-control form-control-lg rounded-3" id="titleUpdate" type="text"
-                    placeholder="Enter Title">
+                    placeholder="Enter Title"  minlength="5" maxlength="15" required>
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="priceUpdate">Price / Month</label>
                   <input class="form-control form-control-lg rounded-3" id="priceUpdate" type="number"
-                    placeholder="0.00">
+                    placeholder="0.00" min="100" required>
                 </div>
 
                 <div class="mb-0">
                   <label class="form-label fw-bold" for="roomsUpdate">Rooms Count</label>
                   <input class="form-control form-control-lg rounded-3" id="roomsUpdate" type="number"
-                    placeholder="e.g. 3">
+                    placeholder="e.g. 3" min="1" max="1o" required>
                 </div>
               </div>
 
@@ -409,19 +409,19 @@
               <div class="row align-items-end">
                 <div class="col-md-3 mb-3">
                   <label class="form-label fw-bold h5">City</label>
-                  <select id="cityUpdate" class="form-select text-muted">
+                  <select id="cityUpdate" class="form-select text-muted" required>
                     <option selected disabled>Choose City</option>
                   </select>
                 </div>
                 <div class="col-md-3 mb-3">
                   <label class="form-label fw-bold h5">Area</label>
-                  <select id="areaUpdate" class="form-select text-muted">
+                  <select id="areaUpdate" class="form-select text-muted" required>
                     <option selected disabled>Choose Area</option>
                   </select>
                 </div>
                 <div class="col-md-3 mb-3">
                   <label class="form-label fw-bold h5">Street</label>
-                  <input type="text" id="streetUpdate" class="form-control" placeholder="Street Name">
+                  <input type="text" id="streetUpdate" class="form-control" placeholder="Street Name" required>
                 </div>
                 <div class="col-md-3 mb-3 border-start ps-4">
                   <h5 class="fw-bold">Services</h5>
