@@ -39,9 +39,23 @@
         </ul>
       </div>
 
-      <div class="hp-auth-section">
-        <a href="html/form.html" class="hp-login-link">Login / Register</a>
+      <div id="navd" class="hp-auth-section">
+        <a href="html/form.html" class="hp-login-link pe-3">Login / Register</a>
       </div>
+
+      <script>
+        const nav = document.getElementById("navd");
+        const userId = localStorage.getItem("id");
+        const role = localStorage.getItem("role");
+
+        if (userId && role === "owner") {
+          nav.innerHTML = `
+      <a href="html/dashbord.html" class="hp-login-link pe-3">
+        Dashboard
+      </a>
+    `;
+        }
+      </script>
     </div>
   </nav>
   <header class="hp-hero-section">
@@ -140,7 +154,7 @@
           const minPrice = minPriceInput.value || 0;
           const maxPrice = maxPriceInput.value || 999999;
 
-          resultsContainer.innerHTML = ""; 
+          resultsContainer.innerHTML = "";
 
           const url = `https://homunityapiv1.runasp.net/api/Properties/Search?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area)}&minPrice=${encodeURIComponent(minPrice)}&maxPrice=${encodeURIComponent(maxPrice)}`;
 
@@ -154,7 +168,7 @@
               }
 
               properties.forEach(property => {
-                const imgSrc = "img/img.2.jpeg"; 
+                const imgSrc = "img/img.2.jpeg";
                 const col = document.createElement("div");
                 col.className = "col-md-3 col-sm-6";
 

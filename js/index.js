@@ -1,4 +1,4 @@
-const userId = localStorage.getItem("userId");
+const userId = localStorage.getItem("Id");
 
 if (userId !== null) {
   const tagLogout = document.getElementById("tagLogout");
@@ -75,11 +75,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
-
-
-
-
-
-
-
