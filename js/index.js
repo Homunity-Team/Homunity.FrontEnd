@@ -1,3 +1,24 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const userRole = localStorage.getItem("role");
+  const userID = localStorage.getItem("id");
+
+  // شرط الدخول
+  if (userRole !== "owner" || !userID) {
+    Swal.fire({
+      icon: "error",
+      title: "خطأ",
+      text: "لا يمكنك الدخول للداشبورد",
+    });
+    window.location.href = "/html/form.html";
+  } else {
+    Swal.fire({
+      icon: "success",
+      title: "نجاح",
+      text: "تم الدخول بنجاح",
+    });
+  }
+});
+
 const sections = {
   properties: document.getElementById("sectionProperties"),
   addProperties: document.getElementById("sectionAddProperties"),
@@ -27,6 +48,7 @@ function hideAllSections(item, option) {
     }
   }
 }
+
 for (let key in menuItems) {
   menuItems[key].addEventListener("click", () => {
     hideAllSections(sections, "add");
@@ -62,30 +84,25 @@ fetch("https://homunityapiv1.runasp.net/api/Location/cities", {
 const citySelect = document.getElementById("citySelect");
 const areaSelect = document.getElementById("areaSelect");
 
-citySelect.addEventListener("change", () => {
-  const selectedCity = citySelect.value;
+citySelect.addEventListener("change", async () => {
+  const cityId = citySelect.value; // <-- هنا نجيب القيمة الصحيحة
 
-  areaSelect.innerHTML = "<option selected disabled>اختر المنطقة</option>";
+  try {
+    const response = await fetch(
+      `https://homunityapiv1.runasp.net/api/Location/areas?city=${cityId}`,
+    );
+    const areas = await response.json();
 
-  fetch(
-    `https://homunityapiv1.runasp.net/api/Location/areas?city=${selectedCity}`,
-    {
-      headers: {
-        accept: "*/*",
-        Authorization: "Bearer YOUR_TOKEN_HERE",
-      },
-    },
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      data.forEach((area) => {
-        const option = document.createElement("option");
-        option.value = area;
-        option.textContent = area;
-        areaSelect.appendChild(option);
-      });
-    })
-    .catch((err) => console.error("Error fetching areas:", err));
+    areaSelect.innerHTML = "<option selected disabled>Choose Area</option>";
+    areas.forEach((area) => {
+      const option = document.createElement("option");
+      option.value = area.locationId;
+      option.textContent = area.area;
+      areaSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching areas:", error);
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -94,111 +111,444 @@ document.addEventListener("DOMContentLoaded", () => {
   const priceInput = document.getElementById("priceAdd");
   const roomsInput = document.getElementById("roomsAdd");
   const descriptionInput = document.getElementById("descreptionAdd");
-  const citySelect = document.getElementById("citySelect");
   const areaSelect = document.getElementById("areaSelect");
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault(); // منع الفورم من إعادة تحميل الصفحة
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    // تحديد نوع العقار
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+
     const propertyType = document.getElementById("apartmentApp").checked
       ? "Apartment"
       : "Room";
 
-    // الخدمات (checkboxes)
-    const services = {
-      wifi: document.getElementById("wifi").checked,
-      parking: document.getElementById("parking").checked,
-      gym: document.getElementById("gym").checked,
-      ac: document.getElementById("ac").checked,
-    };
-
-    // بناء جسم الطلب
     const requestBody = {
       propertyID: 0,
-      ownerID: 22,
-      title: titleInput.value,
-      description: descriptionInput.value,
+      ownerID: Number(localStorage.getItem("id")),
+      title: titleInput.value.trim(),
+      description: descriptionInput.value.trim(),
       price: Number(priceInput.value),
       rooms: Number(roomsInput.value),
-      locationID: 2,
+      locationID: Number(areaSelect.value),
       propertyStatusID: 1,
       propertyType: propertyType,
       rejectReason: "",
     };
 
-    fetch("https://homunityapiv1.runasp.net/api/Properties/AddProperty", {
-      method: "POST",
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer YOUR_TOKEN_HERE",
-      },
-      body: JSON.stringify(requestBody),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Property added:", data);
-        alert("Property submitted successfully!");
-        form.reset();
-      })
-      .catch((err) => {
-        console.error("Error adding property:", err);
-        alert("Failed to submit property");
-      });
+    try {
+      const response = await fetch(
+        "https://homunityapiv1.runasp.net/api/Properties/AddProperty",
+        {
+          method: "POST",
+          headers: {
+            accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: "Bearer YOUR_TOKEN_HERE",
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("API Error:", data);
+        Swal.fire("Error", data.message || "Failed to add property", "error");
+        submitBtn.disabled = false;
+        return;
+      }
+
+      console.log("Property added:", data);
+
+      // رفع الصورة
+      const imgFile = document.querySelector(
+        "#addPropertyForm input[name='img']",
+      )?.files[0];
+
+      if (imgFile && data.propertyID) {
+        const formData = new FormData();
+        formData.append("file", imgFile);
+
+        try {
+          const uploadRes = await fetch(
+            `https://homunityapiv1.runasp.net/api/PropertyImages/UploadImage?propertyId=${data.propertyID}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: "Bearer YOUR_TOKEN_HERE",
+              },
+              body: formData,
+            },
+          );
+
+          const uploadData = await uploadRes.json();
+          console.log("Image uploaded:", uploadData);
+          Swal.fire("Success", "Image added successfully", "success");
+        } catch (err) {
+          console.error("Image upload error:", err);
+          Swal.fire("Error", "Failed to upload image", "error");
+        }
+      } else {
+        Swal.fire("Success", "Property added successfully!", "success");
+      }
+
+      form.reset();
+    } catch (error) {
+      console.error("Error adding property:", error);
+      Swal.fire("Error", "Failed to add property", "error");
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const updateForm = document.getElementById("updatePropertyForm");
+  const ownerId = localStorage.getItem("id");
+  if (!ownerId) {
+    Swal.fire("Error", "Owner ID not found", "error");
+    return;
+  }
 
-  updateForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // منع إعادة تحميل الصفحة
+  const container = document.getElementById("propertiesContainer");
+  const sectionProperties = document.getElementById("sectionProperties");
+  const sectionUpdate = document.getElementById("sectionUpdateProperties");
+  const defaultImage = "./img/imag1.jpg";
 
-    // جمع القيم من الفورم
-    const propertyID = 17; // عدل حسب الحاجة
-    const ownerID = 22; // عدل حسب المستخدم
-    const title = document.getElementById("titleUpdate").value;
-    const description = document.getElementById("descriptionUpdate").value;
-    const price = Number(document.getElementById("priceUpdate").value);
-    const rooms = Number(document.getElementById("roomsUpdate").value);
-    const locationID = 1; //Number(document.getElementById("areaUpdate").value); // مثال
-    const propertyStatusID = 1; // ثابت
-    const propertyType = document.getElementById("apartmentUpdate").checked
-      ? "Apartment"
-      : "Room";
-    const rejectReason = ""; // أو اجمعه من input لو موجود
+  let allProperties = [];
 
-    const requestBody = {
-      propertyID,
-      ownerID,
-      title,
-      description,
-      price,
-      rooms,
-      locationID,
-      propertyStatusID,
-      propertyType,
-      rejectReason,
-    };
+  // ================= FETCH ALL PROPERTIES =================
+  async function getProperties() {
+    try {
+      const res = await fetch(
+        `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`,
+      );
+      const data = await res.json();
+      allProperties = data.properties || [];
+      displayProperties(allProperties);
+      console.log("Fetched properties:", allProperties);
+    } catch (err) {
+      console.error("Error fetching properties:", err);
+    }
+  }
 
-    fetch("https://homunityapiv1.runasp.net/api/Properties/UpdateProperty", {
-      method: "PUT",
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer YOUR_TOKEN_HERE", // ضع التوكن هنا
-      },
-      body: JSON.stringify(requestBody),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Property updated:", data);
-        alert("Property updated successfully!");
+  getProperties();
+
+  // ================= DISPLAY PROPERTIES =================
+  function displayProperties(properties) {
+    const container = document.getElementById("propertiesContainer");
+    const defaultImage = "./img/imag1.jpg";
+
+    container.innerHTML = properties
+      .map((p) => {
+        const imgSrc = p.images?.[0]?.imageUrl || defaultImage;
+        return `
+      <div class="property-horizontal-card shadow-sm mb-3" data-id="${p.propertyID}">
+        <div class="card-body-flex">
+          <div class="left-side">
+            <div class="img-box">
+              <img src="${imgSrc}" />
+            </div>
+            <div class="info-box">
+              <h5>${p.title}</h5>
+              <p>${p.location.city} - ${p.location.area}</p>
+              <h6>$${p.price} / month</h6>
+            </div>
+          </div>
+          <div class="right-side">
+            <button  class="btn btn-outline-primary edit-btn" data-id="${p.propertyID}">Edit</button>
+            <button class="btn btn-outline-danger delete-btn" data-id="${p.propertyID}">Delete</button>
+          </div>
+        </div>
+      </div>`;
       })
-      .catch((err) => {
-        console.error("Error updating property:", err);
-        alert("Failed to update property");
+      .join("");
+
+    // إضافة الأحداث بعد إنشاء العناصر
+    const deleteButtons = container.querySelectorAll(".delete-btn");
+    deleteButtons.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const propertyID = btn.dataset.id;
+
+        const confirmed = confirm("هل أنت متأكد من الحذف؟");
+        if (!confirmed) return;
+
+        try {
+          // 1️⃣ حذف الفيديو إذا موجود
+          await fetch(
+            `https://homunityapiv1.runasp.net/api/PropertyVideo/DeleteVideo?id=${propertyID}`,
+            {
+              method: "DELETE",
+              headers: { accept: "*/*" },
+            },
+          );
+
+          // 2️⃣ حذف الصور إذا موجودة
+          await fetch(
+            `https://homunityapiv1.runasp.net/api/PropertyImages/DeleteImage?id=${propertyID}`,
+            {
+              method: "DELETE",
+              headers: { accept: "*/*" },
+            },
+          );
+
+          // 3️⃣ حذف العقار نفسه
+          const res = await fetch(
+            `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyID}`,
+            {
+              method: "DELETE",
+              headers: { accept: "*/*" },
+            },
+          );
+
+          if (!res.ok) throw new Error("Failed to delete property");
+
+          // إزالة العنصر من الـ DOM
+          const card = container.querySelector(
+            `.property-horizontal-card[data-id="${propertyID}"]`,
+          );
+          if (card) card.remove();
+
+          alert("تم الحذف بنجاح!");
+        } catch (error) {
+          console.error("Error deleting property:", error);
+          alert("حدث خطأ أثناء الحذف");
+        }
       });
+    });
+  }
+
+  // ================= EDIT BUTTON =================
+  document.addEventListener("click", async (e) => {
+    if (!e.target.closest(".edit-btn")) return;
+
+    const id = Number(e.target.closest(".edit-btn").dataset.id);
+    console.log("Editing property ID:", id);
+
+    // البحث في allProperties
+    const property = allProperties.find((p) => p.propertyID === id);
+    if (!property) {
+      console.error("Property not found in local data");
+      return;
+    }
+
+    // اخفاء عرض العقارات واظهار التعديل
+    sections.deleteProperties.classList.add("d-none");
+    menuItems.deleteProperties.classList.remove("active");
+    menuItems.updateProperties.classList.add("active");
+    sectionUpdate.classList.remove("d-none");
+
+    fillUpdateForm(property);
   });
+
+  // ================= FILL FORM =================
+  function fillUpdateForm(property) {
+    document.getElementById("propertyIdUpdate").value = property.propertyID;
+    document.getElementById("titleUpdate").value = property.title;
+    document.getElementById("priceUpdate").value = property.price;
+    document.getElementById("roomsUpdate").value = property.rooms;
+    document.getElementById("descriptionUpdate").value = property.description;
+
+    document.getElementById("apartmentUpdate").checked =
+      property.propertyType === "Apartment";
+    document.getElementById("roomUpdate").checked =
+      property.propertyType === "Room";
+
+    function populateCityAndArea(city, area) {
+      const citySelect = document.getElementById("cityUpdate");
+      const areaSelect = document.getElementById("areaUpdate");
+
+      // مسح أي خيارات سابقة
+      citySelect.innerHTML = "";
+      areaSelect.innerHTML = "";
+
+      // إضافة المدينة
+      const cityOption = document.createElement("option");
+      cityOption.value = city;
+      cityOption.text = city;
+      cityOption.selected = true;
+      citySelect.appendChild(cityOption);
+
+      // إضافة المنطقة
+      const areaOption = document.createElement("option");
+      areaOption.value = area;
+      areaOption.text = area;
+      areaOption.selected = true;
+      areaSelect.appendChild(areaOption);
+    }
+
+    populateCityAndArea(property.location.city, property.location.area);
+    document.getElementById("streetUpdate").value =
+      property.location.street || "";
+
+    document.getElementById("wifiUpdate").checked =
+      property.services?.wifi || false;
+    document.getElementById("parkingUpdate").checked =
+      property.services?.parking || false;
+    document.getElementById("gymUpdate").checked =
+      property.services?.gym || false;
+    document.getElementById("acUpdate").checked =
+      property.services?.ac || false;
+
+    // dataset id للفورم
+    document.getElementById("updatePropertyForm").dataset.id =
+      property.propertyID;
+  }
+
+  // ================= CANCEL =================
+  document.querySelector(".btn-cancel").addEventListener("click", () => {
+    sectionUpdate.classList.add("d-none");
+    sectionProperties.classList.remove("d-none");
+  });
+
+  // ================= UPDATE SUBMIT =================
+  document
+    .getElementById("updatePropertyForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const ownerID = Number(localStorage.getItem("id")); // لو انت مخزن الـ id في localStorage
+      const title = document.getElementById("titleUpdate").value;
+      const price = Number(document.getElementById("priceUpdate").value);
+      const rooms = Number(document.getElementById("roomsUpdate").value);
+      const description = document.getElementById("descriptionUpdate").value;
+      const propertyType = document.querySelector(
+        "input[name='propertyTypeUpdate']:checked",
+      ).value; // Apartment أو Room
+      const videoUpdate = document.getElementById("videoUpdate").value;
+
+      // لو عندك locationID موجود مسبقاً في الـ property object
+      const locationID = Number(
+        document.getElementById("cityUpdate").dataset.locationid || 3,
+      );
+
+      const updatedData = {
+        ownerID,
+        title,
+        description,
+        price,
+        rooms,
+        locationID,
+        propertyStatusID: 1, // أو القيمة اللي انت عايزها
+        propertyType,
+        rejectReason: "",
+      };
+
+      const imgUpdate = document.querySelector(
+        "#updatePropertyForm input[name='image']",
+      ).files[0];
+
+      if (imgUpdate) {
+        const propertyID = document.getElementById("propertyIdUpdate").value;
+        const formData = new FormData();
+        formData.append("file", imgUpdate);
+
+        fetch(
+          `https://homunityapiv1.runasp.net/api/PropertyImages/UploadImage?propertyId=${propertyID}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer YOUR_TOKEN_HERE", // لو الـ API يحتاج توكن
+              // لاحظ: Content-Type لا تضبط هنا عند استخدام FormData، سيضبطه المتصفح تلقائيًا
+            },
+            body: formData,
+          },
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Image uploaded:", data);
+            Swal.fire("Success", "Image uploaded successfully", "success");
+          })
+          .catch((err) => {
+            console.error("Image upload error:", err);
+            Swal.fire("Error", "Failed to upload image", "error");
+          });
+      }
+
+      try {
+        const res = await fetch(
+          "https://homunityapiv1.runasp.net/api/Properties/UpdateProperty",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "*/*",
+              Authorization: "Bearer YOUR_TOKEN_HERE", // لو محتاج توكن
+            },
+            body: JSON.stringify(updatedData),
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || "Update failed");
+
+        Swal.fire("Success", "Property updated successfully!", "success");
+
+        // ارجع لعرض الخصائص بعد التعديل
+        sectionUpdate.classList.add("d-none");
+        sectionProperties.classList.remove("d-none");
+
+        // حدث قائمة الخصائص
+        getProperties();
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Error", error.message, "error");
+      }
+    });
 });
+
+// بعد عرض الخصائص
+function attachEditButtons() {
+  const editButtons = document.querySelectorAll(".edit-btn");
+
+  editButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const propertyID = btn.dataset.id;
+
+      // 1️⃣ إزالة كلاس active من كل menuItems
+      Object.values(menuItems).forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      // 2️⃣ إضافة d-none لكل السكاشن ما عدا updateProperties
+      Object.values(sections).forEach((section) => {
+        if (section !== sections.updateProperties) {
+          section.classList.add("d-none");
+        } else {
+          section.classList.remove("d-none");
+        }
+      });
+
+      // 3️⃣ إضافة active على updateProperties في القائمة (لو موجود)
+      menuItems.updateProperties.classList.add("active");
+
+      // 4️⃣ هنا ممكن تحمّل بيانات العقار في الفورم updateProperties
+      loadPropertyForUpdate(propertyID);
+    });
+  });
+}
+
+// مثال على وظيفة تحميل بيانات العقار للفورم تحديث
+async function loadPropertyForUpdate(propertyID) {
+  try {
+    const res = await fetch(
+      `https://homunityapiv1.runasp.net/api/Properties/GetPropertyById?id=${propertyID}`,
+      {
+        headers: { accept: "*/*" },
+      },
+    );
+    const data = await res.json();
+
+    // املاً الفورم في updateProperties بالبيانات
+    document.getElementById("updateTitle").value = data.title;
+    document.getElementById("updatePrice").value = data.price;
+    document.getElementById("updateRooms").value = data.rooms;
+    document.getElementById("updateDescription").value = data.description;
+    // ... وباقي الحقول حسب الفورم
+  } catch (err) {
+    console.error("Error loading property:", err);
+  }
+}
+
+// استدعاء الفورم

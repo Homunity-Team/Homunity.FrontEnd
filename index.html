@@ -109,119 +109,7 @@
     <main class="main-content ">
 
       <section id="sectionDeleteProperties" class="d-none">
-        <div class="property-list-section ">
-          <div class="property-header-container">
-            <h3>Property List</h3>
-            <button class="add-Property">
-              <i class="fa-solid fa-plus"></i> Add Property
-            </button>
-          </div>
-
-          <!-- property cards -->
-          <div class="property-horizontal-card shadow-sm mb-3">
-            <div class="card-body-flex">
-              <div class="left-side">
-                <div class="img-box">
-                  <img src="img/Modern_Studio.jpg" alt="Modern Studio" />
-                </div>
-                <div class="info-box">
-                  <h5 class="fw-bold mb-1">Modern Studio</h5>
-                  <p class="text-muted mb-1">
-                    <i class="fa-solid fa-location-dot"></i> 1234 Sample St,
-                    City
-                  </p>
-                  <h6 class="fw-bold mb-0">$500 / month</h6>
-                </div>
-              </div>
-
-              <!-- delete bu -->
-              <!-- data-id I will change it later -->
-              <div class="right-side">
-                <span class="badge-status in-progress">In Progress</span>
-                <button class="btn btn-dark-custom">2 Booking Requests</button>
-                <button class="btn btn-outline-danger delete-trigger" data-id="1" data-title="Modern Studio"
-                  data-location="1234 Sample St, City" data-img="img/Modern_Studio.jpg">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!--   2  -->
-          <div class="property-horizontal-card shadow-sm mb-3">
-            <div class="card-body-flex">
-              <div class="left-side">
-                <div class="img-box">
-                  <img src="img/modern_bedroom.jpg" alt="Modern Bedroom" />
-                </div>
-                <div class="info-box">
-                  <h5 class="fw-bold mb-1">Modern Bedroom</h5>
-                  <p class="text-muted mb-1">
-                    <i class="fa-solid fa-location-dot"></i> 5678 Second Ave,
-                    City
-                  </p>
-                  <h6 class="fw-bold mb-0">$350 / month</h6>
-                </div>
-              </div>
-
-              <div class="right-side">
-                <span class="badge-status approved">Approved</span>
-                <button class="btn btn-dark-custom">View Details</button>
-
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!--   3  -->
-          <div class="property-horizontal-card shadow-sm mb-3">
-            <div class="card-body-flex">
-              <div class="left-side">
-                <div class="img-box">
-                  <img src="img/img1.png" alt="Cozy Room" />
-                </div>
-                <div class="info-box">
-                  <h5 class="fw-bold mb-1">Cozy Room</h5>
-                  <p class="text-muted mb-1">
-                    <i class="fa-solid fa-location-dot"></i> 9101 Third Blvd,
-                    City
-                  </p>
-                  <h6 class="fw-bold mb-0">$150 / month</h6>
-                </div>
-              </div>
-
-              <div class="right-side">
-                <span class="badge-status rejected">Rejected</span>
-                <button class="btn btn-dark-custom">1 Booking Requests</button>
-              </div>
-            </div>
-          </div>
-
-          <!--   4  -->
-          <div class="property-horizontal-card shadow-sm mb-3">
-            <div class="card-body-flex">
-              <div class="left-side">
-                <div class="img-box">
-                  <img src="img/ddcde91c75903c15d112f90e87e3a614a09a3187.jpg" alt="Luxury Suite" />
-                </div>
-                <div class="info-box">
-                  <h5 class="fw-bold mb-1">Luxury Suite</h5>
-                  <p class="text-muted mb-1">
-                    <i class="fa-solid fa-location-dot"></i> 1213 Fourth St,
-                    City
-                  </p>
-                  <h6 class="fw-bold mb-0">$250 / month</h6>
-                </div>
-              </div>
-
-              <div class="right-side">
-                <span class="badge-status rejected">Rejected</span>
-                <button class="btn btn-dark-custom">View Details</button>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="propertiesContainer"></div>
       </section>
       <section id="sectionAddProperties" class="d-none">
         <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
@@ -353,13 +241,17 @@
             <h3 class="title">Update Property</h3>
           </div>
 
-          <!-- فورم واحد فقط -->
           <form id="updatePropertyForm"
             class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4">
+
+            <!-- مهم جداً نخزن ID -->
+            <input type="hidden" id="propertyIdUpdate" name="propertyID">
+
             <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
 
             <div class="row g-4 mt-3">
               <div class="col-lg-6 col-12">
+
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="titleUpdate">Title</label>
                   <input class="form-control form-control-lg rounded-3" id="titleUpdate" type="text"
@@ -367,97 +259,122 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label fw-bold" for="priceUpdate">Price / Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceUpdate" type="number"
-                    placeholder="0.00">
+                  <label class="form-label fw-bold">Price / Month</label>
+                  <input class="form-control form-control-lg rounded-3" id="priceUpdate" name="price" type="number"
+                    required>
                 </div>
 
                 <div class="mb-0">
-                  <label class="form-label fw-bold" for="roomsUpdate">Rooms Count</label>
-                  <input class="form-control form-control-lg rounded-3" id="roomsUpdate" type="number"
-                    placeholder="e.g. 3">
+                  <label class="form-label fw-bold">Rooms Count</label>
+                  <input class="form-control form-control-lg rounded-3" id="roomsUpdate" name="rooms" type="number"
+                    required>
                 </div>
+
               </div>
 
               <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
+
                 <div class="mb-3">
-                  <label class="form-label fw-bold" for="descriptionUpdate">Description</label>
-                  <textarea class="form-control rounded-3" id="descriptionUpdate" rows="4"
-                    placeholder="Describe the property..."></textarea>
+                  <label class="form-label fw-bold">Description</label>
+                  <textarea class="form-control rounded-3" id="descriptionUpdate" name="description" rows="4"
+                    required></textarea>
                 </div>
 
                 <div class="mb-2">
                   <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
+
                   <div class="d-flex gap-4">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" id="apartmentUpdate" name="propertyTypeUpdate"
-                        checked>
-                      <label class="form-check-label fs-6" for="apartmentUpdate">Apartment</label>
+                        value="Apartment">
+                      <label class="form-check-label">Apartment</label>
                     </div>
+
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" id="roomUpdate" name="propertyTypeUpdate">
-                      <label class="form-check-label fs-6" for="roomUpdate">Room</label>
+                      <input class="form-check-input" type="radio" id="roomUpdate" name="propertyTypeUpdate"
+                        value="Room">
+                      <label class="form-check-label">Room</label>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
 
-            <!-- Location + Services -->
+            <!-- Location -->
             <div class="custom-card shadow-sm mt-4 p-4">
               <h4 class="mb-3 fw-bold">Location</h4>
+
               <div class="row align-items-end">
-                <div class="col-md-3 mb-3">
-                  <label class="form-label fw-bold h5">City</label>
-                  <select id="cityUpdate" class="form-select text-muted">
-                    <option selected disabled>Choose City</option>
-                  </select>
+
+                <div class="col-md-4 mb-3">
+                  <label class="form-label fw-bold">City</label>
+                  <select id="cityUpdate" name="city" class="form-select" required></select>
                 </div>
+
                 <div class="col-md-3 mb-3">
                   <label class="form-label fw-bold h5">Area</label>
                   <select id="areaUpdate" class="form-select text-muted" >
                     <option selected disabled>Choose Area</option>
                   </select>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label class="form-label fw-bold h5">Street</label>
-                  <input type="text" id="streetUpdate" class="form-control" placeholder="Street Name">
+
+                <div class="col-md-4 mb-3">
+                  <label class="form-label fw-bold">Street</label>
+                  <input type="text" id="streetUpdate" name="street" class="form-control" required>
                 </div>
-                <div class="col-md-3 mb-3 border-start ps-4">
-                  <h5 class="fw-bold">Services</h5>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="wifiUpdate"><label
-                          class="form-check-label small" for="wifiUpdate">Wifi</label></div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="parkingUpdate"><label
-                          class="form-check-label small" for="parkingUpdate">Parking</label></div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="gymUpdate"><label
-                          class="form-check-label small" for="gymUpdate">Gym</label></div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-check"><input class="form-check-input" type="checkbox" id="acUpdate"><label
-                          class="form-check-label small" for="acUpdate">Air</label></div>
-                    </div>
+
+              </div>
+            </div>
+
+            <!-- Services -->
+            <div class="custom-card shadow-sm mt-4 p-4">
+              <h4 class="fw-bold mb-3">Services</h4>
+
+              <div class="row">
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="wifi" id="wifiUpdate">
+                    <label class="form-check-label">Wifi</label>
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="parking" id="parkingUpdate">
+                    <label class="form-check-label">Parking</label>
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="gym" id="gymUpdate">
+                    <label class="form-check-label">Gym</label>
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="ac" id="acUpdate">
+                    <label class="form-check-label">Air</label>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Media Upload -->
+            <!-- Media -->
             <div class="custom-card shadow-sm mt-4 p-4">
               <h4 class="mb-3 fw-bold">Media Upload</h4>
-              <input type="file" name="imgUpdate" accept="image/png, image/jpg, image/webp">
-              <input type="file" name="videoUpdate" size="30MB">
+
+              <input id="imgUpdate" type="file" name="image" accept="image/png, image/jpg, image/webp"
+                class="form-control mb-2">
+              <input id="videoUpdate" type="file" name="video" class="form-control">
+            </div>
+            <div class="d-flex gap-3 mt-4">
+              <button type="submit" class="btn btn-primary">Update Property</button>
+              <button type="button" id="cancelUpdateBtn" class="btn btn-secondary">Cancel</button>
             </div>
 
-            <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-submit">Update Property</button>
-              <button type="button" class="btn btn-cancel">Cancel</button>
-            </div>
           </form>
         </div>
       </section>
