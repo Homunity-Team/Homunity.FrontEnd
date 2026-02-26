@@ -89,17 +89,15 @@
             </select>
           </div>
           <div class="col-md-2">
-            <input type="number" id="minPriceInput" class="form-control hp-custom-input" placeholder="Min Price" />
+            <input type="number" id="minPriceInput" class="form-control hp-custom-input" placeholder="Min Price" min="100" />
           </div>
           <div class="col-md-2">
-            <input type="number" id="maxPriceInput" class="form-control hp-custom-input" placeholder="Max Price" />
+            <input type="number" id="maxPriceInput" class="form-control hp-custom-input" placeholder="Max Price" required />
           </div>
           <div class="col-md-2">
             <button id="searchBtn" class="btn btn-dark w-100 hp-btn-search">Search</button>
           </div>
-        </div>
-      </div>
-
+    
       <section id="searchResults" class="py-5">
         <div class="container">
           <div class="row g-4" id="searchResultsContainer">
@@ -149,6 +147,17 @@
         });
 
         searchBtn.addEventListener("click", () => {
+          // --- بداية التعديلات المطلوبة (Validation) ---
+          if (minPriceInput.value !== "" && Number(minPriceInput.value) < 100) {
+            alert("Min Price must be at least 100");
+            return;
+          }
+          if (maxPriceInput.value === "") {
+            alert("Max Price is required");
+            maxPriceInput.focus();
+            return;
+          }
+          // --- نهاية التعديلات ---
           const city = citySelect.value;
           const area = areaSelect.value;
           const minPrice = minPriceInput.value || 0;
