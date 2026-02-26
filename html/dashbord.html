@@ -413,18 +413,24 @@
           <div class="row g-4 mt-2">
             <div class="col-md-6">
               <label class="field-label">First Name</label>
-              <input type="text" class="form-control field-input" placeholder="Enter your First Name">
+              <input id="firstName" type="text" class="form-control field-input" placeholder="Enter your First Name">
+              <span id="firstNameError" style="color: red;font-size: 12px;"></span>
+            <div id="firstNameError"></div>
             </div>
             <div class="col-md-6">
               <label class="field-label">Last Name</label>
-              <input type="text" class="form-control field-input" placeholder="Enter your Last Name">
+                <input id="lastName" type="text" class="form-control field-input" placeholder="Enter your Last Name">
+                <span id="lastNameError" style="color: red;font-size: 12px;"></span>
+                <div id="lastNameError"></div>
             </div>
             <div class="col-md-6">
               <label class="field-label">Phone</label>
-              <input type="text" class="form-control field-input" placeholder="Enter your Number">
+              <input id="phone" type="text" class="form-control` field-input" placeholder="Enter your Number">
+              <span class="d-block" id="phoneError" style="color: red;font-size: 12px;"></span>
+              <div class="d-inline" id="phoneError"></div>
             </div>
             <div class="col-12 mt-4">
-              <button class="btn btn-save-data">Save Change</button>
+              <button type="submit" class="btn btn-save-data">Save Change</button>`
             </div>
           </div>
         </div>
@@ -446,6 +452,44 @@
         </div>
 
       </section>
+      <script>
+        const phoneInput = document.getElementById("phone");
+const phoneError = document.getElementById("phoneError");
+const firstInput = document.getElementById("firstName");
+const firstError = document.getElementById("firstNameError");
+const lastInput = document.getElementById("lastName");
+const lastError = document.getElementById("lastNameError");
+const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
+phoneInput.addEventListener("input", function() {
+    if (phoneInput.value.trim() === "") {
+        phoneError.innerText = ""; 
+    } else if (!phoneRegex.test(phoneInput.value.trim())) {
+        phoneError.innerText = "Phone number is not valid!";
+    } else {
+        phoneError.innerText = ""; 
+    }
+});
+firstInput.addEventListener("input", function() {
+    let val = firstInput.value.trim();
+    if (val === "") {
+        firstError.innerText = "";
+    } else if (val.length < 2 || val.length > 10) {
+        firstError.innerText = "First Name must be between 2 and 10 characters";
+    } else {
+        firstError.innerText = "";
+    }
+});
+lastInput.addEventListener("input", function() {
+    let val = lastInput.value.trim();
+    if (val === "") {
+        lastError.innerText = "";
+    } else if (val.length < 2 || val.length > 10) {
+        lastError.innerText = "Last Name must be between 2 and 10 characters";
+    } else {
+        lastError.innerText = "";
+    }
+});
+      </script>
       <section id="sectionProperties" class=" ">
         <div id="property-details-section" class=" content-section ">
           <div class="container-fluid px-4">
