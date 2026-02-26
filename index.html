@@ -140,8 +140,8 @@
             .then(areas => {
               areas.forEach(area => {
                 const option = document.createElement("option");
-                option.value = area;
-                option.textContent = area;
+                option.value = area.locationId;
+                option.textContent = area.area;
                 areaSelect.appendChild(option);
               });
             })
