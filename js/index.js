@@ -75,3 +75,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+
+const titleInp = document.getElementById('titleUpdate');
+const priceInp = document.getElementById('priceUpdate');
+const roomsInp = document.getElementById('roomsUpdate');
+
+titleInp.addEventListener('input', function() {
+  const error = document.getElementById('titleError');
+  if (titleInp.value.length < 5 || titleInp.value.length > 15) {
+    error.style.display = 'block'; 
+    titleInp.style.borderColor = '#d93025'; 
+  } else {
+    error.style.display = 'none';
+    titleInp.style.borderColor = '#ced4da';
+  }
+});
+
+priceInp.addEventListener('input', function() {
+  const error = document.getElementById('priceError');
+  if (priceInp.value < 100 && priceInp.value !== "") {
+    error.style.display = 'block';
+    priceInp.style.borderColor = '#d93025';
+  } else {
+    error.style.display = 'none';
+    priceInp.style.borderColor = '#ced4da';
+  }
+});
+
+roomsInp.addEventListener('input', function() {
+  const error = document.getElementById('roomsError');
+  const val = parseInt(roomsInp.value);
+  if (val < 1 || val > 10) {
+    error.style.display = 'block';
+    roomsInp.style.borderColor = '#d93025';
+  } else {
+    error.style.display = 'none';
+    roomsInp.style.borderColor = '#ced4da';
+  }
+});
