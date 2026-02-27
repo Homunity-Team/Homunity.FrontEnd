@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="../css/main.css" />
 </head>
 
+
+
 <body>
   <main>
     <div class="signup d-none image-side position-relative vh-100">
@@ -46,11 +48,12 @@
                 <div class="mb-3">
                   <label class="fw-bold">First Name</label>
                   <input name="firstName" class="form-control" placeholder="Enter your first name" />
-                </div>
+<small class="firstName-warning text-danger d-block mt-1"></small>                </div>
 
                 <div class="mb-3">
                   <label class="fw-bold">Last Name</label>
                   <input name="lastName" class="form-control" placeholder="Enter your last name" />
+                <small class="lastName-warning text-danger"></small> 
                 </div>
 
                 <div class="mb-3">
@@ -154,6 +157,31 @@
     </div>
   </main>
   <script>
+// NAMES
+    const firstNameInput = document.querySelector('input[name="firstName"]');
+    const lastNameInput = document.querySelector('input[name="lastName"]');
+    const firstNameWarning = document.querySelector(".firstName-warning");
+    const lastNameWarning = document.querySelector(".lastName-warning");
+
+    firstNameInput.addEventListener("input", () => {
+      const len = firstNameInput.value.length;
+      if (len < 3 || len > 10) {
+        firstNameWarning.textContent = "First name must be between 3 and 10 characters.";
+      } else {
+        firstNameWarning.textContent = "";
+      }
+    });
+
+    lastNameInput.addEventListener("input", () => {
+      const len = (lastNameInput.value.length ) 
+            if (len < 3 || len > 10) {
+        lastNameWarning.textContent = "Last name must be between 3 and 10 characters.";
+      } else {
+        lastNameWarning.textContent = "";
+      }
+    });
+
+
     // check if user is already logged in
     const userId = localStorage.getItem("userId");
     if (userId !== null) {
@@ -163,14 +191,15 @@
     // validation
     const phoneInput = document.querySelector(".js-phone");
     const phoneWarning = document.querySelector(".phone-warning");
+    const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
     phoneInput.addEventListener("input", () => {
       phoneInput.value = phoneInput.value.replace(/\D/g, "");
       // Limit to 11 digits
       if (phoneInput.value.length > 11) {
         phoneInput.value = phoneInput.value.slice(0, 11);
-      } else if (phoneInput.value.length < 11) {
-        phoneWarning.textContent = "Phone number must be exactly 11 digits.";
-      } else {
+      }else if (!phoneRegex.test(phoneInput.value)) {
+        phoneWarning.textContent = "Invalid phone: must be 11 digits and start with 01 (0,1,2,5).";
+      }else {
         phoneWarning.textContent = "";
       }
     });
@@ -179,7 +208,7 @@
     const passwordWarning = document.querySelector(".password-warning");
 
     passwordInputs.addEventListener("input", () => {
-      // Enforce minimum length of 6 characters
+      // Enforce minimum length of 9 characters
       if (passwordInputs.value.length < 6) {
         passwordWarning.textContent =
           "Password must be at least 6 characters long.";
@@ -207,15 +236,16 @@
       const nullFieldsForSignup = document.querySelector(
         ".empty-fields-for-signup",
       );
+      const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
       if (
-        data.firstName == null ||
-        data.lastName == null ||
-        data.phone == null ||
-        data.password == null ||
+        data.firstName.length < 3 || data.firstName.length > 10 ||
+        data.lastName.length < 3 || data.lastName.length > 10 ||
+        !phoneRegex.test(data.phone) || 
+        data.password.length < 6 || 
         data.roleId == null
       ) {
-        nullFieldsForSignup.textContent = "Please fill in all fields.";
-        return;
+        nullFieldsForSignup.textContent = "Please make sure all fields are valid before submitting.";
+        return; 
       }
 
       console.log("Signup Data:", data);
@@ -254,19 +284,23 @@
     loginForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const phone = loginForm.querySelector('input[name="phoneL"]').value;
-      const password = loginForm.querySelector(
-        'input[name="passwordL"]',
-      ).value;
+      const phone = loginForm.querySelector('input[name="phoneL"]').value.trim();
+      const password = loginForm.querySelector('input[name="passwordL"]').value.trim();
+      const nullFieldsLogin = document.querySelector(".empty-fields-for-login");
+      const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
+if (!phoneRegex.test(phone) || password.length < 6) {
+        nullFieldsLogin.textContent = "Invalid phone format or password (minimum 9 characters).";
+        return;  
+      }
 
       const url = `https://homunityapiv1.runasp.net/api/Users/Login?phone=${encodeURIComponent(
         phone,
       )}&password=${encodeURIComponent(password)}`;
-      const nullFieldsLogin = document.querySelector(
-        ".empty-fields-for-login",
-      );
+
       if (phone == "" || password == "") {
         nullFieldsLogin.textContent = "Please fill in all fields.";
+          return;
+
       }
       try {
         const response = await fetch(url, {
@@ -315,7 +349,8 @@
     bSignup.addEventListener("click", () => {
       signupSection.classList.add("d-none");
       loginSection.classList.remove("d-none");
-    });
+    }); 
+    
   </script>
 </body>
 

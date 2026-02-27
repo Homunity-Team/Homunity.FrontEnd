@@ -288,6 +288,16 @@ body {
   list-style: none;
   padding: 0;
 }
+.details-list li {
+    font-weight: 600;
+    margin-bottom:6px;
+}
+
+.details-list li i {
+    color: var(--primary-gold);
+    margin-right: 10px;
+    font-size: 0.8rem;
+}
 
 .check-box {
   display: inline-block;
@@ -298,6 +308,29 @@ body {
   margin-right: 15px;
 }
 
+.amenities-list li {
+    font-size: 1.2rem;
+    font-weight: 675;
+    margin-bottom: 15px;
+}
+
+.info-card {
+    border: 2px solid var(--primary-blue); 
+    border-radius: 20px;
+    padding: 25px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+        height: 100%;
+    margin-bottom: 15px;
+
+}
+
+.row {
+    margin-right:0;
+    margin-left: 0 ;
+}
+  
 /* =====================================================
    TABLE (General)
 ===================================================== */
@@ -305,6 +338,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 15px;
   overflow: hidden;
+      padding: 0;
 }
 
 .custom-table {
@@ -315,6 +349,15 @@ body {
 .custom-table thead {
   background-color: var(--primary-blue);
   color: var(--white);
+   overflow: hidden;
+}
+
+.custom-table thead tr th:last-child {
+    border-top-right-radius: 15px;
+}
+
+.custom-table thead tr th:first-child{
+    border-top-left-radius: 15px;
 }
 
 .custom-table th,
@@ -329,6 +372,22 @@ body {
   border-bottom: 1px solid var(--border-light);
 }
 
+.status-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: var(--primary-gold);
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+}
+ 
+.confirmed { 
+    background-color: var(--primary-blue);
+ }
+.pending { 
+    background-color: var(--primary-blue); 
+    opacity: 0.9; 
+}
 /* =====================================================
    BOOKING PAGE
 ===================================================== */
