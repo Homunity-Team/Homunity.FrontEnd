@@ -388,6 +388,41 @@ body {
     background-color: var(--primary-blue); 
     opacity: 0.9; 
 }
+
+
+/* =====================================================
+   PROPERTY ACTIONS (Update & Delete Buttons)
+==================================================== */
+
+.property-actions-container {  
+    display: flex;
+    justify-content:left;
+    gap: 20px;
+    margin-top: 30px;
+}
+.btn-custom {
+    padding: 10px 60px; 
+    border-radius: 12px; 
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.btn-update {
+    background-color: var(--primary-gold);
+    color: var(--primary-blue);
+}
+
+.btn-update:hover {
+    background-color: var(--primary-gold);
+}
+.btn-delete {
+    background-color: var(--primary-blue);
+    color: var(--light-bg);
+}
+.btn-delete:hover {
+    background-color:var(--primary-blue);
+}
 /* =====================================================
    BOOKING PAGE
 ===================================================== */
