@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "خطأ",
       text: "لا يمكنك الدخول للداشبورد",
     });
-    window.location.href = "../html/form.html";
+    setTimeout(() => {
+      window.location.href = "../html/form.html";
+    }, 3000);
   } else {
     Swal.fire({
       icon: "success",
@@ -47,6 +49,13 @@ function hideAllSections(item, option) {
       item[key].classList.remove("active");
     }
   }
+}
+
+function dis(aItem, rItem, aActive, rActive) {
+  aItem.classList.add("d-none");
+  rItem.classList.remove("d-none");
+  aActive.classList.add("active");
+  rActive.classList.remove("active");
 }
 
 for (let key in menuItems) {
@@ -263,55 +272,66 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .join("");
 
-    // إضافة الأحداث بعد إنشاء العناصر
+    // ===== helper delete بدون كسر التنفيذ =====
+    async function safeDelete(url) {
+      try {
+        const res = await fetch(url, {
+          method: "DELETE",
+          headers: {},
+        });
+
+        if (!res.ok && res.status !== 404) {
+          console.warn("Delete failed:", res.status);
+        }
+      } catch (err) {
+        console.log("ignored delete error");
+      }
+    }
+
     const deleteButtons = container.querySelectorAll(".delete-btn");
     deleteButtons.forEach((btn) => {
       btn.addEventListener("click", async () => {
         const propertyID = btn.dataset.id;
 
-        const confirmed = confirm("هل أنت متأكد من الحذف؟");
-        if (!confirmed) return;
+        if (!confirm("هل أنت متأكد من حذف العقار؟")) return;
 
         try {
-          // 1️⃣ حذف الفيديو إذا موجود
-          await fetch(
+          // حذف media بدون كسر التنفيذ
+          await safeDelete(
             `https://homunityapiv1.runasp.net/api/PropertyVideo/DeleteVideo?id=${propertyID}`,
-            {
-              method: "DELETE",
-              headers: { accept: "*/*" },
-            },
           );
 
-          // 2️⃣ حذف الصور إذا موجودة
-          await fetch(
+          await safeDelete(
             `https://homunityapiv1.runasp.net/api/PropertyImages/DeleteImage?id=${propertyID}`,
-            {
-              method: "DELETE",
-              headers: { accept: "*/*" },
-            },
           );
 
-          // 3️⃣ حذف العقار نفسه
+          // حذف العقار
           const res = await fetch(
             `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyID}`,
             {
               method: "DELETE",
-              headers: { accept: "*/*" },
+              headers: {
+                accept: "*/*",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
             },
           );
 
-          if (!res.ok) throw new Error("Failed to delete property");
+          // 👇 اعرف السبب الحقيقي
+          if (!res.ok) {
+            const text = await res.text();
+            console.log("SERVER ERROR:", text);
+            throw new Error(text);
+          }
 
-          // إزالة العنصر من الـ DOM
-          const card = container.querySelector(
-            `.property-horizontal-card[data-id="${propertyID}"]`,
-          );
-          if (card) card.remove();
+          container
+            .querySelector(`.property-horizontal-card[data-id="${propertyID}"]`)
+            ?.remove();
 
-          alert("تم الحذف بنجاح!");
+          alert("✅ تم الحذف بنجاح");
         } catch (error) {
-          console.error("Error deleting property:", error);
-          alert("حدث خطأ أثناء الحذف");
+          console.error(error);
+          alert("❌ فشل حذف العقار — راجع Console");
         }
       });
     });
@@ -331,16 +351,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // اخفاء عرض العقارات واظهار التعديل
-    sections.deleteProperties.classList.add("d-none");
-    menuItems.deleteProperties.classList.remove("active");
-    menuItems.updateProperties.classList.add("active");
-    sectionUpdate.classList.remove("d-none");
+    dis(
+      sections.deleteProperties,
+      sectionUpdate,
+      menuItems.updateProperties,
+      menuItems.deleteProperties,
+    );
 
     fillUpdateForm(property);
   });
 
   // ================= FILL FORM =================
+
   function fillUpdateForm(property) {
     document.getElementById("propertyIdUpdate").value = property.propertyID;
     document.getElementById("titleUpdate").value = property.title;
@@ -395,40 +417,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ================= CANCEL =================
-  document.querySelector(".btn-cancel").addEventListener("click", () => {
-    sectionUpdate.classList.add("d-none");
-    sectionProperties.classList.remove("d-none");
+  const cancelAdd = document.getElementById("cancelAdd");
+  cancelAdd.addEventListener("click", () => {
+    dis(
+      sections.addProperties,
+      sections.deleteProperties,
+      menuItems.deleteProperties,
+      menuItems.addProperties,
+    );
   });
 
   // ================= UPDATE SUBMIT =================
+
+  const cancelUpdate = document.getElementById("cancelUpdateBtn");
+  cancelUpdate.addEventListener("click", () => {
+    dis(
+      sections.updateProperties,
+      sections.deleteProperties,
+      menuItems.deleteProperties,
+      menuItems.updateProperties,
+    );
+  });
   document
     .getElementById("updatePropertyForm")
     .addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const ownerID = Number(localStorage.getItem("id")); // لو انت مخزن الـ id في localStorage
+      const propertyID = document.getElementById("propertyIdUpdate").value;
+      const ownerID = Number(localStorage.getItem("id"));
       const title = document.getElementById("titleUpdate").value;
       const price = Number(document.getElementById("priceUpdate").value);
       const rooms = Number(document.getElementById("roomsUpdate").value);
       const description = document.getElementById("descriptionUpdate").value;
       const propertyType = document.querySelector(
         "input[name='propertyTypeUpdate']:checked",
-      ).value; // Apartment أو Room
+      ).value;
       const videoUpdate = document.getElementById("videoUpdate").value;
 
-      // لو عندك locationID موجود مسبقاً في الـ property object
       const locationID = Number(
         document.getElementById("cityUpdate").dataset.locationid || 3,
       );
 
       const updatedData = {
+        propertyID,
         ownerID,
         title,
         description,
         price,
         rooms,
         locationID,
-        propertyStatusID: 1, // أو القيمة اللي انت عايزها
+        propertyStatusID: 1,
         propertyType,
         rejectReason: "",
       };
@@ -446,10 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
           `https://homunityapiv1.runasp.net/api/PropertyImages/UploadImage?propertyId=${propertyID}`,
           {
             method: "POST",
-            headers: {
-              Authorization: "Bearer YOUR_TOKEN_HERE", // لو الـ API يحتاج توكن
-              // لاحظ: Content-Type لا تضبط هنا عند استخدام FormData، سيضبطه المتصفح تلقائيًا
-            },
+            headers: {},
             body: formData,
           },
         )
@@ -471,8 +506,6 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Accept: "*/*",
-              Authorization: "Bearer YOUR_TOKEN_HERE", // لو محتاج توكن
             },
             body: JSON.stringify(updatedData),
           },
@@ -484,11 +517,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         Swal.fire("Success", "Property updated successfully!", "success");
 
-        // ارجع لعرض الخصائص بعد التعديل
-        sectionUpdate.classList.add("d-none");
-        sectionProperties.classList.remove("d-none");
+        dis(
+          sections.updateProperties,
+          sections.deleteProperties,
+          menuItems.deleteProperties,
+          menuItems.updateProperties,
+        );
 
-        // حدث قائمة الخصائص
         getProperties();
       } catch (error) {
         console.error(error);
@@ -497,7 +532,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// بعد عرض الخصائص
 function attachEditButtons() {
   const editButtons = document.querySelectorAll(".edit-btn");
 
@@ -505,12 +539,10 @@ function attachEditButtons() {
     btn.addEventListener("click", () => {
       const propertyID = btn.dataset.id;
 
-      // 1️⃣ إزالة كلاس active من كل menuItems
       Object.values(menuItems).forEach((item) => {
         item.classList.remove("active");
       });
 
-      // 2️⃣ إضافة d-none لكل السكاشن ما عدا updateProperties
       Object.values(sections).forEach((section) => {
         if (section !== sections.updateProperties) {
           section.classList.add("d-none");
@@ -519,16 +551,13 @@ function attachEditButtons() {
         }
       });
 
-      // 3️⃣ إضافة active على updateProperties في القائمة (لو موجود)
       menuItems.updateProperties.classList.add("active");
 
-      // 4️⃣ هنا ممكن تحمّل بيانات العقار في الفورم updateProperties
       loadPropertyForUpdate(propertyID);
     });
   });
 }
 
-// مثال على وظيفة تحميل بيانات العقار للفورم تحديث
 async function loadPropertyForUpdate(propertyID) {
   try {
     const res = await fetch(
@@ -549,5 +578,3 @@ async function loadPropertyForUpdate(propertyID) {
     console.error("Error loading property:", err);
   }
 }
-
-// استدعاء الفورم
