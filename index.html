@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="css/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -62,7 +63,8 @@
           </div>
           <div class="col-md-2">
             <input type="number" id="minPriceInput" class="form-control hp-custom-input" placeholder="Min Price" />
-            <span id="minError" style="color: red; display: none; font-size: 11px; text-align: left;">Min price is 100</span>
+            <span id="minError" style="color: red; display: none; font-size: 11px; text-align: left;">Min price is
+              100</span>
           </div>
           <div class="col-md-2">
             <input type="number" id="maxPriceInput" class="form-control hp-custom-input" placeholder="Max Price" />
@@ -107,7 +109,7 @@
             .then(areas => {
               areas.forEach(area => {
                 const option = document.createElement("option");
-                option.value = area.locationId;
+                option.value = area.area;
                 option.textContent = area.area;
                 areaSelect.appendChild(option);
               });
@@ -194,4 +196,5 @@
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/index.js"></script>
 </body>
+
 </html>
