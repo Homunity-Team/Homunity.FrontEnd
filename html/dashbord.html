@@ -1,626 +1,929 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Owner Dashboard</title>
+    <!-- normalize -->
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <!-- css -->
+    <link rel="stylesheet" href="../css/dashbord.css" />
+    <!-- SweetAlert2 CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Owner Dashboard</title>
-  <!-- normalize -->
-  <link rel="stylesheet" href="../css/normalize.css" />
-  <!-- font awesome icons -->
-  <link rel="stylesheet" href="../css/all.min.css" />
-  <!-- bootstrap css -->
-  <link rel="stylesheet" href="../css/bootstrap.min.css" />
-  <!-- css -->
-  <link rel="stylesheet" href="../css/dashbord.css" />
-  <!-- SweetAlert2 CSS & JS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-
-<body>
-  <div class="dashboard-container ">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <nav class="navbar navbar-expand-lg sticky-top">
-        <ul>
-          <li id="properties" class="active"><i class="fa-solid fa-house "></i> Properties</li>
-          <li id="addProperties"><i class="fa-solid fa-plus"></i> Add Property</li>
-          <li id="updateProperties"><i class="fa-solid fa-arrows-rotate"></i> Update Property</li>
-          <li id="deleteProperties"><i class="fa-solid fa-trash"></i> Delete Property</li>
-          <li id="massageProperties"><i class="fa-solid fa-message"></i> Messages</li>
-          <li id="settingProperties"><i class="fa-solid fa-gear"></i> Settings</li>
-          <li id="BookingButton"><i class="fa-solid fa-calendar-check"></i> Booking Request</li>
-        </ul>
-      </nav>
-      <div id="logout" class="logout">
-        <i  class="fa-solid fa-right-from-bracket"></i> Logout
-      </div>
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const logout = document.getElementById("logout");
-
-          if (logout) {
-            logout.addEventListener("click", () => {
-              console.log("Clicked ✅");
-              localStorage.clear();
-              window.location.href = "../index.html";
-            });
-          }
-        });
-      </script>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- Header -->
-      <header class="top-header">
-        <div class="logo">
-          <a class="navbar-brand" href="../index.html">
-            <img src="../img/logo.png" alt="Logo" style="max-height: 120px" />
-            <h2>Owner Dashboard</h2>
-          </a>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <nav class="navbar navbar-expand-lg sticky-top">
+          <ul>
+            <li id="properties" class="active">
+              <i class="fa-solid fa-house"></i> Properties
+            </li>
+            <li id="addProperties">
+              <i class="fa-solid fa-plus"></i> Add Property
+            </li>
+            <li id="updateProperties">
+              <i class="fa-solid fa-arrows-rotate"></i> Update Property
+            </li>
+            <li id="deleteProperties">
+              <i class="fa-solid fa-trash"></i> Delete Property
+            </li>
+            <li id="massageProperties">
+              <i class="fa-solid fa-message"></i> Messages
+            </li>
+            <li id="settingProperties">
+              <i class="fa-solid fa-gear"></i> Settings
+            </li>
+            <li id="BookingButton">
+              <i class="fa-solid fa-calendar-check"></i> Booking Request
+            </li>
+          </ul>
+        </nav>
+        <div id="logout" class="logout">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
         </div>
-        <div class="user-avatar-wrapper">
-          <i class="fa-solid fa-circle-user"></i>
-        </div>
-      </header>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const logout = document.getElementById("logout");
 
-      <!-- Stats Cards -->
+            if (logout) {
+              logout.addEventListener("click", () => {
+                console.log("Clicked ✅");
+                localStorage.clear();
+                window.location.href = "../index.html";
+              });
+            }
+          });
+        </script>
+      </aside>
 
-    </main>
-  </div>
-
-
-
-  <div class="dashboard-container">
-
-    <!-- Header     ده الجزء الثابت اللي فوق-->
-    <main class="main-content ">
-
-      <section id="sectionDeleteProperties" class="d-none">
-        <div id="propertiesContainer"></div>
-      </section>
-      <section id="sectionAddProperties" class="d-none">
-        <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
-          <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
-
-          <!-- فورم واحد فقط لكل البيانات -->
-          <form id="addPropertyForm" class="px-4 py-4">
-            <div class="row g-4">
-              <div class="col-lg-6 col-12">
-                <div class="mb-3">
-                  <label class="form-label fw-bold" for="titleAdd">Title</label>
-                  <input class="form-control form-control-lg rounded-3" id="titleAdd" type="text"
-                    placeholder="Enter Title" minlength="5" maxlength="15" required>
-                    <div id="titleError" style="color: #d93025; font-size: 12px; display: none; margin-top: 5px;">
-                      Title must be between 5 and 15 characters.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold" for="priceAdd">Price / Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="0.00" min="100" required>
-                  <div id="priceError" style="color: #d93025; font-size: 12px; display: none; margin-top: 5px;">
-                    Price must be at least 100.
-                  </div>
-                </div>
-
-                <div class="mb-0">
-                  <label class="form-label fw-bold" for="roomsAdd">Rooms Count</label>
-                  <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number"
-                    placeholder="e.g. 3" min="1" max="10" required>
-                    <div id="roomsError" style="color: #d93025; font-size: 12px; display: none; margin-top: 5px;">
-                      Rooms must be between 1 and 10.
-                    </div>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
-                <div class="mb-3">
-                  <label class="form-label fw-bold" for="descreptionAdd">Description</label>
-                  <textarea class="form-control rounded-3" id="descreptionAdd" rows="4"
-                    placeholder="Describe the property..."></textarea>
-                </div>
-
-                <div class="mb-2">
-                  <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
-                  <div class="d-flex gap-4">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" id="apartmentApp" name="propertyType" checked>
-                      <label class="form-check-label fs-6" for="apartmentApp">Apartment</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" id="roomAdd" name="propertyType">
-                      <label class="form-check-label fs-6" for="roomAdd">Room</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Location + Services -->
-            <div class="custom-card shadow-sm mt-4">
-              <div class="card-header-custom">Location</div>
-              <div class="p-4">
-                <div class="row align-items-end">
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">City</label>
-                    <select id="citySelect" class="form-select text-muted" required>
-                      <option selected disabled>Choose City</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Area</label>
-                    <select id="areaSelect" class="form-select text-muted" required>
-                      <option selected disabled>Choose Area</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Street</label>
-                    <input type="text" id="streetAdd" class="form-control" placeholder="Street Name" required>
-                  </div>
-                  <div class="col-md-3 mb-3 border-start ps-4">
-                    <h5 class="fw-bold">Services</h5>
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="wifi"><label
-                            class="form-check-label small" for="wifi">Wifi</label></div>
-                      </div>
-                      <div class="col-6">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="parking"><label
-                            class="form-check-label small" for="parking">Parking</label></div>
-                      </div>
-                      <div class="col-6">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="gym"><label
-                            class="form-check-label small" for="gym">Gym</label></div>
-                      </div>
-                      <div class="col-6">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="ac"><label
-                            class="form-check-label small" for="ac">Air</label></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Media Upload -->
-            <div class="custom-card shadow-sm mt-4">
-              <div class="card-header-custom">Media Upload</div>
-              <div class="p-4">
-                <div class="row align-items-center">
-                  <div class="col-auto text-center upload-divider">
-                    <input type="file" name="img" accept="image/png, image/jpg, image/webp">
-                    <div class="small my-1">Or</div>
-                    <input type="file" name="video" size="30MB">
-                  </div>
-                  <div class="col ps-4">
-                    <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
-                    <p class="mb-1 small">Drag & drop up to 6 images (jpg/png/webp)</p>
-                    <p class="mb-3 small">Max size: 2MB each</p>
-                    <p class="mb-1 fw-bold">Upload a video</p>
-                    <p class="mb-0 small">Max: 1 video</p>
-                    <p class="mb-0 small">Maximum size: 30MB</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-submit">Submit Property</button>
-              <button type="button" class="btn btn-cancel">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </section>
-      <section id="sectionUpdateProperties" class="d-none">
-        <div class="property-list-section">
-          <div class="property-header-container">
-            <h3 class="title">Update Property</h3>
-          </div>
-
-          <form id="updatePropertyForm"
-            class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4">
-
-            <!-- مهم جداً نخزن ID -->
-            <input type="hidden" id="propertyIdUpdate" name="propertyID">
-
-            <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
-
-            <div class="row g-4 mt-3">
-              <div class="col-lg-6 col-12">
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Title</label>
-                  <input class="form-control form-control-lg rounded-3" id="titleUpdate" name="title" type="text"
-                  minlength="5" maxlength="15" required>
-                  <div id="titleError" style="color: #d93025; font-size: 12px; display: none; margin-top: 5px;">
-                    Title must be between 5 and 15 characters.
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Price / Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceUpdate" name="price" type="number"
-                  min="100" required>
-                  <div id="priceError" style="color: #d93025; font-size: 12px; display: none; margin-top: 5px;">
-                    Price must be at least 100.
-                  </div>
-                </div>
-
-                <div class="mb-0">
-                  <label class="form-label fw-bold">Rooms Count</label>
-                  <input class="form-control form-control-lg rounded-3" id="roomsUpdate" name="rooms" type="number"
-                  min="1" max="10" required>
-                  <div id="roomsError" style="color: #d93025; font-size: 12px; display: none; margin-top: 5px;">
-                    Rooms must be between 1 and 10.
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Description</label>
-                  <textarea class="form-control rounded-3" id="descriptionUpdate" name="description" rows="4"
-                    required></textarea>
-                </div>
-
-                <div class="mb-2">
-                  <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
-
-                  <div class="d-flex gap-4">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" id="apartmentUpdate" name="propertyTypeUpdate"
-                        value="Apartment">
-                      <label class="form-check-label">Apartment</label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" id="roomUpdate" name="propertyTypeUpdate"
-                        value="Room">
-                      <label class="form-check-label">Room</label>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Location -->
-            <div class="custom-card shadow-sm mt-4 p-4">
-              <h4 class="mb-3 fw-bold">Location</h4>
-
-              <div class="row align-items-end">
-
-                <div class="col-md-4 mb-3">
-                  <label class="form-label fw-bold">City</label>
-                  <select id="cityUpdate" name="city" class="form-select" required></select>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label class="form-label fw-bold">Area</label>
-                  <select id="areaUpdate" name="area" class="form-select" required></select>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label class="form-label fw-bold">Street</label>
-                  <input type="text" id="streetUpdate" name="street" class="form-control" required>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Services -->
-            <div class="custom-card shadow-sm mt-4 p-4">
-              <h4 class="fw-bold mb-3">Services</h4>
-
-              <div class="row">
-                <div class="col-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="wifi" id="wifiUpdate">
-                    <label class="form-check-label">Wifi</label>
-                  </div>
-                </div>
-
-                <div class="col-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="parking" id="parkingUpdate">
-                    <label class="form-check-label">Parking</label>
-                  </div>
-                </div>
-
-                <div class="col-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="gym" id="gymUpdate">
-                    <label class="form-check-label">Gym</label>
-                  </div>
-                </div>
-
-                <div class="col-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="ac" id="acUpdate">
-                    <label class="form-check-label">Air</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Media -->
-            <div class="custom-card shadow-sm mt-4 p-4">
-              <h4 class="mb-3 fw-bold">Media Upload</h4>
-
-              <input id="imgUpdate" type="file" name="image" accept="image/png, image/jpg, image/webp"
-                class="form-control mb-2">
-              <input id="videoUpdate" type="file" name="video" class="form-control">
-            </div>
-            <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-primary">Update Property</button>
-              <button type="button" id="cancelUpdateBtn" class="btn btn-secondary">Cancel</button>
-            </div>
-
-          </form>
-        </div>
-      </section>
-
-      <section id="sectionBooking" class="d-none">
-
-        <div class="booking-page">
-
-          <div class="page-header">
-            <h2>Booking Requests</h2>
-            <a href="#" class="back-button">&#8592;
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+          <div class="logo">
+            <a class="navbar-brand" href="../index.html">
+              <img src="../img/logo.png" alt="Logo" style="max-height: 120px" />
+              <h2>Owner Dashboard</h2>
             </a>
           </div>
-
-          <div class="table-responsive">
-            <table class="booking-table">
-
-              <thead>
-                <tr>
-                  <th>Student Name</th>
-                  <th>Property Title</th>
-                  <th>Booking Status</th>
-                  <th>Created Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Sarah Johnson</td>
-                  <td>Modern Studio</td>
-                  <td class="bg-secondary">Pending</td>
-                  <td>2024-05-10</td>
-                  <td><button class="btn-action">Accept</button></td>
-                </tr>
-                <tr>
-                  <td>David Miller</td>
-                  <td>City Center Flat</td>
-                  <td class="bg-secondary">Pending</td>
-                  <td>2024-05-06</td>
-                  <td><button class="btn-action">Reject</button></td>
-                </tr>
-                <tr>
-                  <td>Michael Brown</td>
-                  <td>Downtown Studio</td>
-                  <td class="bg-secondary">Pending</td>
-                  <td>2024-05-04</td>
-                  <td><button class="btn-action">Accept</button></td>
-                </tr>
-                <tr>
-                  <td>Jessica Wilson</td>
-                  <td>Urban Apartment</td>
-                  <td class="bg-secondary">Pending</td>
-                  <td>2024-05-02</td>
-                  <td><button class="btn-action">Reject</button></td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="user-avatar-wrapper">
+            <i class="fa-solid fa-circle-user"></i>
           </div>
+        </header>
 
-        </div>
-      </section>
+        <!-- Stats Cards -->
+      </main>
+    </div>
 
-      <section id="sectionSettingProperties" class="d-none">
-        <h2 class="section-main-title">Setting</h2>
+    <div class="dashboard-container">
+      <!-- Header     ده الجزء الثابت اللي فوق-->
+      <main class="main-content">
+        <section id="sectionDeleteProperties" class="d-none">
+          <div id="propertiesContainer"></div>
+        </section>
+        <section id="sectionAddProperties" class="d-none">
+          <div
+            class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden"
+          >
+            <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
+              Basic Info
+            </h2>
 
-        <div class="main-form-card">
-          <h4 class="form-sub-heading">Update Profile</h4>
-          <div class="row g-4 mt-2">
-            <div class="col-md-6">
-              <label class="field-label">First Name</label>
-              <input id="firstName" type="text" class="form-control field-input" placeholder="Enter your First Name">
-              <span id="firstNameError" style="color: red;font-size: 12px;"></span>
-            <div id="firstNameError"></div>
-            </div>
-            <div class="col-md-6">
-              <label class="field-label">Last Name</label>
-                <input id="lastName" type="text" class="form-control field-input" placeholder="Enter your Last Name">
-                <span id="lastNameError" style="color: red;font-size: 12px;"></span>
-                <div id="lastNameError"></div>
-            </div>
-            <div class="col-md-6">
-              <label class="field-label">Phone</label>
-              <input id="phone" type="text" class="form-control` field-input" placeholder="Enter your Number">
-              <span class="d-block" id="phoneError" style="color: red;font-size: 12px;"></span>
-              <div class="d-inline" id="phoneError"></div>
-            </div>
-            <div class="col-12 mt-4">
-              <button type="submit" class="btn btn-save-data">Save Change</button>`
-            </div>
-          </div>
-        </div>
-
-        <div class="action-bar-item mt-3">
-          <div class="d-flex align-items-center">
-            <i class="fa-solid fa-arrows-rotate me-3 gold-accent-icon"></i>
-            <span>Change Password</span>
-          </div>
-          <i class="fa-solid fa-chevron-down opacity-50"></i>
-        </div>
-
-        <div class="action-bar-item mt-2">
-          <div class="d-flex align-items-center">
-            <i class="fa-solid fa-users me-3 gold-accent-icon"></i>
-            <span>Users</span>
-          </div>
-          <i class="fa-solid fa-chevron-down opacity-50"></i>
-        </div>
-
-      </section>
-      <script>
-        const phoneInput = document.getElementById("phone");
-const phoneError = document.getElementById("phoneError");
-const firstInput = document.getElementById("firstName");
-const firstError = document.getElementById("firstNameError");
-const lastInput = document.getElementById("lastName");
-const lastError = document.getElementById("lastNameError");
-const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
-phoneInput.addEventListener("input", function() {
-    if (phoneInput.value.trim() === "") {
-        phoneError.innerText = ""; 
-    } else if (!phoneRegex.test(phoneInput.value.trim())) {
-        phoneError.innerText = "Phone number is not valid!";
-    } else {
-        phoneError.innerText = ""; 
-    }
-});
-firstInput.addEventListener("input", function() {
-    let val = firstInput.value.trim();
-    if (val === "") {
-        firstError.innerText = "";
-    } else if (val.length < 2 || val.length > 10) {
-        firstError.innerText = "First Name must be between 2 and 10 characters";
-    } else {
-        firstError.innerText = "";
-    }
-});
-lastInput.addEventListener("input", function() {
-    let val = lastInput.value.trim();
-    if (val === "") {
-        lastError.innerText = "";
-    } else if (val.length < 2 || val.length > 10) {
-        lastError.innerText = "Last Name must be between 2 and 10 characters";
-    } else {
-        lastError.innerText = "";
-    }
-});
-      </script>
-      <section id="sectionProperties" class=" ">
-        <div id="property-details-section" class=" content-section ">
-          <div class="container-fluid px-4">
-
-            <div class="d-flex justify-content-between align-items-center mb-4 px-3">
-              <h2 class="fw-bold mb-0">Property Details</h2>
-              <a href="index.html" class="back-btn">
-                <i class="fa-regular fa-circle-left"></i>
-              </a>
-            </div>
-            <div class="row justify-content-center mt-5">
-              <div class="col-lg-12">
-                <div class="featured-gallery-wrapper gap-5 mb-4">
-                  <div class="side-img-box left">
-                    <img src="../img/img.2.jpeg" class="gallery-img ">
+            <!-- فورم واحد فقط لكل البيانات -->
+            <form id="addPropertyForm" class="px-4 py-4">
+              <div class="row g-4">
+                <div class="col-lg-6 col-12">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold" for="titleAdd"
+                      >Title</label
+                    >
+                    <input
+                      class="form-control form-control-lg rounded-3"
+                      id="titleAdd"
+                      type="text"
+                      placeholder="Enter Title"
+                      minlength="5"
+                      maxlength="15"
+                      required
+                    />
+                    <div
+                      id="titleError"
+                      style="
+                        color: #d93025;
+                        font-size: 12px;
+                        display: none;
+                        margin-top: 5px;
+                      "
+                    >
+                      Title must be between 5 and 15 characters.
+                    </div>
                   </div>
-                  <div class="main-img-box">
-                    <img src="../img/img.3.jpeg" class=" gallery-img">
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold" for="priceAdd"
+                      >Price / Month</label
+                    >
+                    <input
+                      class="form-control form-control-lg rounded-3"
+                      id="priceAdd"
+                      type="number"
+                      placeholder="0.00"
+                      min="100"
+                      required
+                    />
+                    <div
+                      id="priceError"
+                      style="
+                        color: #d93025;
+                        font-size: 12px;
+                        display: none;
+                        margin-top: 5px;
+                      "
+                    >
+                      Price must be at least 100.
+                    </div>
                   </div>
-                  <div class="side-img-box right">
-                    <img src="../img/img.5.jpeg" class=" gallery-img">
+
+                  <div class="mb-0">
+                    <label class="form-label fw-bold" for="roomsAdd"
+                      >Rooms Count</label
+                    >
+                    <input
+                      class="form-control form-control-lg rounded-3"
+                      id="roomsAdd"
+                      type="number"
+                      placeholder="e.g. 3"
+                      min="1"
+                      max="10"
+                      required
+                    />
+                    <div
+                      id="roomsError"
+                      style="
+                        color: #d93025;
+                        font-size: 12px;
+                        display: none;
+                        margin-top: 5px;
+                      "
+                    >
+                      Rooms must be between 1 and 10.
+                    </div>
                   </div>
-                           
                 </div>
 
-                <div class="col-12 d-flex justify-content-center gap-5 mt-5">
-                  <img src="../img/img.2.jpeg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
-                  <img src="../img/img.3.jpeg" class="rounded-3" style="width: 100px; height: 50px; ;">
-                  <img src="../img/img.5.jpeg" class="rounded-3" style="width: 100px; height: 50px; object-fit: cover;">
-                </div>
-                         
-              </div>
-                       
-            </div>
-               
-          </div>
+                <div
+                  class="col-lg-6 col-12 d-flex flex-column justify-content-between"
+                >
+                  <div class="mb-3">
+                    <label class="form-label fw-bold" for="descreptionAdd"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control rounded-3"
+                      id="descreptionAdd"
+                      rows="4"
+                      placeholder="Describe the property..."
+                    ></textarea>
+                  </div>
 
-        </div>
-        <div class="studio-details-section">
-          <!-- Studio section -->
-          <div class="row mt-4 px-2 justify-content-center align-items-stretch g-4">
-            <div class="col-md-12 ">
-              <div class="row gap-4">
-
-                <div class="col-12 col-md-7 info-card">
-                  <h3 class="studio-title">modern studio</h3>
-                  <h5 class="studio-address">101 UI Street, City</h5>
-                  <p class="studio-desc">A comfortable and secure room located in a quiet area, designed to provide
-                    students
-                    with a safe and relaxing living environment close to essential services.</p>
-
-                  <ul class="details-list">
-                    <li><i class="fas fa-diamond"></i> Price $350 / month</li>
-                    <li><i class="fas fa-diamond"></i> 1 Bedroom</li>
-                    <li><i class="fas fa-diamond"></i> 1 Kitchen</li>
-                    <li><i class="fas fa-diamond"></i> 1 Bathroom</li>
-                  </ul>
-                </div>
-
-                <div class="col-12 col-md-4 info-card">
-                  <h3 class="studio-title">modern studio</h3>
-                  <ul class="amenities-list">
-                    <li><span class="check-box"></span>wifi</li>
-                    <li><span class="check-box"></span>Parking</li>
-                    <li><span class="check-box"></span>Gym</li>
-                    <li><span class="check-box"></span> Air Conditionirg</li>
-                  </ul>
+                  <div class="mb-2">
+                    <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
+                    <div class="d-flex gap-4">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          id="apartmentApp"
+                          name="propertyType"
+                          checked
+                        />
+                        <label class="form-check-label fs-6" for="apartmentApp"
+                          >Apartment</label
+                        >
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          id="roomAdd"
+                          name="propertyType"
+                        />
+                        <label class="form-check-label fs-6" for="roomAdd"
+                          >Room</label
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-            </div>
+              <!-- Location + Services -->
+              <div class="custom-card shadow-sm mt-4">
+                <div class="card-header-custom">Location</div>
+                <div class="p-4">
+                  <div class="row align-items-end">
+                    <div class="col-md-3 mb-3">
+                      <label class="form-label fw-bold h5">City</label>
+                      <select
+                        id="citySelect"
+                        class="form-select text-muted"
+                        required
+                      >
+                        <option selected disabled>Choose City</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label class="form-label fw-bold h5">Area</label>
+                      <select
+                        id="areaSelect"
+                        class="form-select text-muted"
+                        required
+                      >
+                        <option selected disabled>Choose Area</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label class="form-label fw-bold h5">Street</label>
+                      <input
+                        type="text"
+                        id="streetAdd"
+                        class="form-control"
+                        placeholder="Street Name"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-3 mb-3 border-start ps-4">
+                      <h5 class="fw-bold">Services</h5>
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="wifi"
+                            /><label class="form-check-label small" for="wifi"
+                              >Wifi</label
+                            >
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="parking"
+                            /><label
+                              class="form-check-label small"
+                              for="parking"
+                              >Parking</label
+                            >
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="gym"
+                            /><label class="form-check-label small" for="gym"
+                              >Gym</label
+                            >
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="ac"
+                            /><label class="form-check-label small" for="ac"
+                              >Air</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Media Upload -->
+              <div class="custom-card shadow-sm mt-4">
+                <div class="card-header-custom">Media Upload</div>
+                <div class="p-4">
+                  <div class="row align-items-center">
+                    <div class="col-auto text-center upload-divider">
+                      <input
+                        type="file"
+                        name="img"
+                        accept="image/png, image/jpg, image/webp"
+                      />
+                      <div class="small my-1">Or</div>
+                      <input type="file" name="video" size="30MB" />
+                    </div>
+                    <div class="col ps-4">
+                      <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
+                      <p class="mb-1 small">
+                        Drag & drop up to 6 images (jpg/png/webp)
+                      </p>
+                      <p class="mb-3 small">Max size: 2MB each</p>
+                      <p class="mb-1 fw-bold">Upload a video</p>
+                      <p class="mb-0 small">Max: 1 video</p>
+                      <p class="mb-0 small">Maximum size: 30MB</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn btn-submit">
+                  Submit Property
+                </button>
+                <button type="button" class="btn btn-cancel">Cancel</button>
+              </div>
+            </form>
           </div>
-          <!--reservations table -->
-          <div class="row mt-5 md-4 px-4  justify-content-center  ">
-            <div class="col-12 table-container">
-              <table class="custom-table">
+        </section>
+        <section id="sectionUpdateProperties" class="d-none">
+          <div class="property-list-section">
+            <div class="property-header-container">
+              <h3 class="title">Update Property</h3>
+            </div>
+
+            <form
+              id="updatePropertyForm"
+              class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4"
+            >
+              <!-- مهم جداً نخزن ID -->
+              <input type="hidden" id="propertyIdUpdate" name="propertyID" />
+
+              <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
+                Basic Info
+              </h2>
+
+              <div class="row g-4 mt-3">
+                <div class="col-lg-6 col-12">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Title</label>
+                    <input
+                      class="form-control form-control-lg rounded-3"
+                      id="titleUpdate"
+                      name="title"
+                      type="text"
+                      minlength="5"
+                      maxlength="15"
+                      required
+                    />
+                    <div
+                      id="titleError"
+                      style="
+                        color: #d93025;
+                        font-size: 12px;
+                        display: none;
+                        margin-top: 5px;
+                      "
+                    >
+                      Title must be between 5 and 15 characters.
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Price / Month</label>
+                    <input
+                      class="form-control form-control-lg rounded-3"
+                      id="priceUpdate"
+                      name="price"
+                      type="number"
+                      min="100"
+                      required
+                    />
+                    <div
+                      id="priceError"
+                      style="
+                        color: #d93025;
+                        font-size: 12px;
+                        display: none;
+                        margin-top: 5px;
+                      "
+                    >
+                      Price must be at least 100.
+                    </div>
+                  </div>
+
+                  <div class="mb-0">
+                    <label class="form-label fw-bold">Rooms Count</label>
+                    <input
+                      class="form-control form-control-lg rounded-3"
+                      id="roomsUpdate"
+                      name="rooms"
+                      type="number"
+                      min="1"
+                      max="10"
+                      required
+                    />
+                    <div
+                      id="roomsError"
+                      style="
+                        color: #d93025;
+                        font-size: 12px;
+                        display: none;
+                        margin-top: 5px;
+                      "
+                    >
+                      Rooms must be between 1 and 10.
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="col-lg-6 col-12 d-flex flex-column justify-content-between"
+                >
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Description</label>
+                    <textarea
+                      class="form-control rounded-3"
+                      id="descriptionUpdate"
+                      name="description"
+                      rows="4"
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div class="mb-2">
+                    <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
+
+                    <div class="d-flex gap-4">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          id="apartmentUpdate"
+                          name="propertyTypeUpdate"
+                          value="Apartment"
+                        />
+                        <label class="form-check-label">Apartment</label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          id="roomUpdate"
+                          name="propertyTypeUpdate"
+                          value="Room"
+                        />
+                        <label class="form-check-label">Room</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="custom-card shadow-sm mt-4 p-4">
+                <h4 class="mb-3 fw-bold">Location</h4>
+
+                <div class="row align-items-end">
+                  <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">City</label>
+                    <select
+                      id="cityUpdate"
+                      name="city"
+                      class="form-select"
+                      required
+                    ></select>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Area</label>
+                    <select
+                      id="areaUpdate"
+                      name="area"
+                      class="form-select"
+                      required
+                    ></select>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Street</label>
+                    <input
+                      type="text"
+                      id="streetUpdate"
+                      name="street"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Services -->
+              <div class="custom-card shadow-sm mt-4 p-4">
+                <h4 class="fw-bold mb-3">Services</h4>
+
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="wifi"
+                        id="wifiUpdate"
+                      />
+                      <label class="form-check-label">Wifi</label>
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="parking"
+                        id="parkingUpdate"
+                      />
+                      <label class="form-check-label">Parking</label>
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="gym"
+                        id="gymUpdate"
+                      />
+                      <label class="form-check-label">Gym</label>
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="ac"
+                        id="acUpdate"
+                      />
+                      <label class="form-check-label">Air</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Media -->
+              <div class="custom-card shadow-sm mt-4 p-4">
+                <h4 class="mb-3 fw-bold">Media Upload</h4>
+
+                <input
+                  id="imgUpdate"
+                  type="file"
+                  name="image"
+                  accept="image/png, image/jpg, image/webp"
+                  class="form-control mb-2"
+                />
+                <input
+                  id="videoUpdate"
+                  type="file"
+                  name="video"
+                  class="form-control"
+                />
+              </div>
+              <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn btn-primary">
+                  Update Property
+                </button>
+                <button
+                  type="button"
+                  id="cancelUpdateBtn"
+                  class="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="sectionBooking" class="d-none">
+          <div class="booking-page">
+            <div class="page-header">
+              <h2>Booking Requests</h2>
+              <a href="#" class="back-button">&#8592; </a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="booking-table">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Check-in</th>
-                    <th>Status</th>
+                    <th>Student Name</th>
+                    <th>Property Title</th>
+                    <th>Booking Status</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Sarah Johnson</td>
-                    <td>2024-04-29</td>
-                    <td><span class="status-badge confirmed">Confirmed</span></td>
+                    <td>Modern Studio</td>
+                    <td class="bg-secondary">Pending</td>
+                    <td>2024-05-10</td>
+                    <td><button class="btn-action">Accept</button></td>
                   </tr>
                   <tr>
                     <td>David Miller</td>
-                    <td>2024-05-10</td>
-                    <td><span class="status-badge pending">Pending</span></td>
+                    <td>City Center Flat</td>
+                    <td class="bg-secondary">Pending</td>
+                    <td>2024-05-06</td>
+                    <td><button class="btn-action">Reject</button></td>
+                  </tr>
+                  <tr>
+                    <td>Michael Brown</td>
+                    <td>Downtown Studio</td>
+                    <td class="bg-secondary">Pending</td>
+                    <td>2024-05-04</td>
+                    <td><button class="btn-action">Accept</button></td>
+                  </tr>
+                  <tr>
+                    <td>Jessica Wilson</td>
+                    <td>Urban Apartment</td>
+                    <td class="bg-secondary">Pending</td>
+                    <td>2024-05-02</td>
+                    <td><button class="btn-action">Reject</button></td>
                   </tr>
                 </tbody>
               </table>
-              </div>
+            </div>
+          </div>
+        </section>
 
-<div class="property-actions-container">
-    <button id="btnUpdateProperty" class="btn-custom btn-update">Update</button>
-    <button id="btnDeleteProperty" class="btn-custom btn-delete">Delete</button>
-</div>
+        <section id="sectionSettingProperties" class="d-none">
+          <h2 class="section-main-title">Setting</h2>
+
+          <div class="main-form-card">
+            <h4 class="form-sub-heading">Update Profile</h4>
+            <div class="row g-4 mt-2">
+              <div class="col-md-6">
+                <label class="field-label">First Name</label>
+                <input
+                  id="firstName"
+                  type="text"
+                  class="form-control field-input"
+                  placeholder="Enter your First Name"
+                />
+                <span
+                  id="firstNameError"
+                  style="color: red; font-size: 12px"
+                ></span>
+                <div id="firstNameError"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="field-label">Last Name</label>
+                <input
+                  id="lastName"
+                  type="text"
+                  class="form-control field-input"
+                  placeholder="Enter your Last Name"
+                />
+                <span
+                  id="lastNameError"
+                  style="color: red; font-size: 12px"
+                ></span>
+                <div id="lastNameError"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="field-label">Phone</label>
+                <input
+                  id="phone"
+                  type="text"
+                  class="form-control` field-input"
+                  placeholder="Enter your Number"
+                />
+                <span
+                  class="d-block"
+                  id="phoneError"
+                  style="color: red; font-size: 12px"
+                ></span>
+                <div class="d-inline" id="phoneError"></div>
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-save-data">
+                  Save Change</button
+                >`
+              </div>
+            </div>
           </div>
 
-        </div>
-      </section>
-    </main>
+          <div class="action-bar-item mt-3">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-arrows-rotate me-3 gold-accent-icon"></i>
+              <span>Change Password</span>
+            </div>
+            <i class="fa-solid fa-chevron-down opacity-50"></i>
+          </div>
+
+          <div class="action-bar-item mt-2">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-users me-3 gold-accent-icon"></i>
+              <span>Users</span>
+            </div>
+            <i class="fa-solid fa-chevron-down opacity-50"></i>
+          </div>
+        </section>
+        <script>
+          const phoneInput = document.getElementById("phone");
+          const phoneError = document.getElementById("phoneError");
+          const firstInput = document.getElementById("firstName");
+          const firstError = document.getElementById("firstNameError");
+          const lastInput = document.getElementById("lastName");
+          const lastError = document.getElementById("lastNameError");
+          const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
+          phoneInput.addEventListener("input", function () {
+            if (phoneInput.value.trim() === "") {
+              phoneError.innerText = "";
+            } else if (!phoneRegex.test(phoneInput.value.trim())) {
+              phoneError.innerText = "Phone number is not valid!";
+            } else {
+              phoneError.innerText = "";
+            }
+          });
+          firstInput.addEventListener("input", function () {
+            let val = firstInput.value.trim();
+            if (val === "") {
+              firstError.innerText = "";
+            } else if (val.length < 2 || val.length > 10) {
+              firstError.innerText =
+                "First Name must be between 2 and 10 characters";
+            } else {
+              firstError.innerText = "";
+            }
+          });
+          lastInput.addEventListener("input", function () {
+            let val = lastInput.value.trim();
+            if (val === "") {
+              lastError.innerText = "";
+            } else if (val.length < 2 || val.length > 10) {
+              lastError.innerText =
+                "Last Name must be between 2 and 10 characters";
+            } else {
+              lastError.innerText = "";
+            }
+          });
+        </script>
+        <section id="sectionProperties" class=" ">
+          <div id="property-details-section" class="content-section">
+            <div class="container-fluid px-4">
+              <div
+                class="d-flex justify-content-between align-items-center mb-4 px-3"
+              >
+                <h2 class="fw-bold mb-0">Property Details</h2>
+                <a href="index.html" class="back-btn">
+                  <i class="fa-regular fa-circle-left"></i>
+                </a>
+              </div>
+              <div class="row justify-content-center mt-5">
+                <div class="col-lg-12">
+                  <div class="featured-gallery-wrapper gap-5 mb-4">
+                    <div class="side-img-box left">
+                      <img src="../img/img.2.jpeg" class="gallery-img" />
+                    </div>
+                    <div class="main-img-box">
+                      <img src="../img/img.3.jpeg" class="gallery-img" />
+                    </div>
+                    <div class="side-img-box right">
+                      <img src="../img/img.5.jpeg" class="gallery-img" />
+                    </div>
+                             
+                  </div>
+
+                  <div class="col-12 d-flex justify-content-center gap-5 mt-5">
+                    <img
+                      src="../img/img.2.jpeg"
+                      class="rounded-3"
+                      style="width: 100px; height: 50px; object-fit: cover"
+                    />
+                    <img
+                      src="../img/img.3.jpeg"
+                      class="rounded-3"
+                      style="width: 100px; height: 50px"
+                    />
+                    <img
+                      src="../img/img.5.jpeg"
+                      class="rounded-3"
+                      style="width: 100px; height: 50px; object-fit: cover"
+                    />
+                  </div>
+                           
+                </div>
+                         
+              </div>
+                 
+            </div>
+          </div>
+          <div class="studio-details-section">
+            <!-- Studio section -->
+            <div
+              class="row mt-4 px-2 justify-content-center align-items-stretch g-4"
+            >
+              <div class="col-md-12">
+                <div class="row gap-4">
+                  <div class="col-12 col-md-7 info-card">
+                    <h3 class="studio-title">modern studio</h3>
+                    <h5 class="studio-address">101 UI Street, City</h5>
+                    <p class="studio-desc">
+                      A comfortable and secure room located in a quiet area,
+                      designed to provide students with a safe and relaxing
+                      living environment close to essential services.
+                    </p>
+
+                    <ul class="details-list">
+                      <li><i class="fas fa-diamond"></i> Price $350 / month</li>
+                      <li><i class="fas fa-diamond"></i> 1 Bedroom</li>
+                      <li><i class="fas fa-diamond"></i> 1 Kitchen</li>
+                      <li><i class="fas fa-diamond"></i> 1 Bathroom</li>
+                    </ul>
+                  </div>
+
+                  <div class="col-12 col-md-4 info-card">
+                    <h3 class="studio-title">modern studio</h3>
+                    <ul class="amenities-list">
+                      <li><span class="check-box"></span>wifi</li>
+                      <li><span class="check-box"></span>Parking</li>
+                      <li><span class="check-box"></span>Gym</li>
+                      <li><span class="check-box"></span> Air Conditionirg</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--reservations table -->
+            <div class="row mt-5 md-4 px-4 justify-content-center">
+              <div class="col-12 table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Check-in</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Sarah Johnson</td>
+                      <td>2024-04-29</td>
+                      <td>
+                        <span class="status-badge confirmed">Confirmed</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>David Miller</td>
+                      <td>2024-05-10</td>
+                      <td><span class="status-badge pending">Pending</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="property-actions-container">
+                <button id="btnUpdateProperty" class="btn-custom btn-update">
+                  Update
+                </button>
+                <button id="btnDeleteProperty" class="btn-custom btn-delete">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <section id="sectionMassageProperties" class="d-none">
+  <div class="text-center mt-5">
+    <img src="../img/Vector.jpg" alt="messages icon" class="w-25"/>
+    <h2 class="text-warning mt-3">Messages (Future)</h2>
+    <p class="message-text">
+      Placeholder for now <br />
+      Ready for future Chat Module
+    </p>
   </div>
+</section>
 
-
-  <script src="../js/bootstrap.bundle.min.js"> </script>
-  <script src="../js/dashbord.js"></script>
-  <!-- ملف bootstrab . js  -->
-</body>
-
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/dashbord.js"></script>
+    <!-- ملف bootstrab . js  -->
+  </body>
 </html>

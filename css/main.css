@@ -445,3 +445,15 @@ input:focus {
 .hp-login-link:hover {
     color: #ce9b2e !important; /* درجة أغمق سيكا لو حبيتي */
 }
+
+.message-section {
+  /* display: none; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.message-text {
+  color: var(--font-primary-color);
+}
