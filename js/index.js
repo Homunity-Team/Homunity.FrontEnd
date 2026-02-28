@@ -77,6 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+localStorage.setItem('id', '22');
+localStorage.setItem('role', 'owner');
+
 const titleInp = document.getElementById('titleUpdate');
 const priceInp = document.getElementById('priceUpdate');
 const roomsInp = document.getElementById('roomsUpdate');
