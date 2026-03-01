@@ -175,13 +175,13 @@ body {
 /* ROOMS SECTION m/e */
 .image-side {
   width: 100%;
-  background: url("../img/img.svg") center/cover no-repeat;
+  background: url("../img/img.webp") center/cover no-repeat;
   background-color: var(--font-primary-color);
   height: 100%;
 }
 .image-side2 {
   width: 100%;
-  background: url("../img/img2.svg") center/cover no-repeat;
+  background: url("../img/img2.webp") center/cover no-repeat;
   background-color: var(--font-primary-color);
   height: 100%;
 }
