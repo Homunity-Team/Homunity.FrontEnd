@@ -65,6 +65,7 @@ body {
   font-size: 18px !important;
   display: inline-block;
   transform: translateY(12px);
+  cursor: pointer;
 }
 .hp-hero-section {
   background:
@@ -324,7 +325,7 @@ input:focus {
 /* Explore Rooms */
 .explore-btn {
   width: 150px;
-  background-color: #000E25;
+  background-color: #000e25;
   border: none;
   font-weight: 400;
   border-radius: 50%;
@@ -370,11 +371,11 @@ input:focus {
   background-color: var(--font-primary-color);
 }
 .explore-btn:hover {
-    background-color: #071327;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
+  background-color: #071327;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
-.book-btn:hover{
+.book-btn:hover {
   background-color: #f8cf5d;
   transform: scale(1.05);
   transition: all 0.3s ease;
@@ -387,7 +388,7 @@ input:focus {
 }
 
 .hp-nav-center-card .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 2px;
@@ -421,29 +422,29 @@ input:focus {
 }
 
 .hp-login-link {
-    position: relative;
-    text-decoration: none !important;
-    transition: color 0.3s ease;
-    display: inline-block;
+  position: relative;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+  display: inline-block;
 }
 
 .hp-login-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: #ce9b2e; /* اللون الذهبي بتاعك */
-    transition: width 0.3s ease;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #ce9b2e; /* اللون الذهبي بتاعك */
+  transition: width 0.3s ease;
 }
 
 .hp-login-link:hover::after {
-    width: 100%;
+  width: 90%;
 }
 
 .hp-login-link:hover {
-    color: #ce9b2e !important; /* درجة أغمق سيكا لو حبيتي */
+  color: #ce9b2e !important; /* درجة أغمق سيكا لو حبيتي */
 }
 
 .message-section {

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userID = localStorage.getItem("id");
 
   // شرط الدخول
+  
   if (userRole !== "owner" || !userID) {
     Swal.fire({
       icon: "error",
@@ -12,12 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       window.location.href = "../html/form.html";
     }, 3000);
-  } else {
-    Swal.fire({
-      icon: "success",
-      title: "نجاح",
-      text: "تم الدخول بنجاح",
-    });
   }
 });
 
@@ -75,7 +70,6 @@ for (let key in menuItems) {
 fetch("https://homunityapiv1.runasp.net/api/Location/cities", {
   headers: {
     accept: "*/*",
-    Authorization: "Bearer YOUR_TOKEN_HERE",
   },
 })
   .then((res) => res.json())
@@ -178,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (imgFile && data.propertyID) {
         const formData = new FormData();
         formData.append("file", imgFile);
-
         try {
           const uploadRes = await fetch(
             `https://homunityapiv1.runasp.net/api/PropertyImages/UploadImage?propertyId=${data.propertyID}`,
@@ -272,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .join("");
 
-    // ===== helper delete بدون كسر التنفيذ =====
     async function safeDelete(url) {
       try {
         const res = await fetch(url, {
@@ -310,14 +302,10 @@ document.addEventListener("DOMContentLoaded", () => {
             `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyID}`,
             {
               method: "DELETE",
-              headers: {
-                accept: "*/*",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
+              headers: {},
             },
           );
 
-          // 👇 اعرف السبب الحقيقي
           if (!res.ok) {
             const text = await res.text();
             console.log("SERVER ERROR:", text);
