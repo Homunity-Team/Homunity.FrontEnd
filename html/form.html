@@ -12,10 +12,73 @@
   <!--  ملفات عدل الاسم css الخارجيه -->
   <link rel="stylesheet" href="../css/main.css" />
 </head>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <body>
+  <style>
+    /* ===== LOADER ===== */
+    #homunityLoader {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #fff9e6, #fff3cc, #ffe999);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+
+    /* سبينر - سيب Bootstrap يلفه */
+    .homunity-spinner {
+      width: 4rem;
+      height: 4rem;
+      border-width: .4rem;
+      color: #f4b400;
+      /* أصفر هوميونتي */
+      filter: drop-shadow(0 0 10px #f4b400);
+    }
+
+    /* اسم الموقع */
+    .homunity-text {
+      letter-spacing: 4px;
+      color: #b8860b;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: .6;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      100% {
+        opacity: .6;
+        transform: scale(1);
+      }
+    }
+
+    /* إخفاء بدون ما نوقف الأنيميشن */
+    .loader-hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  </style>
+
+  <div id="homunityLoader" class="d-none">
+    <div class="text-center">
+      <div class="spinner-border homunity-spinner mb-4" role="status"></div>
+      <h2 class="fw-bold homunity-text">HOMUNITY</h2>
+      <p class="small text-muted"></p>
+    </div>
+  </div>
+
   <main>
     <div class="signup d-none image-side position-relative vh-100">
       <a href="../index.html">
@@ -48,12 +111,13 @@
                 <div class="mb-3">
                   <label class="fw-bold">First Name</label>
                   <input name="firstName" class="form-control" placeholder="Enter your first name" />
-<small class="firstName-warning text-danger d-block mt-1"></small>                </div>
+                  <small class="firstName-warning text-danger d-block mt-1"></small>
+                </div>
 
                 <div class="mb-3">
                   <label class="fw-bold">Last Name</label>
                   <input name="lastName" class="form-control" placeholder="Enter your last name" />
-                <small class="lastName-warning text-danger"></small> 
+                  <small class="lastName-warning text-danger"></small>
                 </div>
 
                 <div class="mb-3">
@@ -157,74 +221,53 @@
     </div>
   </main>
   <script>
-// NAMES
+    const homunityLoader = document.getElementById("homunityLoader");
+
+    // Inputs & Warnings
     const firstNameInput = document.querySelector('input[name="firstName"]');
     const lastNameInput = document.querySelector('input[name="lastName"]');
     const firstNameWarning = document.querySelector(".firstName-warning");
     const lastNameWarning = document.querySelector(".lastName-warning");
+    const phoneInput = document.querySelector(".js-phone");
+    const phoneWarning = document.querySelector(".phone-warning");
+    const passwordInput = document.querySelector(".js-password");
+    const passwordWarning = document.querySelector(".password-warning");
+    const signupForm = document.getElementById("signupForm");
 
+    // Redirect if already logged in
+    const userId = localStorage.getItem("id");
+    if (userId) window.location.href = "../index.html";
+
+    // Input Validation
     firstNameInput.addEventListener("input", () => {
       const len = firstNameInput.value.length;
-      if (len < 3 || len > 10) {
-        firstNameWarning.textContent = "First name must be between 3 and 10 characters.";
-      } else {
-        firstNameWarning.textContent = "";
-      }
+      firstNameWarning.textContent = (len < 3 || len > 10) ? "First name must be between 3 and 10 characters." : "";
     });
 
     lastNameInput.addEventListener("input", () => {
-      const len = (lastNameInput.value.length ) 
-            if (len < 3 || len > 10) {
-        lastNameWarning.textContent = "Last name must be between 3 and 10 characters.";
-      } else {
-        lastNameWarning.textContent = "";
-      }
+      const len = lastNameInput.value.length;
+      lastNameWarning.textContent = (len < 3 || len > 10) ? "Last name must be between 3 and 10 characters." : "";
     });
 
-
-    // check if user is already logged in
-    const userId = localStorage.getItem("userId");
-    if (userId !== null) {
-      window.location.href = "../index.html"; // Redirect to home page
-    }
-
-    // validation
-    const phoneInput = document.querySelector(".js-phone");
-    const phoneWarning = document.querySelector(".phone-warning");
     const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
     phoneInput.addEventListener("input", () => {
-      phoneInput.value = phoneInput.value.replace(/\D/g, "");
-      // Limit to 11 digits
-      if (phoneInput.value.length > 11) {
-        phoneInput.value = phoneInput.value.slice(0, 11);
-      }else if (!phoneRegex.test(phoneInput.value)) {
-        phoneWarning.textContent = "Invalid phone: must be 11 digits and start with 01 (0,1,2,5).";
-      }else {
-        phoneWarning.textContent = "";
-      }
+      phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 11);
+      phoneWarning.textContent = phoneRegex.test(phoneInput.value) ? "" : "Invalid phone: must be 11 digits and start with 01 (0,1,2,5).";
     });
 
-    const passwordInputs = document.querySelector(".js-password");
-    const passwordWarning = document.querySelector(".password-warning");
-
-    passwordInputs.addEventListener("input", () => {
-      // Enforce minimum length of 9 characters
-      if (passwordInputs.value.length < 6) {
-        passwordWarning.textContent =
-          "Password must be at least 6 characters long.";
-      } else {
-        passwordWarning.textContent = "";
-      }
+    passwordInput.addEventListener("input", () => {
+      passwordWarning.textContent = (passwordInput.value.length < 6) ? "Password must be at least 6 characters long." : "";
     });
 
-    // Signup Form Handler
-    const signupForm = document.getElementById("signupForm");
+    // Loader control
+    function showLoader() { homunityLoader.classList.remove('d-none') }
+    function hideLoader() { homunityLoader.classList.add('d-none') }
 
-    signupForm.addEventListener("submit", async function (e) {
+    // Signup Handler
+    signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const formData = new FormData(signupForm);
-
       const data = {
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
@@ -233,109 +276,176 @@
         roleId: formData.get("role"),
         isActive: true,
       };
-      const nullFieldsForSignup = document.querySelector(
-        ".empty-fields-for-signup",
-      );
-      const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
+
+      const emptyFieldsWarning = document.querySelector(".empty-fields-for-signup");
+
       if (
         data.firstName.length < 3 || data.firstName.length > 10 ||
         data.lastName.length < 3 || data.lastName.length > 10 ||
-        !phoneRegex.test(data.phone) || 
-        data.password.length < 6 || 
-        data.roleId == null
+        !phoneRegex.test(data.phone) ||
+        data.password.length < 6 ||
+        !data.roleId
       ) {
-        nullFieldsForSignup.textContent = "Please make sure all fields are valid before submitting.";
-        return; 
+        emptyFieldsWarning.textContent = "Please make sure all fields are valid before submitting.";
+        return;
+      } else {
+        emptyFieldsWarning.textContent = "";
       }
-
-      console.log("Signup Data:", data);
 
       try {
-        const response = await fetch(
-          "https://homunityapiv1.runasp.net/api/Users/Register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          },
-        );
+        showLoader();
+
+        const response = await fetch("https://homunityapiv1.runasp.net/api/Users/Register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
 
         const result = await response.json();
-        // Store user ID in localStorage
-        if (result.userID !== undefined) {
-          localStorage.setItem("id", result.userID);
-          if (result.roleId == 2) {
-            const role = "owner"
-            localStorage.setItem("role", role);
-          }
-          window.location.href = "../index.html";
+        hideLoader();
+
+        if (response.status === 409) {
+          Swal.fire({
+            icon: "error",
+            title: "Account Already Exists",
+            text: result.message || "This account already exists.",
+            confirmButtonColor: "#f4b400"
+          });
+          return;
         }
-        console.log("Signup Response:", result);
+
+        if (!response.ok) {
+          Swal.fire({
+            icon: "error",
+            title: "Registration Failed",
+            text: result.message || "Something went wrong!",
+            confirmButtonColor: "#f4b400"
+          });
+          return;
+        }
+
+        // Store in localStorage
+        localStorage.setItem("id", result.userID);
+        localStorage.setItem("role", result.roleId == 2 ? "owner" : "student");
+
+        Swal.fire({
+          icon: "success",
+          title: "Account Created 🎉",
+          text: "Welcome to Homunity!",
+          confirmButtonColor: "#f4b400"
+        }).then(() => {
+          window.location.href = "../index.html";
+        });
+
       } catch (err) {
-        console.error("Signup Error:", err);
+        hideLoader();
+        Swal.fire({
+          icon: "error",
+          title: "Network Error 🚨",
+          text: "Please check your connection.",
+          confirmButtonColor: "#f4b400"
+        });
+        console.error(err);
       }
+
     });
 
     //  Login Form Handler
+    // ===== LOGIN FORM =====
     const loginForm = document.getElementById("loginForm");
+    const phoneInputLogin = loginForm.querySelector('input[name="phoneL"]');
+    const passwordInputLogin = loginForm.querySelector('input[name="passwordL"]');
+    const emptyFieldsLogin = document.querySelector(".empty-fields-for-login");
 
-    loginForm.addEventListener("submit", async function (e) {
+    const phoneRegexL = /^01[0-2,5]{1}[0-9]{8}$/;
+
+
+    // Input validations live
+    phoneInputLogin.addEventListener("input", () => {
+      phoneInputLogin.value = phoneInputLogin.value.replace(/\D/g, "").slice(0, 11);
+      emptyFieldsLogin.textContent = phoneRegexL.test(phoneInputLogin.value) ? "" : "Invalid phone: must be 11 digits and start with 01 (0,1,2,5).";
+    });
+
+    passwordInputLogin.addEventListener("input", () => {
+      emptyFieldsLogin.textContent = passwordInputLogin.value.length >= 6 ? "" : "Password must be at least 6 characters long.";
+    });
+
+    // Form submit
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const phone = loginForm.querySelector('input[name="phoneL"]').value.trim();
-      const password = loginForm.querySelector('input[name="passwordL"]').value.trim();
-      const nullFieldsLogin = document.querySelector(".empty-fields-for-login");
-      const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
-if (!phoneRegex.test(phone) || password.length < 6) {
-        nullFieldsLogin.textContent = "Invalid phone format or password (minimum 9 characters).";
-        return;  
+      const phone = phoneInputLogin.value.trim();
+      const password = passwordInputLogin.value.trim();
+
+      // Empty fields check
+      if (!phone || !password) {
+        emptyFieldsLogin.textContent = "Please fill in all fields.";
+        return;
       }
 
-      const url = `https://homunityapiv1.runasp.net/api/Users/Login?phone=${encodeURIComponent(
-        phone,
-      )}&password=${encodeURIComponent(password)}`;
-
-      if (phone == "" || password == "") {
-        nullFieldsLogin.textContent = "Please fill in all fields.";
-          return;
-
+      // Validation check
+      if (!phoneRegexL.test(phone) || password.length < 6) {
+        emptyFieldsLogin.textContent = "Invalid phone format or password (minimum 6 characters).";
+        return;
       }
+
+      const url = `https://homunityapiv1.runasp.net/api/Users/Login?phone=${encodeURIComponent(phone)}&password=${encodeURIComponent(password)}`;
+
       try {
+        showLoader();
+
         const response = await fetch(url, {
           method: "POST",
-          headers: {
-            accept: "*/*",
-          },
+          headers: { accept: "*/*" },
           body: "",
         });
 
         const result = await response.json();
-        // Store user ID in localStorage
-        if (result.userID !== undefined) {
-          localStorage.setItem("id", result.userID);
-          if (result.roleId == 2) {
-            const role = "owner"
-            localStorage.setItem("role", role);
-          }
-          window.location.href = "../index.html";
+        hideLoader();
+
+        if (!response.ok || !result.userID) {
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: result.message || "Invalid credentials",
+            confirmButtonColor: "#f4b400"
+          });
+          return;
         }
-        console.log("Login Response:", result);
+
+        // Save user info
+        localStorage.setItem("id", result.userID);
+        localStorage.setItem("role", result.roleId == 2 ? "owner" : "student");
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful 🎉",
+          confirmButtonColor: "#f4b400"
+        }).then(() => {
+          window.location.href = "../index.html";
+        });
+
       } catch (err) {
+        hideLoader();
         console.error("Login Error:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Network Error 🚨",
+          text: "Please check your connection.",
+          confirmButtonColor: "#f4b400"
+        });
       }
     });
 
-    // keyboard enter submit
-    signupForm.addEventListener("keydown", function (e) {
-      if (e.key == "Enter") {
+    // ===== Keyboard Enter Submit for Login =====
+    loginForm.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
         e.preventDefault();
-        signupForm.requestSubmit();
+        loginForm.requestSubmit();
       }
     });
 
-    // Switch Between Signup and Login
+    // ===== Switch Between Signup and Login Sections =====
     const bLogin = document.getElementById("bLogin");
     const bSignup = document.getElementById("bSignup");
     const signupSection = document.getElementsByClassName("signup")[0];
@@ -349,8 +459,7 @@ if (!phoneRegex.test(phone) || password.length < 6) {
     bSignup.addEventListener("click", () => {
       signupSection.classList.add("d-none");
       loginSection.classList.remove("d-none");
-    }); 
-    
+    });
   </script>
 </body>
 
