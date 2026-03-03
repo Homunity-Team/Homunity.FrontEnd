@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const userID = localStorage.getItem("id");
 
   // شرط الدخول
-  
+
   if (userRole !== "owner" || !userID) {
     Swal.fire({
       icon: "error",
-      title: "خطأ",
-      text: "لا يمكنك الدخول للداشبورد",
+      title: "Error",
+      text: "You cannot access the dashboard without logging in",
     });
     setTimeout(() => {
       window.location.href = "../html/form.html";
@@ -285,8 +285,18 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", async () => {
         const propertyID = btn.dataset.id;
 
-        if (!confirm("هل أنت متأكد من حذف العقار؟")) return;
+        const result = await Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to undo this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          cancelButtonColor: "#374761",
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "Cancel"
+        });
 
+        if (!result.isConfirmed) return;
         try {
           // حذف media بدون كسر التنفيذ
           await safeDelete(
@@ -316,10 +326,22 @@ document.addEventListener("DOMContentLoaded", () => {
             .querySelector(`.property-horizontal-card[data-id="${propertyID}"]`)
             ?.remove();
 
-          alert("✅ تم الحذف بنجاح");
+          Swal.fire({
+            icon: "success",
+            title: "Deleted Successfully",
+            text: "The property has been removed from the list ✔",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#212e43"
+          });
         } catch (error) {
           console.error(error);
-          alert("❌ فشل حذف العقار — راجع Console");
+          Swal.fire({
+            icon: "error",
+            title: "Failed to Delete Property",
+            text: "Something went wrong",
+            confirmButtonText: "Close",
+            confirmButtonColor: "#dc3545"
+          });
         }
       });
     });
