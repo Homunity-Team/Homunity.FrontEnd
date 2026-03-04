@@ -715,9 +715,7 @@ body {
 .btn-delete-account:hover {
   opacity: 0.85;
 }
-/* =====================================================
-   SECTION SETTINGS FIXED VERSION
-===================================================== */
+/* SECTION SETTINGS */
 
 /* علشان يمشي تحت الهيدر الثابت */
 #sectionSettingProperties {
@@ -736,9 +734,12 @@ body {
 
 /* الكارت الرئيسي */
 .main-form-card {
-  background-color: var(--white);
-  border-radius: 0 0 30px 30px;
-  box-shadow: 0px 4px 15px rgba(0, 14, 37, 0.15);
+  background-color: #fff; 
+  border: 1px solid #212e437a;
+  border-top: none; 
+  border-radius: 20PX 20PX 30px 30px;
+  box-shadow: 0 15px 25px -10px rgba(0, 14, 37, 0.2);
+  margin-bottom: 25px;
   overflow: hidden;
   margin-bottom: 25px;
 }
@@ -750,7 +751,8 @@ body {
   font-weight: 700;
   font-size: 1.6rem;
   padding: 25px 40px 15px 40px;
-  border-bottom: 2px solid rgba(239, 184, 30, 0.3);
+  border-bottom: 1px solid #212e43;
+  border-radius: 20px;
 }
 
 /* padding داخلي للفورم */
@@ -758,7 +760,6 @@ body {
   padding: 30px 40px 40px 40px;
 }
 
-/* الليبل */
 .field-label {
   font-size: 1.05rem;
   font-weight: 600;
@@ -767,14 +768,14 @@ body {
   color: var(--primary-blue);
 }
 
-/* الانبوت */
 .field-input {
   background-color: #fafafa !important;
   font-size: 1rem;
   padding: 14px !important;
   border-radius: 15px !important;
-  border: 1.5px solid #dcdcdc !important;
+  border: 1.5px solid #212E43 !important;
   transition: var(--transition);
+  width: 80%;
 }
 
 .field-input:focus {
@@ -782,13 +783,13 @@ body {
   box-shadow: 0 0 0 2px rgba(239, 184, 30, 0.2) !important;
 }
 
-/* زر الحفظ */
 .btn-save-data {
   background-color: var(--primary-blue) !important;
   color: var(--primary-gold) !important;
-  font-size: 1.1rem;
+  font-size: 2rem;
+  letter-spacing: 3px;
   font-weight: 700 !important;
-  padding: 14px 60px !important;
+  padding: 4px 20px !important;
   border-radius: 12px !important;
   border: 2px solid var(--primary-gold);
   transition: var(--transition);
@@ -807,8 +808,10 @@ body {
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  border-radius: 18px;
-  border: 1px solid #eee;
+  border: 1px solid #212e437a;
+  border-top: none;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0px 10px 20px -5px #000e2526;
   cursor: pointer;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
