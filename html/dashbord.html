@@ -39,11 +39,11 @@
           <li id="massageProperties">
             <i class="fa-solid fa-message"></i> Messages
           </li>
-          <li id="settingProperties">
-            <i class="fa-solid fa-gear"></i> Settings
-          </li>
           <li id="BookingButton">
             <i class="fa-solid fa-calendar-check"></i> Booking Request
+          </li>
+          <li id="settingProperties">
+            <i class="fa-solid fa-gear"></i> Settings
           </li>
         </ul>
       </nav>
@@ -214,7 +214,7 @@
               </div>
             </div>
 
-            <!-- Media Upload -->
+            <!-- Media Upload
             <div class="custom-card shadow-sm mt-4">
               <div class="card-header-custom">Media Upload</div>
               <div class="p-4">
@@ -236,7 +236,44 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
+
+            <div class="mt-4">
+
+            <h2>Media Upload</h2>
+            <div class="upload-card">
+
+  <div class="upload-container ms-5">
+    
+    <div class="left-side">
+      <div class="upload-icons-container d-flex flex-column align-items-center justify-content-center me-5">
+      <label for="images" class="upload-icon"><img class="upload-img" src="../img/img-icon.svg" alt="image icon"></label>
+      <input type="file" id="images" accept="image/png, image/jpeg, image/webp" multiple>
+
+      <span class="text-warning">Or</span>
+
+      <label for="video" class="upload-icon"><img class="upload-img" src="../img/vid-icon.png" alt=""></label>
+      <input type="file" id="video" accept="video/*">
+    </div>
+    </div>
+
+    <div class="right-side">
+      <div class="drop-zone">
+        <strong>Drag & Drop or Browse</strong>
+        <div class="h5">Drag & drop up to 6 images (<span class="text-warning">jpg</span> / <span class="text-warning">png</span> / <span class="text-warning">webp</span>)</div>
+        <div class="h5">Max size: 2MB each</div>
+        
+        <strong>Upload a video</strong>
+        <div class="h5">Max: 1 video</div>
+        <div class="h5">Maximum size: 30MB</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</div>
+
 
             <div class="d-flex gap-3 mt-4">
               <button type="submit" class="btn btn-submit">
