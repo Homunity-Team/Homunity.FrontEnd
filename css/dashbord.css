@@ -125,9 +125,7 @@ body {
   color: var(--primary-gold);
 }
 
-/* =====================================================
-   HEADER
-===================================================== */
+/* HEADER */
 .top-header {
   position: fixed;
   top: 0;
@@ -142,9 +140,6 @@ body {
   z-index: 2000;
 }
 
-/* =====================================================
-   STATS
-===================================================== */
 .stats-container {
   display: flex;
   gap: 20px;
@@ -166,9 +161,7 @@ body {
   font-weight: bold;
 }
 
-/* =====================================================
-   PROPERTY CARD
-===================================================== */
+/* PROPERTY CARD */
 .property-horizontal-card {
   background: var(--white);
   border-radius: 15px;
@@ -535,9 +528,9 @@ body {
   max-height: 80px;
 }
 
-.logo h2 {
+.logo span {
   color: var(--primary-gold);
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 
@@ -734,10 +727,10 @@ body {
 
 /* الكارت الرئيسي */
 .main-form-card {
-  background-color: #fff; 
+  background-color: #fff;
   border: 1px solid #212e437a;
-  border-top: none; 
-  border-radius: 20PX 20PX 30px 30px;
+  border-top: none;
+  border-radius: 20px 20px 30px 30px;
   box-shadow: 0 15px 25px -10px rgba(0, 14, 37, 0.2);
   margin-bottom: 25px;
   overflow: hidden;
@@ -751,7 +744,7 @@ body {
   font-weight: 700;
   font-size: 1.6rem;
   padding: 25px 40px 15px 40px;
-  border-bottom: 1px solid #212e43;
+  border-bottom: 1px solid var(--primary-blue);
   border-radius: 20px;
 }
 
@@ -773,7 +766,7 @@ body {
   font-size: 1rem;
   padding: 14px !important;
   border-radius: 15px !important;
-  border: 1.5px solid #212E43 !important;
+    border: 1.5px solid var(--primary-blue) !important;
   transition: var(--transition);
   width: 80%;
 }
@@ -845,8 +838,8 @@ body {
 /* العناوين الزرقاء */
 .bGBlue {
   background-color: var(--dark-blue) !important;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  border-radius: 0;
+  border-radius: 12px;
+
 }
 
 /* الكروت الداخلية (Location / Services / Media) */
@@ -863,12 +856,14 @@ body {
   padding: 10px 20px;
   font-weight: bold;
   font-size: 1.1rem;
+  border-radius: 12px;
 }
 
 /* تنسيق المدخلات Inputs */
 .form-control,
 .form-select {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--primary-blue);
+  border-radius: 100px;
   padding: 10px 15px;
   font-size: 0.95rem;
 }
@@ -879,9 +874,17 @@ body {
 }
 
 /* تنسيق الراديو والتشيك بوكس */
+.form-check-input {
+border: #0f172a solid 1px;
+}
 .form-check-input:checked {
   background-color: var(--accent-yellow);
   border-color: var(--accent-yellow);
+}
+
+.form-check-input[type="checkbox"] {
+  accent-color: var(--font-primary-color);
+  border: var(--accent-yellow) solid 1px;
 }
 
 /* منطقة رفع الميديا */
@@ -894,8 +897,8 @@ body {
 .btn-submit {
   background-color: var(--accent-yellow);
   color: var(--dark-blue);
-  font-weight: bold;
-  padding: 10px 30px;
+  font-weight: 600;
+  padding: 10px;
   border: none;
   transition: 0.3s;
 }
@@ -907,9 +910,10 @@ body {
 
 .btn-cancel {
   background-color: var(--dark-blue);
-  color: white;
-  padding: 10px 30px;
+  color: var(--primary-gold);
+  padding: 0 50px;
   border: none;
+  font-weight: 600;
 }
 
 .btn-cancel:hover {
@@ -923,6 +927,9 @@ body {
   color: var(--accent-yellow);
 }
 
+textarea {
+  resize: none;
+}
 /* استايل عرض الصور بعد الرفع (كما في الصورة الثانية) */
 .image-preview-container {
   display: flex;

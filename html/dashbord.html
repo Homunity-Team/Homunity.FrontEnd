@@ -72,7 +72,7 @@
         <div class="logo">
           <a class="navbar-brand" href="../index.html">
             <img src="../img/logo.png" alt="Logo" style="max-height: 120px" />
-            <h2>Owner Dashboard</h2>
+            <span class="h2">Owner Dashboard</span>
           </a>
     </main>
   </div>
@@ -109,8 +109,8 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label fw-bold" for="priceAdd">Price / Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="0.00"
+                  <label class="form-label fw-bold" for="priceAdd">Price <span class="text-warning">\</span> Month</label>
+                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="Enter Price"
                     min="100" required />
                   <div id="priceError" style="
                         color: #d93025;
@@ -124,7 +124,7 @@
 
                 <div class="mb-0">
                   <label class="form-label fw-bold" for="roomsAdd">Rooms Count</label>
-                  <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number" placeholder="e.g. 3"
+                  <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number" placeholder="Enter Number Of Rooms"
                     min="1" max="10" required />
                   <div id="roomsError" style="
                         color: #d93025;
@@ -146,7 +146,7 @@
 
                 <div class="mb-2">
                   <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
-                  <div class="d-flex gap-4">
+                  <div class="d-flex gap-4 flex-column">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" id="apartmentApp" name="propertyType" checked />
                       <label class="form-check-label fs-6" for="apartmentApp">Apartment</label>
