@@ -335,7 +335,7 @@
             </div>
 
             <!-- Location -->
-            <div class="custom-card shadow-sm mt-4 p-4">
+            <!-- <div class="custom-card shadow-sm mt-4 p-4">
               <h4 class="mb-3 fw-bold">Location</h4>
 
               <div class="row align-items-end">
@@ -355,41 +355,102 @@
                 </div>
               </div>
             </div>
-
+ -->
             <!-- Services -->
-            <div class="custom-card shadow-sm mt-4 p-4">
+            <!-- <div class="custom-card shadow-sm mt-4 p-4">
               <h4 class="fw-bold mb-3">Services</h4>
 
               <div class="row">
-                <div class="col-3">
+                <div class="col-6">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="wifi" id="wifiUpdate" />
                     <label class="form-check-label">Wifi</label>
                   </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-6">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="parking" id="parkingUpdate" />
                     <label class="form-check-label">Parking</label>
                   </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-6">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="gym" id="gymUpdate" />
                     <label class="form-check-label">Gym</label>
                   </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-6">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="ac" id="acUpdate" />
                     <label class="form-check-label">Air</label>
                   </div>
                 </div>
               </div>
+            </div> -->
+
+
+
+
+ <!-- Location + Services -->
+            <div class="custom-card shadow-sm mt-4">
+              <div class="card-header-custom">Location</div>
+              <div class="p-4">
+                <div class="row align-items-end">
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold h5">City</label>
+                    <select id="cityUpdate" class="form-select text-muted" required>
+                      <option selected disabled></option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold h5">Area</label>
+                    <select id="areaUpdate" class="form-select text-muted" required>
+                      <option selected disabled></option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold h5">Street</label>
+                    <input type="text" id="streetUpdate" class="form-control" required />
+                  </div>
+                  <div class="col-md-3 mb-3 border-start ps-4">
+                    <h5 class="fw-bold">Services</h5>
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="wifiUpdate" /><label
+                            class="form-check-label small" for="wifiUpdate">Wifi</label>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="parkingUpdate" /><label
+                            class="form-check-label small" for="parkingUpdate">Parking</label>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="gymUpdate" /><label
+                            class="form-check-label small" for="gymUpdate">Gym</label>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="acUpdate" /><label
+                            class="form-check-label small" for="acUpdate">Air</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+
+
+
 
             <!-- Media -->
             <div class="custom-card shadow-sm mt-4 p-4">
@@ -400,12 +461,10 @@
               <input id="videoUpdate" type="file" name="video" class="form-control" />
             </div>
             <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-primary">
-                Update Property
+              <button type="submit" class="btn btn-submit">
+                Submit Property
               </button>
-              <button type="button" id="cancelUpdateBtn" class="btn btn-secondary">
-                Cancel
-              </button>
+              <button type="button" class="btn btn-cancel">Cancel</button>
             </div>
           </form>
         </div>
