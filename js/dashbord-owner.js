@@ -216,52 +216,68 @@ document.addEventListener("DOMContentLoaded", () => {
   let allProperties = [];
 
   // ================= FETCH ALL PROPERTIES =================
+
   async function getProperties() {
     try {
       const res = await fetch(
         `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`,
       );
+
       if (!res.ok) {
-        const container = document.getElementById("propertiesContainer");
-        container.innerHTML = `<h2 class="text-center">No properties found</h2>
-        <div class="container center-box">
+        renderNoProperties();
+        return;
+      }
 
-  <div class="text-center">
-    
-    <div class="mb-4">
-      <h2 class="fw-bold">إضافة عقار جديد</h2>
-      <p class="text-muted">يمكنك إضافة عقار جديد إلى الموقع</p>
+      const data = await res.json();
+      // نتحقق إذا فيه array حقيقية
+      allProperties = Array.isArray(data.properties)
+        ? data.properties
+        : Array.isArray(data.data)
+          ? data.data
+          : [];
+
+      if (allProperties.length === 0) {
+        renderNoProperties();
+        return;
+      }
+
+      displayProperties(allProperties);
+    } catch (err) {
+      console.error("Error fetching properties:", err);
+      container.innerHTML = `<h2 class="text-center">Error loading properties</h2>`;
+    }
+  }
+  getProperties();
+  // ================= DISPLAY NO PROPERTIES =================
+  function renderNoProperties() {
+    container.innerHTML = `
+    <h2 class="text-center">No properties found</h2>
+    <div class="container center-box">
+      <div class="text-center">
+        <div class="mb-4">
+          <h2 class="fw-bold">إضافة عقار جديد</h2>
+          <p class="text-muted">يمكنك إضافة عقار جديد إلى الموقع</p>
+        </div>
+        <button id="addPropertyBtn" class="btn add-property-btn">
+          <i class="fa-solid fa-house-circle-plus"></i>
+          إضافة عقار
+        </button>
+      </div>
     </div>
+  `;
 
-    <button id="addPropertyBtn" class="btn add-property-btn">
-      <i class="fa-solid fa-house-circle-plus"></i>
-      إضافة عقار
-    </button>
-
-  </div>
-
-</div>
-        `;
-        const addPropertyBtn = document.getElementById("addPropertyBtn");
-
-        addPropertyBtn.addEventListener("click", () => {
+    const addPropertyBtn = document.getElementById("addPropertyBtn");
+    if (addPropertyBtn) {
+      addPropertyBtn.addEventListener("click", () => {
+        if (sectionProperties && sections && menuItems) {
           sectionProperties.classList.add("d-none");
           sections.addProperties.classList.remove("d-none");
           menuItems.addProperties.classList.add("active");
           menuItems.properties.classList.remove("active");
-        });
-
-        return;
-      }
-      const data = await res.json();
-      allProperties = data;
-      displayProperties(data);
-    } catch (err) {
-      console.error("Error fetching properties:", err);
+        }
+      });
     }
   }
-
-  getProperties();
 
   // ================= DISPLAY PROPERTIES =================
   function displayProperties(properties) {
@@ -271,25 +287,33 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = properties
       .map((p) => {
         const imgSrc = p.images?.[0]?.imageUrl || defaultImage;
-        return `
-      <div class="property-horizontal-card shadow-sm mb-3" data-id="${p.propertyID}">
-        <div class="card-body-flex">
-          <div class="left-side">
-            <div class="img-box">
-              <img src="${imgSrc}" />
-            </div>
-            <div class="info-box">
-              <h5>${p.title}</h5>
-              <p>${p.location.city} - ${p.location.area}</p>
-              <h6>$${p.price} / month</h6>
-            </div>
-          </div>
-          <div class="right-side">
-            <button  class="btn btn-outline-primary edit-btn" data-id="${p.propertyID}">Edit</button>
-            <button class="btn btn-outline-danger delete-btn" data-id="${p.propertyID}">Delete</button>
-          </div>
-        </div>
-      </div>`;
+        return `<div  class="property-horizontal-card mb-3 " data-id="${p.propertyID}" 
+     style=" cursor: pointer; border: 1px solid #edb42d; background: #fff; min-height: 120px; display: flex; align-items: center; padding: 10px;">
+    
+  <div class="img-box" style="width: 160px; height: 100px; flex-shrink: 0; overflow: hidden;">
+    <img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;" />
+  </div>
+
+  <div class="info-box" style="flex-grow: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center;">
+    <h4 style="color: #232f41; font-weight: 700; margin: 0; font-size: 1.4rem;">${p.title}</h4>
+    <p style="color: #555; margin: 5px 0; font-size: 1.1rem;">1234 Sample St, ${p.location?.city || "city"}</p>
+    <h5 style="color: #232f41; font-weight: 700; margin: 0; font-size: 1.3rem;">$${p.price} / month</h5>
+  </div>
+
+
+
+  <div class="action-box" style="display: flex;  gap: 8px;">
+    <button class="btn edit-btn" data-id="${p.propertyID}" 
+            style="background-color: #232f41; color: white; border: none; border-radius: 12px; padding: 8px 25px; min-width: 130px; font-weight: 500;">
+        Edit
+    </button>
+    <button class="btn delete-btn" data-id="${p.propertyID}" 
+            style="background: transparent; color: #dc3545; border: 1px solid #dc3545; border-radius: 12px; padding: 8px 25px; min-width: 130px; font-weight: 500;">
+        Delete
+    </button>
+  </div>
+
+</div>`;
       })
       .join("");
 

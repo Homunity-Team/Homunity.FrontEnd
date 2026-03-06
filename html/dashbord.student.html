@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> student dashbord</title>
+    <!-- normalize -->
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <!-- css -->
+    <link rel="stylesheet" href="../css/dashbord-owner.css" />
+    <!-- SweetAlert2 CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="navbar navbar-expand-lg sticky-top">
+                <ul>
+                    <li id="properties" class="active">
+                        <i class="fa-solid fa-house"></i> Properties
+                    </li>
+                    <li id="addProperties">
+                        <i class="fa-solid fa-plus"></i> Add Property
+                    </li>
+
+                    <li id="massageProperties">
+                        <i class="fa-solid fa-message"></i> Messages
+                    </li>
+                    <li id="BookingButton">
+                        <i class="fa-solid fa-calendar-check"></i> Booking Request
+                    </li>
+                    <li id="settingProperties">
+                        <i class="fa-solid fa-gear"></i> Settings
+                    </li>
+                </ul>
+            </nav>
+            <div id="logout" class="logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const logout = document.getElementById("logout");
+
+                    if (logout) {
+                        logout.addEventListener("click", () => {
+                            console.log("Clicked ✅");
+                            localStorage.clear();
+                            window.location.href = "../index.html";
+                        });
+                    }
+                });
+            </script>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="logo">
+                    <a class="navbar-brand" href="../index.html">
+                        <img src="../img/logo.png" alt="Logo" style="max-height: 120px" />
+                        <span class="h2">Owner Dashboard</span>
+                    </a>
+
+
+
+        </main>
+    </div>
+
+    <div class="dashboard-container">
+        <main class="main-content">
+            <section id="oneProperti " class="">
+                <div id="property-details-section" class="content-section">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4 px-3">
+                            <h2 class="fw-bold mb-0">Property Details</h2>
+                            <a href="index.html" class="back-btn">
+                                <i class="fa-regular fa-circle-left"></i>
+                            </a>
+                        </div>
+                        <div class="row justify-content-center mt-5">
+                            <div class="col-lg-12">
+                                <div class="featured-gallery-wrapper gap-5 mb-4">
+                                    <div class="side-img-box left">
+                                        <img src="../img/img.2.jpeg" class="gallery-img" />
+                                    </div>
+                                    <div class="main-img-box">
+                                        <img src="../img/img.3.jpeg" class="gallery-img" />
+                                    </div>
+                                    <div class="side-img-box right">
+                                        <img src="../img/img.5.jpeg" class="gallery-img" />
+                                    </div>
+                                             
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-center gap-5 mt-5">
+                                    <img src="../img/img.2.jpeg" class="rounded-3"
+                                        style="width: 100px; height: 50px; object-fit: cover" />
+                                    <img src="../img/img.3.jpeg" class="rounded-3" style="width: 100px; height: 50px" />
+                                    <img src="../img/img.5.jpeg" class="rounded-3"
+                                        style="width: 100px; height: 50px; object-fit: cover" />
+                                </div>
+                                         
+                            </div>
+                                     
+                        </div>
+                           
+                    </div>
+                </div>
+                <div class="studio-details-section">
+                    <!-- Studio section -->
+                    <div class="row mt-4 px-2 justify-content-center align-items-stretch g-4">
+                        <div class="col-md-12">
+                            <div class="row gap-4">
+                                <div class="col-12 col-md-7 info-card">
+                                    <h3 class="studio-title">modern studio</h3>
+                                    <h5 class="studio-address">101 UI Street, City</h5>
+                                    <p class="studio-desc">
+                                        A comfortable and secure room located in a quiet area,
+                                        designed to provide students with a safe and relaxing
+                                        living environment close to essential services.
+                                    </p>
+
+                                    <ul class="details-list">
+                                        <li><i class="fas fa-diamond"></i> Price $350 / month</li>
+                                        <li><i class="fas fa-diamond"></i> 1 Bedroom</li>
+                                        <li><i class="fas fa-diamond"></i> 1 Kitchen</li>
+                                        <li><i class="fas fa-diamond"></i> 1 Bathroom</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-12 col-md-4 info-card">
+                                    <h3 class="studio-title">modern studio</h3>
+                                    <ul class="amenities-list">
+                                        <li><span class="check-box"></span>wifi</li>
+                                        <li><span class="check-box"></span>Parking</li>
+                                        <li><span class="check-box"></span>Gym</li>
+                                        <li><span class="check-box"></span> Air Conditionirg</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--reservations table -->
+                    <div class="row mt-5 md-4 px-4 justify-content-center">
+                        <div class="col-12 table-container">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Check-in</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Sarah Johnson</td>
+                                        <td>2024-04-29</td>
+                                        <td>
+                                            <span class="status-badge confirmed">Confirmed</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>David Miller</td>
+                                        <td>2024-05-10</td>
+                                        <td><span class="status-badge pending">Pending</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="property-actions-container">
+                            <button id="btnUpdateProperty" class="btn-custom btn-update">
+                                Update
+                            </button>
+                            <button id="btnDeleteProperty" class="btn-custom btn-delete">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+    <script src="../js/dashbord.student.js"></script>
+</body>
+
+</html>
