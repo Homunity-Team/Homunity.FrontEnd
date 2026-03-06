@@ -37,6 +37,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 /* =====================================================
@@ -142,9 +143,10 @@ body {
 
 .stats-container {
   display: flex;
+  text-align: center;
   gap: 20px;
-  padding: 0 15px;
-  margin-top: 140px;
+  padding: 30px 15px;
+  margin-top: 10px;
 }
 
 .stat-card {
@@ -157,7 +159,7 @@ body {
   flex-direction: column;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  color: var(--primary-gold);
+  color: var(--border-light);
   font-weight: bold;
 }
 

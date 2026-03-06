@@ -252,19 +252,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // ================= DISPLAY NO PROPERTIES =================
   function renderNoProperties() {
     container.innerHTML = `
-    <h2 class="text-center">No properties found</h2>
-    <div class="container center-box">
-      <div class="text-center">
-        <div class="mb-4">
-          <h2 class="fw-bold">إضافة عقار جديد</h2>
-          <p class="text-muted">يمكنك إضافة عقار جديد إلى الموقع</p>
-        </div>
-        <button id="addPropertyBtn" class="btn add-property-btn">
-          <i class="fa-solid fa-house-circle-plus"></i>
-          إضافة عقار
-        </button>
-      </div>
+
+<div class="container center-box">
+  <div class="text-center">
+    <div>
+      <h2 class="fw-bold">Add New Property</h2>
+      <p class="text-muted">You can add a new property to the website</p>
     </div>
+
+    <button id="addPropertyBtn" class="btn add-property-btn">
+      <i class="fa-solid fa-house-circle-plus"></i>
+      Add Property
+    </button>
+  </div>
+</div>
   `;
 
     const addPropertyBtn = document.getElementById("addPropertyBtn");

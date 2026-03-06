@@ -77,11 +77,40 @@
     <!-- Header     ده الجزء الثابت اللي فوق-->
     <main class="main-content">
       <section id="sectionProperties" class="">
+        <section class="stats-container">
+          <div class="stat-card">
+            <h4>Total Properties</h4>
+            <span class="gold-text " id="total-props">15</span>
+          </div>
+          <div class="stat-card">
+            <h4>Properties Statue</h4>
+            <div class="sub-stat">
+              <span>Approved:</span> <span class="gold-text ps-4" id="approved-count">10</span>
+            </div>
+            <div class="sub-stat">
+              <span>Rejected:</span>
+              <span class="gold-text ps-5" id="rejected-count">5</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <h4>Booking</h4>
+            <div class="sub-stat">
+              <span>In progress:</span>
+              <span class="gold-text ps-4" id="pending-booking">5</span>
+            </div>
+            <div class="sub-stat">
+              <span>Booked:</span>
+              <span class="gold-text ps-5" id="booked-count">10</span>
+            </div>
+          </div>
+        </section>
+
         <div id="propertiesContainer">
 
         </div>
       </section>
       <section id="sectionAddProperties" class="d-none">
+        <h2 class="py-3 ps-1 fw-bold">Add Property</h2>
         <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
           <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
             Basic Info
@@ -515,7 +544,7 @@
       <section id="sectionBooking" class="d-none">
         <div class="booking-page">
           <div class="page-header pb-5">
-            <h2>Booking Requests</h2>
+            <h2 class="fw-bold">Booking Requests</h2>
           </div>
 
           <div class="table-responsive rounded-top-3">
@@ -567,7 +596,7 @@
       <!-- Setting section -->
 
       <section id="sectionSettingProperties" class="d-none">
-        <h2 class="section-main-title">Setting</h2>
+        <h2 class="section-main-title fw-bold">Setting</h2>
 
         <div class="main-form-card">
           <h4 class="form-sub-heading">Update Profile</h4>
