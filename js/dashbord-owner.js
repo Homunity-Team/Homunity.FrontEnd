@@ -421,6 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     fillUpdateForm(property);
+    loadPropertyImages(property.propertyID);
   });
 
   // ================= FILL FORM =================
@@ -483,7 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelAdd.addEventListener("click", () => {
     dis(
       sections.addProperties,
-      sections.properties,
+      sections.updateProperties,
       menuItems.properties,
       menuItems.addProperties,
     );
@@ -633,8 +634,39 @@ async function loadPropertyForUpdate(propertyID) {
     document.getElementById("updatePrice").value = data.price;
     document.getElementById("updateRooms").value = data.rooms;
     document.getElementById("updateDescription").value = data.description;
+
     // ... وباقي الحقول حسب الفورم
   } catch (err) {
     console.error("Error loading property:", err);
+  }
+}
+async function loadPropertyImages(propertyID) {
+  const allImg = document.getElementById("allImg");
+  allImg.innerHTML = ""; // تنظيف أي محتوى سابق
+
+  try {
+    const res = await fetch(
+      `https://homunityapiv1.runasp.net/api/PropertyImages/GetByPropertyId?propertyId=${propertyID}`,
+      { headers: { accept: "*/*" } },
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch property images");
+
+    const data = await res.json();
+
+    const images = Array.isArray(data) ? data : data.images || [];
+
+    images.forEach((img) => {
+      const div = document.createElement("div");
+      div.classList.add("media-card");
+      div.innerHTML = `
+        <img src="${img.imageUrl || img.image}" alt="">
+        <button class="replace-btn">Replace <span class="text-warning">🗑</span></button>
+      `;
+      allImg.appendChild(div);
+    });
+  } catch (err) {
+    console.error("Error loading images:", err);
+    allImg.innerHTML = "<p class='text-danger'>Failed to load images</p>";
   }
 }
