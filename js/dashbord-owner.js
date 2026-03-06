@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const sections = {
   properties: document.getElementById("sectionProperties"),
   addProperties: document.getElementById("sectionAddProperties"),
-  deleteProperties: document.getElementById("sectionDeleteProperties"),
   updateProperties: document.getElementById("sectionUpdateProperties"),
   booking: document.getElementById("sectionBooking"),
   settingProperties: document.getElementById("sectionSettingProperties"),
@@ -29,8 +28,6 @@ const sections = {
 const menuItems = {
   properties: document.getElementById("properties"),
   addProperties: document.getElementById("addProperties"),
-  updateProperties: document.getElementById("updateProperties"),
-  deleteProperties: document.getElementById("deleteProperties"),
   booking: document.getElementById("BookingButton"),
   settingProperties: document.getElementById("settingProperties"),
   massageProperties: document.getElementById("massageProperties"),
@@ -362,10 +359,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     dis(
-      sections.deleteProperties,
+      sections.properties,
       sectionUpdate,
-      menuItems.updateProperties,
-      menuItems.deleteProperties,
+      menuItems.properties,
+      menuItems.properties,
     );
 
     fillUpdateForm(property);
@@ -431,8 +428,8 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelAdd.addEventListener("click", () => {
     dis(
       sections.addProperties,
-      sections.deleteProperties,
-      menuItems.deleteProperties,
+      sections.properties,
+      menuItems.properties,
       menuItems.addProperties,
     );
   });
@@ -443,9 +440,9 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelUpdate.addEventListener("click", () => {
     dis(
       sections.updateProperties,
-      sections.deleteProperties,
-      menuItems.deleteProperties,
-      menuItems.updateProperties,
+      sections.properties,
+      menuItems.properties,
+      menuItems.properties,
     );
   });
   document
@@ -529,9 +526,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dis(
           sections.updateProperties,
-          sections.deleteProperties,
-          menuItems.deleteProperties,
-          menuItems.updateProperties,
+          sections.properties,
+          menuItems.properties,
+          menuItems.properties,
         );
 
         getProperties();
@@ -560,8 +557,6 @@ function attachEditButtons() {
           section.classList.remove("d-none");
         }
       });
-
-      menuItems.updateProperties.classList.add("active");
 
       loadPropertyForUpdate(propertyID);
     });
