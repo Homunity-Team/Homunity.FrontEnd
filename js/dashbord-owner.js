@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const sections = {
   properties: document.getElementById("sectionProperties"),
+  oneProperti: document.getElementById("oneProperti"),
   addProperties: document.getElementById("sectionAddProperties"),
   updateProperties: document.getElementById("sectionUpdateProperties"),
   booking: document.getElementById("sectionBooking"),
@@ -287,14 +288,14 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = properties
       .map((p) => {
         const imgSrc = p.images?.[0]?.imageUrl || defaultImage;
-        return `<div  class="property-horizontal-card mb-3 " data-id="${p.propertyID}" 
+        return `<div   class="property-horizontal-card mb-3 " data-id="${p.propertyID}" 
      style=" cursor: pointer; border: 1px solid #edb42d; background: #fff; min-height: 120px; display: flex; align-items: center; padding: 10px;">
     
   <div class="img-box" style="width: 160px; height: 100px; flex-shrink: 0; overflow: hidden;">
     <img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;" />
   </div>
 
-  <div class="info-box" style="flex-grow: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center;">
+  <div  data-id="${p.propertyID}"  class="info-box" style="flex-grow: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center;>
     <h4 style="color: #232f41; font-weight: 700; margin: 0; font-size: 1.4rem;">${p.title}</h4>
     <p style="color: #555; margin: 5px 0; font-size: 1.1rem;">1234 Sample St, ${p.location?.city || "city"}</p>
     <h5 style="color: #232f41; font-weight: 700; margin: 0; font-size: 1.3rem;">$${p.price} / month</h5>
@@ -316,85 +317,26 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>`;
       })
       .join("");
+    const viwePropertyButtons = container.querySelectorAll(".info-box");
+    viwePropertyButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const propertyID = btn.dataset.id;
+        console.log(propertyID);
 
-    async function safeDelete(url) {
-      try {
-        const res = await fetch(url, {
-          method: "DELETE",
-          headers: {},
-        });
-
-        if (!res.ok && res.status !== 404) {
-          console.warn("Delete failed:", res.status);
+        if (sectionProperties && sections && menuItems) {
+          sectionProperties.classList.add("d-none");
+          sections.oneProperti.classList.remove("d-none");
+          menuItems.properties.classList.remove("active");
+          getPropertyAndFill(propertyID);
         }
-      } catch (err) {
-        console.log("ignored delete error");
-      }
-    }
+      });
+    });
 
     const deleteButtons = container.querySelectorAll(".delete-btn");
     deleteButtons.forEach((btn) => {
       btn.addEventListener("click", async () => {
         const propertyID = btn.dataset.id;
-
-        const result = await Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to undo this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#dc3545",
-          cancelButtonColor: "#374761",
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "Cancel",
-        });
-
-        if (!result.isConfirmed) return;
-        try {
-          // حذف media بدون كسر التنفيذ
-          await safeDelete(
-            `https://homunityapiv1.runasp.net/api/PropertyVideo/DeleteVideo?id=${propertyID}`,
-          );
-
-          await safeDelete(
-            `https://homunityapiv1.runasp.net/api/PropertyImages/DeleteImage?id=${propertyID}`,
-          );
-
-          // حذف العقار
-          const res = await fetch(
-            `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyID}`,
-            {
-              method: "DELETE",
-              headers: {},
-            },
-          );
-
-          if (!res.ok) {
-            const text = await res.text();
-            console.log("SERVER ERROR:", text);
-            throw new Error(text);
-          }
-
-          container
-            .querySelector(`.property-horizontal-card[data-id="${propertyID}"]`)
-            ?.remove();
-
-          Swal.fire({
-            icon: "success",
-            title: "Deleted Successfully",
-            text: "The property has been removed from the list ✔",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#212e43",
-          });
-        } catch (error) {
-          console.error(error);
-          Swal.fire({
-            icon: "error",
-            title: "Failed to Delete Property",
-            text: "Something went wrong",
-            confirmButtonText: "Close",
-            confirmButtonColor: "#dc3545",
-          });
-        }
+        deleteProperty(propertyID, container);
       });
     });
   }
@@ -668,5 +610,208 @@ async function loadPropertyImages(propertyID) {
   } catch (err) {
     console.error("Error loading images:", err);
     allImg.innerHTML = "<p class='text-danger'>Failed to load images</p>";
+  }
+}
+
+// =================== GET ONE PROPERTY AND FILL DOM ===================
+async function getPropertyAndFill(propertyID) {
+  // =================== Property Details DOM References ===================
+  const onePSection = document.getElementById("oneProperti");
+
+  // قسم التفاصيل الرئيسي
+  const onePPropertyDetailsSection = document.getElementById(
+    "onePProperty-details-section",
+  );
+
+  // الصور الرئيسية في المعرض
+  const onePSideImgLeft = document.getElementById("onePSideImgLeft");
+  const onePMainImg = document.getElementById("onePMainImg");
+  const onePSideImgRight = document.getElementById("onePSideImgRight");
+
+  // Thumbnails الصور الصغيرة
+  const onePThumb1 = document.getElementById("onePThumb1");
+  const onePThumb2 = document.getElementById("onePThumb2");
+  const onePThumb3 = document.getElementById("onePThumb3");
+
+  // البيانات الأساسية
+  const onePTitle = document.getElementById("onePTitle");
+  const onePAddress = document.getElementById("onePAddress");
+  const onePDescription = document.getElementById("onePDescription");
+
+  // تفاصيل العقار
+  const onePPrice = document.getElementById("onePPrice");
+  const onePRooms = document.getElementById("onePRooms");
+  const onePKitchen = document.getElementById("onePKitchen");
+  const onePBathroom = document.getElementById("onePBathroom");
+
+  // الخدمات / Amenities
+  const onePAmenity1 = document.getElementById("onePAmenity1");
+  const onePAmenity2 = document.getElementById("onePAmenity2");
+  const onePAmenity3 = document.getElementById("onePAmenity3");
+  const onePAmenity4 = document.getElementById("onePAmenity4");
+
+  // جدول الحجز
+  const onePReservationsTable = document.getElementById(
+    "onePReservationsTable",
+  );
+
+  // أزرار Update / Delete
+  const onePBtnUpdate = document.getElementById("onePBtnUpdate");
+  const onePBtnDelete = document.getElementById("onePBtnDelete");
+
+  // زر العودة
+  const onePBackBtn = document.getElementById("onePBackBtn");
+
+  // =================== Gallery & Utility Arrays ===================
+  const onePMainImages = [onePSideImgLeft, onePMainImg, onePSideImgRight];
+  const onePThumbs = [onePThumb1, onePThumb2, onePThumb3];
+  const onePAmenities = [
+    onePAmenity1,
+    onePAmenity2,
+    onePAmenity3,
+    onePAmenity4,
+  ];
+
+  try {
+    const res = await fetch(
+      `https://homunityapiv1.runasp.net/api/Properties/GetByID?id=${propertyID}`,
+      { headers: { accept: "*/*" } },
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch property");
+
+    const data = await res.json();
+    const property = data.property;
+
+    // =================== FILL DOM ELEMENTS ===================
+    if (!property) return;
+
+    // عرض الـ section الخاص بالتفاصيل وإخفاء section العقارات
+    document.getElementById("sectionProperties")?.classList.add("d-none");
+    onePSection.classList.remove("d-none");
+
+    // الصور
+    if (property.images && property.images.length > 0) {
+      onePMainImages.forEach((img, idx) => {
+        if (property.images[idx]?.imageUrl)
+          img.src = property.images[idx].imageUrl;
+      });
+      onePThumbs.forEach((thumb, idx) => {
+        if (property.images[idx]?.imageUrl)
+          thumb.src = property.images[idx].imageUrl;
+      });
+    }
+
+    // البيانات الأساسية
+    onePTitle.textContent = property.title || onePTitle.textContent;
+    onePAddress.textContent =
+      `${property.location?.street || ""}, ${property.location?.city || ""}` ||
+      onePAddress.textContent;
+    onePDescription.textContent =
+      property.description || onePDescription.textContent;
+
+    // تفاصيل العقار
+    onePPrice.textContent = `$${property.price || "N/A"} / month`;
+    onePRooms.textContent = `${property.rooms || "N/A"} Bedroom`;
+    // المطابخ والحمامات غير موجودة في الـ API لذلك نتركها كما هي
+    // onePKitchen.textContent = ...
+    // onePBathroom.textContent = ...
+
+    // الخدمات / Amenities
+    if (property.services && Array.isArray(property.services)) {
+      onePAmenities.forEach((el, idx) => {
+        if (property.services[idx]) el.textContent = property.services[idx];
+      });
+    }
+
+    // أزرار Update / Delete
+    onePBtnUpdate.onclick = () => {
+      console.log("Update property ID:", property.propertyID);
+      // هنا تحط كود التحديث
+    };
+    onePBtnDelete.onclick = () => {
+      console.log("Delete property ID:", property.propertyID);
+      deleteProperty(property.propertyID, onePSection);
+      
+    };
+
+    // زر العودة
+    onePBackBtn.onclick = () => {
+      onePSection.classList.add("d-none");
+      document.getElementById("sectionProperties")?.classList.remove("d-none");
+    };
+  } catch (err) {
+    console.error("Error loading property details:", err);
+    alert("Failed to load property details.");
+  }
+}
+async function deleteProperty(propertyID, container = null) {
+  async function safeDelete(url) {
+    try {
+      const res = await fetch(url, { method: "DELETE" });
+
+      if (!res.ok && res.status !== 404) {
+        console.warn("Delete failed:", res.status);
+      }
+    } catch {
+      console.log("ignored delete error");
+    }
+  }
+
+  const result = await Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to undo this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3545",
+    cancelButtonColor: "#374761",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    await safeDelete(
+      `https://homunityapiv1.runasp.net/api/PropertyVideo/DeleteVideo?id=${propertyID}`,
+    );
+
+    await safeDelete(
+      `https://homunityapiv1.runasp.net/api/PropertyImages/DeleteImage?id=${propertyID}`,
+    );
+
+    const res = await fetch(
+      `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyID}`,
+      { method: "DELETE" },
+    );
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(text);
+    }
+
+    // حذف العنصر من الواجهة إن وجد
+    if (container) {
+      container
+        .querySelector(`.property-horizontal-card[data-id="${propertyID}"]`)
+        ?.remove();
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Deleted Successfully",
+      text: "The property has been removed ✔",
+      confirmButtonColor: "#212e43",
+    });
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+
+    Swal.fire({
+      icon: "error",
+      title: "Failed to Delete Property",
+      text: "Something went wrong",
+      confirmButtonColor: "#dc3545",
+    });
   }
 }
