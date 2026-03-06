@@ -420,15 +420,17 @@ body {
 .booking-page {
   margin: 20px;
   padding: 20px;
-  background-color: #f2f2f2;
   border-radius: var(--radius-sm);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .booking-table {
-  border-collapse: separate;
-  border-spacing: 0 14px;
+  border-spacing: 0;
   width: 100%;
+  border: solid 1px black;
+  border-top: wheat;
+  border-radius: var(--radius-sm);
+  padding: 20px 0;
 }
 
 .booking-table thead th {
@@ -438,12 +440,18 @@ body {
 }
 
 .booking-table td {
-  padding: 15px;
+  padding: 20px;
   text-align: center;
   color: var(--primary-blue);
-  background: var(--white);
+  border-bottom: 1px solid #ddd;
+}
+.booking-table tbody td:first-child {
+  border-bottom-left-radius: 20px;
 }
 
+.booking-table tbody td:last-child {
+  border-bottom-right-radius: 20px;
+}
 /* =====================================================
    BUTTONS
 ===================================================== */
@@ -452,8 +460,7 @@ body {
   background-color: var(--primary-blue);
   color: var(--primary-gold);
   border: none;
-  padding: 10px 20px;
-  border-radius: var(--radius-md);
+  padding: 5px 30px;
   transition: var(--transition);
 }
 
