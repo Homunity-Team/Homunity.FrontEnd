@@ -366,61 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPropertyImages(property.propertyID);
   });
 
-  // ================= FILL FORM =================
-
-  function fillUpdateForm(property) {
-    document.getElementById("propertyIdUpdate").value = property.propertyID;
-    document.getElementById("titleUpdate").value = property.title;
-    document.getElementById("priceUpdate").value = property.price;
-    document.getElementById("roomsUpdate").value = property.rooms;
-    document.getElementById("descriptionUpdate").value = property.description;
-
-    document.getElementById("apartmentUpdate").checked =
-      property.propertyType === "Apartment";
-    document.getElementById("roomUpdate").checked =
-      property.propertyType === "Room";
-
-    function populateCityAndArea(city, area) {
-      const citySelect = document.getElementById("cityUpdate");
-      const areaSelect = document.getElementById("areaUpdate");
-
-      // مسح أي خيارات سابقة
-      citySelect.innerHTML = "";
-      areaSelect.innerHTML = "";
-
-      // إضافة المدينة
-      const cityOption = document.createElement("option");
-      cityOption.value = city;
-      cityOption.text = city;
-      cityOption.selected = true;
-      citySelect.appendChild(cityOption);
-
-      // إضافة المنطقة
-      const areaOption = document.createElement("option");
-      areaOption.value = area;
-      areaOption.text = area;
-      areaOption.selected = true;
-      areaSelect.appendChild(areaOption);
-    }
-
-    populateCityAndArea(property.location.city, property.location.area);
-    document.getElementById("streetUpdate").value =
-      property.location.street || "";
-
-    document.getElementById("wifiUpdate").checked =
-      property.services?.wifi || false;
-    document.getElementById("parkingUpdate").checked =
-      property.services?.parking || false;
-    document.getElementById("gymUpdate").checked =
-      property.services?.gym || false;
-    document.getElementById("acUpdate").checked =
-      property.services?.ac || false;
-
-    // dataset id للفورم
-    document.getElementById("updatePropertyForm").dataset.id =
-      property.propertyID;
-  }
-
   // ================= CANCEL =================
   const cancelAdd = document.getElementById("cancelAdd");
   cancelAdd.addEventListener("click", () => {
@@ -689,7 +634,7 @@ async function getPropertyAndFill(propertyID) {
     // عرض الـ section الخاص بالتفاصيل وإخفاء section العقارات
     document.getElementById("sectionProperties")?.classList.add("d-none");
     onePSection.classList.remove("d-none");
-
+    onePBtnUpdate.dataset.id = property.id;
     // الصور
     if (property.images && property.images.length > 0) {
       onePMainImages.forEach((img, idx) => {
@@ -724,18 +669,15 @@ async function getPropertyAndFill(propertyID) {
       });
     }
 
-    // أزرار Update / Delete
     onePBtnUpdate.onclick = () => {
-      console.log("Update property ID:", property.propertyID);
-      // هنا تحط كود التحديث
+      onePSection.classList.add("d-none");
+      sections.updateProperties.classList.remove("d-none");
+      fillUpdateForm(property);
     };
     onePBtnDelete.onclick = () => {
-      console.log("Delete property ID:", property.propertyID);
       deleteProperty(property.propertyID, onePSection);
-      
     };
 
-    // زر العودة
     onePBackBtn.onclick = () => {
       onePSection.classList.add("d-none");
       document.getElementById("sectionProperties")?.classList.remove("d-none");
@@ -790,7 +732,6 @@ async function deleteProperty(propertyID, container = null) {
       throw new Error(text);
     }
 
-    // حذف العنصر من الواجهة إن وجد
     if (container) {
       container
         .querySelector(`.property-horizontal-card[data-id="${propertyID}"]`)
@@ -814,4 +755,56 @@ async function deleteProperty(propertyID, container = null) {
       confirmButtonColor: "#dc3545",
     });
   }
+}
+
+function fillUpdateForm(property) {
+  document.getElementById("propertyIdUpdate").value = property.propertyID;
+  document.getElementById("titleUpdate").value = property.title;
+  document.getElementById("priceUpdate").value = property.price;
+  document.getElementById("roomsUpdate").value = property.rooms;
+  document.getElementById("descriptionUpdate").value = property.description;
+
+  document.getElementById("apartmentUpdate").checked =
+    property.propertyType === "Apartment";
+  document.getElementById("roomUpdate").checked =
+    property.propertyType === "Room";
+
+  function populateCityAndArea(city, area) {
+    const citySelect = document.getElementById("cityUpdate");
+    const areaSelect = document.getElementById("areaUpdate");
+
+    // مسح أي خيارات سابقة
+    citySelect.innerHTML = "";
+    areaSelect.innerHTML = "";
+
+    // إضافة المدينة
+    const cityOption = document.createElement("option");
+    cityOption.value = city;
+    cityOption.text = city;
+    cityOption.selected = true;
+    citySelect.appendChild(cityOption);
+
+    // إضافة المنطقة
+    const areaOption = document.createElement("option");
+    areaOption.value = area;
+    areaOption.text = area;
+    areaOption.selected = true;
+    areaSelect.appendChild(areaOption);
+  }
+
+  populateCityAndArea(property.location.city, property.location.area);
+  document.getElementById("streetUpdate").value =
+    property.location.street || "";
+
+  document.getElementById("wifiUpdate").checked =
+    property.services?.wifi || false;
+  document.getElementById("parkingUpdate").checked =
+    property.services?.parking || false;
+  document.getElementById("gymUpdate").checked =
+    property.services?.gym || false;
+  document.getElementById("acUpdate").checked = property.services?.ac || false;
+
+  // dataset id للفورم
+  document.getElementById("updatePropertyForm").dataset.id =
+    property.propertyID;
 }
