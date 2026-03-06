@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Swal.fire("Error", "Failed to add property", "error");
     } finally {
       submitBtn.disabled = false;
+      window.location.reload();
     }
   });
 });
