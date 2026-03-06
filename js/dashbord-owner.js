@@ -221,10 +221,41 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(
         `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`,
       );
+      if (!res.ok) {
+        const container = document.getElementById("propertiesContainer");
+        container.innerHTML = `<h2 class="text-center">No properties found</h2>
+        <div class="container center-box">
+
+  <div class="text-center">
+    
+    <div class="mb-4">
+      <h2 class="fw-bold">إضافة عقار جديد</h2>
+      <p class="text-muted">يمكنك إضافة عقار جديد إلى الموقع</p>
+    </div>
+
+    <button id="addPropertyBtn" class="btn add-property-btn">
+      <i class="fa-solid fa-house-circle-plus"></i>
+      إضافة عقار
+    </button>
+
+  </div>
+
+</div>
+        `;
+        const addPropertyBtn = document.getElementById("addPropertyBtn");
+
+        addPropertyBtn.addEventListener("click", () => {
+          sectionProperties.classList.add("d-none");
+          sections.addProperties.classList.remove("d-none");
+          menuItems.addProperties.classList.add("active");
+          menuItems.properties.classList.remove("active");
+        });
+
+        return;
+      }
       const data = await res.json();
-      allProperties = data.properties || [];
-      displayProperties(allProperties);
-      console.log("Fetched properties:", allProperties);
+      allProperties = data;
+      displayProperties(data);
     } catch (err) {
       console.error("Error fetching properties:", err);
     }
@@ -290,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
           confirmButtonColor: "#dc3545",
           cancelButtonColor: "#374761",
           confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "Cancel"
+          cancelButtonText: "Cancel",
         });
 
         if (!result.isConfirmed) return;
@@ -328,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Deleted Successfully",
             text: "The property has been removed from the list ✔",
             confirmButtonText: "OK",
-            confirmButtonColor: "#212e43"
+            confirmButtonColor: "#212e43",
           });
         } catch (error) {
           console.error(error);
@@ -337,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Failed to Delete Property",
             text: "Something went wrong",
             confirmButtonText: "Close",
-            confirmButtonColor: "#dc3545"
+            confirmButtonColor: "#dc3545",
           });
         }
       });
