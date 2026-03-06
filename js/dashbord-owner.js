@@ -369,24 +369,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // ================= CANCEL =================
   const cancelAdd = document.getElementById("cancelAdd");
   cancelAdd.addEventListener("click", () => {
-    dis(
-      sections.addProperties,
-      sections.updateProperties,
-      menuItems.properties,
-      menuItems.addProperties,
-    );
+    sections.addProperties.classList.add("d-none");
+    sections.properties.classList.remove("d-none");
+    menuItems.addProperties.classList.remove("active");
+    menuItems.properties.classList.add("active");
   });
 
   // ================= UPDATE SUBMIT =================
 
-  const cancelUpdate = document.getElementById("cancelUpdateBtn");
+  const cancelUpdate = document.getElementById("cancelUpdate");
   cancelUpdate.addEventListener("click", () => {
-    dis(
-      sections.updateProperties,
-      sections.properties,
-      menuItems.properties,
-      menuItems.properties,
-    );
+    sections.properties.classList.remove("d-none");
+    sections.updateProperties.classList.add("d-none");
+    menuItems.properties.classList.add("active");
   });
   document
     .getElementById("updatePropertyForm")
@@ -467,12 +462,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         Swal.fire("Success", "Property updated successfully!", "success");
 
-        dis(
-          sections.updateProperties,
-          sections.properties,
-          menuItems.properties,
-          menuItems.properties,
-        );
+        sections.updateProperties.classList.add("d-none");
+        sections.properties.classList.remove("d-none");
+        menuItems.properties.classList.add("active");
 
         getProperties();
       } catch (error) {
