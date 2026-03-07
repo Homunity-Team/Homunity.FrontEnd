@@ -1,44 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="../css/all.min.css">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/dashbord-student.css">
-</head>
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/dashbord-student.css" />
+  </head>
 
-<body>
-
+  <body>
     <!-- ══ HEADER ══ -->
     <header class="header">
-        <div class="header-left">
-            <!-- Hamburger (mobile only) -->
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
+      <div class="header-left">
+        <!-- Hamburger (mobile only) -->
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
 
-            <!-- Logo Icon Box -->
-            <div class="logo-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 10.5L12 3l9 7.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V10.5z" stroke="#efb81e"
-                        stroke-width="1.8" stroke-linejoin="round" />
-                    <path d="M9 22V13h6v9" stroke="#efb81e" stroke-width="1.8" stroke-linejoin="round" />
-                    <rect x="10" y="14" width="4" height="8" rx="0.5" fill="#efb81e" />
-                    <circle cx="12" cy="8" r="1.2" fill="#efb81e" />
-                </svg>
-            </div>
-
-            <!-- Logo Text -->
-            <span class="logo-text">Student Dashboard</span>
+        <!-- Logo Icon Box -->
+        <div class="logo-icon-box">
+          <img src="../img/logo.png" alt="Logo" style="max-height: 70px" />
         </div>
 
-        <!-- Avatar -->
-        <div class="header-avatar">
-            <i class="fa-solid fa-user"></i>
-        </div>
+        <!-- Logo Text -->
+        <span class="logo-text">Student Dashboard</span>
+      </div>
+
+      <!-- Avatar -->
+      <div class="header-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
     </header>
 
     <!-- ══ SIDEBAR OVERLAY ══ -->
@@ -46,123 +38,163 @@
 
     <!-- ══ SIDEBAR ══ -->
     <aside class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li class="active"><i class="fa-solid fa-house"></i> Properties</li>
-                <li><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
-                <li><i class="fa-regular fa-user"></i> Profile</li>
-                <li><i class="fa-regular fa-bell"></i> Notifications</li>
-            </ul>
-        </nav>
-        <div class="sidebar-logout" id="logoutBtn">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout
-        </div>
+      <nav>
+        <ul>
+          <li class="active"><i class="fa-solid fa-house"></i> Properties</li>
+          <li><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
+          <li><i class="fa-regular fa-user"></i> Profile</li>
+          <li><i class="fa-regular fa-bell"></i> Notifications</li>
+        </ul>
+      </nav>
+      <div class="sidebar-logout" id="logoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </div>
     </aside>
 
     <!-- ══ MAIN ══ -->
     <main class="main-content">
-        <section class="d-none">
-            <div class="page-header">
-                <h1 class="page-title">Property Details</h1>
-                <span class="badge-pending">Pending Approval</span>
-            </div>
+      <section class="d-none">
+        <div class="page-header">
+          <h1 class="page-title">Property Details</h1>
+          <span class="badge-pending">Pending Approval</span>
+        </div>
 
-            <!-- Gallery -->
-            <div class="gallery-wrapper">
-                <div class="gallery-img-box">
-                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" />
-                </div>
-                <div class="gallery-img-box">
-                    <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"
-                        alt="main room" />
-                </div>
-                <div class="gallery-img-box">
-                    <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" />
-                </div>
-            </div>
+        <!-- Gallery -->
+        <div class="gallery-wrapper">
+          <div class="gallery-img-box">
+            <img
+              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80"
+              alt="room 1"
+            />
+          </div>
+          <div class="gallery-img-box">
+            <img
+              src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"
+              alt="main room"
+            />
+          </div>
+          <div class="gallery-img-box">
+            <img
+              src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80"
+              alt="room 3"
+            />
+          </div>
+        </div>
 
-            <div class="gallery-thumbs flex justify-content-center">
-                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=70" alt="thumb 1"
-                    class="active" />
-                <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=200&q=70" alt="thumb 2" />
-                <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=200&q=70" alt="thumb 3" />
-            </div>
+        <div class="gallery-thumbs flex justify-content-center">
+          <img
+            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=70"
+            alt="thumb 1"
+            class="active"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=200&q=70"
+            alt="thumb 2"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=200&q=70"
+            alt="thumb 3"
+          />
+        </div>
 
-            <!-- Info Cards -->
-            <div class="info-row">
-                <div class="info-card">
-                    <h3 class="card-title">modern studio</h3>
-                    <p class="card-address">101 UI City, Area</p>
-                    <p class="card-desc">A comfortable and secure room located in a quiet area, designed to provide
-                        students
-                        with a safe and relaxing living environment close to essential services.</p>
-                    <ul class="details-list">
-                        <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
-                        <li><i class="fa-solid fa-diamond"></i> 1 Bedroom</li>
-                        <li><i class="fa-solid fa-diamond"></i> 1 Kitchen</li>
-                        <li><i class="fa-solid fa-diamond"></i> 1 Bathroom</li>
-                    </ul>
-                </div>
+        <!-- Info Cards -->
+        <div class="info-row">
+          <div class="info-card">
+            <h3 class="card-title">modern studio</h3>
+            <p class="card-address">101 UI City, Area</p>
+            <p class="card-desc">
+              A comfortable and secure room located in a quiet area, designed to
+              provide students with a safe and relaxing living environment close
+              to essential services.
+            </p>
+            <ul class="details-list">
+              <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
+              <li><i class="fa-solid fa-diamond"></i> 1 Bedroom</li>
+              <li><i class="fa-solid fa-diamond"></i> 1 Kitchen</li>
+              <li><i class="fa-solid fa-diamond"></i> 1 Bathroom</li>
+            </ul>
+          </div>
 
-                <div class="info-card services-card">
-                    <h3 class="card-title">Services</h3>
-                    <ul class="amenities-list">
-                        <li><span class="amenity-icon"><i class="fa-solid fa-wifi"></i></span> wifi</li>
-                        <li><span class="amenity-icon"><i class="fa-solid fa-dumbbell"></i></span> Gym</li>
-                        <li><span class="amenity-icon"><i class="fa-solid fa-square-parking"></i></span> Parking</li>
-                        <li><span class="amenity-icon"><i class="fa-solid fa-snowflake"></i></span> Air Conditioning
-                        </li>
-                    </ul>
-                </div>
-            </div>
+          <div class="info-card services-card">
+            <h3 class="card-title">Services</h3>
+            <ul class="amenities-list">
+              <li>
+                <span class="amenity-icon"
+                  ><i class="fa-solid fa-wifi"></i
+                ></span>
+                wifi
+              </li>
+              <li>
+                <span class="amenity-icon"
+                  ><i class="fa-solid fa-dumbbell"></i
+                ></span>
+                Gym
+              </li>
+              <li>
+                <span class="amenity-icon"
+                  ><i class="fa-solid fa-square-parking"></i
+                ></span>
+                Parking
+              </li>
+              <li>
+                <span class="amenity-icon"
+                  ><i class="fa-solid fa-snowflake"></i
+                ></span>
+                Air Conditioning
+              </li>
+            </ul>
+          </div>
+        </div>
 
-            <div class="action-row">
-                <button class="btn-book">Book Now</button>
-                <button class="btn-cancel">Cancel</button>
-            </div>
-        </section>
+        <div class="action-row">
+          <button class="btn-book">Book Now</button>
+          <button class="btn-cancel">Cancel</button>
+        </div>
+      </section>
     </main>
 
     <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
+      const hamburger = document.getElementById("hamburger");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("sidebarOverlay");
 
-        hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('open');
-        });
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-        });
+      hamburger.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("open");
+      });
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("open");
+      });
 
-        document.querySelectorAll('.sidebar nav ul li').forEach(li => {
-            li.addEventListener('click', () => {
-                document.querySelectorAll('.sidebar nav ul li').forEach(x => x.classList.remove('active'));
-                li.classList.add('active');
-                if (window.innerWidth <= 900) {
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('open');
-                }
-            });
+      document.querySelectorAll(".sidebar nav ul li").forEach((li) => {
+        li.addEventListener("click", () => {
+          document
+            .querySelectorAll(".sidebar nav ul li")
+            .forEach((x) => x.classList.remove("active"));
+          li.classList.add("active");
+          if (window.innerWidth <= 900) {
+            sidebar.classList.remove("open");
+            overlay.classList.remove("open");
+          }
         });
+      });
 
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.clear();
-                window.location.href = '../index.html';
-            }
-        });
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (confirm("Are you sure you want to logout?")) {
+          localStorage.clear();
+          window.location.href = "../index.html";
+        }
+      });
 
-        document.querySelectorAll('.gallery-thumbs img').forEach(thumb => {
-            thumb.addEventListener('click', () => {
-                document.querySelectorAll('.gallery-thumbs img').forEach(t => t.classList.remove('active'));
-                thumb.classList.add('active');
-            });
+      document.querySelectorAll(".gallery-thumbs img").forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+          document
+            .querySelectorAll(".gallery-thumbs img")
+            .forEach((t) => t.classList.remove("active"));
+          thumb.classList.add("active");
         });
+      });
     </script>
-
-</body>
-
+  </body>
 </html>
