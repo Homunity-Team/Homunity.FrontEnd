@@ -15,6 +15,13 @@ body {
     sans-serif;
 }
 
+.line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
 :root {
   --font-primary-color: #212e43;
   --secondary-color: #f4c430;
