@@ -1,5 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap");
-
+@font-face {
+  font-family: "LBRITE";
+  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
+    format("woff");
+  font-display: swap;
+}
 :root {
   --navy: #212e43;
   --navy-dark: #1b263b;
@@ -22,9 +26,8 @@
 }
 
 body {
-  font-family: "Nunito", sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: "LBRITE", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-bg);
   overflow-x: hidden;
 }
 
