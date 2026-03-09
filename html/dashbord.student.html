@@ -151,6 +151,125 @@
           <button class="btn-cancel">Cancel</button>
         </div>
       </section>
+        
+      <section id="nada-bookings-section" class="d-none py-4">
+        <div class="container">
+            <div class="row g-3 mb-4 text-center">
+                <div class="col-md-3">
+                    <div class="stat-card shadow-sm">
+                        <p class="text-white">Total Bookings</p>
+                        <h3 id="total-val" class="text-warning">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card shadow-sm">
+                        <p class="text-white">Pending Bookings</p>
+                        <p class="small text-white">In progress: <span id="pending-val" class="text-warning">0</span></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card shadow-sm">
+                        <p class="text-white">Confirmed Bookings</p>
+                        <p class="small text-white">Booked: <span id="confirmed-val" class="text-warning">0</span></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card shadow-sm">
+                        <p class="text-white">Cancelled Bookings</p>
+                        <p class="small text-white">Cancelled: <span id="cancelled-val" class="text-warning">0</span></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row table-header-row p-3 mx-0 fw-bold align-items-center">
+                <div class="col-4">Property</div>
+                <div class="col-4 text-end">Location</div>
+                <div class="col-4 text-end pe-5">Statue</div>
+            </div>
+    
+            <div id="api-data-list">
+                <div class="row align-items-center booking-row mx-0">
+                    <div class="col-4 d-flex align-items-center">
+                        <div class="img-box me-3">
+                            <img src="../img/imge1.png" alt="Modern Studio">
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">Modern Studio</h6>
+                            <small class="text-muted">$500 / month</small>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end location-text">1234 Sample St, city</div>
+                    <div class="col-4 text-end pe-4">
+                        <button class="status-btn">In Progress</button>
+                    </div>
+                </div>
+    
+                <div class="row align-items-center booking-row mx-0">
+                    <div class="col-4 d-flex align-items-end">
+                        <div class="img-box me-3">
+                            <img src="../img/imge2.png" alt="Modern Bedroom">
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">modern bedroom</h6>
+                            <small class="text-muted">$350 / month</small>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end location-text">1234 Sample St, city</div>
+                    <div class="col-4 text-end pe-4">
+                        <button class="status-btn">Booked</button>
+                    </div>
+                </div>
+                <div class="row align-items-center booking-row mx-0">
+                  <div class="col-4 d-flex align-items-center">
+                      <div class="img-box me-3">
+                          <img src="../img/imge3.png" alt="Modern Studio">
+                      </div>
+                      <div>
+                          <h6 class="mb-0 fw-bold">modern bedroom</h6>
+                          <small class="text-muted">$150 / month</small>
+                      </div>
+                  </div>
+                  <div class="col-4 text-end location-text">1234 Sample St, city</div>
+                  <div class="col-4 text-end pe-4">
+                      <button class="status-btn">Booked</button>
+                  </div>
+              </div>
+              <div class="row align-items-center booking-row mx-0">
+                <div class="col-4 d-flex align-items-center">
+                    <div class="img-box me-3">
+                        <img src="../img/imge4.png" alt="Modern Studio">
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold">modern bedroom</h6>
+                        <small class="text-muted">$150 / month</small>
+                    </div>
+                </div>
+                <div class="col-4 text-end location-text">1234 Sample St, city</div>
+                <div class="col-4 text-end pe-4">
+                    <button class="status-btn">Cancelled</button>
+                </div>
+            </div>
+            <div class="row align-items-center booking-row mx-0">
+              <div class="col-4 d-flex align-items-center">
+                  <div class="img-box me-3">
+                      <img src="../img/imge5.png" alt="Modern Studio">
+                  </div>
+                  <div>
+                      <h6 class="mb-0 fw-bold">modern bedroom</h6>
+                      <small class="text-muted">$150 / month</small>
+                  </div>
+              </div>
+              <div class="col-4 text-end location-text">1234 Sample St, city</div>
+              <div class="col-4 text-end pe-4">
+                  <button class="status-btn">Cancelled</button>
+              </div>
+          </div>
+                
+                </div>
+        </div>
+    </section>
+ 
+ 
     </main>
 
     <script>

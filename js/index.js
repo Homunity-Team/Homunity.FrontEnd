@@ -114,3 +114,12 @@ roomsInp.addEventListener('input', function() {
     roomsInp.style.borderColor = '#ced4da';
   }
 });
+
+const propertiesBtn = document.getElementById('properties-link'); 
+const bookingsSection = document.getElementById('nada-bookings-section');
+propertiesBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    bookingsSection.classList.remove('d-none'); 
+    bookingsSection.style.display = 'block'; 
+    loadNadaBookings(); 
+});
