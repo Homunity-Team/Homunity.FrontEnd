@@ -54,3 +54,4 @@ for (let key in menuItems) {
     menuItems[key].classList.add("active");
   });
 }
+
