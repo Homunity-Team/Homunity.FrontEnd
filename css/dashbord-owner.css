@@ -932,6 +932,15 @@ body {
   color: #fff;
   padding: 10px;
 }
+@media (max-width: 767px) {
+  .upload-card {
+    height: auto;
+    padding: 15px;
+  }
+  .upload-container {
+    margin-left: 0 !important;
+  }
+}
 
 .upload-container {
   display: flex;
