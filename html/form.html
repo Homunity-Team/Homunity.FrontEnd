@@ -17,7 +17,7 @@
 
 <body>
   <style>
-    /* ===== LOADER (نفس ألوانك) ===== */
+    /* الـ Loader بتاعك كما هو */
     #homunityLoader {
       position: fixed;
       inset: 0;
@@ -26,82 +26,137 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      transition: opacity .4s ease, visibility .4s ease;
     }
 
-    .homunity-spinner {
-      width: 4rem;
-      height: 4rem;
-      border-width: .4rem;
-      color: #f4b400;
-      filter: drop-shadow(0 0 10px #f4b400);
+    /* ===== التعديلات الجوهرية للـ Responsive ===== */
+
+    /* منع الزوم التلقائي في الايفون عند الضغط على الحقول */
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
     }
 
-    .homunity-text {
-      letter-spacing: 4px;
-      color: #b8860b;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: .6;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-    }
-
-    /* ===== RESPONSIVE FIXES (بدون تغيير ألوان) ===== */
     @media (max-width: 991px) {
       .vh-100 {
         height: auto !important;
         min-height: 100vh;
       }
 
-      /* تحويل الـ fixed لـ relative في الموبايل عشان المحتوى يظهر */
+      /* إلغاء التثبيت (Fixed) تماماً في الموبايل */
       .position-fixed {
         position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
         margin: 0 !important;
       }
 
+      /* ضبط صندوق الفورم ليملأ الشاشة في الموبايل */
       .form-box {
         position: relative !important;
         width: 100% !important;
+        max-width: 100% !important;
         height: auto !important;
-        padding: 40px 10px !important;
+        padding: 40px 20px !important;
+        border-radius: 30px 30px 0 0 !important;
+        /* شكل دائري من فوق بس */
+        margin-top: -30px;
+        /* تداخل بسيط مع الخلفية لشكل جمالي */
+        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
       }
 
-      /* تنسيق الهيدر للموبايل ليحتوي على الـ 2 أيقونة */
+      /* ضبط الخلفية (الصورة) في الموبايل */
+      .image-side,
+      .image-side2 {
+        height: 300px !important;
+        /* تقليل طول الصورة في الموبايل */
+        min-height: 300px !important;
+      }
+
+      .container.row,
+      .row.h-100 {
+        flex-direction: column !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .col-lg-6 {
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
+      /* تصغير العناوين في الموبايل */
+      h1 {
+        font-size: 1.8rem !important;
+      }
+
+      .Welcome-secondry-line-signin {
+        font-size: 14px !important;
+        padding-bottom: 20px;
+      }
+    }
+
+    /* هيدر الموبايل */
+    .mobile-header {
+      display: none;
+    }
+
+    @media (max-width: 991px) {
       .mobile-header {
         display: flex !important;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
+        padding: 20px;
+        position: absolute;
+        top: 0;
         width: 100%;
-        background: transparent;
+        z-index: 100;
       }
 
-      .homunity-logo,
-      .homunity-logo2 {
-        position: static !important;
-        /* إلغاء التثبيت */
-        width: 100px !important;
+      .mobile-header img {
+        width: 80px !important;
       }
     }
 
-    /* إخفاء هيدر الموبايل في الشاشات الكبيرة */
-    @media (min-width: 992px) {
-      .mobile-header {
-        display: none !important;
+    @media (max-width: 991px) {
+
+      /* 1. نجعل الحاوية تملأ العرض */
+      .form-box {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        /* إلغاء التحديد */
+        height: auto !important;
+        top: auto !important;
+        right: auto !important;
+        padding: 40px 15px !important;
+        /* تقليل الحواف الجانبية */
+        border-radius: 0 !important;
+        /* اختياري: جعل الحواف حادة لتملأ الشاشة */
+      }
+
+      /* 2. نجعل الفورم نفسها تملأ عرض الـ div */
+      #signupForm,
+      #loginForm {
+        max-width: 100% !important;
+        /* أهم سطر */
+        width: 100% !important;
+        padding: 10px !important;
+      }
+
+      /* 3. التأكد من أن جميع المدخلات تملأ 100% */
+      .form-control {
+        width: 100% !important;
+        display: block;
+        font-size: 16px !important;
+        /* لمنع الزوم التلقائي */
+      }
+
+      /* 4. إلغاء أي هوامش في الـ Row تسبب خروج العناصر عن الشاشة */
+      .row {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
       }
     }
   </style>
@@ -114,65 +169,63 @@
   </div>
 
   <main>
-    <div class="signup d-none image-side position-relative vh-100">
+    <div class="signup d-none image-side position-relative vh-100 ">
 
       <div class="mobile-header">
-        <img src="../img/HOMUNITY (3) 3.svg" class="homunity-logo" />
-        <img src="../img/HOMUNITY (4) 1.svg" class="homunity-logo2" />
+        <img src="../img/HOMUNITY (3) 3.svg" />
+        <img src="../img/HOMUNITY (4) 1.svg" />
       </div>
 
       <a href="../index.html" class="d-none d-lg-block">
-        <img src="../img/HOMUNITY (3) 3.svg" alt="logo" class="homunity-logo position-fixed top-0 start-0 m-4" />
+        <img src="../img/HOMUNITY (3) 3.svg" class="homunity-logo position-fixed top-0 start-0 m-4" />
       </a>
 
-      <div class="container row m-0 w-100 h-100">
-        <div class="col-lg-6 w-100 vh-100 d-flex justify-content-center align-items-center p-0">
-          <div class="text-white text-center animate-text px-3">
-            <h1>Welcome to <span class="fw-bold text-warning">HOMUNITY</span></h1>
-            <p class="Welcome-secondry-line-signin pt-4">Smart, safe, and well-managed housing for university students
-            </p>
+      <div class="container-fluid p-0">
+        <div class="row m-0">
+          <div class="col-lg-6 d-flex justify-content-center align-items-center vh-100-lg" style="min-height: 350px;">
+            <div class="text-white text-center px-3 mt-5 mt-lg-0">
+              <h1 class="fw-bold">Welcome to <span class="text-warning">HOMUNITY</span></h1>
+              <p class="Welcome-secondry-line-signin">Smart, safe, and well-managed housing for university students</p>
+            </div>
           </div>
-        </div>
 
-        <div class="col-lg-6 d-flex justify-content-center align-items-center p-0">
-          <div
-            class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0 bg-white">
-            <a href="../index.html" class="d-none d-lg-block">
-              <img src="../img/HOMUNITY (4) 1.svg" alt="logo" class="homunity-logo2 position-fixed top-0 end-0 m-4" />
-            </a>
-            <form id="signupForm" class="d-flex flex-column" style="width: 100%; max-width: 400px; padding: 20px;">
-              <h2 class="fw-bolder">Create Your Account</h2>
-              <div class="mb-3">
-                <label class="fw-bold">First Name</label>
-                <input name="firstName" class="form-control" placeholder="First Name" />
-                <small class="firstName-warning text-danger d-block mt-1"></small>
-              </div>
-              <div class="mb-3">
-                <label class="fw-bold">Last Name</label>
-                <input name="lastName" class="form-control" placeholder="Last Name" />
-                <small class="lastName-warning text-danger"></small>
-              </div>
-              <div class="mb-3">
-                <label class="fw-bold">Phone</label>
-                <input name="phone" class="form-control js-phone" placeholder="Phone" />
-                <small class="phone-warning text-danger"></small>
-              </div>
-              <div class="mb-3">
-                <label class="fw-bold">Password</label>
-                <input name="password" type="password" class="form-control js-password" placeholder="Password" />
-                <small class="password-warning text-danger"></small>
-              </div>
-              <div class="mb-4 d-flex gap-3 flex-column">
-                <label class="fw-bold">Select Your Role</label>
-                <div><input value="3" type="radio" name="role" checked /> Student</div>
-                <div><input value="2" type="radio" name="role" /> Owner</div>
-              </div>
-              <button type="submit" class="border-0 rounded-3 submit-btn w-100 mb-3 py-2 text-white"
-                style="background:#f4b400;">Submit</button>
-              <small class="empty-fields-for-signup text-danger"></small>
-              <p class="text-center small">Already have an account? <a id="bSignup" href="#"
-                  class="text-decoration-none text-warning">Login</a></p>
-            </form>
+          <div class="col-lg-6 p-0">
+            <div
+              class="form-box d-flex justify-content-center align-items-center vh-100 position-fixed top-0 end-0 bg-white">
+              <form id="signupForm" class="d-flex flex-column" style="width: 100%; max-width: 400px; padding: 20px;">
+                <h2 class="fw-bolder">Create Your Account</h2>
+                <div class="mb-3">
+                  <label class="fw-bold">First Name</label>
+                  <input name="firstName" class="form-control" placeholder="First Name" />
+                  <small class="firstName-warning text-danger d-block mt-1"></small>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">Last Name</label>
+                  <input name="lastName" class="form-control" placeholder="Last Name" />
+                  <small class="lastName-warning text-danger"></small>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">Phone</label>
+                  <input name="phone" class="form-control js-phone" placeholder="Phone" />
+                  <small class="phone-warning text-danger"></small>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">Password</label>
+                  <input name="password" type="password" class="form-control js-password" placeholder="Password" />
+                  <small class="password-warning text-danger"></small>
+                </div>
+                <div class="mb-4 d-flex gap-3 flex-column">
+                  <label class="fw-bold">Select Your Role</label>
+                  <div><input value="3" type="radio" name="role" checked /> Student</div>
+                  <div><input value="2" type="radio" name="role" /> Owner</div>
+                </div>
+                <button type="submit" class="border-0 rounded-3 submit-btn w-100 mb-3 py-2 text-white"
+                  style="background:#f4b400;">Submit</button>
+                <small class="empty-fields-for-signup text-danger"></small>
+                <p class="text-center small">Already have an account? <a id="bSignup" href="#"
+                    class="text-decoration-none text-warning">Login</a></p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
