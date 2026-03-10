@@ -611,8 +611,6 @@
         </div>
       </section>
 
-      <!-- Setting section -->
-
       <section id="sectionSettingProperties" class="d-none">
         <h2 class="section-main-title fw-bold">Setting</h2>
 
@@ -700,7 +698,7 @@
           }
         });
       </script>
-      <section id="oneProperti" class="d-none">
+      <section id="oneProperti" class="">
         <div id="onePProperty-details-section" class="content-section">
           <div class="container-fluid px-4">
             <div class="d-flex justify-content-between align-items-center mb-4 px-3">
@@ -709,26 +707,29 @@
                 <i class="fa-regular fa-circle-left"></i>
               </p>
             </div>
-            <div class="row justify-content-center mt-5">
+            <div class="row justify-content-center mt-5 px-2">
               <div class="col-lg-12">
-                <div id="onePFeaturedGallery" class="featured-gallery-wrapper gap-5 mb-4">
-                  <div class="side-img-box left">
-                    <img id="onePSideImgLeft" src="../img/img.2.jpeg" class="gallery-img" />
+                <div id="onePFeaturedGallery" class="featured-gallery-wrapper mb-4">
+                  <div class="side-img-box left d-none d-md-block"> <img id="onePSideImgLeft" src="../img/img.2.jpeg"
+                      class="gallery-img" />
                   </div>
+
                   <div class="main-img-box">
-                    <img id="onePMainImg" src="../img/img.3.jpeg" class="gallery-img" />
+                    <img id="onePMainImg" src="../img/img.3.jpeg" class="gallery-img shadow" />
                   </div>
-                  <div class="side-img-box right">
-                    <img id="onePSideImgRight" src="../img/img.5.jpeg" class="gallery-img" />
+
+                  <div class="side-img-box right d-none d-md-block"> <img id="onePSideImgRight" src="../img/img.5.jpeg"
+                      class="gallery-img" />
                   </div>
                 </div>
 
-                <div id="onePThumbsContainer" class="col-12 d-flex justify-content-center gap-5 mt-5">
-                  <img id="onePThumb1" src="../img/img.2.jpeg" class="rounded-3"
-                    style="width: 100px; height: 50px; object-fit: cover" />
-                  <img id="onePThumb2" src="../img/img.3.jpeg" class="rounded-3" style="width: 100px; height: 50px" />
-                  <img id="onePThumb3" src="../img/img.5.jpeg" class="rounded-3"
-                    style="width: 100px; height: 50px; object-fit: cover" />
+                <div id="onePThumbsContainer" class="d-flex justify-content-center gap-3 gap-md-5 mt-4">
+                  <img id="onePThumb1" src="../img/img.2.jpeg" class="rounded-3 img-thumbnail shadow-sm"
+                    style="width: 80px; height: 50px; cursor: pointer;" />
+                  <img id="onePThumb2" src="../img/img.3.jpeg" class="rounded-3 img-thumbnail shadow-sm border-warning"
+                    style="width: 80px; height: 50px; cursor: pointer;" />
+                  <img id="onePThumb3" src="../img/img.5.jpeg" class="rounded-3 img-thumbnail shadow-sm"
+                    style="width: 80px; height: 50px; cursor: pointer;" />
                 </div>
               </div>
             </div>
@@ -757,8 +758,8 @@
                 </div>
 
                 <div class="col-12 col-md-4 info-card">
-                  <h3 id="onePAmenitiesTitle" class="studio-title">Amenities</h3>
-                  <ul id="onePAmenitiesList" class="amenities-list">
+                  <h3 id="onePAmenitiesTitle" class="studio-title pb-3">Amenities</h3>
+                  <ul id="onePAmenitiesList " class="amenities-list d-flex flex-column gap-3 ">
                     <li id="onePAmenity1"><span class="check-box"></span>wifi</li>
                     <li id="onePAmenity2"><span class="check-box"></span>Parking</li>
                     <li id="onePAmenity3"><span class="check-box"></span>Gym</li>
@@ -770,7 +771,7 @@
           </div>
 
           <div class="row mt-5 md-4 px-4 justify-content-center">
-            <div class="col-12 table-container">
+            <div class="col-12 table-container overflow-auto">
               <table id="onePReservationsTable" class="custom-table">
                 <thead>
                   <tr>
@@ -794,7 +795,7 @@
               </table>
             </div>
 
-            <div class="property-actions-container">
+            <div class="property-actions-container ">
               <button id="onePBtnUpdate" class="btn-custom  btn-update">Update</button>
               <button id="onePBtnDelete" class="btn-custom delete-btn btn-delete">Delete</button>
             </div>

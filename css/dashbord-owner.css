@@ -210,15 +210,45 @@ body {
 }
 
 .main-img-box {
-  width: 470px;
-  height: 150px;
+  width: 100%;
+  max-width: 470px; /* أقصى عرض للديسك توب */
+  height: 250px; /* زودت الارتفاع شوية عشان الرؤية */
 }
 
 .side-img-box {
-  width: 150px;
-  height: 150px;
+  width: 20%; /* عرض نسبي */
+  max-width: 150px;
+  height: 250px;
   overflow: hidden;
   position: relative;
+  flex-shrink: 0; /* عشان الصورة متصغرش بزيادة */
+}
+
+/* الموبايل (أقل من 768px) */
+@media (max-width: 767px) {
+  .side-img-box {
+    display: none; /* يفضل إخفاء الصور الجانبية في الموبايل الصغير لتركيز العين على الصورة الأساسية */
+  }
+  
+  .main-img-box {
+    max-width: 100%;
+    height: 200px;
+  }
+
+  .featured-gallery-wrapper {
+    gap: 0;
+  }
+
+  /* تصغير التامبنيت (الصور الصغيرة تحت) */
+  #onePThumbsContainer {
+    gap: 10px !important;
+    margin-top: 20px !important;
+  }
+  
+  #onePThumbsContainer img {
+    width: 80px !important; /* تصغير العرض */
+    height: 45px !important;
+  }
 }
 
 .side-img-box img {
@@ -243,24 +273,17 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px; /* لمسة جمالية */
 }
 
 @keyframes moveLeft {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-40%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-40%); }
 }
 
 @keyframes moveRight {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(40%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(40%); }
 }
 
 /* =====================================================
@@ -276,6 +299,7 @@ body {
 .details-list li,
 .amenities-list li {
   color: var(--primary-blue);
+  
 }
 
 .details-list,
@@ -316,7 +340,6 @@ body {
   background: white;
   display: flex;
   flex-direction: column;
-  height: 100%;
   margin-bottom: 15px;
 }
 
@@ -392,6 +415,11 @@ body {
   justify-content: left;
   gap: 20px;
   margin-top: 30px;
+}
+@media (max-width: 767px) {
+  .property-actions-container {
+    flex-direction: column;
+  }
 }
 .btn-custom {
   padding: 10px 60px;
