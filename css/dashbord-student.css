@@ -470,3 +470,107 @@ body {
     font-size: 1rem;
   }
 }
+
+
+:root {
+    --main-blue:#1a263e;
+    --gold: #c5a059;      
+    --light-bg: #f4f7f6;
+}
+
+
+.top-header {
+    padding: 10px 40px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.main-logo { height: 35px; }
+
+.brand-text {
+    color: var(--gold);
+    font-weight: 500;
+    font-size: 1.2rem; 
+}
+
+.sidebar {
+    width: 240px;
+    background-color: var(--main-blue);
+    height: 100vh; 
+    border-top-right-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    padding-bottom: 40px;
+    position: sticky;
+    top: 0;
+}
+
+.nav-item a {
+    color: #b0b0b0;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-size: 0.95rem; 
+}
+
+.nav-item.active {
+    background-color: var(--gold);
+}
+
+.nav-item.active a { color: white !important; }
+
+.logout-section { padding-left: 30px; }
+.logout-section a { 
+    color: #b0b0b0; 
+    text-decoration: none; 
+    font-size: 0.95rem;
+}
+.content-area {
+    flex: 1;
+    padding: 30px 60px;
+}
+
+.page-title {
+    color: var(--main-blue);
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-size: 1.3rem; 
+}
+
+.notif-box {
+    background-color: var(--main-blue);
+    color: white;
+    padding: 25px 40px; 
+    border-radius: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100px; 
+}
+
+.notif-msg {
+    margin: 0;
+    font-size: 1rem; 
+    line-height: 1.5;
+}
+
+.status-btn {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: #000;
+    min-width: 130px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+.in-process { background-color: #f39c12; }
+.cancelled, .booked { background-color: #f39c12; }
