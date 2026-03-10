@@ -3,7 +3,7 @@
 ===================================================== */
 :root {
   --primary-blue: #212e43;
-  --primary-dark-blue: #1b263b;
+  --primary-dark-blue: hsl(219, 37%, 17%);
   --primary-gold: #efb81e;
   --gold-soft: #f1b42f;
 
@@ -1135,3 +1135,117 @@ textarea {
     transform: scale(1);
   }
 }
+
+/* Pages are blank   */
+
+/* start add property is blank */
+
+.property-empty-state {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
+
+.btn-add-property {
+  background-color: #212e43;
+  color: #efb81e;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.btn-add-property:hover {
+  background-color: #1a2535;
+  color: #efb81e;
+  transform: scale(1.05);
+}
+
+.strike-line-custom {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 5px;
+  background-color: #efb81e;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  border-radius: 2px;
+}
+/* end add property is blank */
+
+/* start booking is blank */
+.booking-empty-state {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.calendar-icon-box {
+  transition: transform 0.3s ease;
+}
+
+.booking-empty-state:hover .calendar-icon-box {
+  transform: translateY(-5px);
+}
+/* end booking is blank */
+
+/* end add property is blank */
+
+/* responsive design */
+/* --- Media Query للتابلت والموبايل --- */
+@media (max-width: 991px) {
+  .sidebar {
+    left: -260px; /* مخفي جهة اليسار */
+    top: 100px; /* يبدأ من تحت الهيدر */
+    height: calc(100vh - 100px);
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    overflow: auto;
+  }
+
+  /* كلاس إضافي سيتم تفعيله بالجافاسكريبت لإظهار السايدبار */
+  .sidebar.active {
+    left: 0;
+  }
+
+  /* 2. جعل المحتوى الأساسي يأخذ الشاشة بالكامل */
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 20px 15px !important;
+    margin-top: 100px !important; /* مسافة الهيدر الثابت */
+  }
+
+  /* 3. تنسيق أيقونة المنيو */
+  .menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--primary-blue);
+  }
+
+  /* 4. تعديلات الكروت لتناسب الشاشة الصغيرة */
+  .stats-container {
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  .card-body-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .right-side {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* تعديل بسيط للهيدر لضمان التجاوب */
+.top-header {
+  padding: 0 20px;
+}
+
+/* end responsive design */

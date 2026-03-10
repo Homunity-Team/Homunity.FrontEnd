@@ -16,6 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// start responsive sidebar
+document.addEventListener("DOMContentLoaded", function () {
+  const sidebar = document.querySelector(".sidebar");
+  const toggleBtn = document.getElementById("sidebarToggle");
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", function () {
+      sidebar.classList.toggle("active");
+    });
+  }
+
+  const navItems = document.querySelectorAll(".sidebar nav ul li");
+  navItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      if (window.innerWidth < 992) {
+        sidebar.classList.remove("active");
+      }
+    });
+  });
+});
+// end responsive sidebar
 const sections = {
   properties: document.getElementById("sectionProperties"),
   oneProperti: document.getElementById("oneProperti"),
@@ -254,19 +275,26 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderNoProperties() {
     container.innerHTML = `
 
-<div class="container center-box">
-  <div class="text-center">
-    <div>
-      <h2 class="fw-bold">Add New Property</h2>
-      <p class="text-muted">You can add a new property to the website</p>
-    </div>
+<section class="property-empty-state py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-12 text-center">
+                
+                <div class="mb-4 d-inline-block ">
+                    <img class="w-25 h-25" src="../img/icone-add-is-blank.svg" alt="">
+                </div>
 
-    <button id="addPropertyBtn" class="btn add-property-btn">
-      <i class="fa-solid fa-house-circle-plus"></i>
-      Add Property
-    </button>
-  </div>
-</div>
+                <h2 class="fw-bold mb-2" style="color: #efb81e;">No properties yet.</h2>
+                <p class="mb-4 fs-2 py-3" style="color: #212e43;">Click here to add your first property</p>
+
+                <button class="btn btn-add-property px-5 py-2 fw-bold">
+                    +Add
+                </button>
+
+            </div>
+        </div>
+    </div>
+</section>
   `;
 
     const addPropertyBtn = document.getElementById("addPropertyBtn");
