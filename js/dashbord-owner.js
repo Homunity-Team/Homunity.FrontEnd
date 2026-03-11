@@ -646,11 +646,11 @@ async function fetchProperties() {
                                 <p class="property-price mb-0 fw-bold text-primary">$${prop.price} / month</p>
                             </div>
 
-                            <div class="d-flex  align-items-end justify-content-between h-100 gap-2">
+                            <div class="d-flex  align-items-center justify-content-between h-100 gap-2 mt-3">
                                 <span class="badge ${statusClass}" style="font-size: 10px; padding: 5px 10px;">
                                     ${statusText}
                                 </span>
-                                <button class="btn btn-outline-primary btn-sm rounded-5 px-4" 
+                                <button class="btn btn-outline-primary btn-sm rounded-5 px-4 " 
                                         onclick="showPropertyDetails(${JSON.stringify(prop).replace(/"/g, "&quot;")})">
                                     View Details
                                 </button>                            
