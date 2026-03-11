@@ -65,12 +65,12 @@ function hideAllSections(item, option) {
   }
 }
 
-function dis(aItem, rItem, aActive, rActive) {
-  aItem.classList.add("d-none");
-  rItem.classList.remove("d-none");
-  aActive.classList.add("active");
-  rActive.classList.remove("active");
-}
+// function dis(aItem, rItem, aActive, rActive) {
+//   aItem.classList.add("d-none");
+//   rItem.classList.remove("d-none");
+//   aActive.classList.add("active");
+//   rActive.classList.remove("active");
+// }
 
 for (let key in menuItems) {
   menuItems[key].addEventListener("click", () => {
@@ -85,6 +85,8 @@ for (let key in menuItems) {
     menuItems[key].classList.add("active");
   });
 }
+
+// start get location
 
 fetch("https://homunityapiv1.runasp.net/api/Location/cities", {
   headers: {
@@ -105,9 +107,10 @@ fetch("https://homunityapiv1.runasp.net/api/Location/cities", {
 
 const citySelect = document.getElementById("citySelect");
 const areaSelect = document.getElementById("areaSelect");
+const streetAdd = document.getElementById("streetAdd");
 
 citySelect.addEventListener("change", async () => {
-  const cityId = citySelect.value; // <-- هنا نجيب القيمة الصحيحة
+  const cityId = citySelect.value;
 
   try {
     const response = await fetch(
@@ -120,6 +123,7 @@ citySelect.addEventListener("change", async () => {
       const option = document.createElement("option");
       option.value = area.locationId;
       option.textContent = area.area;
+      option.dataset.street = area.street;
       areaSelect.appendChild(option);
     });
   } catch (error) {
@@ -127,706 +131,599 @@ citySelect.addEventListener("change", async () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("#sectionAddProperties form");
-  const titleInput = document.getElementById("titleAdd");
-  const priceInput = document.getElementById("priceAdd");
-  const roomsInput = document.getElementById("roomsAdd");
-  const descriptionInput = document.getElementById("descreptionAdd");
-  const areaSelect = document.getElementById("areaSelect");
+areaSelect.addEventListener("change", () => {
+  const selectedOption = areaSelect.options[areaSelect.selectedIndex];
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  const streetName = selectedOption.dataset.street;
 
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-
-    const propertyType = document.getElementById("apartmentApp").checked
-      ? "Apartment"
-      : "Room";
-
-    const requestBody = {
-      propertyID: 0,
-      ownerID: Number(localStorage.getItem("id")),
-      title: titleInput.value.trim(),
-      description: descriptionInput.value.trim(),
-      price: Number(priceInput.value),
-      rooms: Number(roomsInput.value),
-      locationID: Number(areaSelect.value),
-      propertyStatusID: 1,
-      propertyType: propertyType,
-      rejectReason: "",
-    };
-
-    try {
-      const response = await fetch(
-        "https://homunityapiv1.runasp.net/api/Properties/AddProperty",
-        {
-          method: "POST",
-          headers: {
-            accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: "Bearer YOUR_TOKEN_HERE",
-          },
-          body: JSON.stringify(requestBody),
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error("API Error:", data);
-        Swal.fire("Error", data.message || "Failed to add property", "error");
-        submitBtn.disabled = false;
-        return;
-      }
-
-      console.log("Property added:", data);
-
-      // رفع الصورة
-      const imgFile = document.querySelector(
-        "#addPropertyForm input[name='img']",
-      )?.files[0];
-
-      if (imgFile && data.propertyID) {
-        const formData = new FormData();
-        formData.append("file", imgFile);
-        try {
-          const uploadRes = await fetch(
-            `https://homunityapiv1.runasp.net/api/PropertyImages/UploadImage?propertyId=${data.propertyID}`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: "Bearer YOUR_TOKEN_HERE",
-              },
-              body: formData,
-            },
-          );
-
-          const uploadData = await uploadRes.json();
-          console.log("Image uploaded:", uploadData);
-          Swal.fire("Success", "Image added successfully", "success");
-        } catch (err) {
-          console.error("Image upload error:", err);
-          Swal.fire("Error", "Failed to upload image", "error");
-        }
-      } else {
-        Swal.fire("Success", "Property added successfully!", "success");
-      }
-
-      form.reset();
-    } catch (error) {
-      console.error("Error adding property:", error);
-      Swal.fire("Error", "Failed to add property", "error");
-    } finally {
-      submitBtn.disabled = false;
-      window.location.reload();
-    }
-  });
+  if (streetName) {
+    streetAdd.value = streetName;
+  }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const ownerId = localStorage.getItem("id");
-  if (!ownerId) {
-    Swal.fire("Error", "Owner ID not found", "error");
-    return;
-  }
+// end get location
 
-  const container = document.getElementById("propertiesContainer");
-  const sectionProperties = document.getElementById("sectionProperties");
-  const sectionUpdate = document.getElementById("sectionUpdateProperties");
+// start add property
 
-  let allProperties = [];
+const addPropertyForm = document.getElementById("addPropertyForm");
 
-  // ================= FETCH ALL PROPERTIES =================
+addPropertyForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // منع الصفحة من التحميل
 
-  async function getProperties() {
-    try {
-      const res = await fetch(
-        `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`,
-      );
+  // 1. تجهيز الـ FormData
+  const formData = new FormData();
 
-      if (!res.ok) {
-        renderNoProperties();
-        return;
-      }
+  // 2. سحب البيانات الأساسية من المدخلات
+  formData.append("OwnerID", 1); // ملحوظة: غير الـ ID ده حسب المستخدم اللي عامل login
+  formData.append("Title", document.getElementById("titleAdd").value);
+  formData.append(
+    "Description",
+    document.getElementById("descreptionAdd").value,
+  );
+  formData.append(
+    "Price",
+    parseFloat(document.getElementById("priceAdd").value),
+  );
+  formData.append("Rooms", parseInt(document.getElementById("roomsAdd").value));
 
-      const data = await res.json();
-      // نتحقق إذا فيه array حقيقية
-      allProperties = Array.isArray(data.properties)
-        ? data.properties
-        : Array.isArray(data.data)
-          ? data.data
-          : [];
+  // تحديد نوع العقار من الـ Radio Buttons
+  const propertyType = document.getElementById("apartmentApp").checked
+    ? "Apartment"
+    : "Room";
+  formData.append("PropertyType", propertyType);
 
-      if (allProperties.length === 0) {
-        renderNoProperties();
-        return;
-      }
+  // سحب الـ LocationID من الـ Select اللي عملناه في الخطوة اللي فاتت
+  formData.append(
+    "LocationID",
+    parseInt(document.getElementById("areaSelect").value),
+  );
 
-      displayProperties(allProperties);
-    } catch (err) {
-      console.error("Error fetching properties:", err);
-      container.innerHTML = `<h2 class="text-center">Error loading properties</h2>`;
+  // 3. التعامل مع الخدمات (Services) - بنبعتها كـ Array من الـ IDs
+  // هفترض إن الـ IDs هي: wifi=1, parking=2, gym=3, ac=4 (تأكد من الـ API documentation)
+  const servicesMap = {
+    wifi: 1,
+    parking: 2,
+    gym: 3,
+    ac: 4,
+  };
+
+  Object.keys(servicesMap).forEach((id) => {
+    if (document.getElementById(id).checked) {
+      formData.append("Services", servicesMap[id]);
     }
-  }
-  getProperties();
-  // ================= DISPLAY NO PROPERTIES =================
-  function renderNoProperties() {
-    container.innerHTML = `
+  });
 
-<section class="property-empty-state py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-12 text-center">
-                
-                <div class="mb-4 d-inline-block ">
-                    <img class="w-25 h-25" src="../img/icone-add-is-blank.svg" alt="">
-                </div>
-
-                <h2 class="fw-bold mb-2" style="color: #efb81e;">No properties yet.</h2>
-                <p class="mb-4 fs-2 py-3" style="color: #212e43;">Click here to add your first property</p>
-
-                <button class="btn btn-add-property px-5 py-2 fw-bold">
-                    +Add
-                </button>
-
-            </div>
-        </div>
-    </div>
-</section>
-  `;
-
-    const addPropertyBtn = document.getElementById("addPropertyBtn");
-    if (addPropertyBtn) {
-      addPropertyBtn.addEventListener("click", () => {
-        if (sectionProperties && sections && menuItems) {
-          sectionProperties.classList.add("d-none");
-          sections.addProperties.classList.remove("d-none");
-          menuItems.addProperties.classList.add("active");
-          menuItems.properties.classList.remove("active");
-        }
-      });
+  // 4. التعامل مع الصور (Images) - مصفوفة ملفات
+  const imageInput = document.getElementById("images");
+  if (imageInput.files.length > 0) {
+    for (let i = 0; i < imageInput.files.length; i++) {
+      formData.append("Images", imageInput.files[i]);
     }
   }
 
-  // ================= DISPLAY PROPERTIES =================
-  function displayProperties(properties) {
-    const container = document.getElementById("propertiesContainer");
-    const defaultImage = "../img/img.5.jpeg";
-
-    container.innerHTML = properties
-      .map((p) => {
-        const imgSrc = p.images?.[0]?.imageUrl || defaultImage;
-        return `<div   class="property-horizontal-card mb-3 " data-id="${p.propertyID}" 
-     style=" cursor: pointer; border: 1px solid #edb42d; background: #fff; min-height: 120px; display: flex; align-items: center; padding: 10px;">
-    
-  <div class="img-box" style="width: 160px; height: 100px; flex-shrink: 0; overflow: hidden;">
-    <img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;" />
-  </div>
-
-  <div  data-id="${p.propertyID}"  class="info-box" style="flex-grow: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center;>
-    <h4 style="color: #232f41; font-weight: 700; margin: 0; font-size: 1.4rem;">${p.title}</h4>
-    <p style="color: #555; margin: 5px 0; font-size: 1.1rem;">1234 Sample St, ${p.location?.city || "city"}</p>
-    <h5 style="color: #232f41; font-weight: 700; margin: 0; font-size: 1.3rem;">$${p.price} / month</h5>
-  </div>
-
-
-
-  <div class="action-box" style="display: flex;  gap: 8px;">
-    <button class="btn edit-btn" data-id="${p.propertyID}" 
-            style="background-color: #232f41; color: white; border: none; border-radius: 12px; padding: 8px 25px; min-width: 130px; font-weight: 500;">
-        Edit
-    </button>
-    <button class="btn delete-btn" data-id="${p.propertyID}" 
-            style="background: transparent; color: #dc3545; border: 1px solid #dc3545; border-radius: 12px; padding: 8px 25px; min-width: 130px; font-weight: 500;">
-        Delete
-    </button>
-  </div>
-
-</div>`;
-      })
-      .join("");
-    const viwePropertyButtons = container.querySelectorAll(".info-box");
-    viwePropertyButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const propertyID = btn.dataset.id;
-        console.log(propertyID);
-
-        if (sectionProperties && sections && menuItems) {
-          sectionProperties.classList.add("d-none");
-          sections.oneProperti.classList.remove("d-none");
-          menuItems.properties.classList.remove("active");
-          getPropertyAndFill(propertyID);
-        }
-      });
-    });
-
-    const deleteButtons = container.querySelectorAll(".delete-btn");
-    deleteButtons.forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const propertyID = btn.dataset.id;
-        deleteProperty(propertyID, container);
-      });
-    });
+  // 5. التعامل مع الفيديو (Video) - ملف واحد
+  const videoInput = document.getElementById("video");
+  if (videoInput.files.length > 0) {
+    formData.append("Video", videoInput.files[0]);
   }
 
-  // ================= EDIT BUTTON =================
-  document.addEventListener("click", async (e) => {
-    if (!e.target.closest(".edit-btn")) return;
-
-    const id = Number(e.target.closest(".edit-btn").dataset.id);
-    console.log("Editing property ID:", id);
-
-    // البحث في allProperties
-    const property = allProperties.find((p) => p.propertyID === id);
-    if (!property) {
-      console.error("Property not found in local data");
-      return;
-    }
-
-    dis(
-      sections.properties,
-      sectionUpdate,
-      menuItems.properties,
-      menuItems.properties,
-    );
-
-    fillUpdateForm(property);
-    loadPropertyImages(property.propertyID);
-  });
-
-  // ================= CANCEL =================
-  const cancelAdd = document.getElementById("cancelAdd");
-  cancelAdd.addEventListener("click", () => {
-    sections.addProperties.classList.add("d-none");
-    sections.properties.classList.remove("d-none");
-    menuItems.addProperties.classList.remove("active");
-    menuItems.properties.classList.add("active");
-  });
-
-  // ================= UPDATE SUBMIT =================
-
-  const cancelUpdate = document.getElementById("cancelUpdate");
-  cancelUpdate.addEventListener("click", () => {
-    sections.properties.classList.remove("d-none");
-    sections.updateProperties.classList.add("d-none");
-    menuItems.properties.classList.add("active");
-  });
-  document
-    .getElementById("updatePropertyForm")
-    .addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const propertyID = document.getElementById("propertyIdUpdate").value;
-      const ownerID = Number(localStorage.getItem("id"));
-      const title = document.getElementById("titleUpdate").value;
-      const price = Number(document.getElementById("priceUpdate").value);
-      const rooms = Number(document.getElementById("roomsUpdate").value);
-      const description = document.getElementById("descriptionUpdate").value;
-      const propertyType = document.querySelector(
-        "input[name='propertyTypeUpdate']:checked",
-      ).value;
-      const videoUpdate = document.getElementById("videoUpdate").value;
-
-      const locationID = Number(
-        document.getElementById("cityUpdate").dataset.locationid || 3,
-      );
-
-      const updatedData = {
-        propertyID,
-        ownerID,
-        title,
-        description,
-        price,
-        rooms,
-        locationID,
-        propertyStatusID: 1,
-        propertyType,
-        rejectReason: "",
-      };
-
-      const imgUpdate = document.querySelector(
-        "#updatePropertyForm input[name='image']",
-      ).files[0];
-
-      if (imgUpdate) {
-        const propertyID = document.getElementById("propertyIdUpdate").value;
-        const formData = new FormData();
-        formData.append("file", imgUpdate);
-
-        fetch(
-          `https://homunityapiv1.runasp.net/api/PropertyImages/UploadImage?propertyId=${propertyID}`,
-          {
-            method: "POST",
-            headers: {},
-            body: formData,
-          },
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("Image uploaded:", data);
-            Swal.fire("Success", "Image uploaded successfully", "success");
-          })
-          .catch((err) => {
-            console.error("Image upload error:", err);
-            Swal.fire("Error", "Failed to upload image", "error");
-          });
-      }
-
-      try {
-        const res = await fetch(
-          "https://homunityapiv1.runasp.net/api/Properties/UpdateProperty",
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedData),
-          },
-        );
-
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.message || "Update failed");
-
-        Swal.fire("Success", "Property updated successfully!", "success");
-
-        sections.updateProperties.classList.add("d-none");
-        sections.properties.classList.remove("d-none");
-        menuItems.properties.classList.add("active");
-
-        getProperties();
-      } catch (error) {
-        console.error(error);
-        Swal.fire("Error", error.message, "error");
-      }
-    });
-});
-
-function attachEditButtons() {
-  const editButtons = document.querySelectorAll(".edit-btn");
-
-  editButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const propertyID = btn.dataset.id;
-
-      Object.values(menuItems).forEach((item) => {
-        item.classList.remove("active");
-      });
-
-      Object.values(sections).forEach((section) => {
-        if (section !== sections.updateProperties) {
-          section.classList.add("d-none");
-        } else {
-          section.classList.remove("d-none");
-        }
-      });
-
-      loadPropertyForUpdate(propertyID);
-    });
-  });
-}
-
-async function loadPropertyForUpdate(propertyID) {
+  // 6. إرسال الطلب للـ API
   try {
-    const res = await fetch(
-      `https://homunityapiv1.runasp.net/api/Properties/GetPropertyById?id=${propertyID}`,
+    const response = await fetch(
+      "https://homunityapiv1.runasp.net/api/Properties/CreateFullProperty",
       {
-        headers: { accept: "*/*" },
+        method: "POST",
+        body: formData, // الـ browser هيحط الـ Content-Type: multipart/form-data تلقائياً
       },
     );
-    const data = await res.json();
 
-    // املاً الفورم في updateProperties بالبيانات
-    document.getElementById("updateTitle").value = data.title;
-    document.getElementById("updatePrice").value = data.price;
-    document.getElementById("updateRooms").value = data.rooms;
-    document.getElementById("updateDescription").value = data.description;
-
-    // ... وباقي الحقول حسب الفورم
-  } catch (err) {
-    console.error("Error loading property:", err);
-  }
-}
-async function loadPropertyImages(propertyID) {
-  const allImg = document.getElementById("allImg");
-  allImg.innerHTML = ""; // تنظيف أي محتوى سابق
-
-  try {
-    const res = await fetch(
-      `https://homunityapiv1.runasp.net/api/PropertyImages/GetByPropertyId?propertyId=${propertyID}`,
-      { headers: { accept: "*/*" } },
-    );
-
-    if (!res.ok) throw new Error("Failed to fetch property images");
-
-    const data = await res.json();
-
-    const images = Array.isArray(data) ? data : data.images || [];
-
-    images.forEach((img) => {
-      const div = document.createElement("div");
-      div.classList.add("media-card");
-      div.innerHTML = `
-        <img src="${img.imageUrl || img.image}" alt="">
-        <button class="replace-btn">Replace <span class="text-warning">🗑</span></button>
-      `;
-      allImg.appendChild(div);
-    });
-  } catch (err) {
-    console.error("Error loading images:", err);
-    allImg.innerHTML = "<p class='text-danger'>Failed to load images</p>";
-  }
-}
-
-// =================== GET ONE PROPERTY AND FILL DOM ===================
-async function getPropertyAndFill(propertyID) {
-  // =================== Property Details DOM References ===================
-  const onePSection = document.getElementById("oneProperti");
-
-  // قسم التفاصيل الرئيسي
-  const onePPropertyDetailsSection = document.getElementById(
-    "onePProperty-details-section",
-  );
-
-  // الصور الرئيسية في المعرض
-  const onePSideImgLeft = document.getElementById("onePSideImgLeft");
-  const onePMainImg = document.getElementById("onePMainImg");
-  const onePSideImgRight = document.getElementById("onePSideImgRight");
-
-  // Thumbnails الصور الصغيرة
-  const onePThumb1 = document.getElementById("onePThumb1");
-  const onePThumb2 = document.getElementById("onePThumb2");
-  const onePThumb3 = document.getElementById("onePThumb3");
-
-  // البيانات الأساسية
-  const onePTitle = document.getElementById("onePTitle");
-  const onePAddress = document.getElementById("onePAddress");
-  const onePDescription = document.getElementById("onePDescription");
-
-  // تفاصيل العقار
-  const onePPrice = document.getElementById("onePPrice");
-  const onePRooms = document.getElementById("onePRooms");
-  const onePKitchen = document.getElementById("onePKitchen");
-  const onePBathroom = document.getElementById("onePBathroom");
-
-  // الخدمات / Amenities
-  const onePAmenity1 = document.getElementById("onePAmenity1");
-  const onePAmenity2 = document.getElementById("onePAmenity2");
-  const onePAmenity3 = document.getElementById("onePAmenity3");
-  const onePAmenity4 = document.getElementById("onePAmenity4");
-
-  // جدول الحجز
-  const onePReservationsTable = document.getElementById(
-    "onePReservationsTable",
-  );
-
-  // أزرار Update / Delete
-  const onePBtnUpdate = document.getElementById("onePBtnUpdate");
-  const onePBtnDelete = document.getElementById("onePBtnDelete");
-
-  // زر العودة
-  const onePBackBtn = document.getElementById("onePBackBtn");
-
-  // =================== Gallery & Utility Arrays ===================
-  const onePMainImages = [onePSideImgLeft, onePMainImg, onePSideImgRight];
-  const onePThumbs = [onePThumb1, onePThumb2, onePThumb3];
-  const onePAmenities = [
-    onePAmenity1,
-    onePAmenity2,
-    onePAmenity3,
-    onePAmenity4,
-  ];
-
-  try {
-    const res = await fetch(
-      `https://homunityapiv1.runasp.net/api/Properties/GetByID?id=${propertyID}`,
-      { headers: { accept: "*/*" } },
-    );
-
-    if (!res.ok) throw new Error("Failed to fetch property");
-
-    const data = await res.json();
-    const property = data.property;
-
-    // =================== FILL DOM ELEMENTS ===================
-    if (!property) return;
-
-    // عرض الـ section الخاص بالتفاصيل وإخفاء section العقارات
-    document.getElementById("sectionProperties")?.classList.add("d-none");
-    onePSection.classList.remove("d-none");
-    onePBtnUpdate.dataset.id = property.id;
-    // الصور
-    if (property.images && property.images.length > 0) {
-      onePMainImages.forEach((img, idx) => {
-        if (property.images[idx]?.imageUrl)
-          img.src = property.images[idx].imageUrl;
-      });
-      onePThumbs.forEach((thumb, idx) => {
-        if (property.images[idx]?.imageUrl)
-          thumb.src = property.images[idx].imageUrl;
-      });
+    if (response.ok) {
+      const result = await response.json();
+      alert("Property Added Successfully!");
+      addPropertyForm.reset(); // تصفير الفورم بعد النجاح
+    } else {
+      const errorData = await response.json();
+      console.error("Server Error:", errorData);
+      alert("Failed to add property. Check console for details.");
     }
-
-    // البيانات الأساسية
-    onePTitle.textContent = property.title || onePTitle.textContent;
-    onePAddress.textContent =
-      `${property.location?.street || ""}, ${property.location?.city || ""}` ||
-      onePAddress.textContent;
-    onePDescription.textContent =
-      property.description || onePDescription.textContent;
-
-    // تفاصيل العقار
-    onePPrice.textContent = `$${property.price || "N/A"} / month`;
-    onePRooms.textContent = `${property.rooms || "N/A"} Bedroom`;
-    // المطابخ والحمامات غير موجودة في الـ API لذلك نتركها كما هي
-    // onePKitchen.textContent = ...
-    // onePBathroom.textContent = ...
-
-    // الخدمات / Amenities
-    if (property.services && Array.isArray(property.services)) {
-      onePAmenities.forEach((el, idx) => {
-        if (property.services[idx]) el.textContent = property.services[idx];
-      });
-    }
-
-    onePBtnUpdate.onclick = () => {
-      onePSection.classList.add("d-none");
-      sections.updateProperties.classList.remove("d-none");
-      fillUpdateForm(property);
-    };
-    onePBtnDelete.onclick = () => {
-      deleteProperty(property.propertyID, onePSection);
-    };
-
-    onePBackBtn.onclick = () => {
-      onePSection.classList.add("d-none");
-      document.getElementById("sectionProperties")?.classList.remove("d-none");
-    };
-  } catch (err) {
-    console.error("Error loading property details:", err);
-    alert("Failed to load property details.");
-  }
-}
-async function deleteProperty(propertyID, container = null) {
-  async function safeDelete(url) {
-    try {
-      const res = await fetch(url, { method: "DELETE" });
-
-      if (!res.ok && res.status !== 404) {
-        console.warn("Delete failed:", res.status);
-      }
-    } catch {
-      console.log("ignored delete error");
-    }
-  }
-
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to undo this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#dc3545",
-    cancelButtonColor: "#374761",
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "Cancel",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    await safeDelete(
-      `https://homunityapiv1.runasp.net/api/PropertyVideo/DeleteVideo?id=${propertyID}`,
-    );
-
-    await safeDelete(
-      `https://homunityapiv1.runasp.net/api/PropertyImages/DeleteImage?id=${propertyID}`,
-    );
-
-    const res = await fetch(
-      `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyID}`,
-      { method: "DELETE" },
-    );
-
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(text);
-    }
-
-    if (container) {
-      container
-        .querySelector(`.property-horizontal-card[data-id="${propertyID}"]`)
-        ?.remove();
-    }
-
-    Swal.fire({
-      icon: "success",
-      title: "Deleted Successfully",
-      text: "The property has been removed ✔",
-      confirmButtonColor: "#212e43",
-    });
-    window.location.reload();
   } catch (error) {
-    console.error(error);
-
-    Swal.fire({
-      icon: "error",
-      title: "Failed to Delete Property",
-      text: "Something went wrong",
-      confirmButtonColor: "#dc3545",
-    });
+    console.error("Fetch Error:", error);
+    alert("An error occurred while connecting to the server.");
   }
+});
+// end add property
+
+// start update property
+
+let newPropertyFiles = [];
+let newVideoFile = null;
+
+function showPropertyDetails(prop) {
+  const listSection = document.getElementById("propertiesListSection");
+  const detailsSection = document.getElementById("oneProperti");
+  if (listSection) listSection.classList.add("d-none");
+  if (detailsSection) detailsSection.classList.remove("d-none");
+  const images =
+    prop.images && prop.images.length > 0
+      ? prop.images
+      : [{ imageUrl: "https://via.placeholder.com/400" }];
+  document.getElementById("onePMainImg").src = images[0].imageUrl;
+  document.getElementById("onePSideImgLeft").src = images[1]
+    ? images[1].imageUrl
+    : images[0].imageUrl;
+  document.getElementById("onePSideImgRight").src = images[2]
+    ? images[2].imageUrl
+    : images[0].imageUrl;
+  document.getElementById("onePTitle").textContent = prop.title || "No Title";
+  document.getElementById("onePTitleHeader").textContent =
+    prop.title || "Details";
+  document.getElementById("onePDescription").textContent =
+    prop.description || "No Description";
+  if (prop.location) {
+    document.getElementById("onePAddress").textContent =
+      `${prop.location.street || ""}, ${prop.location.area || ""}, ${prop.location.city || ""}`;
+  }
+  document.getElementById("onePPrice").innerHTML =
+    `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
+  document.getElementById("onePRooms").innerHTML =
+    `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`;
+  document.getElementById("onePBackBtn").onclick = () => {
+    detailsSection.classList.add("d-none");
+    listSection.classList.remove("d-none");
+  };
+  document.getElementById("onePBtnUpdate").onclick = () => {
+    openUpdateSection(prop);
+  };
 }
 
-function fillUpdateForm(property) {
-  document.getElementById("propertyIdUpdate").value = property.propertyID;
-  document.getElementById("titleUpdate").value = property.title;
-  document.getElementById("priceUpdate").value = property.price;
-  document.getElementById("roomsUpdate").value = property.rooms;
-  document.getElementById("descriptionUpdate").value = property.description;
+function openUpdateSection(prop) {
+  document.getElementById("oneProperti").classList.add("d-none");
+  document.getElementById("sectionUpdateProperties").classList.remove("d-none");
+  window.scrollTo(0, 0);
+  newPropertyFiles = [];
+  newVideoFile = null;
+  document.getElementById("propertyIdUpdate").value = prop.propertyID;
+  document.getElementById("titleUpdate").value = prop.title;
+  document.getElementById("priceUpdate").value = prop.price;
+  document.getElementById("roomsUpdate").value = prop.rooms;
+  document.getElementById("descriptionUpdate").value = prop.description;
 
-  document.getElementById("apartmentUpdate").checked =
-    property.propertyType === "Apartment";
-  document.getElementById("roomUpdate").checked =
-    property.propertyType === "Room";
+  if (prop.propertyType && prop.propertyType.toLowerCase() === "apartment") {
+    document.getElementById("apartmentUpdate").checked = true;
+  } else {
+    document.getElementById("roomUpdate").checked = true;
+  }
 
-  function populateCityAndArea(city, area) {
+  if (prop.location) {
     const citySelect = document.getElementById("cityUpdate");
     const areaSelect = document.getElementById("areaUpdate");
-
-    // مسح أي خيارات سابقة
-    citySelect.innerHTML = "";
-    areaSelect.innerHTML = "";
-
-    // إضافة المدينة
-    const cityOption = document.createElement("option");
-    cityOption.value = city;
-    cityOption.text = city;
-    cityOption.selected = true;
-    citySelect.appendChild(cityOption);
-
-    // إضافة المنطقة
-    const areaOption = document.createElement("option");
-    areaOption.value = area;
-    areaOption.text = area;
-    areaOption.selected = true;
-    areaSelect.appendChild(areaOption);
+    citySelect.innerHTML = `<option value="${prop.location.locationId}" selected>${prop.location.city}</option>`;
+    areaSelect.innerHTML = `<option value="${prop.location.locationId}" selected>${prop.location.area}</option>`;
+    document.getElementById("streetUpdate").value = prop.location.street || "";
   }
 
-  populateCityAndArea(property.location.city, property.location.area);
-  document.getElementById("streetUpdate").value =
-    property.location.street || "";
+  const checkboxes = ["wifiUpdate", "parkingUpdate", "gymUpdate", "acUpdate"];
+  checkboxes.forEach((id) => (document.getElementById(id).checked = false));
+  if (prop.services) {
+    prop.services.forEach((s) => {
+      const name = s.name.toLowerCase();
+      if (name.includes("wifi"))
+        document.getElementById("wifiUpdate").checked = true;
+      if (name.includes("air"))
+        document.getElementById("parkingUpdate").checked = true;
+      if (name.includes("washing"))
+        document.getElementById("gymUpdate").checked = true;
+      if (name.includes("water"))
+        document.getElementById("acUpdate").checked = true;
+    });
+  }
 
-  document.getElementById("wifiUpdate").checked =
-    property.services?.wifi || false;
-  document.getElementById("parkingUpdate").checked =
-    property.services?.parking || false;
-  document.getElementById("gymUpdate").checked =
-    property.services?.gym || false;
-  document.getElementById("acUpdate").checked = property.services?.ac || false;
+  const mediaContainer = document.getElementById("allImg");
+  mediaContainer.innerHTML = `
+        <div class="upload-wrapper w-100">
+            <div class="row g-3">
+                <div class="col-lg-9 col-12 border-end-divider">
+                    <div class="mb-3">
+                        <button type="button" id="addImageBtn" class="add-btn-yellow" onclick="document.getElementById('newImagesInput').click()">+Add Image</button>
+                        <input type="file" id="newImagesInput" multiple accept="image/*" class="d-none" onchange="previewNewImages(this)">
+                    </div>
+                    <div id="imagesGrid" class="images-grid-layout"></div>
+                </div>
+                <div class="col-lg-3 col-12 ps-lg-4">
+                    <div class="mb-3">
+                        <button type="button" id="addVideoBtn" class="add-btn-yellow w-100" onclick="document.getElementById('newVideoInput').click()">+Add Video</button>
+                        <input type="file" id="newVideoInput" accept="video/*" class="d-none" onchange="previewNewVideo(this)">
+                    </div>
+                    <div id="videoPreviewContainer"></div>
+                </div>
+            </div>
+        </div>`;
 
-  // dataset id للفورم
-  document.getElementById("updatePropertyForm").dataset.id =
-    property.propertyID;
+  const imagesGrid = document.getElementById("imagesGrid");
+  if (prop.images) {
+    prop.images.forEach((img) => {
+      imagesGrid.appendChild(createMediaCard(img.imageUrl, "image"));
+    });
+  }
+  const videoPreviewContainer = document.getElementById(
+    "videoPreviewContainer",
+  );
+  if (prop.video && prop.video.videoUrl) {
+    videoPreviewContainer.appendChild(
+      createMediaCard(prop.video.videoUrl, "video"),
+    );
+    document.getElementById("addVideoBtn").style.display = "none";
+  }
+  checkImageLimit();
 }
+
+function createMediaCard(url, type, isNew = false, fileName = "") {
+  const div = document.createElement("div");
+  div.className = "thumb-wrapper";
+  if (isNew) div.dataset.fileName = fileName;
+  let mediaContent =
+    type === "image"
+      ? `<div class="thumb-img" style="background-image: url('${url}')"></div>`
+      : `<div class="thumb-img video-preview-wrapper"><video src="${url}" controls class="w-100 h-100 rounded-3"></video></div>`;
+  div.innerHTML = `${mediaContent}<button type="button" class="delete-btn-yellow mt-2" onclick="removeMediaItem(this, '${type}')"><i class="fa fa-trash-alt"></i> Delete</button>`;
+  return div;
+}
+
+function previewNewImages(input) {
+  const imagesGrid = document.getElementById("imagesGrid");
+  const files = Array.from(input.files);
+  files.forEach((file) => {
+    if (imagesGrid.querySelectorAll(".thumb-wrapper").length >= 6) return;
+    newPropertyFiles.push(file);
+    const objectUrl = URL.createObjectURL(file);
+    imagesGrid.appendChild(
+      createMediaCard(objectUrl, "image", true, file.name),
+    );
+  });
+  checkImageLimit();
+  input.value = "";
+}
+
+function previewNewVideo(input) {
+  const container = document.getElementById("videoPreviewContainer");
+  const file = input.files[0];
+  if (file) {
+    newVideoFile = file;
+    const objectUrl = URL.createObjectURL(file);
+    container.innerHTML = "";
+    container.appendChild(createMediaCard(objectUrl, "video", true));
+    document.getElementById("addVideoBtn").style.display = "none";
+  }
+  input.value = "";
+}
+
+function removeMediaItem(btn, type) {
+  const parent = btn.parentElement;
+  if (type === "image" && parent.dataset.fileName) {
+    newPropertyFiles = newPropertyFiles.filter(
+      (f) => f.name !== parent.dataset.fileName,
+    );
+  } else if (type === "video") {
+    newVideoFile = null;
+    document.getElementById("addVideoBtn").style.display = "block";
+  }
+  parent.remove();
+  checkImageLimit();
+}
+
+function checkImageLimit() {
+  const count =
+    document.getElementById("imagesGrid")?.querySelectorAll(".thumb-wrapper")
+      .length || 0;
+  const btn = document.getElementById("addImageBtn");
+  if (btn) btn.style.display = count >= 6 ? "none" : "inline-block";
+}
+
+const updatePropertyForm = document.getElementById("updatePropertyForm");
+updatePropertyForm?.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const formData = new FormData();
+
+    formData.append(
+      "PropertyID",
+      Number(document.getElementById("propertyIdUpdate").value),
+    );
+    formData.append("Title", document.getElementById("titleUpdate").value);
+    formData.append(
+      "Description",
+      document.getElementById("descriptionUpdate").value,
+    );
+    formData.append(
+      "Price",
+      Number(document.getElementById("priceUpdate").value),
+    );
+    formData.append(
+      "Rooms",
+      Number(document.getElementById("roomsUpdate").value),
+    );
+    formData.append(
+      "LocationID",
+      Number(document.getElementById("areaUpdate").value),
+    );
+
+    // تصحيح مشكلة "on": إذا لم يجد قيمة، نرسل القيمة المختارة يدوياً
+    const selectedType = document.querySelector(
+      'input[name="propertyType"]:checked',
+    );
+    let typeValue = "Apartment"; // القيمة الافتراضية
+    if (selectedType) {
+      // لو القيمة "on" ده معناه إن الـ HTML ناقصه value، فهنصلحها برمجياً هنا
+      typeValue =
+        selectedType.value === "on"
+          ? selectedType.id === "apartmentUpdate"
+            ? "Apartment"
+            : "Room"
+          : selectedType.value;
+    }
+    formData.append("PropertyType", typeValue);
+
+    if (newPropertyFiles.length > 0) {
+      newPropertyFiles.forEach((file) => formData.append("NewImages", file));
+    }
+
+    if (newVideoFile) {
+      formData.append("NewVideo", newVideoFile);
+      formData.append("DeleteVideo", false);
+    } else {
+      const isVideoDeleted =
+        document.querySelector(".video-preview-wrapper") === null;
+      formData.append("DeleteVideo", isVideoDeleted);
+    }
+
+    const servicesList = [
+      { id: "wifiUpdate", val: 1 },
+      { id: "parkingUpdate", val: 2 },
+      { id: "gymUpdate", val: 3 },
+      { id: "acUpdate", val: 4 },
+    ];
+    servicesList.forEach((s) => {
+      if (document.getElementById(s.id).checked) {
+        formData.append("Services", s.val);
+      }
+    });
+
+    const response = await fetch(
+      "https://homunityapiv1.runasp.net/api/Properties/UpdateFullProperty",
+      {
+        method: "PUT",
+        body: formData,
+      },
+    );
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      alert("Updated Successfully!");
+      location.reload();
+    } else {
+      console.error("❌ SERVER ERROR:", responseData);
+      alert("Failed: " + (responseData.message || "Check Console"));
+    }
+  } catch (error) {
+    console.error("Critical Error:", error);
+    alert("Connection Error.");
+  } finally {
+    setLoading(false);
+  }
+});
+
+function setLoading(isLoading) {
+  const btn = document.querySelector(".btn-submit");
+  if (!btn) return;
+  btn.disabled = isLoading;
+  btn.innerHTML = isLoading
+    ? `<span class="spinner-border spinner-border-sm"></span> Loading...`
+    : `Submit Property`;
+}
+// end update property
+
+// start function cansel update
+document.getElementById("cancelUpdate").onclick = () => {
+  sections.updateProperties.classList.add("d-none");
+  sections.properties.classList.remove("d-none");
+};
+// end function cansel update
+
+// start get all propirties
+async function fetchProperties() {
+  try {
+    const response = await fetch(
+      "https://homunityapiv1.runasp.net/api/Properties/GetAll",
+    );
+    const data = await response.json();
+    const container = document.getElementById("propertiesContainer");
+    container.innerHTML = ""; // مسح اللودينج
+
+    data.properties.forEach((prop) => {
+      // تحديد حالة العقار بناءً على الـ ID
+      let statusText = "In Progress";
+      if (prop.propertyStatusID === 2) statusText = "Approved";
+      if (prop.propertyStatusID === 3) statusText = "Rejected";
+
+      // تحديد الصورة (لو مفيش صورة بنحط واحدة placeholder)
+      const imgUrl =
+        prop.images && prop.images.length > 0
+          ? prop.images[0].imageUrl
+          : "https://via.placeholder.com/150";
+
+      const cardHtml = `
+                <div class="col-12">
+                    <div class="property-card p-3 shadow-sm">
+                        <div class="d-flex d-flex-mobile align-items-start gap-3">
+                            <img src="${imgUrl}" class="property-img" alt="property">
+                            
+                            <div class="flex-grow-1">
+                                <h4 class="property-title">${prop.title}</h4>
+                                <p class="property-info mb-1">${prop.location.street}, ${prop.location.area}</p>
+                                <p class="property-price mb-0">$${prop.price} / month</p>
+                            </div>
+
+                            <div class="d-flex  align-items-end justify-content-between h-100 gap-3">
+                                <span class="statuss-badge badge-in-progress ">${statusText}</span>
+                                <button class="btn btn-action rounded-5 ps-3" onclick="showPropertyDetails(${JSON.stringify(prop).replace(/"/g, "&quot;")})">
+                                    View Details
+                                </button>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      container.innerHTML += cardHtml;
+    });
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+  }
+}
+
+fetchProperties();
+// end get all propirties
+
+//start get one propirti
+function showPropertyDetails(prop) {
+  // افترضنا إن سكشن القائمة اسمه propertiesListSection
+  document.getElementById("oneProperti").classList.remove("d-none");
+  sections.properties.classList.add("d-none");
+
+  // 2. توزيع الصور في الجاليري
+  const images =
+    prop.images && prop.images.length > 0
+      ? prop.images
+      : [{ imageUrl: "https://via.placeholder.com/150" }];
+
+  document.getElementById("onePMainImg").src = images[0].imageUrl;
+  document.getElementById("onePSideImgLeft").src = images[1]
+    ? images[1].imageUrl
+    : images[0].imageUrl;
+  document.getElementById("onePSideImgRight").src = images[2]
+    ? images[2].imageUrl
+    : images[0].imageUrl;
+
+  // ملئ الصور المصغرة (Thumbs)
+  document.getElementById("onePThumb1").src = images[0].imageUrl;
+  document.getElementById("onePThumb2").src = images[1]
+    ? images[1].imageUrl
+    : images[0].imageUrl;
+  document.getElementById("onePThumb3").src = images[2]
+    ? images[2].imageUrl
+    : images[0].imageUrl;
+
+  // 3. ملئ النصوص الأساسية
+  document.getElementById("onePTitle").textContent = prop.title;
+  document.getElementById("idPropirtie").value = prop.propertyID;
+  document.getElementById("onePTitleHeader").textContent = prop.title;
+  document.getElementById("onePAddress").textContent =
+    `${prop.location.street}, ${prop.location.area}, ${prop.location.city}`;
+  document.getElementById("onePDescription").textContent = prop.description;
+
+  // التفاصيل (السعر والغرف)
+  document.getElementById("onePPrice").innerHTML =
+    `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
+  document.getElementById("onePRooms").innerHTML =
+    `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`;
+
+  // 4. ملئ الخدمات (Amenities)
+  const amenitiesList = document.querySelector(".amenities-list");
+  amenitiesList.innerHTML = ""; // مسح القديم
+
+  if (prop.services && prop.services.length > 0) {
+    prop.services.forEach((service) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span class="check-box"></span> ${service.name}`;
+      amenitiesList.appendChild(li);
+    });
+  } else {
+    amenitiesList.innerHTML = "<li>No amenities available</li>";
+  }
+
+  // 5. زرار الرجوع
+  document.getElementById("onePBackBtn").onclick = () => {
+    document.getElementById("oneProperti").classList.add("d-none");
+    sections.properties.classList.remove("d-none");
+  };
+
+  document.getElementById("onePBtnUpdate").onclick = () => {
+    openUpdateSection(prop);
+  };
+}
+
+// جوه فانكشن showPropertyDetails ضيف السطر ده:
+document.getElementById("onePBtnUpdate").onclick = () => {
+  openUpdateSection(prop);
+};
+// end get one propirti
+
+// start delete propirti
+// متغير لتخزين الـ ID الخاص بالعقار المراد حذفه حالياً
+let propertyIdToDelete = null;
+
+// تعديل بسيط داخل فانكشن showPropertyDetails (تأكد من وجود هذا السطر)
+document.getElementById("onePBtnDelete").onclick = () => {
+  // جلب البيانات من الصفحة الحالية لعرضها في الـ Modal
+  const title = document.getElementById("onePTitle").textContent;
+  const address = document.getElementById("onePAddress").textContent;
+  const img = document.getElementById("onePMainImg").src;
+  const propId = document.getElementById("idPropirtie").value;
+  console.log(propId);
+
+  openDeleteModal(propId, title, address, img);
+};
+
+function openDeleteModal(id, title, address, img) {
+  propertyIdToDelete = id;
+  document.getElementById("deletePropTitle").textContent = title;
+  document.getElementById("deletePropAddress").textContent = address;
+  document.getElementById("deletePropImg").src = img;
+
+  document.getElementById("deleteModal").classList.remove("d-none");
+}
+
+// زر الإلغاء
+document.getElementById("cancelDeleteBtn").onclick = () => {
+  document.getElementById("deleteModal").classList.add("d-none");
+};
+
+// زر الحذف النهائي (الربط مع الـ API)
+document.getElementById("confirmDeleteBtn").onclick = async function () {
+  console.log(propertyIdToDelete);
+  if (!propertyIdToDelete) return;
+
+  this.disabled = true;
+  this.innerHTML = "Deleting...";
+
+  try {
+    const response = await fetch(
+      `https://homunityapiv1.runasp.net/api/Properties/DeleteProperty?id=${propertyIdToDelete}`,
+      {
+        method: "DELETE",
+      },
+    );
+
+    if (response.ok) {
+      alert("Property Deleted Successfully!");
+      location.reload(); // إعادة تحميل الصفحة لتحديث القائمة
+    } else {
+      const error = await response.json();
+      alert(
+        "Error: " +
+          (error.message ||
+            "Could not delete property. It might have active bookings."),
+      );
+    }
+  } catch (err) {
+    console.error("Delete Error:", err);
+    alert("Connection Error!");
+  } finally {
+    this.disabled = false;
+    this.innerHTML = "Delete";
+    document.getElementById("deleteModal").classList.add("d-none");
+  }
+};
+// end delete propirti
