@@ -1286,3 +1286,19 @@ textarea {
 }
 
 /* end responsive design */
+
+
+/* start validation */
+
+.is-invalid {
+    border-color: #d93025 !important;
+    background-image: none !important;
+}
+.error-message {
+    color: #d93025;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* end validation */

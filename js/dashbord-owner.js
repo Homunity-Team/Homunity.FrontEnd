@@ -65,6 +65,14 @@ function hideAllSections(item, option) {
   }
 }
 
+const laoding = document.getElementById("homunityLoader");
+function showLoader() {
+  laoding.classList.remove("d-none");
+}
+function hideLoader() {
+  laoding.classList.add("d-none");
+}
+
 // function dis(aItem, rItem, aActive, rActive) {
 //   aItem.classList.add("d-none");
 //   rItem.classList.remove("d-none");
@@ -144,91 +152,134 @@ areaSelect.addEventListener("change", () => {
 // end get location
 
 // start add property
-
 const addPropertyForm = document.getElementById("addPropertyForm");
 
 addPropertyForm.addEventListener("submit", async (e) => {
-  e.preventDefault(); // منع الصفحة من التحميل
+  e.preventDefault();
 
-  // 1. تجهيز الـ FormData
-  const formData = new FormData();
+  const title = document.getElementById("titleAdd");
+  const price = document.getElementById("priceAdd");
+  const rooms = document.getElementById("roomsAdd");
+  const city = document.getElementById("citySelect");
+  const area = document.getElementById("areaSelect");
+  const images = document.getElementById("images");
+  const video = document.getElementById("video");
 
-  // 2. سحب البيانات الأساسية من المدخلات
-  formData.append("OwnerID", 1); // ملحوظة: غير الـ ID ده حسب المستخدم اللي عامل login
-  formData.append("Title", document.getElementById("titleAdd").value);
-  formData.append(
-    "Description",
-    document.getElementById("descreptionAdd").value,
-  );
-  formData.append(
-    "Price",
-    parseFloat(document.getElementById("priceAdd").value),
-  );
-  formData.append("Rooms", parseInt(document.getElementById("roomsAdd").value));
+  let isValid = true;
 
-  // تحديد نوع العقار من الـ Radio Buttons
-  const propertyType = document.getElementById("apartmentApp").checked
-    ? "Apartment"
-    : "Room";
-  formData.append("PropertyType", propertyType);
-
-  // سحب الـ LocationID من الـ Select اللي عملناه في الخطوة اللي فاتت
-  formData.append(
-    "LocationID",
-    parseInt(document.getElementById("areaSelect").value),
-  );
-
-  // 3. التعامل مع الخدمات (Services) - بنبعتها كـ Array من الـ IDs
-  // هفترض إن الـ IDs هي: wifi=1, parking=2, gym=3, ac=4 (تأكد من الـ API documentation)
-  const servicesMap = {
-    wifi: 1,
-    parking: 2,
-    gym: 3,
-    ac: 4,
+  const toggleError = (id, show) => {
+    const errorEl = document.getElementById(id);
+    if (errorEl) {
+      errorEl.style.display = show ? "block" : "none";
+    }
   };
 
-  Object.keys(servicesMap).forEach((id) => {
-    if (document.getElementById(id).checked) {
-      formData.append("Services", servicesMap[id]);
-    }
-  });
+  if (title.value.length < 5 || title.value.length > 15) {
+    toggleError("titleError", true);
+    isValid = false;
+  } else {
+    toggleError("titleError", false);
+  }
 
-  // 4. التعامل مع الصور (Images) - مصفوفة ملفات
-  const imageInput = document.getElementById("images");
-  if (imageInput.files.length > 0) {
-    for (let i = 0; i < imageInput.files.length; i++) {
-      formData.append("Images", imageInput.files[i]);
+  if (parseFloat(price.value) < 100 || !price.value) {
+    toggleError("priceError", true);
+    isValid = false;
+  } else {
+    toggleError("priceError", false);
+  }
+
+  if (parseInt(rooms.value) < 1 || parseInt(rooms.value) > 10 || !rooms.value) {
+    toggleError("roomsError", true);
+    isValid = false;
+  } else {
+    toggleError("roomsError", false);
+  }
+
+  if (city.selectedIndex <= 0 || area.selectedIndex <= 0) {
+    alert("Please select both City and Area.");
+    isValid = false;
+  }
+
+  if (images.files.length > 6) {
+    alert("Max 6 images allowed.");
+    isValid = false;
+  }
+
+  for (let file of images.files) {
+    if (file.size > 2 * 1024 * 1024) {
+      alert(`Image ${file.name} is too large (Max 2MB).`);
+      isValid = false;
+      break;
     }
   }
 
-  // 5. التعامل مع الفيديو (Video) - ملف واحد
-  const videoInput = document.getElementById("video");
-  if (videoInput.files.length > 0) {
-    formData.append("Video", videoInput.files[0]);
+  if (video.files.length > 0 && video.files[0].size > 30 * 1024 * 1024) {
+    alert("Video size must be less than 30MB.");
+    isValid = false;
   }
 
-  // 6. إرسال الطلب للـ API
+  if (!isValid) return;
+
+  showLoader();
+  const formData = new FormData();
+
   try {
+    formData.append("OwnerID", parseInt(1));
+    formData.append("Title", title.value);
+    formData.append(
+      "Description",
+      document.getElementById("descreptionAdd").value || "",
+    );
+    formData.append("Price", parseFloat(price.value));
+    formData.append("Rooms", parseInt(rooms.value));
+
+    const propertyType = document.getElementById("apartmentApp").checked
+      ? "Apartment"
+      : "Room";
+    formData.append("PropertyType", propertyType);
+
+    const locId = parseInt(area.value);
+    formData.append("LocationID", isNaN(locId) ? 0 : locId);
+
+    if (images.files.length > 0) {
+      for (let i = 0; i < images.files.length; i++) {
+        formData.append("Images", images.files[i]);
+      }
+    }
+
+    if (video.files.length > 0) {
+      formData.append("Video", video.files[0]);
+    }
+
+    const servicesMap = { wifi: 1, parking: 2, gym: 3, ac: 4 };
+    Object.keys(servicesMap).forEach((id) => {
+      const el = document.getElementById(id);
+      if (el && el.checked) {
+        formData.append("Services", parseInt(servicesMap[id]));
+      }
+    });
+
     const response = await fetch(
       "https://homunityapiv1.runasp.net/api/Properties/CreateFullProperty",
       {
         method: "POST",
-        body: formData, // الـ browser هيحط الـ Content-Type: multipart/form-data تلقائياً
+        body: formData,
       },
     );
 
     if (response.ok) {
-      const result = await response.json();
       alert("Property Added Successfully!");
-      addPropertyForm.reset(); // تصفير الفورم بعد النجاح
+      window.location.reload();
     } else {
-      const errorData = await response.json();
-      console.error("Server Error:", errorData);
-      alert("Failed to add property. Check console for details.");
+      const errorData = await response.json().catch(() => ({}));
+      console.error(errorData);
+      alert("An error occurred while connecting to the server.");
     }
   } catch (error) {
-    console.error("Fetch Error:", error);
+    console.error(error);
     alert("An error occurred while connecting to the server.");
+  } finally {
+    hideLoader();
   }
 });
 // end add property
@@ -532,43 +583,83 @@ document.getElementById("cancelUpdate").onclick = () => {
 };
 // end function cansel update
 
-// start get all propirties
+// start get propertesByOwner
 async function fetchProperties() {
+  const container = document.getElementById("propertiesContainer");
+  const ownerId = localStorage.getItem("id");
+
+  if (!ownerId) {
+    container.innerHTML =
+      "<p class='text-center py-5 text-warning'>Please login to see your properties.</p>";
+    return;
+  }
+
+  showLoader();
+
   try {
     const response = await fetch(
-      "https://homunityapiv1.runasp.net/api/Properties/GetAll",
+      `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`,
     );
+
     const data = await response.json();
-    const container = document.getElementById("propertiesContainer");
-    container.innerHTML = ""; // مسح اللودينج
+    container.innerHTML = "";
 
-    data.properties.forEach((prop) => {
-      // تحديد حالة العقار بناءً على الـ ID
+    const properties = Array.isArray(data) ? data : data.properties || [];
+
+    if (properties.length === 0) {
+      container.innerHTML = `
+        <div class="col-12 text-center py-5">
+            <div class="mb-3">
+                <img src="../img/icone-add-is-blank.svg" alt="No properties" style="width: 150px; opacity: 0.8;">
+            </div>
+            <h2 class="fw-bold" style="color: #FFC107;">No properties yet.</h2>
+            <p class="fw-bold" style="color: #2D3E50; font-size: 1.2rem;">Click here to add your first property</p>
+            <button id="addPropertyy" class="btn mt-3 px-5 py-2 fw-bold" 
+                    style="background-color: #2D3E50; color: #FFC107; border-radius: 8px; font-size: 1.2rem;" 
+                    >
+                +Add
+            </button>
+        </div>`;
+      return;
+    }
+
+    properties.forEach((prop) => {
       let statusText = "In Progress";
-      if (prop.propertyStatusID === 2) statusText = "Approved";
-      if (prop.propertyStatusID === 3) statusText = "Rejected";
+      let statusClass = "bg-warning text-dark";
 
-      // تحديد الصورة (لو مفيش صورة بنحط واحدة placeholder)
+      if (prop.propertyStatusID === 2) {
+        statusText = "Approved";
+        statusClass = "bg-success text-white";
+      } else if (prop.propertyStatusID === 3) {
+        statusText = "Rejected";
+        statusClass = "bg-danger text-white";
+      }
+
       const imgUrl =
         prop.images && prop.images.length > 0
           ? prop.images[0].imageUrl
           : "https://via.placeholder.com/150";
 
       const cardHtml = `
-                <div class="col-12">
-                    <div class="property-card p-3 shadow-sm">
+                <div class="col-12 mb-3">
+                    <div class="property-card p-3 shadow-sm border rounded-3 bg-white">
                         <div class="d-flex d-flex-mobile align-items-start gap-3">
-                            <img src="${imgUrl}" class="property-img" alt="property">
+                            <img src="${imgUrl}" class="property-img" alt="property" style="width:120px; height:90px; object-fit:cover; border-radius:8px;">
                             
                             <div class="flex-grow-1">
-                                <h4 class="property-title">${prop.title}</h4>
-                                <p class="property-info mb-1">${prop.location.street}, ${prop.location.area}</p>
-                                <p class="property-price mb-0">$${prop.price} / month</p>
+                                <h4 class="property-title mb-1 h6 fw-bold text-dark">${prop.title}</h4>
+                                <p class="property-info mb-1 text-muted small">
+                                    <i class="fas fa-location-dot me-1"></i> ${prop.location.street}, ${prop.location.area}
+                                </p>
+                                <p class="property-price mb-0 fw-bold text-primary">$${prop.price} / month</p>
                             </div>
 
-                            <div class="d-flex  align-items-end justify-content-between h-100 gap-3">
-                                <span class="statuss-badge badge-in-progress ">${statusText}</span>
-                                <button class="btn btn-action rounded-5 ps-3" onclick="showPropertyDetails(${JSON.stringify(prop).replace(/"/g, "&quot;")})">
+                            <div class="d-flex flex-column align-items-end justify-content-between h-100 gap-2">
+                                <span class="badge ${statusClass}" style="font-size: 10px; padding: 5px 10px;">
+                                    ${statusText}
+                                </span>
+                                <button class="btn btn-outline-primary btn-sm rounded-5 px-3" 
+                                        onclick="showPropertyDetails(${JSON.stringify(prop).replace(/"/g, "&quot;")})">
                                     View Details
                                 </button>                            
                             </div>
@@ -579,12 +670,27 @@ async function fetchProperties() {
       container.innerHTML += cardHtml;
     });
   } catch (error) {
-    console.error("Error fetching properties:", error);
+    console.error(error);
+    container.innerHTML =
+      "<p class='text-center text-danger py-5'>Error loading your properties.</p>";
+  } finally {
+    hideLoader();
   }
 }
 
 fetchProperties();
-// end get all propirties
+
+document
+  .getElementById("propertiesContainer")
+  .addEventListener("click", (e) => {
+    if (e.target && e.target.id === "addPropertyy") {
+      sections.properties.classList.add("d-none");
+      sections.addProperties.classList.remove("d-none");
+      menuItems.addProperties.classList.add("active");
+      menuItems.properties.classList.remove("active");
+    }
+  });
+// end get propertesByOwner
 
 //start get one propirti
 function showPropertyDetails(prop) {

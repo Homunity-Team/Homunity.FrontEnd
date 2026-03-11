@@ -19,6 +19,25 @@
 </head>
 
 <body>
+
+  <style>
+    #homunityLoader {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #fff9e6, #fff3cc, #ffe999);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+  </style>
+  <div id="homunityLoader" class="d-none">
+    <div class="text-center">
+      <div class="spinner-border homunity-spinner mb-4" role="status"></div>
+      <h2 class="fw-bold homunity-text">HOMUNITY</h2>
+    </div>
+  </div>
+
   <div class="dashboard-container">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -635,52 +654,19 @@
             <h2 class="fw-bold">Booking Requests</h2>
           </div>
 
-          <div class="table-responsive rounded-top-3">
-            <table class="booking-table text-center ">
-              <thead>
-                <tr>
-                  <th class="rounded-start-2  ">Student Name</th>
-                  <th>Property Title</th>
-                  <th>Booking Status</th>
-                  <th>Created Date</th>
-                  <th class="rounded-end-2 ">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Sarah Johnson</td>
-                  <td>Modern Studio</td>
-                  <td>Pending</td>
-                  <td>2024-05-10</td>
-                  <td><button class="btn-action">Accept</button></td>
-                </tr>
-                <tr>
-                  <td>David Miller</td>
-                  <td>City Center Flat</td>
-                  <td>Pending</td>
-                  <td>2024-05-06</td>
-                  <td><button class="btn-action">Reject</button></td>
-                </tr>
-                <tr>
-                  <td>Michael Brown</td>
-                  <td>Downtown Studio</td>
-                  <td>Pending</td>
-                  <td>2024-05-04</td>
-                  <td><button class="btn-action">Accept</button></td>
-                </tr>
-                <tr>
-                  <td>Jessica Wilson</td>
-                  <td>Urban Apartment</td>
-                  <td>Pending</td>
-                  <td>2024-05-02</td>
-                  <td><button class="btn-action">Reject</button></td>
-                </tr>
-              </tbody>
-            </table>
+          <div id="bookingMainContent">
+            <div class="col-12 text-center py-5 mt-5">
+              <div class="mb-3">
+                <img src="../img/icone-booking.svg" alt="No bookings" style="width: 120px;">
+              </div>
+              <h2 class="fw-bold" style="color: #FFC107; font-size: 2.5rem;">Sorry!</h2>
+              <p class="fw-bold mt-3" style="color: #2D3E50; font-size: 1.2rem;">
+                No bookings yet. Start by making your first reservation
+              </p>
+            </div>
           </div>
         </div>
       </section>
-
       <section id="sectionSettingProperties" class="d-none">
         <h2 class="section-main-title fw-bold">Setting</h2>
 
