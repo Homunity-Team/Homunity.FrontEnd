@@ -474,14 +474,15 @@ body {
 .page-title{
 margin-left: 230px;
 font-weight:bold;
+color: #1b263b;
 }
 .profile-container{
-background:#212E43;
-width:75%;
+background:#1b263b;
+width:90%;
 max-width:1000px;
 margin:auto;
 padding:40px;
-margin-right: 80px;
+margin-right: 40px;
 border-radius:25px;
 }
 .profile-card{
@@ -492,7 +493,7 @@ border-radius:15px;
 .student-icon{
 width:120px;
 height:120px;
-background:#f8cf5d;
+background:#f1b42f;
 border-radius:20px;
 display:flex;
 align-items:center;
@@ -500,18 +501,34 @@ justify-content:center;
 }
 .student-title{
 font-size:28px;
+color: #1b263b;
 font-weight:bold;
 margin-left:20px;
 }
 .form-control{
 border-radius:12px;
+color: #1b263b;
+
+}
+.form-control:focus{
+  border-color: #1b263b;
+  box-shadow: none;
+}
+.form-check-input:checked{
+  background-color: #1b263b;
+  border-color: #1b263b;
+}
+.form-check-input:focus{
+  box-shadow: none;
 }
 .account-title{
 font-size:26px;
 font-weight:bold;
+color: #1b263b;
+
 }
 .star{
-color:#f8cf5d;
+color:#f1b42f;
 }
 .error{
 color:red;
@@ -521,21 +538,25 @@ display:none;
 @media (max-width:768px){
 .profile-container{
 width:95%;
-padding:25px;
+padding:20px;
 }
 .profile-card{
-padding:25px;
+padding:20px;
 }
 .student-icon{
-width:90px;
-height:90px;
+width:80px;
+height:80px;
 }
 .student-title{
-font-size:22px;
-margin-left:15px;
+font-size:20px;
+margin-left:10px;
 }
 .page-title{
-font-size:26px;
+font-size:24px;
+}
+
+.account-title{
+font-size:20px;
 }
 }
 /*end*/

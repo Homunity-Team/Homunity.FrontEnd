@@ -194,37 +194,33 @@ Account Status <span class="star">*</span>
 </div>
 <div class="form-check">
 <input class="form-check-input" type="radio" name="status">
-<label class="form-check-label">In active</label>
+<label class="form-check-label">Inactive</label>
 </div>
 </div>
 </div>
 </div>
 <script>
-  document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function(){
 const phoneInput = document.getElementById("phone");
 const phoneError = document.getElementById("phoneError");
 const firstInput = document.getElementById("firstName");
 const firstError = document.getElementById("firstNameError");
 const lastInput = document.getElementById("lastName");
 const lastError = document.getElementById("lastNameError");
-const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
-phoneInput.addEventListener("input", function(){
-if(phoneInput.value.trim() === ""){
-phoneError.style.display = "none";
-}
-else if(!phoneRegex.test(phoneInput.value.trim())){
-phoneError.style.display = "block";
-}
-else{
-phoneError.style.display = "none";
-}
-});
+const nameRegex = /^[A-Za-z]+$/;
+const phoneRegex = /^0[0-9]{10}$/;
 firstInput.addEventListener("input", function(){
 let val = firstInput.value.trim();
 if(val === ""){
-firstError.style.display = "none";
+firstError.innerText = "First Name is required";
+firstError.style.display = "block";
+}
+else if(!nameRegex.test(val)){
+firstError.innerText = "First Name must contain letters only";
+firstError.style.display = "block";
 }
 else if(val.length < 2 || val.length > 10){
+firstError.innerText = "First Name must be between 2 and 10 characters";
 firstError.style.display = "block";
 }
 else{
@@ -234,13 +230,37 @@ firstError.style.display = "none";
 lastInput.addEventListener("input", function(){
 let val = lastInput.value.trim();
 if(val === ""){
-lastError.style.display = "none";
+lastError.innerText = "Last Name is required";
+lastError.style.display = "block";
+}
+else if(!nameRegex.test(val)){
+lastError.innerText = "Last Name must contain letters only";
+lastError.style.display = "block";
 }
 else if(val.length < 2 || val.length > 10){
+lastError.innerText = "Last Name must be between 2 and 10 characters";
 lastError.style.display = "block";
 }
 else{
 lastError.style.display = "none";
+}
+});
+phoneInput.addEventListener("input", function(){
+let val = phoneInput.value.trim();
+if(val === ""){
+phoneError.innerText = "Phone number is required";
+phoneError.style.display = "block";
+}
+else if(!/^[0-9]+$/.test(val)){
+phoneError.innerText = "Phone must contain numbers only";
+phoneError.style.display = "block";
+}
+else if(!phoneRegex.test(val)){
+phoneError.innerText = "Phone must be 11 digits and start with 0";
+phoneError.style.display = "block";
+}
+else{
+phoneError.style.display = "none";
 }
 });
 });
