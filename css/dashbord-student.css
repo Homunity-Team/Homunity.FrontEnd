@@ -471,8 +471,9 @@ body {
   }
 }
 
-/*Booking Page*/
-
+/*  ══════════════════════════════
+       Booking Page
+       ══════════════════════════════*/
 .page-title {
     color: var(--navy);
     font-weight: bold;
@@ -516,8 +517,9 @@ body {
     flex: 0 0 auto;
     width: 20.83333333%; /* (2.5 / 12) * 100 */
 }
-/*Booking Details Page*/
-
+/* ══════════════════════════════
+        Booking Details Page
+      ══════════════════════════════*/
 .white-info-row {
     background-color: var(--bg);
     color: var(--navy);
@@ -560,7 +562,8 @@ body {
     font-weight: bold;
 
 }
-/* ══════════════════════════════
+/* 
+══════════════════════════════
            RESPONSIVE
         ══════════════════════════════ */
 @media (max-width: 767px) {
@@ -580,4 +583,39 @@ body {
     #sectionMyBookings .row.mb-4.d-md-flex {
         display: none ;
     }
+}
+/* ══════════════════════════════
+           No Booking yet!
+        ══════════════════════════════ */
+.btn-navy-custom{
+  background-color: var(--navy);
+}
+.calendar-container {
+    width: 95px; 
+    height: 90px;
+background-color: var(--navy);
+border: 3px solid var(--gold);
+border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 7px;
+    margin: 0 auto;
+}
+.calendar-white-content {
+    width: 85%;
+    height: 70%;
+    background-color: var(--white);
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:  0px 0px 5px 5px ;
+}
+.calendar-x-icon {
+color: var(--navy);
+  font-size: 5cqmin;
+    font-weight: 600;
+    -webkit-text-stroke: 4px var(--gold-soft); 
+    paint-order: stroke fill;
 }

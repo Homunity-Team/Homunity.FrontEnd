@@ -154,7 +154,7 @@
 <!-- section MyBookings -->
 <section id="sectionMyBookings" class="px-4 pt-3">
     <h3 class="page-title mb-4">Bookings Page</h3>
-    
+    <div class="d-none">
     <div class="row text-center mb-4 gx-2 ">
 <div class="col-3-half">        
       <div class="p-2 rounded-1 bg-navy-custom text-gold-custom fs-5">Property Title</div>
@@ -285,11 +285,26 @@
                 <span>27/11/2025</span>
                 <button class="btn-gold-action py-1 px-3 shadow-sm" onclick="showBookingDetails()">View Details</button>
             </div>
-        
-
     </div>
         </div>
+        </div>
+<!-- No Booking yet! -->
+        <div class="">
+<div id="emptyState" class="text-center">
+    <div class="calendar-container mb-4">
+    <div class="calendar-white-content">
+        <i class="fa-solid fa-xmark calendar-x-icon"></i>
+    </div>
+</div>
+    <h5 class="text-gold-custom fw-bold mb-4">No Booking yet!</h5>
+    <button class="btn btn-navy-custom px-3 py-2 shadow border-0">
+        <span class="text-gold-custom">+Add Booking Properties</span>
+    </button>
+</div>
 
+
+
+        </div>
 </section>
 <!-- section MyBooking Details -->
 <section id="sectionBookingDetails" class=" d-none px-4 pt-3">
