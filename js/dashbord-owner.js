@@ -222,9 +222,9 @@ addPropertyForm.addEventListener("submit", async (e) => {
 
   showLoader();
   const formData = new FormData();
-
+  const ownerId = localStorage.getItem("id");
   try {
-    formData.append("OwnerID", parseInt(1));
+    formData.append("OwnerID", parseInt(ownerId));
     formData.append("Title", title.value);
     formData.append(
       "Description",
@@ -285,7 +285,6 @@ addPropertyForm.addEventListener("submit", async (e) => {
 // end add property
 
 // start update property
-
 let newPropertyFiles = [];
 let newVideoFile = null;
 
@@ -294,10 +293,12 @@ function showPropertyDetails(prop) {
   const detailsSection = document.getElementById("oneProperti");
   if (listSection) listSection.classList.add("d-none");
   if (detailsSection) detailsSection.classList.remove("d-none");
+
   const images =
     prop.images && prop.images.length > 0
       ? prop.images
       : [{ imageUrl: "https://via.placeholder.com/400" }];
+
   document.getElementById("onePMainImg").src = images[0].imageUrl;
   document.getElementById("onePSideImgLeft").src = images[1]
     ? images[1].imageUrl
@@ -305,19 +306,23 @@ function showPropertyDetails(prop) {
   document.getElementById("onePSideImgRight").src = images[2]
     ? images[2].imageUrl
     : images[0].imageUrl;
+
   document.getElementById("onePTitle").textContent = prop.title || "No Title";
   document.getElementById("onePTitleHeader").textContent =
     prop.title || "Details";
   document.getElementById("onePDescription").textContent =
     prop.description || "No Description";
+
   if (prop.location) {
     document.getElementById("onePAddress").textContent =
       `${prop.location.street || ""}, ${prop.location.area || ""}, ${prop.location.city || ""}`;
   }
+
   document.getElementById("onePPrice").innerHTML =
     `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
   document.getElementById("onePRooms").innerHTML =
     `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`;
+
   document.getElementById("onePBackBtn").onclick = () => {
     detailsSection.classList.add("d-none");
     listSection.classList.remove("d-none");
@@ -331,8 +336,10 @@ function openUpdateSection(prop) {
   document.getElementById("oneProperti").classList.add("d-none");
   document.getElementById("sectionUpdateProperties").classList.remove("d-none");
   window.scrollTo(0, 0);
+
   newPropertyFiles = [];
   newVideoFile = null;
+
   document.getElementById("propertyIdUpdate").value = prop.propertyID;
   document.getElementById("titleUpdate").value = prop.title;
   document.getElementById("priceUpdate").value = prop.price;
@@ -355,6 +362,7 @@ function openUpdateSection(prop) {
 
   const checkboxes = ["wifiUpdate", "parkingUpdate", "gymUpdate", "acUpdate"];
   checkboxes.forEach((id) => (document.getElementById(id).checked = false));
+
   if (prop.services) {
     prop.services.forEach((s) => {
       const name = s.name.toLowerCase();
@@ -396,6 +404,7 @@ function openUpdateSection(prop) {
       imagesGrid.appendChild(createMediaCard(img.imageUrl, "image"));
     });
   }
+
   const videoPreviewContainer = document.getElementById(
     "videoPreviewContainer",
   );
@@ -412,10 +421,12 @@ function createMediaCard(url, type, isNew = false, fileName = "") {
   const div = document.createElement("div");
   div.className = "thumb-wrapper";
   if (isNew) div.dataset.fileName = fileName;
+
   let mediaContent =
     type === "image"
       ? `<div class="thumb-img" style="background-image: url('${url}')"></div>`
       : `<div class="thumb-img video-preview-wrapper"><video src="${url}" controls class="w-100 h-100 rounded-3"></video></div>`;
+
   div.innerHTML = `${mediaContent}<button type="button" class="delete-btn-yellow mt-2" onclick="removeMediaItem(this, '${type}')"><i class="fa fa-trash-alt"></i> Delete</button>`;
   return div;
 }
@@ -477,7 +488,6 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
 
   try {
     const formData = new FormData();
-
     formData.append(
       "PropertyID",
       Number(document.getElementById("propertyIdUpdate").value),
@@ -500,13 +510,11 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
       Number(document.getElementById("areaUpdate").value),
     );
 
-    // تصحيح مشكلة "on": إذا لم يجد قيمة، نرسل القيمة المختارة يدوياً
     const selectedType = document.querySelector(
       'input[name="propertyType"]:checked',
     );
-    let typeValue = "Apartment"; // القيمة الافتراضية
+    let typeValue = "Apartment";
     if (selectedType) {
-      // لو القيمة "on" ده معناه إن الـ HTML ناقصه value، فهنصلحها برمجياً هنا
       typeValue =
         selectedType.value === "on"
           ? selectedType.id === "apartmentUpdate"
@@ -555,11 +563,9 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
       alert("Updated Successfully!");
       location.reload();
     } else {
-      console.error("❌ SERVER ERROR:", responseData);
-      alert("Failed: " + (responseData.message || "Check Console"));
+      alert("Failed: " + (responseData.message || "Error occurred"));
     }
   } catch (error) {
-    console.error("Critical Error:", error);
     alert("Connection Error.");
   } finally {
     setLoading(false);
@@ -567,12 +573,14 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
 });
 
 function setLoading(isLoading) {
-  const btn = document.querySelector(".btn-submit");
+  const btn = document.querySelector(
+    "#updatePropertyForm button[type='submit']",
+  );
   if (!btn) return;
   btn.disabled = isLoading;
   btn.innerHTML = isLoading
-    ? `<span class="spinner-border spinner-border-sm"></span> Loading...`
-    : `Submit Property`;
+    ? `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+    : `Save Changes`;
 }
 // end update property
 
@@ -654,11 +662,11 @@ async function fetchProperties() {
                                 <p class="property-price mb-0 fw-bold text-primary">$${prop.price} / month</p>
                             </div>
 
-                            <div class="d-flex flex-column align-items-end justify-content-between h-100 gap-2">
+                            <div class="d-flex  align-items-end justify-content-between h-100 gap-2">
                                 <span class="badge ${statusClass}" style="font-size: 10px; padding: 5px 10px;">
                                     ${statusText}
                                 </span>
-                                <button class="btn btn-outline-primary btn-sm rounded-5 px-3" 
+                                <button class="btn btn-outline-primary btn-sm rounded-5 px-4" 
                                         onclick="showPropertyDetails(${JSON.stringify(prop).replace(/"/g, "&quot;")})">
                                     View Details
                                 </button>                            
@@ -694,7 +702,6 @@ document
 
 //start get one propirti
 function showPropertyDetails(prop) {
-  // افترضنا إن سكشن القائمة اسمه propertiesListSection
   document.getElementById("oneProperti").classList.remove("d-none");
   sections.properties.classList.add("d-none");
 
@@ -832,4 +839,4 @@ document.getElementById("confirmDeleteBtn").onclick = async function () {
     document.getElementById("deleteModal").classList.add("d-none");
   }
 };
-// end delete propirti
+// end delete property
