@@ -558,3 +558,36 @@ body {
   border-radius: 8px;
   margin-bottom: 10px;
 }
+
+/* متمسحيش الكود القديم.. ضيفي ده تحتيه بس */
+
+@media (max-width: 767px) {
+  .booking-row {
+      flex-direction: column; /* يخلي العناصر تحت بعض في الموبايل */
+      text-align: center;
+      padding: 20px 10px !important;
+  }
+
+  .booking-row .d-flex {
+      flex-direction: column; /* الصورة فوق النص */
+      align-items: center !important;
+  }
+
+  .img-box {
+      margin-right: 0 !important;
+      margin-bottom: 10px;
+  }
+
+  .location-text {
+      padding-right: 0 !important;
+      margin-bottom: 10px;
+  }
+
+  .status-btn {
+      width: 100%; /* الزرار ياخد العرض كله عشان يبقى سهل في الدوس */
+  }
+  
+  .stat-card {
+      padding: 15px 5px; /* تصغير الكروت شوية في الموبايل */
+  }
+}
