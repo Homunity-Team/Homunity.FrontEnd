@@ -282,6 +282,14 @@ addPropertyForm.addEventListener("submit", async (e) => {
     hideLoader();
   }
 });
+
+const cancelAdd = document.getElementById("cancelAdd");
+cancelAdd.addEventListener("click", () => {
+  sections.addProperties.classList.add("d-none");
+  sections.properties.classList.remove("d-none");
+  menuItems.addProperties.classList.remove("active");
+  menuItems.properties.classList.add("active");
+});
 // end add property
 
 // start update property

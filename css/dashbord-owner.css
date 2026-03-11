@@ -229,7 +229,7 @@ body {
   .side-img-box {
     display: none; /* يفضل إخفاء الصور الجانبية في الموبايل الصغير لتركيز العين على الصورة الأساسية */
   }
-  
+
   .main-img-box {
     max-width: 100%;
     height: 200px;
@@ -244,7 +244,7 @@ body {
     gap: 10px !important;
     margin-top: 20px !important;
   }
-  
+
   #onePThumbsContainer img {
     width: 80px !important; /* تصغير العرض */
     height: 45px !important;
@@ -277,13 +277,21 @@ body {
 }
 
 @keyframes moveLeft {
-  from { transform: translateX(0); }
-  to { transform: translateX(-40%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40%);
+  }
 }
 
 @keyframes moveRight {
-  from { transform: translateX(0); }
-  to { transform: translateX(40%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(40%);
+  }
 }
 
 /* =====================================================
@@ -299,7 +307,6 @@ body {
 .details-list li,
 .amenities-list li {
   color: var(--primary-blue);
-  
 }
 
 .details-list,
@@ -1287,18 +1294,26 @@ textarea {
 
 /* end responsive design */
 
-
 /* start validation */
 
 .is-invalid {
-    border-color: #d93025 !important;
-    background-image: none !important;
+  border-color: #d93025 !important;
+  background-image: none !important;
 }
 .error-message {
-    color: #d93025;
-    font-size: 12px;
-    margin-top: 5px;
-    display: none;
+  color: #d93025;
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
 }
 
 /* end validation */
+.back-btn {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.back-btn:hover {
+  transform: scale(1.1);
+  color: var(--accent-yellow);
+}
