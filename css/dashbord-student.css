@@ -474,10 +474,10 @@ body {
 .page-title{
 margin-left: 230px;
 font-weight:bold;
-color: #1b263b;
+color: #212e43;
 }
 .profile-container{
-background:#1b263b;
+background:#212e43;
 width:90%;
 max-width:1000px;
 margin:auto;
@@ -493,7 +493,7 @@ border-radius:15px;
 .student-icon{
 width:120px;
 height:120px;
-background:#f1b42f;
+background:#efb81e;
 border-radius:20px;
 display:flex;
 align-items:center;
@@ -501,22 +501,22 @@ justify-content:center;
 }
 .student-title{
 font-size:28px;
-color: #1b263b;
+color: #212e43;
 font-weight:bold;
 margin-left:20px;
 }
 .form-control{
 border-radius:12px;
-color: #1b263b;
+color: #212e43;
 
 }
 .form-control:focus{
-  border-color: #1b263b;
+  border-color: #212e43;
   box-shadow: none;
 }
 .form-check-input:checked{
-  background-color: #1b263b;
-  border-color: #1b263b;
+  background-color: #212e43;
+  border-color: #212e43;
 }
 .form-check-input:focus{
   box-shadow: none;
@@ -524,11 +524,11 @@ color: #1b263b;
 .account-title{
 font-size:26px;
 font-weight:bold;
-color: #1b263b;
+color: #212e43;
 
 }
 .star{
-color:#f1b42f;
+color:#efb81e;
 }
 .error{
 color:red;
