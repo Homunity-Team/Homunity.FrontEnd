@@ -473,7 +473,7 @@ body {
 
 .stat-card {
   display: flex;
-  background-color: #212e43 !important; 
+  background-color: rgb(33, 46, 67, 1) !important; 
   padding: 20px;
   margin: 3px auto;
   border-radius:20px;
@@ -483,12 +483,12 @@ body {
   justify-content: center;
   flex-direction: column;
   overflow: hidden !important;
-  border: 1px solid #1a2a3a;
+  border: 1px solid rgba(221, 221, 221, 1);
 }
 
 .table-header-row {
-  background-color: #212e43 !important;
-  color: #efb81e !important;
+  background-color: rgb(33, 46, 67, 1) !important;
+  color: rgba(239, 184, 30, 1) !important;
   border-radius: 10px !important;
   
 }
@@ -557,6 +557,62 @@ body {
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 10px;
+}
+
+.search-prompt-text {
+  font-family: 'Lucida Bright', serif;
+  font-weight: 600;
+  color: rgba(33, 46, 67, 1);
+  font-size: 32px;
+  line-height: 1.2;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  text-align: center;
+  white-space: normal; 
+}
+
+.search-icon-visual {
+  max-width: 140px; 
+  margin-bottom: 25px;
+}
+.break-word{
+  display: block;
+  width: 100%;
+}
+
+
+.figma-container-frame {
+  width: 100%;
+  max-width: 451px; 
+  min-height: 434px;
+  margin: 0 auto; 
+  background-color: rgba(33, 46, 67, 1); 
+  border: 10px solid rgba(239, 184, 30, 1);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 576px) {
+  .figma-container-frame {
+      max-width: 90%; 
+      min-height: 300px; 
+      border-width: 5px; 
+  }
+}
+@media (max-width: 992px) {
+  .search-prompt-text {
+      font-size: 24px;
+      max-width: 90%; 
+  }
+}
+
+@media (max-width: 768px) {
+  .search-prompt-text {
+      font-size: 20px;
+  }
 }
 
 @media (max-width: 767px) {

@@ -152,7 +152,7 @@
         </div>
       </section>
         
-      <section id="nada-bookings-section" class="d-none py-4">
+      <section id="nada-bookings-section" class="d-block py-4">
         <div class="container">
             <div class="row g-3 mb-4 text-center">
                 <div class="col-6 col-md-3">
@@ -180,6 +180,11 @@
                     </div>
                 </div>
             </div>
+
+            <div id="empty-placeholder-div" class="d-none w-100 py-5">
+    <div class="figma-container-frame">
+        </div>
+</div>
     
             <div class="row table-header-row p-3 mx-0 fw-bold align-items-center d-none d-md-flex">
                 <div class="col-4">Property</div>
@@ -269,6 +274,17 @@
                 
                 </div>
         </div>
+        <div id="search-message-div" class="d-none w-100 py-5">
+          <div class="search-main-wrapper d-flex flex-column align-items-center justify-content-center">
+              <img src="../img/Vector.png" alt="Search" class="search-icon-visual">
+              
+              <p class="search-prompt-text">
+                  Browse available properties and book your perfect
+                  <span class="break-word">place!</span>
+              </p>
+            
+          </div>
+      </div>
     </section>
     </main>
 
