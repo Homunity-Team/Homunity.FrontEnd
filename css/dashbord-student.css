@@ -472,105 +472,156 @@ body {
 }
 
 
-:root {
-    --main-blue:#1a263e;
-    --gold: #c5a059;      
-    --light-bg: #f4f7f6;
+
+/* Notification Cards */
+
+
+
+
+.sidebar .nav-links a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important; 
+    padding: 8px 20px !important;
+    white-space: nowrap !important; 
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
 }
 
 
-.top-header {
-    padding: 10px 40px;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
+.side-icon {
+    width: 20px !important;
+    height: 20px !important;
+    object-fit: contain !important;
 }
 
-.brand-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.notif-card {
+    background-color: #1a2b3c !important; 
+    color: white !important;
+    padding: 30px 40px !important; 
+    border-radius: 15px !important;
+    margin-bottom: 25px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 90% !important;
+    max-width: 950px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-.main-logo { height: 35px; }
 
-.brand-text {
-    color: var(--gold);
-    font-weight: 500;
-    font-size: 1.2rem; 
+.notif-text {
+    font-size: 1.1rem !important;
+    margin: 0 !important;
 }
 
-.sidebar {
-    width: 240px;
-    background-color: var(--main-blue);
-    height: 100vh; 
-    border-top-right-radius: 50px;
+.status-badge {
+    background-color: #d4af37 !important;
+    color: #1a2b3c !important;
+    padding: 8px 20px !important;
+    border-radius: 30px !important;
+    font-weight: bold !important;
+    white-space: nowrap;
+}
+
+
+.sidebar-logout {
+    margin-top: auto; 
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar .nav-links a {
+    text-decoration: none !important; 
+    color: white !important; 
+}
+
+
+.sidebar .nav-links a:hover {
+    color: var(--gold) !important; 
+    text-decoration: none !important;
+}
+
+
+.sidebar .nav-links li.active a {
+    color: var(--navy) !important;
+}
+
+body {
+    background-color: var(--bg) !important; 
+}
+
+
+.empty-state-section {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    padding-bottom: 40px;
-    position: sticky;
-    top: 0;
-}
-
-.nav-item a {
-    color: #b0b0b0;
-    padding: 15px 30px;
-    display: flex;
     align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    font-size: 0.95rem; 
-}
-
-.nav-item.active {
-    background-color: var(--gold);
-}
-
-.nav-item.active a { color: white !important; }
-
-.logout-section { padding-left: 30px; }
-.logout-section a { 
-    color: #b0b0b0; 
-    text-decoration: none; 
-    font-size: 0.95rem;
-}
-.content-area {
-    flex: 1;
-    padding: 30px 60px;
-}
-
-.page-title {
-    color: var(--main-blue);
-    margin-bottom: 25px;
-    font-weight: 600;
-    font-size: 1.3rem; 
-}
-
-.notif-box {
-    background-color: var(--main-blue);
-    color: white;
-    padding: 25px 40px; 
-    border-radius: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 100px; 
-}
-
-.notif-msg {
-    margin: 0;
-    font-size: 1rem; 
-    line-height: 1.5;
-}
-
-.status-btn {
-    padding: 8px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    color: #000;
-    min-width: 130px;
+    justify-content: center;
+    padding: 60px 0;
     text-align: center;
-    font-size: 0.85rem;
 }
-.in-process { background-color: #f39c12; }
-.cancelled, .booked { background-color: #f39c12; }
+
+.bell-icon-wrapper {
+    position: relative;
+    font-size: 100px;
+    color: var(--navy);
+    margin-bottom: 20px;
+}
+
+.x-mark-overlay {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    background-color: var(--bg);
+    color: var(--navy);
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 0.6;
+    padding: 2px 8px;
+    border-radius: 50%;
+}
+
+.no-notif-msg {
+    color: var(--gold) !important;
+    font-family: "LBRITE", serif;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+
+.notif-card {
+    margin-left: auto;
+    margin-right: auto;
+ 
+}
+
+
+.sidebar .nav-links a {
+    white-space: nowrap !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.sidebar .nav-links li.active a {
+    color: var(--gold) !important; 
+}
+
+.empty-state-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.no-notif-img {
+    width: 50px; 
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.no-notif-msg {
+    color: var(--gold) !important;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
