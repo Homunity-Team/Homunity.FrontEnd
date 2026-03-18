@@ -399,7 +399,7 @@ body {
 .status-badge {
   padding: 5px 15px;
   border-radius: 20px;
-  color: var(--primary-gold);
+  color: var(--gold);
   display: inline-block;
   min-width: 100px;
   text-align: center;

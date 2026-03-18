@@ -54,3 +54,24 @@ for (let key in menuItems) {
     menuItems[key].classList.add("active");
   });
 }
+
+
+// Search/filter functionality
+    document.querySelector('.btn-search').addEventListener('click', function () {
+      const city = document.querySelectorAll('.search-bar-wrapper select')[0].value;
+      const area = document.querySelectorAll('.search-bar-wrapper select')[1].value;
+      const minPrice = parseFloat(document.querySelectorAll('.search-bar-wrapper input')[0].value) || 0;
+      const maxPrice = parseFloat(document.querySelectorAll('.search-bar-wrapper input')[1].value) || Infinity;
+
+      const cards = document.querySelectorAll('#properties-grid > div');
+      cards.forEach(card => {
+        const areaText = card.querySelector('.prop-meta span:first-child').textContent.trim();
+        const priceText = card.querySelector('.price').textContent.replace(/[^0-9]/g, '');
+        const price = parseFloat(priceText);
+
+        const areaMatch = (area === 'Area•' || areaText === area);
+        const priceMatch = (price >= minPrice && price <= maxPrice);
+
+        card.style.display = (areaMatch && priceMatch) ? '' : 'none';
+      });
+    });
