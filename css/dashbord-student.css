@@ -471,9 +471,8 @@ body {
   }
 }
 
-/*  ══════════════════════════════
-       Booking Page
-       ══════════════════════════════*/
+/* Bookings Page  */
+
 .page-title {
     color: var(--navy);
     font-weight: bold;
