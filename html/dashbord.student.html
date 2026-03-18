@@ -292,7 +292,7 @@
     <!-- notification page -->
     <section class="main-content">
       <div class="d-none">
-      <h2 style=" margin-bottom: 30px; color: var(--navy); font-weight: 800;">Notifications Page</h2>
+        <h2 style=" margin-bottom: 30px; color: var(--navy); font-weight: 800;">Notifications Page</h2>
         <div class="notif-card">
           <p class="notif-text">Your booking request for Modern Studio is still waiting for the owner's approval.</p>
           <span class="status-badge">In-Process</span>
@@ -303,12 +303,64 @@
           <span class="status-badge">Cancelled</span>
         </div>
 
-        <div class="notif-card">
-          <p class="notif-text">Your booking for Cozy Room in Shared has been confirmed.</p>
-          <span class="status-badge">Booked</span>
+    </section>
+    <!--profile-->
+    <section class="d-none">
+      <h2 class="page-title">Profile</h2>
+      <div class="profile-container">
+        <div class="profile-card">
+          <div class="d-flex align-items-center mb-5">
+            <div class="student-icon">
+              <svg width="645" height="581" viewBox="0 0 645 581" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M564.375 456.917L416.604 430.084C403.125 403.125 403.125 391.409 403.125 376.292C416.604 362.812 443.438 349.459 443.438 335.979C456.917 295.667 456.917 268.834 456.917 268.834C463.846 258.756 483.75 242.001 483.75 215.042C483.75 188.083 456.917 161.25 456.917 147.896C456.917 40.3125 402.117 0 322.5 0C246.284 0 188.083 40.3125 188.083 147.771C188.083 161.25 161.25 188.083 161.25 214.916C161.25 241.749 180.398 259.512 188.083 268.708C188.083 268.708 188.083 295.541 201.562 335.854C201.562 349.333 228.396 362.687 241.875 376.166C241.875 389.646 241.875 402.999 228.396 429.958L80.625 456.917C26.833 470.271 0 564.375 0 645H645C645 564.375 618.167 470.271 564.375 456.917Z"
+                  fill="white" />
+              </svg>
+            </div>
+            <div class="student-title">
+              Student
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <label class="form-label">First Name</label>
+              <input type="text" id="firstName" class="form-control" placeholder="Enter Your First Name">
+              <span id="firstNameError" class="error">First Name must be between 2 and 10 characters</span>
+            </div>
+            <div class="col-md-6 mb-4">
+              <label class="form-label">Last Name</label>
+              <input type="text" id="lastName" class="form-control" placeholder="Enter Your Last Name">
+              <span id="lastNameError" class="error">Last Name must be between 2 and 10 characters</span>
+            </div>
+            <div class="col-md-6 mb-4">
+              <label class="form-label">Phone</label>
+              <input type="text" id="phone" class="form-control" placeholder="Enter Your Phone">
+              <span id="phoneError" class="error">Phone number is not valid</span>
+            </div>
+          </div>
+          <div class="account-title">
+            Account Status <span class="star">*</span>
+          </div>
+          <div class="mt-3">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="status">
+              <label class="form-check-label">Active</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status">
+              <label class="form-check-label">Inactive</label>
+            </div>
+          </div>
         </div>
       </div>
-
+  
+      <!--end-->
+      <div class="notif-card">
+        <p class="notif-text">Your booking for Cozy Room in Shared has been confirmed.</p>
+        <span class="status-badge">Booked</span>
+      </div>
+      </div>
+  
       <div class="empty-state-section d-none">
         <div class="bell-image-container">
           <img src="../img/no-notification.svg" class="no-notif-img" alt="No Notifications">
@@ -316,11 +368,9 @@
         <h3 class="no-notif-msg">No Notification yet!</h3>
       </div>
     </section>
-
+  
     <!-- profile -->
-
   </main>
-
 
   <script>
     const hamburger = document.getElementById("hamburger");
@@ -362,6 +412,74 @@
           .querySelectorAll(".gallery-thumbs img")
           .forEach((t) => t.classList.remove("active"));
         thumb.classList.add("active");
+      });
+    });
+
+
+    // profile
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const phoneInput = document.getElementById("phone");
+      const phoneError = document.getElementById("phoneError");
+      const firstInput = document.getElementById("firstName");
+      const firstError = document.getElementById("firstNameError");
+      const lastInput = document.getElementById("lastName");
+      const lastError = document.getElementById("lastNameError");
+      const nameRegex = /^[A-Za-z]+$/;
+      const phoneRegex = /^0[0-9]{10}$/;
+      firstInput.addEventListener("input", function () {
+        let val = firstInput.value.trim();
+        if (val === "") {
+          firstError.innerText = "First Name is required";
+          firstError.style.display = "block";
+        }
+        else if (!nameRegex.test(val)) {
+          firstError.innerText = "First Name must contain letters only";
+          firstError.style.display = "block";
+        }
+        else if (val.length < 2 || val.length > 10) {
+          firstError.innerText = "First Name must be between 2 and 10 characters";
+          firstError.style.display = "block";
+        }
+        else {
+          firstError.style.display = "none";
+        }
+      });
+      lastInput.addEventListener("input", function () {
+        let val = lastInput.value.trim();
+        if (val === "") {
+          lastError.innerText = "Last Name is required";
+          lastError.style.display = "block";
+        }
+        else if (!nameRegex.test(val)) {
+          lastError.innerText = "Last Name must contain letters only";
+          lastError.style.display = "block";
+        }
+        else if (val.length < 2 || val.length > 10) {
+          lastError.innerText = "Last Name must be between 2 and 10 characters";
+          lastError.style.display = "block";
+        }
+        else {
+          lastError.style.display = "none";
+        }
+      });
+      phoneInput.addEventListener("input", function () {
+        let val = phoneInput.value.trim();
+        if (val === "") {
+          phoneError.innerText = "Phone number is required";
+          phoneError.style.display = "block";
+        }
+        else if (!/^[0-9]+$/.test(val)) {
+          phoneError.innerText = "Phone must contain numbers only";
+          phoneError.style.display = "block";
+        }
+        else if (!phoneRegex.test(val)) {
+          phoneError.innerText = "Phone must be 11 digits and start with 0";
+          phoneError.style.display = "block";
+        }
+        else {
+          phoneError.style.display = "none";
+        }
       });
     });
   </script>
