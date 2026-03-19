@@ -3,14 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const userID = localStorage.getItem("id");
 
   if (userRole !== "student" || !userID) {
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "You cannot access the dashboard without logging in",
-    });
+
     setTimeout(() => {
       window.location.href = "../html/form.html";
-    }, 3000);
+    }, 100);
   }
 });
 const sections = {
