@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const userId = localStorage.getItem("Id");
 
 if (userId !== null) {
@@ -114,68 +113,4 @@ roomsInp.addEventListener('input', function() {
     error.style.display = 'none';
     roomsInp.style.borderColor = '#ced4da';
   }
-=======
-console.log("hello");
-
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const links = document.querySelectorAll('.sidebar .nav-link');
-    const sections = document.querySelectorAll('.content-section');
-    function hideAllSections() {
-        sections.forEach(section => {
-            section.style.display = 'none';
-        });
-    }
-    function showSection(id) {
-        const target = document.getElementById(id);
-        if (target) {
-            target.style.display = 'block';
-        }
-    }
-    hideAllSections();
-    showSection("main-dashboard-section");
-
-    links.forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            const targetId = this.dataset.section;
-            if (!targetId) return;
-
-            hideAllSections();
-            showSection(targetId);
-        });
-    });
-
->>>>>>> origin/property-details-hagar
 });
-
-const propertiesBtn = document.getElementById('properties-link'); 
-const bookingsSection = document.getElementById('nada-bookings-section');
-propertiesBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    bookingsSection.classList.remove('d-none'); 
-    bookingsSection.style.display = 'block'; 
-    loadNadaBookings(); 
-});
-
-function updatePageContent(data) {
-  const searchDiv = document.getElementById('search-message-div');
-  const placeholderDiv = document.getElementById('empty-placeholder-div');
-  const dataList = document.getElementById('api-data-list');
-  
-  if (!data || data.length === 0) {
-      searchDiv.classList.remove('d-none');
-      dataList.classList.add('d-none');
-      placeholderDiv.classList.add('d-none');
-      
-      console.log("البيانات فاضية: تم إظهار رسالة البحث");
-  } else {
-      searchDiv.classList.add('d-none');
-      dataList.classList.remove('d-none');
-      placeholderDiv.classList.add('d-none');
-      
-      console.log("البيانات موجودة: تم إظهار الجدول");
-  }
-}

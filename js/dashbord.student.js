@@ -1,18 +1,18 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//   const userRole = localStorage.getItem("role");
-//   const userID = localStorage.getItem("id");
+document.addEventListener("DOMContentLoaded", () => {
+  const userRole = localStorage.getItem("role");
+  const userID = localStorage.getItem("id");
 
-//   if (userRole !== "student" || !userID) {
-//     Swal.fire({
-//       icon: "error",
-//       title: "Error",
-//       text: "You cannot access the dashboard without logging in",
-//     });
-//     setTimeout(() => {
-//       window.location.href = "../html/form.html";
-//     }, 3000);
-//   }
-// });
+  if (userRole !== "student" || !userID) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "You cannot access the dashboard without logging in",
+    });
+    setTimeout(() => {
+      window.location.href = "../html/form.html";
+    }, 3000);
+  }
+});
 const sections = {
   properties: document.getElementById("sectionPropirtie"),
   home: document.getElementById("sectionHome"),
@@ -84,7 +84,7 @@ cancel.addEventListener("click", () => {
 
 // start home
 const BASE_URL = "https://homunityapiv1.runasp.net/api";
-const STUDENT_ID = localStorage.getItem("userId") || 10;
+const STUDENT_ID = localStorage.getItem("id") || 10;
 
 window.currentPropertyId = null;
 window.currentBookingId = null;
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // srart
 // 1. دالة جلب وعرض الحجوزات (تُستدعى تلقائياً)
 async function loadMyBookings() {
-  const studentID = localStorage.getItem("userId") || 10;
+  const studentID = localStorage.getItem("id") || 10;
   const listContainer = document.getElementById("bookings-dynamic-list");
   const emptyWrapper = document.getElementById("emptyStateWrapper");
 
@@ -582,7 +582,7 @@ document.addEventListener("click", function (e) {
 
 // start
 async function loadUserProfile() {
-  const studentID = localStorage.getItem("userId") || 10;
+  const studentID = localStorage.getItem("id") || 10;
 
   // تحديد العناصر من الـ HTML
   const firstNameInput = document.getElementById("firstName");
