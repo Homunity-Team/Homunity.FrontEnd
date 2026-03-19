@@ -150,3 +150,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 >>>>>>> origin/property-details-hagar
 });
+
+const propertiesBtn = document.getElementById('properties-link'); 
+const bookingsSection = document.getElementById('nada-bookings-section');
+propertiesBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    bookingsSection.classList.remove('d-none'); 
+    bookingsSection.style.display = 'block'; 
+    loadNadaBookings(); 
+});
+
+function updatePageContent(data) {
+  const searchDiv = document.getElementById('search-message-div');
+  const placeholderDiv = document.getElementById('empty-placeholder-div');
+  const dataList = document.getElementById('api-data-list');
+  
+  if (!data || data.length === 0) {
+      searchDiv.classList.remove('d-none');
+      dataList.classList.add('d-none');
+      placeholderDiv.classList.add('d-none');
+      
+      console.log("البيانات فاضية: تم إظهار رسالة البحث");
+  } else {
+      searchDiv.classList.add('d-none');
+      dataList.classList.remove('d-none');
+      placeholderDiv.classList.add('d-none');
+      
+      console.log("البيانات موجودة: تم إظهار الجدول");
+  }
+}

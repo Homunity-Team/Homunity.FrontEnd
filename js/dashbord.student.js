@@ -2,7 +2,6 @@
 //   const userRole = localStorage.getItem("role");
 //   const userID = localStorage.getItem("id");
 
-
 //   if (userRole !== "student" || !userID) {
 //     Swal.fire({
 //       icon: "error",
@@ -16,6 +15,7 @@
 // });
 const sections = {
   properties: document.getElementById("sectionPropirtie"),
+  home: document.getElementById("sectionHome"),
   browserProperties: document.getElementById("sectionBrowseProperties"),
   notification: document.getElementById("sectionNotification"),
   booking: document.getElementById("sectionMyBookings"),
@@ -24,7 +24,7 @@ const sections = {
 };
 
 const menuItems = {
-  properties: document.getElementById("home"),
+  home: document.getElementById("home"),
   browserProperties: document.getElementById("browser"),
   profile: document.getElementById("profile"),
   notification: document.getElementById("notificaion"),
@@ -54,7 +54,6 @@ for (let key in menuItems) {
     menuItems[key].classList.add("active");
   });
 }
-
 
 // // Search/filter functionality
 //     document.querySelector('.btn-search').addEventListener('click', function () {
