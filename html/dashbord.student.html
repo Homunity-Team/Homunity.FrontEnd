@@ -41,11 +41,11 @@
   <aside class="sidebar" id="sidebar">
     <nav>
       <ul>
-        <li class="active"><i class="fa-solid fa-house"></i> Home</li>
-        <li><i class="fa-solid fa-globe"></i></i> Browse Properties</li>
-        <li><i class="fa-regular fa-user"></i> Profile</li>
-        <li><i class="fa-regular fa-bell"></i> Notifications</li>
-        <li><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
+        <li id="home" class="active"><i class="fa-solid fa-house"></i> Home</li>
+        <li id="browser"><i class="fa-solid fa-globe"></i></i> Browse Properties</li>
+        <li id="profile"><i class="fa-regular fa-user"></i> Profile</li>
+        <li id="notificaion"><i class="fa-regular fa-bell"></i> Notifications</li>
+        <li id="booking"><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
       </ul>
     </nav>
     <div class="sidebar-logout" id="logoutBtn">
@@ -55,7 +55,7 @@
 
   <!-- ══ MAIN ══ -->
   <main class="main-content">
-    <section class="d-none">
+    <section id="sectionPropirtie" class="d-none">
       <div class="page-header">
         <h1 class="page-title">Property Details</h1>
         <span class="badge-pending">Pending Approval</span>
@@ -133,7 +133,7 @@
 
     <!-- browse properties -->
 
-    <section class="d-none">
+    <section id="sectionBrowseProperties" class="d-none">
       <div class="container py-4">
         <h2 class="browse-title">Browse Properties</h2>
 
@@ -288,7 +288,7 @@
     </section>
 
     <!-- notification page -->
-    <section class="main-content d-none">
+    <section id="sectionNotification" class="main-content d-none">
       <div class="">
         <h2 style=" margin-bottom: 30px; color: var(--navy); font-weight: 800;">Notifications Page</h2>
         <div class="notif-card">
@@ -518,7 +518,7 @@
     </section>
 
     <!--profile-->
-    <section class="d-none">
+    <section id="sectionProfile" class="d-none">
       <h2 class="page-title">Profile</h2>
       <div class="profile-container">
         <div class="profile-card">
@@ -582,7 +582,7 @@
       </div>
     </section>
   </main>
-
+  <script src="../js/dashbord.student.js"></script>
   <script>
     const hamburger = document.getElementById("hamburger");
     const sidebar = document.getElementById("sidebar");
@@ -616,16 +616,6 @@
         window.location.href = "../index.html";
       }
     });
-
-    document.querySelectorAll(".gallery-thumbs img").forEach((thumb) => {
-      thumb.addEventListener("click", () => {
-        document
-          .querySelectorAll(".gallery-thumbs img")
-          .forEach((t) => t.classList.remove("active"));
-        thumb.classList.add("active");
-      });
-    });
-
 
     // profile
 
