@@ -729,25 +729,6 @@ h2.browse-title {
   object-fit: contain !important;
 }
 
-.notif-card {
-  background-color: #1a2b3c !important;
-  color: white !important;
-  padding: 30px 40px !important;
-  border-radius: 15px !important;
-  margin-bottom: 25px !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 90% !important;
-  max-width: 950px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.notif-text {
-  font-size: 1.1rem !important;
-  margin: 0 !important;
-}
-
 .status-badge {
   background-color: #d4af37 !important;
   color: #1a2b3c !important;
