@@ -378,24 +378,58 @@ html, body {
   margin-bottom: 2px !important;
 
 }
-/* 5. الجدول (طبق الأصل من التصميم الأخضر) */
+/* 3. جسم الجدول (البيانات) */
 .table-container-custom {
-  margin-top: 40px !important; /* مسافة إضافية بين الكروت والجدول */
-  border: 1px solid #B8963D !important; 
+  margin: 40px 0 !important; 
+  border: 2px solid rgba(239, 184, 30, 1) !important; 
   border-radius: 15px !important;
   overflow: hidden;
   background-color: white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.table-container-custom thead {
-  background-color: #212E43 !important;
+/* رأس الجدول (اللون الكحلي اللي سألتي عليه) */
+.table-container-custom table {
+  width: 100% !important;
+  border-collapse: collapse !important; /* ده أهم سطر عشان يخلي الهيدر خط واحد */
+  margin: 0 !important;
+  border: none !important;
+  border: 1px solid rgba(239, 184, 30, 1) !important; 
 }
 
 .table-container-custom thead th {
-  color: #B8963D !important; 
+  background-color: rgba(33, 46, 67, 1) !important;
+  color: rgba(239, 184, 30, 1) !important; 
+  padding: 15px 15px !important;
+  text-align: center;
+  border: none !important;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+/* جسم الجدول */
+.table-container-custom tbody td {
   padding: 15px !important;
   text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(221, 221, 221, 1) !important;
+  color: rgba(33, 46, 67, 1);
+}
+
+/* 8. تنسيق أزرار الـ Reject و Approve */
+.btn-gold-action {
+  background-color: rgba(239, 184, 30, 1) !important;
+  color: rgba(33, 46, 67, 1) !important;
+  font-weight: bold;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 25px !important;
+  transition: 0.3s;
+}
+
+.btn-gold-action:hover {
+  background-color: #9a7d32 !important;
+  transform: scale(1.05);
 }
 
 /* Pending Properties Page */
