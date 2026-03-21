@@ -247,6 +247,72 @@ body {
 /* admin dashboard  */
 
 
+ html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.admin-dashboard-content {
+  margin-left: 210px !important; 
+  margin-top: 0 !important;     
+  padding: 10px 20px !important; 
+  min-height: 100vh;
+  background-color: #f8f9fa;     
+  position: relative;
+  top: 0;
+}
+
+.admin-dashboard-content h4 {
+  margin-top: 10px !important;   
+  margin-bottom: 20px !important;
+  color: #212E43;
+  font-weight: bold;
+  display: block !important;     
+}
+.table-container-custom {
+  margin: 20px 0 !important;
+  margin-right: 20px !important;
+  border: 1px solid #B8963D !important; 
+  border-radius: 15px !important;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.table-container-custom thead {
+  background-color: #212E43 !important;
+}
+
+.table-container-custom thead th {
+  color: #B8963D !important; 
+  padding: 15px !important;
+  text-align: center;
+  border: none !important;
+}
+
+.table-container-custom tbody td {
+  padding: 12px !important;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.stat-card-custom {
+  background-color: #212E43 !important;
+  color: white !important;
+  border-radius: 12px !important;
+  border-bottom: 4px solid #B8963D !important;
+  padding: 15px !important;
+  text-align: center;
+}
+
+.btn-gold-action, .btn-reject, .btn-approve {
+  background-color: #B8963D !important;
+  color: #212E43 !important;
+  font-weight: bold;
+  border-radius: 8px !important;
+  padding: 5px 25px !important;
+  border: none !important;
+} 
 
 /* Pending Properties Page */
 
