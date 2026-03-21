@@ -855,12 +855,11 @@ body {
 /* profile  */
 
 .page-title {
-  margin-left: 230px;
   font-weight: bold;
-  color: #212e43;
+  color: var(--navy);
 }
 .profile-container {
-  background: #212e43;
+  background: var(--navy);
   width: 90%;
   max-width: 1000px;
   margin: auto;
@@ -869,14 +868,14 @@ body {
   border-radius: 25px;
 }
 .profile-card {
-  background: #ffffff;
+  background: var(--white);
   padding: 50px;
   border-radius: 15px;
 }
 .student-icon {
   width: 120px;
   height: 120px;
-  background: #efb81e;
+  background: var(--gold);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -884,21 +883,21 @@ body {
 }
 .student-title {
   font-size: 28px;
-  color: #212e43;
+  color: var(--navy);
   font-weight: bold;
   margin-left: 20px;
 }
 .form-control {
   border-radius: 12px;
-  color: #212e43;
+  color: var(--navy);
 }
 .form-control:focus {
-  border-color: #212e43;
+  border-color: var(--navy);
   box-shadow: none;
 }
 .form-check-input:checked {
-  background-color: #212e43;
-  border-color: #212e43;
+  background-color: var(--navy);
+  border-color: var(--navy);
 }
 .form-check-input:focus {
   box-shadow: none;
@@ -906,10 +905,10 @@ body {
 .account-title {
   font-size: 26px;
   font-weight: bold;
-  color: #212e43;
+  color: var(--navy);
 }
 .star {
-  color: #efb81e;
+  color: var(--gold);
 }
 .error {
   color: red;
