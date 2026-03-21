@@ -245,8 +245,7 @@ body {
 }
 
 /* admin dashboard  */
-
-
+/* 
  html, body {
   margin: 0 !important;
   padding: 0 !important;
@@ -312,7 +311,92 @@ body {
   border-radius: 8px !important;
   padding: 5px 25px !important;
   border: none !important;
-} 
+}  */
+  /* 1. تصفير شامل للهوامش الخارجية */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 2. الحاوية الأساسية: زق المحتوى بالكامل لأسفل */
+.admin-dashboard-content {
+  margin-left: 210px !important; /* مسافة الـ Sidebar */
+  margin-top: 0 !important;
+  /* زق المحتوى لتحت بمسافة كبيرة (مثلاً 100px) عشان تبعدي عن الخط الأبيض وتظهري الجملة */
+  padding-top: 100px !important; 
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  min-height: 100vh;
+  background-color: #f8f9fa;     
+  position: relative;
+}
+/* زق حاوية الكروت بعيد عن الـ Sidebar */
+.admin-dashboard-content .row.mb-5 {
+  margin-left: 40px !important;  /* المسافة الخضراء اللي إنتِ عاوزاها */
+  margin-right: 20px !important; /* توازن من الناحية التانية */
+  justify-content: center !important;
+  
+}
+
+/* تصغير الكروت عشان متبقاش ضخمة وتسمح بالمسافة */
+
+/* 3. الجملة (Admin Dashboard Page) */
+.admin-dashboard-content h4 {
+  margin-bottom: 30px !important;
+  color: #212E43;
+  font-weight: bold;
+  font-size: 26px; /* تكبير الخط شوية زي الأصلي */
+}
+
+/* 4. تنسيق الكروت (Cards) */
+.stat-card-custom {
+  background-color: rgba(33, 46, 67, 1) !important;
+  color: rgba(239, 184, 30, 1)!important;
+  border-radius: 12px !important;
+  border-bottom: 1px solid rgba(221, 221, 221, 1) !important;
+  padding: 10px 5px !important;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  min-height: 110px !important;
+  flex-direction: column;
+  margin: 0 auto !important;
+
+}
+/* تنسيق الصورة داخل الكارت لتكون صغيرة ومتناسقة */
+.stat-card-custom img {
+  color:rgba(239, 184, 30, 1);
+  /* التعديل الجوهري: حددي الحجم اللي يريحك هنا */
+  width: 30px !important;       /* جربي 30px أو 40px لحد ما الحجم يعجبك */
+  height: auto !important;     /* الحفاظ على أبعاد الصورة */
+  display: block !important;
+  margin: 0 auto 10px auto !important; /* توسيط الصورة ومسافة صغيرة تحتها */
+}
+.stat-card-custom p{
+  color: rgba(221, 221, 221, 1) !important; 
+  
+  margin-bottom: 2px !important;
+
+}
+/* 5. الجدول (طبق الأصل من التصميم الأخضر) */
+.table-container-custom {
+  margin-top: 40px !important; /* مسافة إضافية بين الكروت والجدول */
+  border: 1px solid #B8963D !important; 
+  border-radius: 15px !important;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.table-container-custom thead {
+  background-color: #212E43 !important;
+}
+
+.table-container-custom thead th {
+  color: #B8963D !important; 
+  padding: 15px !important;
+  text-align: center;
+}
 
 /* Pending Properties Page */
 
