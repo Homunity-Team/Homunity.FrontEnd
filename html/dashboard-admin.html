@@ -58,9 +58,33 @@
 
 <!-- rejected properties pop-up  -->
 <section class="d-none">
-  
+<div class="popup-overlay">
+    <div class="popup-box">
+        <div class="popup-header">
+            Reject Property Popup
+        </div>
+        <div class="popup-body">
+            <textarea 
+                id="reasonInput"
+                class="reason-box"
+                placeholder="write reason"
+                maxlength="300"
+                oninput="countChars()"
+            ></textarea>
+            <div class="popup-footer">
+                <span>⚠️ Please provide a reason for rejection</span>
+                <span id="charCount">0 / 300</span>
+            </div>
+            <div class="popup-buttons">
+                <button onclick="confirmAction()">Confirm</button>
+                <button onclick="closePopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 </section>
 
+<!--end-->
 
 <!-- property details -->
 <section class="d-none">
@@ -76,6 +100,27 @@
 
 
     </main>
+    <script>
+    function countChars() {
+        let text = document.getElementById("reasonInput").value;
+        document.getElementById("charCount").innerText = text.length + " / 300";
+    }
+
+    function closePopup() {
+        document.querySelector(".popup-overlay").style.display = "none";
+    }
+
+    function confirmAction() {
+        let text = document.getElementById("reasonInput").value;
+
+        if (text.trim() === "") {
+            alert("Please write a reason first!");
+            return;
+        }
+
+        alert("Submitted Successfully!");
+    }
+</script>
     <script>
       const hamburger = document.getElementById("hamburger");
       const sidebar = document.getElementById("sidebar");
