@@ -252,7 +252,36 @@ body {
 
 
 /* rejected properties pop-up  */
+.rejected-sproperties{
+color: var(--text) !important;
+}
 
+.property-card-wrapper {
+    border: 1.5px solid var(--gold);
+    margin-bottom: 20px;
+}
+
+.property-main-box {
+    border-bottom: 2px solid var(--gold-soft) !important; 
+    
+}
+
+.property-info {
+    margin-left: 25px; 
+    flex-grow: 1;
+}
+/*  Rejected */
+.btn-rejected {
+    background-color: var(--gold);
+    color: var(--text) ;
+    border-radius: 5px;
+    padding: 4px 25px;
+}
+
+.property-info p {
+    margin-bottom: 10px;
+    color: var(--text);
+}
 
 /* property details  */
 
