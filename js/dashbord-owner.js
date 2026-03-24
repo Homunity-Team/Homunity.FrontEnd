@@ -314,8 +314,6 @@ function showPropertyDetails(prop) {
     ? images[2].imageUrl
     : images[0].imageUrl;
   document.getElementById("onePTitle").textContent = prop.title || "No Title";
-  document.getElementById("onePTitleHeader").textContent =
-    prop.title || "Details";
   document.getElementById("onePDescription").textContent =
     prop.description || "No Description";
   if (prop.location) {
@@ -706,32 +704,27 @@ function showPropertyDetails(prop) {
     : images[0].imageUrl;
   document.getElementById("onePSideImgRight").src = images[2]
     ? images[2].imageUrl
-    : images[0].imageUrl;
+    : images[0].imageUrl; // ملئ الصور المصغرة (Thumbs)
 
-  // ملئ الصور المصغرة (Thumbs)
   document.getElementById("onePThumb1").src = images[0].imageUrl;
   document.getElementById("onePThumb2").src = images[1]
     ? images[1].imageUrl
     : images[0].imageUrl;
   document.getElementById("onePThumb3").src = images[2]
     ? images[2].imageUrl
-    : images[0].imageUrl;
+    : images[0].imageUrl; // 3. ملئ النصوص الأساسية
 
-  // 3. ملئ النصوص الأساسية
   document.getElementById("onePTitle").textContent = prop.title;
   document.getElementById("idPropirtie").value = prop.propertyID;
-  document.getElementById("onePTitleHeader").textContent = prop.title;
   document.getElementById("onePAddress").textContent =
     `${prop.location.street}, ${prop.location.area}, ${prop.location.city}`;
-  document.getElementById("onePDescription").textContent = prop.description;
+  document.getElementById("onePDescription").textContent = prop.description; // التفاصيل (السعر والغرف)
 
-  // التفاصيل (السعر والغرف)
   document.getElementById("onePPrice").innerHTML =
     `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
   document.getElementById("onePRooms").innerHTML =
-    `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`;
+    `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`; // 4. ملئ الخدمات (Amenities)
 
-  // 4. ملئ الخدمات (Amenities)
   const amenitiesList = document.querySelector(".amenities-list");
   amenitiesList.innerHTML = ""; // مسح القديم
 
@@ -743,9 +736,8 @@ function showPropertyDetails(prop) {
     });
   } else {
     amenitiesList.innerHTML = "<li>No amenities available</li>";
-  }
+  } // 5. زرار الرجوع
 
-  // 5. زرار الرجوع
   document.getElementById("onePBackBtn").onclick = () => {
     document.getElementById("oneProperti").classList.add("d-none");
     sections.properties.classList.remove("d-none");
@@ -756,7 +748,6 @@ function showPropertyDetails(prop) {
   };
 }
 
-// جوه فانكشن showPropertyDetails ضيف السطر ده:
 document.getElementById("onePBtnUpdate").onclick = () => {
   openUpdateSection(prop);
 };

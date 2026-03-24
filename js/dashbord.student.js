@@ -212,7 +212,6 @@ function renderPropertyPage(prop) {
   const sec = document.getElementById("sectionPropirtie");
   if (!sec) return;
 
-  sec.querySelector(".page-title").innerText = prop.title || "Property Details";
   sec.querySelector(".card-title").innerText =
     prop.title || "No Title Provided";
   sec.querySelector(".card-address").innerText =
