@@ -58,7 +58,15 @@
 
 
 <!-- rejected properties pop-up  -->
- <section class="rejected-properties px-3"> 
+ 
+<!-- property details -->
+<section class="d-none">
+  
+</section>
+
+
+<!-- rejected properties -->
+<section class="rejected-properties px-3 d-none"> 
     <h2 class="py-4 fw-bold">Rejected Properties Page</h2>
     
     <div class="property-card-wrapper mb-4 shadow-sm">
@@ -115,15 +123,13 @@
         </div>
     </div>
 </section>
-<!-- property details -->
-<section class="d-none">
-  
-</section>
 
-
-<!-- rejected properties -->
-<section class="d-none">
-  
+<section>
+  <div class="empty-state-container">
+    <div class="rejected-state-wrapper">
+        <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
+        <p class="state-text">No rejected properties found</p>
+    </div>
 </section>
 
 
