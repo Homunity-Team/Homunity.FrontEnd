@@ -508,13 +508,11 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
       Number(document.getElementById("areaUpdate").value),
     );
 
-    // تصحيح مشكلة "on": إذا لم يجد قيمة، نرسل القيمة المختارة يدوياً
     const selectedType = document.querySelector(
       'input[name="propertyType"]:checked',
     );
-    let typeValue = "Apartment"; // القيمة الافتراضية
+    let typeValue = "Apartment";
     if (selectedType) {
-      // لو القيمة "on" ده معناه إن الـ HTML ناقصه value، فهنصلحها برمجياً هنا
       typeValue =
         selectedType.value === "on"
           ? selectedType.id === "apartmentUpdate"
@@ -697,7 +695,6 @@ function showPropertyDetails(prop) {
   document.getElementById("oneProperti").classList.remove("d-none");
   sections.properties.classList.add("d-none");
 
-  // 2. توزيع الصور في الجاليري
   const images =
     prop.images && prop.images.length > 0
       ? prop.images
@@ -766,12 +763,9 @@ document.getElementById("onePBtnUpdate").onclick = () => {
 // end get one propirti
 
 // start delete propirti
-// متغير لتخزين الـ ID الخاص بالعقار المراد حذفه حالياً
 let propertyIdToDelete = null;
 
-// تعديل بسيط داخل فانكشن showPropertyDetails (تأكد من وجود هذا السطر)
 document.getElementById("onePBtnDelete").onclick = () => {
-  // جلب البيانات من الصفحة الحالية لعرضها في الـ Modal
   const title = document.getElementById("onePTitle").textContent;
   const address = document.getElementById("onePAddress").textContent;
   const img = document.getElementById("onePMainImg").src;
@@ -790,12 +784,10 @@ function openDeleteModal(id, title, address, img) {
   document.getElementById("deleteModal").classList.remove("d-none");
 }
 
-// زر الإلغاء
 document.getElementById("cancelDeleteBtn").onclick = () => {
   document.getElementById("deleteModal").classList.add("d-none");
 };
 
-// زر الحذف النهائي (الربط مع الـ API)
 document.getElementById("confirmDeleteBtn").onclick = async function () {
   console.log(propertyIdToDelete);
   if (!propertyIdToDelete) return;
@@ -813,7 +805,7 @@ document.getElementById("confirmDeleteBtn").onclick = async function () {
 
     if (response.ok) {
       alert("Property Deleted Successfully!");
-      location.reload(); // إعادة تحميل الصفحة لتحديث القائمة
+      location.reload();
     } else {
       const error = await response.json();
       alert(
@@ -832,3 +824,150 @@ document.getElementById("confirmDeleteBtn").onclick = async function () {
   }
 };
 // end delete property
+
+// start booking request
+const ownerId = localStorage.getItem("id");
+const bookingContainer = document.getElementById("bookingMainContent");
+const messagesContainer = document.getElementById("messagesList");
+
+async function fetchBookings() {
+  try {
+    const response = await fetch(
+      `https://homunityapiv1.runasp.net/api/Booking/owner/${ownerId}`,
+    );
+    const data = await response.json();
+
+    const inProcess = (data.bookings || []).filter(
+      (b) => b.statusName === "In-Process",
+    );
+    const finished = (data.bookings || []).filter(
+      (b) => b.statusName === "Booked" || b.statusName === "Cancelled",
+    );
+
+    if (inProcess.length > 0) {
+      renderTable(inProcess);
+    } else {
+      renderEmptyBooking();
+    }
+
+    if (finished.length > 0) {
+      renderMessagesCards(finished);
+    } else {
+      renderEmptyMessages();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    renderEmptyBooking();
+  }
+}
+
+async function handleAction(bookingId, type) {
+  const url =
+    type === "accept"
+      ? `https://homunityapiv1.runasp.net/api/Booking/${bookingId}/confirm?OwnerId=${ownerId}`
+      : `https://homunityapiv1.runasp.net/api/Booking/${bookingId}/cancel`;
+
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: { accept: "*/*" },
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      let history = JSON.parse(localStorage.getItem("booking_history")) || [];
+      history.push(result);
+      localStorage.setItem("booking_history", JSON.stringify(history));
+
+      alert(type === "accept" ? "Booking Confirmed!" : "Booking Cancelled!");
+      location.reload();
+    } else {
+      alert("حدث خطأ: " + (result.message || "حاول مرة أخرى"));
+    }
+  } catch (error) {
+    console.error("Action Error:", error);
+    alert("فشل الاتصال بالسيرفر");
+  }
+}
+
+function renderTable(bookings) {
+  let tableHtml = `
+    <div class="custom-table-container">
+      <table class="table custom-table mb-0">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Student Name</th>
+            <th>Property</th>
+            <th>Date</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+  bookings.forEach((item) => {
+    tableHtml += `
+          <tr>
+            <td><img src="${item.property.imageUrl}" class="prop-img" style="width:50px; height:50px; border-radius:8px; object-fit:cover;"></td>
+            <td>${item.studentName}</td>
+            <td>${item.property.title}</td>
+            <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+            <td class="text-center">
+              <button class="btn-reject me-1" onclick="handleAction(${item.bookingId}, 'reject')">Reject</button>
+              <button class="btn-accept" onclick="handleAction(${item.bookingId}, 'accept')">Accept</button>
+            </td>
+          </tr>`;
+  });
+  tableHtml += `</tbody></table></div>`;
+  bookingContainer.innerHTML = tableHtml;
+}
+
+function renderMessagesCards(bookings) {
+  if (!messagesContainer) return;
+  messagesContainer.innerHTML = bookings
+    .map(
+      (item) => `
+        <div class="msg-card mb-3">
+            <div class="row align-items-center g-2">
+                <div class="col-auto">
+                    <div class="msg-img-container" style="width:70px; height:70px; overflow:hidden; border-radius:10px;">
+                        <img src="${item.property.imageUrl}" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                </div>
+                <div class="col text-start ps-3">
+                    <div class="fw-bold text-warning">${item.property.title}</div>
+                    <div class="small text-white">${item.studentName}</div>
+                    <div class="text-white-50" style="font-size: 0.7rem;">Status: ${item.statusName}</div>
+                </div>
+                <div class="col-auto">
+                    <span class="status-btn-mock">${item.statusName === "Cancelled" ? "Rejected" : "Booked"}</span>
+                </div>
+            </div>
+        </div>
+    `,
+    )
+    .join("");
+}
+
+function renderEmptyBooking() {
+  bookingContainer.innerHTML = `
+        <div class="col-12 text-center py-5 mt-5">
+            <div class="mb-3"><img src="../img/icone-booking.svg" style="width: 120px;"></div>
+            <h2 class="fw-bold" style="color: #FFC107; font-size: 2.5rem;">Sorry!</h2>
+            <p class="fw-bold mt-3" style="color: #2D3E50;">No bookings yet. Start by making your first reservation</p>
+        </div>`;
+}
+
+function renderEmptyMessages() {
+  if (!messagesContainer) return;
+  messagesContainer.innerHTML = `
+        <div class="text-center mt-5">
+            <img src="../img/Vector-removebg-preview.png" class="w-25 opacity-50" />
+            <h4 class="text-warning mt-3">Messages (Future)</h4>
+            <p class="text-muted small">Placeholder for now <br /> Ready for future Chat Module</p>
+        </div>`;
+}
+
+fetchBookings();
+// end booking request
