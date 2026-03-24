@@ -1,9 +1,9 @@
 @font-face {
   font-family: "LBRITE";
-  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
-    format("woff");
+  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff") format("woff");
   font-display: swap;
 }
+
 :root {
   --navy: #212e43;
   --navy-dark: #1b263b;
@@ -696,34 +696,135 @@ h2.browse-title {
 
 
 .empty-state-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  text-align: center;
 }
 
 .state-icon {
-    width: 70px; /* حجم الأيقونة */
-    height: auto;
-    margin-bottom: 20px;
+  width: 70px;
+  /* حجم الأيقونة */
+  height: auto;
+  margin-bottom: 20px;
 }
 
 .state-title {
-    color: var(--gold) !important;
-    font-weight: bold;
-    font-size: 1.6rem;
-    margin-bottom: 5px;
+  color: var(--gold) !important;
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin-bottom: 5px;
 }
 
-.state-text, .state-desc {
-    color: var(--navy) !important;
-    font-weight: bold;
-    font-size: 1.3rem;
+
+.state-text,
+.state-desc {
+  color: var(--navy) !important;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 .task-divider {
-    border: 1px dashed #ddd;
-    margin: 40px 0;
+  border: 1px dashed #ddd;
+  margin: 40px 0;
 }
+
+.popup-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  width: 700px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #212e43;
+}
+
+.popup-header {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  color: #212e43;
+  font-weight: bold;
+}
+
+.popup-body {
+  padding: 30px;
+}
+
+.reason-box {
+  width: 100%;
+  height: 180px;
+  border-radius: 15px;
+  border: none;
+  padding: 15px;
+  resize: none;
+}
+
+.popup-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  color: #efb81e;
+  font-size: 18px;
+}
+
+.popup-buttons {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.popup-buttons button {
+  background-color: #efb81e;
+  color: #212e43;
+  border: none;
+  font-weight: bold;
+  padding: 6px 20px;
+  border-radius: 10px;
+
+}
+
+@media (max-width: 768px) {
+  .popup-header {
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  .popup-body {
+    padding: 20px;
+  }
+
+  .reason-box {
+    height: 130px;
+  }
+
+  .popup-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    font-size: 14px;
+  }
+
+  .popup-buttons {
+    text-align: center;
+  }
+
+  .popup-buttons button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+
+/* rejected properties  */
