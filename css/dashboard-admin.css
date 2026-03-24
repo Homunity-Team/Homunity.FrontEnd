@@ -693,44 +693,6 @@ h2.browse-title {
   color: #1a1a2e;
 }
 
-
-
-.empty-state-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 0;
-  text-align: center;
-}
-
-.state-icon {
-  width: 70px;
-  /* حجم الأيقونة */
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.state-title {
-  color: var(--gold) !important;
-  font-weight: bold;
-  font-size: 1.6rem;
-  margin-bottom: 5px;
-}
-
-
-.state-text,
-.state-desc {
-  color: var(--navy) !important;
-  font-weight: bold;
-  font-size: 1.3rem;
-}
-
-.task-divider {
-  border: 1px dashed #ddd;
-  margin: 40px 0;
-}
-
 .popup-overlay {
   position: fixed;
   width: 100%;
@@ -861,6 +823,7 @@ color: var(--text) !important;
 }
 
 
+/* empty state */
 
 .empty-state-container {
     display: flex;
