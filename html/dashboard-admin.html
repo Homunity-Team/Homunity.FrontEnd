@@ -150,9 +150,12 @@
       </section>
 
        <!-- admin dashboard  -->
+<main class="main-content" style="margin-left: var(--sidebar-w); padding-top: var(--header-h); min-height: 100vh; ">
+      <!-- admin dashboard  -->
 <section class="d-none">
   
 </section>
+
 
       <!-- Pending properties page -->
 
@@ -367,13 +370,76 @@
 </section>
 <!--end-->
 
+
 <!-- rejected properties -->
+<section class="rejected-properties px-3 d-none"> 
+    <h2 class="py-4 fw-bold">Rejected Properties Page</h2>
+    
+    <div class="property-card-wrapper mb-4 shadow-sm">
+        <div class="property-main-box d-flex flex-wrap align-items-center p-3 border-bottom">
+            <div class="property-img">
+                <img src="../img/f4a34608d8b5e973b35967ac391ebe20070bc1b4.jpg" alt="Studio"  style="width: 200px; height: 130px; object-fit: cover;">
+            </div>
+            <div class="property-info fw-bold">
+                <p >Modern Studio</p>
+                <p>1234 Sample St, City</p>
+                <p >$500 / month</p>
+                <p >Created: March 10, 2025 </p>
+            </div>
+            <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+        </div>
+        <div class="property-footer-box d-flex justify-content-between align-items-center p-3">
+            <span class=" fw-bold">Unclear exterior photos</span>
+        </div>
+    </div>
+    <div class="property-card-wrapper mb-4 shadow-sm">
+        <div class="property-main-box d-flex flex-wrap align-items-center p-3 border-bottom">
+            <div class="property-img">
+                <img src="../img/Cozy-Room.jpg" alt="Studio"  style="width: 200px; height: 130px; object-fit: cover;">
+            </div>
+            <div class="property-info fw-bold">
+                <p >Cozy Room</p>
+                <p>1234 Sample St, City</p>
+                <p >$500 / month</p>
+                <p >Created: March 10, 2025 </p>
+            </div>
+            <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+        </div>
+        <div class="property-footer-box d-flex justify-content-between align-items-center p-3">
+            <span class=" fw-bold">Missing legal documents
+</span>
+        </div>
+    </div>
+
+    <div class="property-card-wrapper mb-4 shadow-sm">
+        <div class="property-main-box d-flex flex-wrap align-items-center p-3 border-bottom">
+            <div class="property-img">
+                <img src="../img/Luxury-Studio.jpg" alt="Studio"  style="width: 200px; height: 130px; object-fit: cover;">
+            </div>
+            <div class="property-info fw-bold">
+                <p >Luxury Studio</p>
+                <p>1234 Sample St, City</p>
+                <p >$500 / month</p>
+                <p >Created: March 10, 2025 </p>
+            </div>
+            <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+        </div>
+        <div class="property-footer-box d-flex justify-content-between align-items-center p-3">
+            <span class=" fw-bold">Unclear exterior photos</span>
+        </div>
+    </div>
+</section>
+
 <section class="d-none">
-  
+  <div class="empty-state-container">
+    <div class="rejected-state-wrapper">
+        <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
+        <p class="state-text">No rejected properties found</p>
+    </div>
 </section>
 
     </main>
-    
+
     <script>
       const hamburger = document.getElementById("hamburger");
       const sidebar = document.getElementById("sidebar");
