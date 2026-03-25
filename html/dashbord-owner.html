@@ -649,24 +649,80 @@
       </section>
 
       <section id="sectionBooking" class="d-none">
-        <div class="booking-page">
-          <div class="page-header pb-5">
-            <h2 class="fw-bold">Booking Requests</h2>
+        <div class="booking-page container mt-5">
+          <div class="page-header pb-4">
+            <h2 class="fw-bold" style="color: #2D3E50;">Booking Requests</h2>
           </div>
 
           <div id="bookingMainContent">
-            <div class="col-12 text-center py-5 mt-5">
-              <div class="mb-3">
-                <img src="../img/icone-booking.svg" alt="No bookings" style="width: 120px;">
-              </div>
-              <h2 class="fw-bold" style="color: #FFC107; font-size: 2.5rem;">Sorry!</h2>
-              <p class="fw-bold mt-3" style="color: #2D3E50; font-size: 1.2rem;">
-                No bookings yet. Start by making your first reservation
-              </p>
+            <div class="text-center py-5 mt-5">
+              <div class="spinner-border text-warning" role="status"></div>
+              <p class="mt-2">Loading bookings...</p>
             </div>
           </div>
         </div>
       </section>
+
+      <style>
+        .custom-table-container {
+          border: 1px solid #dee2e6;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-table thead {
+          background-color: #2D3E50;
+          color: #FFC107;
+        }
+
+        .custom-table th {
+          font-weight: 500;
+          padding: 15px;
+        }
+
+        .custom-table td {
+          vertical-align: middle;
+          padding: 12px;
+          color: #4a5568;
+        }
+
+        .prop-img {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: 8px;
+          border: 1px solid #eee;
+        }
+
+        .btn-accept {
+          background-color: #FFC107;
+          color: #2D3E50;
+          font-weight: bold;
+          border: none;
+          padding: 5px 20px;
+          border-radius: 6px;
+        }
+
+        .btn-reject {
+          background-color: #2D3E50;
+          color: #FFC107;
+          font-weight: bold;
+          border: none;
+          padding: 5px 20px;
+          border-radius: 6px;
+        }
+
+        .btn-accept:hover {
+          background-color: #e5ac00;
+        }
+
+        .btn-reject:hover {
+          background-color: #1a2531;
+          color: #fff;
+        }
+      </style>
+
       <section id="sectionSettingProperties" class="d-none">
         <h2 class="section-main-title fw-bold">Setting</h2>
 
@@ -860,15 +916,78 @@
         </div>
       </section>
       <section id="sectionMassageProperties" class="d-none">
-        <div class="text-center mt-5">
-          <img src="../img/Vector-removebg-preview.png" alt="messages icon" class="w-25" />
-          <h2 class="text-warning mt-3">Messages (Future)</h2>
-          <p class="message-text">
-            Placeholder for now <br />
-            Ready for future Chat Module
-          </p>
+        <div class="container py-4">
+          <h2 class="fw-bold mb-4">Messages</h2>
+          <div id="messagesList"></div>
         </div>
       </section>
+      <style>
+        /* تصغير صورة العقار في الرسائل */
+        .msg-img-container {
+          width: 80px;
+          /* تصغير العرض */
+          height: 80px;
+          /* تصغير الطول */
+          overflow: hidden;
+          border-radius: 10px;
+        }
+
+        .msg-img-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        /* تحسين شكل كارت الرسائل */
+        .msg-card {
+          background-color: #2D3E50;
+          border: 1px solid #FFC107;
+          border-radius: 12px;
+          padding: 10px 15px;
+          color: white;
+          transition: 0.3s;
+        }
+
+        .msg-card:hover {
+          box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+        }
+
+        /* نصوص الرسائل */
+        .msg-title {
+          color: #FFC107;
+          font-size: 1.1rem;
+          font-weight: bold;
+          margin-bottom: 2px;
+        }
+
+        .msg-text {
+          font-size: 0.85rem;
+          color: #e0e0e0;
+        }
+
+        .msg-card {
+          background-color: #2D3E50;
+          border: 1px solid #FFC107;
+          border-radius: 15px;
+          padding: 15px;
+          color: white;
+        }
+
+        .status-btn-mock {
+          background-color: #FFC107;
+          color: #2D3E50;
+          padding: 5px 15px;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 0.85rem;
+          display: inline-block;
+        }
+
+        .custom-table thead {
+          background-color: #2D3E50;
+          color: #FFC107;
+        }
+      </style>
     </main>
   </div>
 

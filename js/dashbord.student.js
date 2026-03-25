@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const userID = localStorage.getItem("id");
 
   if (userRole !== "student" || !userID) {
-
     setTimeout(() => {
       window.location.href = "../html/form.html";
     }, 100);
@@ -80,11 +79,12 @@ cancel.addEventListener("click", () => {
 
 // start home
 const BASE_URL = "https://homunityapiv1.runasp.net/api";
-const STUDENT_ID = localStorage.getItem("id") || 10;
+const STUDENT_ID = localStorage.getItem("id");
 
 window.currentPropertyId = null;
 window.currentBookingId = null;
 
+// دالة التنبيهات (Toasts)
 function showToast(message, type = "success") {
   const container = document.getElementById("toast-container");
   if (!container) return;
@@ -107,6 +107,7 @@ function showToast(message, type = "success") {
   }, 3500);
 }
 
+// دالة التبديل بين الأقسام
 window.showSection = function (sectionId) {
   const sections = [
     "sectionHome",
@@ -123,14 +124,17 @@ window.showSection = function (sectionId) {
   window.scrollTo(0, 0);
 };
 
+// جلب حجوزات الطالب
 async function fetchMyBookings() {
   try {
     const response = await fetch(`${BASE_URL}/Booking/student/${STUDENT_ID}`);
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
 
-    if (document.getElementById("total-val")) {
-      document.getElementById("total-val").innerText = data.length || 0;
+    // تحديث أرقام الإحصائيات إذا كانت موجودة
+    const totalVal = document.getElementById("total-val");
+    if (totalVal) {
+      totalVal.innerText = data.length || 0;
       document.getElementById("pending-val").innerText = data.filter(
         (b) => b.statusName === "Pending" || b.statusName === "In Progress",
       ).length;
@@ -147,8 +151,7 @@ async function fetchMyBookings() {
     const searchMessage = document.getElementById("search-message-div");
 
     if (!data || data.length === 0) {
-      searchMessage.classList.remove("d-none");
-
+      if (searchMessage) searchMessage.classList.remove("d-none");
       return;
     }
 
@@ -158,8 +161,8 @@ async function fetchMyBookings() {
     list.innerHTML = data
       .map(
         (item) => `
-            <div class="row align-items-center booking-row mx-0" style="cursor:pointer" 
-                  onclick="loadPropertyDetails(${item.property?.propertyId}, ${item.bookingId})">
+            <div class="row align-items-center booking-row mx-0"  
+                 >
                 <div class="col-12 col-md-4 d-flex align-items-center mb-3 mb-md-0">
                     <div class="img-box me-3">
                         <img src="${item.property?.imageUrl || "assets/placeholder.png"}" style="width:60px; height:60px; object-fit:cover; border-radius:10px;" />
@@ -184,6 +187,7 @@ async function fetchMyBookings() {
   }
 }
 
+// تحميل تفاصيل العقار
 window.loadPropertyDetails = async function (propId, bookId = null) {
   if (!propId) return;
   window.currentPropertyId = propId;
@@ -203,11 +207,11 @@ window.loadPropertyDetails = async function (propId, bookId = null) {
   }
 };
 
+// رندر صفحة العقار (تم تعديل المعرض هنا)
 function renderPropertyPage(prop) {
   const sec = document.getElementById("sectionPropirtie");
   if (!sec) return;
 
-  sec.querySelector(".page-title").innerText = prop.title || "Property Details";
   sec.querySelector(".card-title").innerText =
     prop.title || "No Title Provided";
   sec.querySelector(".card-address").innerText =
@@ -219,6 +223,7 @@ function renderPropertyPage(prop) {
   const gallery = sec.querySelector(".gallery-wrapper");
   const thumbs = sec.querySelector(".gallery-thumbs");
 
+  // 1. إنشاء السلايدر
   if (gallery) {
     gallery.innerHTML =
       images.length > 0
@@ -228,19 +233,23 @@ function renderPropertyPage(prop) {
                 `<div class="gallery-img-box"><img src="${img.imageUrl}" /></div>`,
             )
             .join("")
-        : '<div class="text-center p-5">No images available</div>';
+        : '<div class="text-center p-5 w-100">No images available</div>';
   }
 
+  // 2. إنشاء الصور المصغرة مع وظيفة الضغط
   if (thumbs) {
     thumbs.innerHTML = images
       .map(
         (img, index) => `
-            <img src="${img.imageUrl}" class="${index === 0 ? "active" : ""}" onclick="syncGallery(${index})">
+            <img src="${img.imageUrl}" 
+                 class="${index === 0 ? "active" : ""}" 
+                 onclick="syncGallery(${index}, this)">
         `,
       )
       .join("");
   }
 
+  // الخدمات
   const services = prop.services || [];
   const servicesList = sec.querySelector(".amenities-list");
   if (servicesList) {
@@ -248,16 +257,14 @@ function renderPropertyPage(prop) {
       services.length > 0
         ? services
             .map(
-              (s) => `
-                <li>
-                    <span class="amenity-icon"><i class="fa-solid fa-${(s.icon || "star").toLowerCase()}"></i></span>
-                    ${s.name || "Service"}
-                </li>`,
+              (s) =>
+                `<li><span class="amenity-icon"><i class="fa-solid fa-${(s.icon || "star").toLowerCase()}"></i></span> ${s.name || "Service"}</li>`,
             )
             .join("")
         : "<li>No services listed</li>";
   }
 
+  // التفاصيل الأساسية
   const detailsList = sec.querySelector(".details-list");
   if (detailsList) {
     detailsList.innerHTML = `
@@ -268,6 +275,26 @@ function renderPropertyPage(prop) {
   }
 }
 
+// دالة التحكم في السلايدر (المطلوبة للتعديل الأول)
+window.syncGallery = function (index, thumbEl) {
+  const gallery = document.querySelector(".gallery-wrapper");
+  const allThumbs = document.querySelectorAll(".gallery-thumbs img");
+
+  if (gallery) {
+    const scrollAmount = gallery.clientWidth * index;
+    gallery.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  }
+
+  allThumbs.forEach((img) => img.classList.remove("active"));
+  if (thumbEl) {
+    thumbEl.classList.add("active");
+  }
+};
+
+// تأكيد الحجز
 window.confirmBooking = async function () {
   try {
     const res = await fetch(
@@ -286,6 +313,7 @@ window.confirmBooking = async function () {
   }
 };
 
+// إلغاء الحجز
 window.cancelBooking = async function () {
   if (!window.currentBookingId) return showToast("لا يوجد حجز محدد", "error");
   if (!confirm("هل تريد إلغاء الحجز؟")) return;
@@ -306,6 +334,7 @@ window.cancelBooking = async function () {
   }
 };
 
+// تهيئة عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
   if (!document.getElementById("toast-container")) {
     const tc = document.createElement("div");
@@ -322,16 +351,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // end home
 
-// --- 1. إعدادات الـ API ---
+// start search
 const API_BASE = "https://homunityapiv1.runasp.net/api";
 
-// --- 2. تعبئة القوائم (المدن والمناطق) ---
 async function initSearchFilters() {
   const citySelect = document.getElementById("citySelectSearch");
   const areaSelect = document.getElementById("areaSelectSearch");
 
   try {
-    // جلب المدن
     const res = await fetch(`${API_BASE}/Location/cities`);
     const cities = await res.json();
     cities.forEach((city) => {
@@ -339,7 +366,6 @@ async function initSearchFilters() {
       citySelect.add(opt);
     });
 
-    // عند تغيير المدينة نحدث المناطق
     citySelect.addEventListener("change", async () => {
       areaSelect.innerHTML = "<option disabled selected>Select Area</option>";
       const resArea = await fetch(
@@ -356,7 +382,6 @@ async function initSearchFilters() {
   }
 }
 
-// --- 3. دالة رسم الكروت (Rendering) ---
 function displayProperties(properties) {
   const grid = document.getElementById("properties-grid");
   if (!grid) return;
@@ -393,14 +418,12 @@ function displayProperties(properties) {
     .join("");
 }
 
-// --- 4. محرك البحث ---
 async function performSearch() {
   const city = document.getElementById("citySelectSearch").value;
   const area = document.getElementById("areaSelectSearch").value;
   const minP = document.getElementById("minPriceInput").value || 0;
   const maxP = document.getElementById("maxPriceInput").value || 999999;
 
-  // ملاحظة: لو مفيش مدينة مختارة، نجلب الكل، لو فيه نستخدم الـ Search endpoint
   let url = `${API_BASE}/Properties/GetAll`;
   if (city !== "City•") {
     url = `${API_BASE}/Properties/Search?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area !== "Area•" ? area : "")}&minPrice=${minP}&maxPrice=${maxP}`;
@@ -415,7 +438,6 @@ async function performSearch() {
   }
 }
 
-// --- 5. تحميل كل العقارات عند فتح السكشن لأول مرة ---
 async function loadAllProperties() {
   try {
     const res = await fetch(`${API_BASE}/Properties/GetAll`);
@@ -426,7 +448,6 @@ async function loadAllProperties() {
   }
 }
 
-// --- 6. تشغيل الوظائف عند التحميل ---
 document.addEventListener("DOMContentLoaded", () => {
   initSearchFilters();
   loadAllProperties();
@@ -437,10 +458,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-//end
+//end search
 
-// srart
-// 1. دالة جلب وعرض الحجوزات (تُستدعى تلقائياً)
+// srart booking request
 async function loadMyBookings() {
   const studentID = localStorage.getItem("id") || 10;
   const listContainer = document.getElementById("bookings-dynamic-list");
@@ -448,7 +468,6 @@ async function loadMyBookings() {
 
   if (!listContainer) return;
 
-  // إظهار رسالة تحميل بسيطة
   listContainer.innerHTML =
     '<div class="text-center text-gold-custom py-5">Loading your bookings...</div>';
 
@@ -478,7 +497,6 @@ async function loadMyBookings() {
         const cDate = book.confirmedAt;
         const statusClass = status.toLowerCase().replace(/\s+/g, "-");
 
-        // تحويل البيانات لنص JSON عشان نبعتها للدالة التانية
         const bookData = JSON.stringify(book).replace(/'/g, "&apos;");
 
         return `
@@ -520,18 +538,15 @@ async function loadMyBookings() {
   }
 }
 
-// 2. دالة عرض التفاصيل (View Details)
 function renderBookingDetails(book) {
   const detailsSection = document.getElementById("sectionBookingDetails");
   const listSection = document.getElementById("sectionMyBookings");
 
   if (!detailsSection || !listSection) return;
 
-  // تبديل السكاشن
   listSection.classList.add("d-none");
   detailsSection.classList.remove("d-none");
 
-  // ملئ البيانات من الـ Object
   const prop = book.property || {};
 
   detailsSection.querySelector(".main-details-img").src =
@@ -543,7 +558,6 @@ function renderBookingDetails(book) {
   detailsSection.querySelector("h5:not(.text-gold-custom)").innerHTML =
     `$${prop.price || 0} <small class="fs-5">/ month</small>`;
 
-  // تحديث الصفوف (Status, Created, Confirmed)
   const infoRows = detailsSection.querySelectorAll(
     ".white-info-row span:last-child",
   );
@@ -557,37 +571,31 @@ function renderBookingDetails(book) {
       : "----------";
   }
 
-  // حفظ الـ ID للإلغاء لاحقاً
   detailsSection.dataset.currentBookingId = book.bookingId;
   window.scrollTo(0, 0);
 }
 
 loadMyBookings();
-// 3. الربط مع أزرار القائمة الجانبية (Sidebar)
 document.addEventListener("click", function (e) {
-  // ابحث عن أي عنصر يتم الضغط عليه ويفتح سكشن الحجوزات
   const btn =
     e.target.closest('[onclick*="sectionMyBookings"]') ||
     e.target.closest("#linkMyBookings");
   if (btn) {
-    // ننتظر لحظة حتى يتم تبديل الكلاسات ثم ننادي الدالة
     setTimeout(loadMyBookings, 50);
   }
 });
-// end
+// end booking request
 
-// start
+// start profile
 async function loadUserProfile() {
   const studentID = localStorage.getItem("id") || 10;
 
-  // تحديد العناصر من الـ HTML
   const firstNameInput = document.getElementById("firstName");
   const lastNameInput = document.getElementById("lastName");
   const phoneInput = document.getElementById("phone");
   const statusRadios = document.getElementsByName("status");
 
   try {
-    // نداء الـ API الخاص بالبروفايل
     const response = await fetch(
       `https://homunityapiv1.runasp.net/api/Users/Get Profile By ID?id=${studentID}`,
     );
@@ -596,13 +604,10 @@ async function loadUserProfile() {
 
     const userData = await response.json();
 
-    // 1. مليء البيانات النصية
     if (firstNameInput) firstNameInput.value = userData.firstName || "";
     if (lastNameInput) lastNameInput.value = userData.lastName || "";
     if (phoneInput) phoneInput.value = userData.phone || "";
 
-    // 2. تحديد حالة الحساب (Active / Inactive)
-    // userData.isActive بيكون true أو false
     if (statusRadios.length >= 2) {
       if (userData.isActive === true) {
         statusRadios[0].checked = true; // Active
@@ -617,7 +622,6 @@ async function loadUserProfile() {
   }
 }
 
-// ربط الاستدعاء عند الضغط على زرار الـ Profile في القائمة الجانبية
 document.addEventListener("click", function (e) {
   const profileBtn =
     e.target.closest('[onclick*="sectionProfile"]') ||
@@ -628,4 +632,4 @@ document.addEventListener("click", function (e) {
 });
 
 loadUserProfile();
-// end
+// end profile
