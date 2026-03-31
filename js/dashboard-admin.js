@@ -18,3 +18,5 @@ function countChars() {
 
         alert("Submitted Successfully!");
     }
+
+    

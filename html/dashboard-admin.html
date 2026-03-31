@@ -1,593 +1,546 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="../css/all.min.css" />
-    <link rel="stylesheet" href="../css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../css/dashboard-admin.css" />
-  </head>
 
-  <body>
-    <!-- ══ HEADER ══ -->
-    <header class="header">
-      <div class="header-left">
-        <!-- Hamburger (mobile only) -->
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../css/all.min.css" />
+  <link rel="stylesheet" href="../css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/dashboard-admin.css" />
+</head>
 
-        <!-- Logo Icon Box -->
-        <div class="logo-icon-box">
-          <img src="../img/logo.png" alt="Logo" style="max-height: 70px" />
-        </div>
+<body>
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-left">
+      <!-- Hamburger (mobile only) -->
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
 
-        <!-- Logo Text -->
-        <span class="logo-text">Admin Dashboard</span>
+      <!-- Logo Icon Box -->
+      <div class="logo-icon-box">
+        <img src="../img/logo.png" alt="Logo" style="max-height: 70px" />
       </div>
 
-      <!-- Avatar -->
-      <div class="header-avatar">
-        <i class="fa-solid fa-user"></i>
+      <!-- Logo Text -->
+      <span class="logo-text">Admin Dashboard</span>
+    </div>
+
+    <!-- Avatar -->
+    <div class="header-avatar">
+      <i class="fa-solid fa-user"></i>
+    </div>
+
+  </header>
+
+  <!-- ══ SIDEBAR OVERLAY ══ -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <nav>
+      <ul>
+        <li class="active"><i class="fa-solid fa-house"></i> Properties</li>
+        <li><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
+        <li><i class="fa-regular fa-user"></i> Profile</li>
+        <li><i class="fa-regular fa-bell"></i> Notifications</li>
+      </ul>
+    </nav>
+    <div class="sidebar-logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main-content">
+    <section id="propertyDetails" class="">
+      <h1 class="page-title mb-5">Property Details</h1>
+
+
+      <!-- Gallery -->
+      <div class="gallery-wrapper">
+        <div class="gallery-img-box">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" />
+        </div>
+        <div class="gallery-img-box">
+          <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="main room" />
+        </div>
+        <div class="gallery-img-box">
+          <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" />
+        </div>
       </div>
 
-    </header>
-
-    <!-- ══ SIDEBAR OVERLAY ══ -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- ══ SIDEBAR ══ -->
-    <aside class="sidebar" id="sidebar">
-      <nav>
-        <ul>
-          <li class="active"><i class="fa-solid fa-house"></i> Properties</li>
-          <li><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
-          <li><i class="fa-regular fa-user"></i> Profile</li>
-          <li><i class="fa-regular fa-bell"></i> Notifications</li>
-        </ul>
-      </nav>
-      <div class="sidebar-logout" id="logoutBtn">
-        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      <div class="gallery-thumbs flex justify-content-center">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=70" alt="thumb 1" class="active" />
+        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=200&q=70" alt="thumb 2" />
+        <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=200&q=70" alt="thumb 3" />
       </div>
-    </aside>
 
-    <!-- ══ MAIN ══ -->
-    <main class="main-content">
-      <section class="d-none">
-          <h1 class="page-title mb-5">Property Details</h1>
-          
-
-        <!-- Gallery -->
-        <div class="gallery-wrapper">
-          <div class="gallery-img-box">
-            <img
-              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80"
-              alt="room 1"
-            />
-          </div>
-          <div class="gallery-img-box">
-            <img
-              src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"
-              alt="main room"
-            />
-          </div>
-          <div class="gallery-img-box">
-            <img
-              src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80"
-              alt="room 3"
-            />
-          </div>
+      <!-- Info Cards -->
+      <div class="info-row">
+        <div class="info-card">
+          <h3 class="card-title">modern studio</h3>
+          <p class="card-address">101 UI City, Area</p>
+          <p class="card-desc">
+            A comfortable and secure room located in a quiet area, designed to
+            provide students with a safe and relaxing living environment close
+            to essential services.
+          </p>
+          <ul class="details-list">
+            <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
+            <li><i class="fa-solid fa-diamond"></i>3 rooms</li>
+          </ul>
         </div>
 
-        <div class="gallery-thumbs flex justify-content-center">
-          <img
-            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=70"
-            alt="thumb 1"
-            class="active"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=200&q=70"
-            alt="thumb 2"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=200&q=70"
-            alt="thumb 3"
-          />
+        <div class="info-card services-card">
+          <h3 class="card-title">Services</h3>
+          <ul class="amenities-list">
+            <li>
+              <span class="amenity-icon"><i class="fa-solid fa-wifi"></i></span>
+              wifi
+            </li>
+            <li>
+              <span class="amenity-icon"><i class="fa-solid fa-dumbbell"></i></span>
+              Gym
+            </li>
+            <li>
+              <span class="amenity-icon"><i class="fa-solid fa-square-parking"></i></span>
+              Parking
+            </li>
+            <li>
+              <span class="amenity-icon"><i class="fa-solid fa-snowflake"></i></span>
+              Air Conditioning
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <!-- Info Cards -->
-        <div class="info-row">
-          <div class="info-card">
-            <h3 class="card-title">modern studio</h3>
-            <p class="card-address">101 UI City, Area</p>
-            <p class="card-desc">
-              A comfortable and secure room located in a quiet area, designed to
-              provide students with a safe and relaxing living environment close
-              to essential services.
-            </p>
-            <ul class="details-list">
-              <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
-              <li><i class="fa-solid fa-diamond"></i>3 rooms</li>
-            </ul>
-          </div>
+      <div class="action-row">
+        <button class="btn-book">Approve</button>
+        <button class="btn-cancel">Reject</button>
+      </div>
+    </section>
 
-          <div class="info-card services-card">
-            <h3 class="card-title">Services</h3>
-            <ul class="amenities-list">
-              <li>
-                <span class="amenity-icon"
-                  ><i class="fa-solid fa-wifi"></i
-                ></span>
-                wifi
-              </li>
-              <li>
-                <span class="amenity-icon"
-                  ><i class="fa-solid fa-dumbbell"></i
-                ></span>
-                Gym
-              </li>
-              <li>
-                <span class="amenity-icon"
-                  ><i class="fa-solid fa-square-parking"></i
-                ></span>
-                Parking
-              </li>
-              <li>
-                <span class="amenity-icon"
-                  ><i class="fa-solid fa-snowflake"></i
-                ></span>
-                Air Conditioning
-              </li>
-            </ul>
-          </div>
-        </div>
+    <!-- admin dashboard  -->
+    <!-- admin dashboard  -->
+    <section id="adminDashboard" class="">
+      <div class="admin-dashboard-content py-4 px-3">
+        <h4 class="mb-4 fw-bold text-dark">Admin Dashboard Page</h4>
 
-        <div class="action-row">
-          <button class="btn-book">Approve</button>
-          <button class="btn-cancel">Reject</button>
-        </div>
-      </section>
-
-       <!-- admin dashboard  -->
-      <!-- admin dashboard  -->
-<section class="d-none">
-  <div class="admin-dashboard-content py-4 px-3">
-    <h4 class="mb-4 fw-bold text-dark">Admin Dashboard Page</h4>
-
-    <div class="row g-3 mb-5 justify-content-center">
-        <div class="col-md-3">
+        <div class="row g-3 mb-5 justify-content-center">
+          <div class="col-md-3">
             <div class="stat-card-custom">
               <img src="../img/Vector.png" alt="icon" class="card-icon-img">
-                <p>Total Properties</p>
-                <h3>0</h3>
+              <p>Total Properties</p>
+              <h3>0</h3>
             </div>
-        </div>
-        <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
             <div class="stat-card-custom">
               <img src="../img/Vector1.png" alt="icon" class="card-icon-img">
-                <p>Rejected Properties</p>
-                <h3>0</h3>
+              <p>Rejected Properties</p>
+              <h3>0</h3>
             </div>
-        </div>
-        <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
             <div class="stat-card-custom">
               <img src="../img/Vector2.png" alt="icon" class="card-icon-img">
-                <p>Approved Properties</p>
-                <h3>0</h3>
+              <p>Approved Properties</p>
+              <h3>0</h3>
             </div>
-        </div>
-        <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
             <div class="stat-card-custom">
               <img src="../img/Vector3.png" alt="icon" class="card-icon-img">
-                <p>Pending Properties</p>
-                <h3>0</h3>
+              <p>Pending Properties</p>
+              <h3>0</h3>
             </div>
-        </div>
-        <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
             <div class="stat-card-custom">
               <img src="../img/Vector4.png" alt="icon" class="card-icon-img">
-                <p>Total Users</p>
-                <h3>0</h3>
+              <p>Total Users</p>
+              <h3>0</h3>
             </div>
-        </div>
-        <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
             <div class="stat-card-custom">
               <img src="../img/Vector5.png" alt="icon" class="card-icon-img">
-                <p>Total Bookinds</p>
-                <h3>0</h3>
+              <p>Total Bookinds</p>
+              <h3>0</h3>
             </div>
+          </div>
         </div>
-    </div>
 
-    <div class="table-container-custom shadow-sm">
-        <table class="table mb-0">
+        <div class="table-container-custom shadow-sm">
+          <table class="table mb-0">
             <thead>
-                <tr>
-                    <th>Property Title</th>
-                    <th>Owner Name</th>
-                    <th>City + Area</th>
-                    <th>Created Date</th>
-                    <th class="text-center">Actions</th>
-                </tr>
+              <tr>
+                <th>Property Title</th>
+                <th>Owner Name</th>
+                <th>City + Area</th>
+                <th>Created Date</th>
+                <th class="text-center">Actions</th>
+              </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Modern Studio</td>
-                    <td>Sabry Mostafa</td>
-                    <td>Dokki, Cairo</td>
-                    <td>2024-05-10</td>
-                    <td class="text-center"><button class="btn btn-gold-action">Reject</button></td>
-                </tr>
-                <tr>
-                    <td>City Center Flat</td>
-                    <td>Sara Ahmed</td>
-                    <td>Maadi, Cairo</td>
-                    <td>2024-05-06</td>
-                    <td class="text-center"><button class="btn btn-gold-action">Approve</button></td>
-                </tr>
-                <tr>
-                    <td>Downtown Studio</td>
-                    <td>Ahmed Khaled</td>
-                    <td>Zamalek, Cairo</td>
-                    <td>2024-05-04</td>
-                    <td class="text-center"><button class="btn btn-gold-action">Reject</button></td>
-                </tr>
+              <tr>
+                <td>Modern Studio</td>
+                <td>Sabry Mostafa</td>
+                <td>Dokki, Cairo</td>
+                <td>2024-05-10</td>
+                <td class="text-center"><button class="btn btn-gold-action">Reject</button></td>
+              </tr>
+              <tr>
+                <td>City Center Flat</td>
+                <td>Sara Ahmed</td>
+                <td>Maadi, Cairo</td>
+                <td>2024-05-06</td>
+                <td class="text-center"><button class="btn btn-gold-action">Approve</button></td>
+              </tr>
+              <tr>
+                <td>Downtown Studio</td>
+                <td>Ahmed Khaled</td>
+                <td>Zamalek, Cairo</td>
+                <td>2024-05-04</td>
+                <td class="text-center"><button class="btn btn-gold-action">Reject</button></td>
+              </tr>
             </tbody>
-        </table>
-    </div>
-</div>
-</section>
+          </table>
+        </div>
+      </div>
+    </section>
 
 
-      <!-- Pending properties page -->
+    <!-- Pending properties page -->
 
-      <section class="d-none">
-        <div class="container py-4">
-          <h2 class="browse-title">Pending Properties</h2>
+    <section class="">
+      <div class="container py-4">
+        <h2 class="browse-title">Pending Properties</h2>
 
-          <!-- Search Bar -->
-          <div class="search-bar-wrapper">
-            <select>
-              <option disabled selected>City•</option>
-              <option>Cairo</option>
-              <option>Giza</option>
-              <option>6th of October</option>
-            </select>
-            <select>
-              <option disabled selected>Area•</option>
-              <option>Dokki</option>
-              <option>Maadi</option>
-              <option></option>
-            </select>
-            <input type="number" placeholder="Min Price" min="0" />
-            <input type="number" placeholder="Max Price" min="0" />
-            <button class="btn-search">Search</button>
+        <!-- Search Bar -->
+        <div class="search-bar-wrapper">
+          <select>
+            <option disabled selected>City•</option>
+            <option>Cairo</option>
+            <option>Giza</option>
+            <option>6th of October</option>
+          </select>
+          <select>
+            <option disabled selected>Area•</option>
+            <option>Dokki</option>
+            <option>Maadi</option>
+            <option></option>
+          </select>
+          <input type="number" placeholder="Min Price" min="0" />
+          <input type="number" placeholder="Max Price" min="0" />
+          <button class="btn-search">Search</button>
+        </div>
+
+        <!-- Property Cards Grid -->
+        <div class="row" id="properties-grid">
+          <!-- Card 1: City Studio - Pending -->
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="property-card">
+              <div class="card-img-wrapper">
+                <span class="status-badge badge-Pending">Pending</span>
+                <img src="../img/img.4.jpeg" alt="City Studio" />
+              </div>
+              <div class="card-body-custom">
+                <div class="prop-name">City Studio</div>
+                <div class="prop-meta">
+                  <span>Dokki</span>
+                  <span class="price">$300 / month</span>
+                </div>
+                <div class="prop-details">
+                  <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
+                  <button class="btn-action btn-view">View Details</button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Property Cards Grid -->
-          <div class="row" id="properties-grid">
-            <!-- Card 1: City Studio - Pending -->
-            <div class="col-12 col-sm-6 col-lg-4">
-              <div class="property-card">
-                <div class="card-img-wrapper">
-                  <span class="status-badge badge-Pending">Pending</span>
-                  <img
-                    src="../img/img.4.jpeg"
-                    alt="City Studio"
-                  />
+          <!-- Card 2 -->
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="property-card">
+              <div class="card-img-wrapper">
+                <span class="status-badge badge-booked">Pending</span>
+                <img src="../img/img.4.jpeg" alt="Prime Studio" />
+              </div>
+              <div class="card-body-custom">
+                <div class="prop-name">Prime Studio</div>
+                <div class="prop-meta">
+                  <span>Maadi</span>
+                  <span class="price">$300 / month</span>
                 </div>
-                <div class="card-body-custom">
-                  <div class="prop-name">City Studio</div>
-                  <div class="prop-meta">
-                    <span>Dokki</span>
-                    <span class="price">$300 / month</span>
-                  </div>
-                  <div class="prop-details">
-                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                    <button class="btn-action btn-view">View Details</button>
-                  </div>
+                <div class="prop-details">
+                  <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
+                  <button class="btn-action btn-booked">View Details</button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Card 2 -->
-            <div class="col-12 col-sm-6 col-lg-4">
-              <div class="property-card">
-                <div class="card-img-wrapper">
-                  <span class="status-badge badge-booked">Pending</span>
-                  <img
-                    src="../img/img.4.jpeg"
-                    alt="Prime Studio"
-                  />
+          <!-- Card 3: Smart Studio - Pending -->
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="property-card">
+              <div class="card-img-wrapper">
+                <span class="status-badge badge-Pending">Pending</span>
+                <img src="../img/img.4.jpeg" alt="Smart Studio" />
+              </div>
+              <div class="card-body-custom">
+                <div class="prop-name">Smart Studio</div>
+                <div class="prop-meta">
+                  <span>Zamalek</span>
+                  <span class="price">$300 / month</span>
                 </div>
-                <div class="card-body-custom">
-                  <div class="prop-name">Prime Studio</div>
-                  <div class="prop-meta">
-                    <span>Maadi</span>
-                    <span class="price">$300 / month</span>
-                  </div>
-                  <div class="prop-details">
-                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                    <button class="btn-action btn-booked">View Details</button>
-                  </div>
+                <div class="prop-details">
+                  <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
+                  <button class="btn-action btn-view">View Details</button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Card 3: Smart Studio - Pending -->
-            <div class="col-12 col-sm-6 col-lg-4">
-              <div class="property-card">
-                <div class="card-img-wrapper">
-                  <span class="status-badge badge-Pending">Pending</span>
-                  <img
-                    src="../img/img.4.jpeg"
-                    alt="Smart Studio"
-                  />
+          <!-- Card 4: Modern Studio - Booked -->
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="property-card">
+              <div class="card-img-wrapper">
+                <span class="status-badge badge-booked">Pending</span>
+                <img src="../img/img.4.jpeg" alt="Modern Studio" />
+              </div>
+              <div class="card-body-custom">
+                <div class="prop-name">Modern Studio</div>
+                <div class="prop-meta">
+                  <span>Maadi</span>
+                  <span class="price">$300 / month</span>
                 </div>
-                <div class="card-body-custom">
-                  <div class="prop-name">Smart Studio</div>
-                  <div class="prop-meta">
-                    <span>Zamalek</span>
-                    <span class="price">$300 / month</span>
-                  </div>
-                  <div class="prop-details">
-                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                    <button class="btn-action btn-view">View Details</button>
-                  </div>
+                <div class="prop-details">
+                  <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
+                  <button class="btn-action btn-booked">View Details</button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Card 4: Modern Studio - Booked -->
-            <div class="col-12 col-sm-6 col-lg-4">
-              <div class="property-card">
-                <div class="card-img-wrapper">
-                  <span class="status-badge badge-booked">Pending</span>
-                  <img
-                    src="../img/img.4.jpeg"
-                    alt="Modern Studio"
-                  />
+          <!-- Card 5: Metro Studio - Pending -->
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="property-card">
+              <div class="card-img-wrapper">
+                <span class="status-badge badge-Pending">Pending</span>
+                <img src="../img/img.4.jpeg" alt="Metro Studio" />
+              </div>
+              <div class="card-body-custom">
+                <div class="prop-name">Metro Studio</div>
+                <div class="prop-meta">
+                  <span>Nasr City</span>
+                  <span class="price">$300 / month</span>
                 </div>
-                <div class="card-body-custom">
-                  <div class="prop-name">Modern Studio</div>
-                  <div class="prop-meta">
-                    <span>Maadi</span>
-                    <span class="price">$300 / month</span>
-                  </div>
-                  <div class="prop-details">
-                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                    <button class="btn-action btn-booked">View Details</button>
-                  </div>
+                <div class="prop-details">
+                  <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
+                  <button class="btn-action btn-view">View Details</button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Card 5: Metro Studio - Pending -->
-            <div class="col-12 col-sm-6 col-lg-4">
-              <div class="property-card">
-                <div class="card-img-wrapper">
-                  <span class="status-badge badge-Pending">Pending</span>
-                  <img
-                    src="../img/img.4.jpeg"
-                    alt="Metro Studio"
-                  />
-                </div>
-                <div class="card-body-custom">
-                  <div class="prop-name">Metro Studio</div>
-                  <div class="prop-meta">
-                    <span>Nasr City</span>
-                    <span class="price">$300 / month</span>
-                  </div>
-                  <div class="prop-details">
-                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                    <button class="btn-action btn-view">View Details</button>
-                  </div>
-                </div>
+          <!-- Card 6: Town Studio - Booked -->
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="property-card">
+              <div class="card-img-wrapper">
+                <span class="status-badge badge-booked">Pending</span>
+                <img src="../img/img.4.jpeg" alt="Town Studio" />
               </div>
-            </div>
-
-            <!-- Card 6: Town Studio - Booked -->
-            <div class="col-12 col-sm-6 col-lg-4">
-              <div class="property-card">
-                <div class="card-img-wrapper">
-                  <span class="status-badge badge-booked">Pending</span>
-                  <img
-                    src="../img/img.4.jpeg"
-                    alt="Town Studio"
-                  />
+              <div class="card-body-custom">
+                <div class="prop-name">Town Studio</div>
+                <div class="prop-meta">
+                  <span>Downtown</span>
+                  <span class="price">$300 / month</span>
                 </div>
-                <div class="card-body-custom">
-                  <div class="prop-name">Town Studio</div>
-                  <div class="prop-meta">
-                    <span>Downtown</span>
-                    <span class="price">$300 / month</span>
-                  </div>
-                  <div class="prop-details">
-                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                    <button class="btn-action btn-booked">View Details</button>
-                  </div>
+                <div class="prop-details">
+                  <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
+                  <button class="btn-action btn-booked">View Details</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <!-- empty state -->
-      <section class="d-none" >
-        <div class="empty-state-container">
-    <div class="empty-pending-state">
-        <img src="../img/Vector (1).svg" alt="No pending" class="state-icon">
-        <p class="state-text">No pending properties at the moment</p>
-    </div>
-</div>
-      </section>
+      </div>
+    </section>
+    <!-- empty state -->
+    <section class="">
+      <div class="empty-state-container">
+        <div class="empty-pending-state">
+          <img src="../img/Vector (1).svg" alt="No pending" class="state-icon">
+          <p class="state-text">No pending properties at the moment</p>
+        </div>
+      </div>
+    </section>
 
 
-<!-- rejected properties pop-up  -->
-<section class="d-none">
-<div class="popup-overlay">
-    <div class="popup-box">
-        <div class="popup-header">
+    <!-- rejected properties pop-up  -->
+    <section class="">
+      <div class="popup-overlay">
+        <div class="popup-box">
+          <div class="popup-header">
             Reject Property Popup
-        </div>
-        <div class="popup-body">
-            <textarea 
-                id="reasonInput"
-                class="reason-box"
-                placeholder="write reason"
-                maxlength="300"
-                oninput="countChars()"
-            ></textarea>
+          </div>
+          <div class="popup-body">
+            <textarea id="reasonInput" class="reason-box" placeholder="write reason" maxlength="300"
+              oninput="countChars()"></textarea>
             <div class="popup-footer">
-                <span>⚠️ Please provide a reason for rejection</span>
-                <span id="charCount">0 / 300</span>
+              <span>⚠️ Please provide a reason for rejection</span>
+              <span id="charCount">0 / 300</span>
             </div>
             <div class="popup-buttons">
-                <button onclick="confirmAction()">Confirm</button>
-                <button onclick="closePopup()">Cancel</button>
+              <button onclick="confirmAction()">Confirm</button>
+              <button onclick="closePopup()">Cancel</button>
             </div>
+          </div>
         </div>
-    </div>
-</div>
-</section>
-<!--end-->
+      </div>
+    </section>
+    <!--end-->
 
 
-<!-- rejected properties -->
-<section class="rejected-properties px-3  d-none"> 
-    <h2 class="py-4 fw-bold">Rejected Properties Page</h2>
-    
-    <div class="property-card-wrapper mb-4 shadow-sm">
+    <!-- rejected properties -->
+    <section class="rejected-properties px-3  ">
+      <h2 class="py-4 fw-bold">Rejected Properties Page</h2>
+
+      <div class="property-card-wrapper mb-4 shadow-sm">
         <div class="property-main-box d-flex flex-wrap align-items-center p-3 border-bottom">
-            <div class="property-img">
-                <img src="../img/f4a34608d8b5e973b35967ac391ebe20070bc1b4.jpg" alt="Studio"  style="width: 200px; height: 130px; object-fit: cover;">
-            </div>
-            <div class="property-info fw-bold">
-                <p >Modern Studio</p>
-                <p>1234 Sample St, City</p>
-                <p >$500 / month</p>
-                <p >Created: March 10, 2025 </p>
-            </div>
-            <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+          <div class="property-img">
+            <img src="../img/f4a34608d8b5e973b35967ac391ebe20070bc1b4.jpg" alt="Studio"
+              style="width: 200px; height: 130px; object-fit: cover;">
+          </div>
+          <div class="property-info fw-bold">
+            <p>Modern Studio</p>
+            <p>1234 Sample St, City</p>
+            <p>$500 / month</p>
+            <p>Created: March 10, 2025 </p>
+          </div>
+          <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
         </div>
         <div class="property-footer-box d-flex justify-content-between align-items-center p-3">
-            <span class=" fw-bold">Unclear exterior photos</span>
+          <span class=" fw-bold">Unclear exterior photos</span>
         </div>
-    </div>
-    <div class="property-card-wrapper mb-4 shadow-sm">
+      </div>
+      <div class="property-card-wrapper mb-4 shadow-sm">
         <div class="property-main-box d-flex flex-wrap align-items-center p-3 border-bottom">
-            <div class="property-img">
-                <img src="../img/Cozy-Room.jpg" alt="Studio"  style="width: 200px; height: 130px; object-fit: cover;">
-            </div>
-            <div class="property-info fw-bold">
-                <p >Cozy Room</p>
-                <p>1234 Sample St, City</p>
-                <p >$500 / month</p>
-                <p >Created: March 10, 2025 </p>
-            </div>
-            <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+          <div class="property-img">
+            <img src="../img/Cozy-Room.jpg" alt="Studio" style="width: 200px; height: 130px; object-fit: cover;">
+          </div>
+          <div class="property-info fw-bold">
+            <p>Cozy Room</p>
+            <p>1234 Sample St, City</p>
+            <p>$500 / month</p>
+            <p>Created: March 10, 2025 </p>
+          </div>
+          <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
         </div>
         <div class="property-footer-box d-flex justify-content-between align-items-center p-3">
-            <span class=" fw-bold">Missing legal documents
-</span>
+          <span class=" fw-bold">Missing legal documents
+          </span>
         </div>
-    </div>
+      </div>
 
-    <div class="property-card-wrapper mb-4 shadow-sm">
+      <div class="property-card-wrapper mb-4 shadow-sm">
         <div class="property-main-box d-flex flex-wrap align-items-center p-3 border-bottom">
-            <div class="property-img">
-                <img src="../img/Luxury-Studio.jpg" alt="Studio"  style="width: 200px; height: 130px; object-fit: cover;">
-            </div>
-            <div class="property-info fw-bold">
-                <p >Luxury Studio</p>
-                <p>1234 Sample St, City</p>
-                <p >$500 / month</p>
-                <p >Created: March 10, 2025 </p>
-            </div>
-            <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+          <div class="property-img">
+            <img src="../img/Luxury-Studio.jpg" alt="Studio" style="width: 200px; height: 130px; object-fit: cover;">
+          </div>
+          <div class="property-info fw-bold">
+            <p>Luxury Studio</p>
+            <p>1234 Sample St, City</p>
+            <p>$500 / month</p>
+            <p>Created: March 10, 2025 </p>
+          </div>
+          <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
         </div>
         <div class="property-footer-box d-flex justify-content-between align-items-center p-3">
-            <span class=" fw-bold">Unclear exterior photos</span>
+          <span class=" fw-bold">Unclear exterior photos</span>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-      <!-- empty state -->
-<section class="d-none">
-  <div class="empty-state-container">
-    <div class="rejected-state-wrapper">
-        <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
-        <p class="state-text">No rejected properties found</p>
-    </div>
-</section>
+    <!-- empty state -->
+    <section class="">
+      <div class="empty-state-container">
+        <div class="rejected-state-wrapper">
+          <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
+          <p class="state-text">No rejected properties found</p>
+        </div>
+    </section>
 
-    </main>
+  </main>
 
-    <script>
-      const hamburger = document.getElementById("hamburger");
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("sidebarOverlay");
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
 
-      hamburger.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        overlay.classList.toggle("open");
-      });
-      overlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("open");
-      });
+    hamburger.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      overlay.classList.toggle("open");
+    });
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    });
 
-      document.querySelectorAll(".sidebar nav ul li").forEach((li) => {
-        li.addEventListener("click", () => {
-          document
-            .querySelectorAll(".sidebar nav ul li")
-            .forEach((x) => x.classList.remove("active"));
-          li.classList.add("active");
-          if (window.innerWidth <= 900) {
-            sidebar.classList.remove("open");
-            overlay.classList.remove("open");
-          }
-        });
-      });
-
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        if (confirm("Are you sure you want to logout?")) {
-          localStorage.clear();
-          window.location.href = "../index.html";
+    document.querySelectorAll(".sidebar nav ul li").forEach((li) => {
+      li.addEventListener("click", () => {
+        document
+          .querySelectorAll(".sidebar nav ul li")
+          .forEach((x) => x.classList.remove("active"));
+        li.classList.add("active");
+        if (window.innerWidth <= 900) {
+          sidebar.classList.remove("open");
+          overlay.classList.remove("open");
         }
       });
+    });
 
-      document.querySelectorAll(".gallery-thumbs img").forEach((thumb) => {
-        thumb.addEventListener("click", () => {
-          document
-            .querySelectorAll(".gallery-thumbs img")
-            .forEach((t) => t.classList.remove("active"));
-          thumb.classList.add("active");
-        });
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.clear();
+        window.location.href = "../index.html";
+      }
+    });
+
+    document.querySelectorAll(".gallery-thumbs img").forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        document
+          .querySelectorAll(".gallery-thumbs img")
+          .forEach((t) => t.classList.remove("active"));
+        thumb.classList.add("active");
       });
+    });
 
-      // rejected pop-up functions
-      
+    // rejected pop-up functions
+
     function countChars() {
-        let text = document.getElementById("reasonInput").value;
-        document.getElementById("charCount").innerText = text.length + " / 300";
+      let text = document.getElementById("reasonInput").value;
+      document.getElementById("charCount").innerText = text.length + " / 300";
     }
 
     function closePopup() {
-        document.querySelector(".popup-overlay").style.display = "none";
+      document.querySelector(".popup-overlay").style.display = "none";
     }
 
     function confirmAction() {
-        let text = document.getElementById("reasonInput").value;
+      let text = document.getElementById("reasonInput").value;
 
-        if (text.trim() === "") {
-            alert("Please write a reason first!");
-            return;
-        }
+      if (text.trim() === "") {
+        alert("Please write a reason first!");
+        return;
+      }
 
-        alert("Submitted Successfully!");
+      alert("Submitted Successfully!");
     }
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
