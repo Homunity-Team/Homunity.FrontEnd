@@ -45,6 +45,9 @@
           }
           else if (role === "student") {
             nav.innerHTML = `<a href="html/dashbord.student.html" class="hp-login-link pe-3">Dashboard</a>`;
+          } else if (role === "admin") {
+            nav.innerHTML = `<a href="html/dashboard-admin.html" class="hp-login-link pe-3">Dashboard</a>`;
+
           }
           else {
             nav.innerHTML = `<h3 id="logout" class="hp-login-link pe-3 ">logout</h3>`;

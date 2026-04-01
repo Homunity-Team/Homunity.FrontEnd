@@ -1,13 +1,13 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//   const userRole = localStorage.getItem("role");
-//   const userID = localStorage.getItem("id");
+document.addEventListener("DOMContentLoaded", () => {
+  const userRole = localStorage.getItem("role");
+  const userID = localStorage.getItem("id");
 
-//   if (userRole !== "admin" || !userID) {
-//     setTimeout(() => {
-//       window.location.href = "../html/form.html";
-//     }, 100);
-//   }
-// });
+  if (userRole !== "admin" || !userID) {
+    setTimeout(() => {
+      window.location.href = "../html/form.html";
+    }, 100);
+  }
+});
 const sections = {
   home: document.getElementById("sectionHome"),
   pending: document.getElementById("sectionPending"),
@@ -526,3 +526,12 @@ function countChars() {
 }
 
 // end deteails propertie
+
+// start logout
+document.addEventListener("click", (e) => {
+  if (e.target.id === "logoutBtn") {
+    localStorage.clear();
+    window.location.href = "../index.html";
+  }
+});
+// end logout
