@@ -76,6 +76,8 @@ body {
   font-weight: 700;
   color: var(--gold);
   white-space: nowrap;
+  text-decoration: none;
+  
 }
 
 .header-avatar {

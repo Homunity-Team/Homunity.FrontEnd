@@ -1,6 +1,7 @@
 @font-face {
   font-family: "LBRITE";
-  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff") format("woff");
+  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
+    format("woff");
   font-display: swap;
 }
 
@@ -13,7 +14,7 @@
   --white: #ffffff;
   --border: #e2e5ea;
   --text: #1b263b;
-  --sidebar-w: 200px;
+  --sidebar-w: 250px;
   --header-h: 70px;
   --radius: 14px;
   --transition: 0.3s ease;
@@ -481,31 +482,28 @@ h2.browse-title {
 .admin-dashboard-content {
   font-family: Lucida Bright;
   background-color: rgba(255, 255, 255, 1);
-  padding-top: 100px !important; 
   padding-left: 20px !important;
   padding-right: 20px !important;
   min-height: 100vh;
-  margin-left: 210px !important; 
   margin-top: 0 !important;
   position: relative;
 }
 .admin-dashboard-content .row.mb-5 {
-  margin-left: 40px !important;  
-  margin-right: 20px !important; 
+  margin-left: 40px !important;
+  margin-right: 20px !important;
   justify-content: center !important;
-  
 }
 .admin-dashboard-content h4 {
   color: rgba(33, 46, 67, 1);
   font-weight: bold;
-  font-size: 26px; 
+  font-size: 26px;
   margin-bottom: 30px !important;
 }
 
 .stat-card-custom {
   display: flex;
   background-color: rgba(33, 46, 67, 1) !important;
-  color: rgba(239, 184, 30, 1)!important;
+  color: rgba(239, 184, 30, 1) !important;
   text-align: center;
   min-height: 110px !important;
   padding: 10px 5px !important;
@@ -517,24 +515,24 @@ h2.browse-title {
 }
 
 .stat-card-custom img {
-  color:rgba(239, 184, 30, 1);
-  width: 30px !important;    
-  height: auto !important; 
-  margin: 0 auto 10px auto !important;  
+  color: rgba(239, 184, 30, 1);
+  width: 30px !important;
+  height: auto !important;
+  margin: 0 auto 10px auto !important;
   display: block !important;
 }
-.stat-card-custom p{
-  color: rgba(255, 255, 255, 1) !important; 
+.stat-card-custom p {
+  color: rgba(255, 255, 255, 1) !important;
   margin-bottom: 2px !important;
 }
 
 .table-container-custom {
   background-color: rgba(255, 255, 255, 1);
-  margin: 40px 0 !important; 
+  margin: 40px 0 !important;
   border-radius: 15px !important;
   overflow: hidden;
   border: 2px solid rgba(239, 184, 30, 1) !important;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .table-container-custom table {
@@ -542,12 +540,12 @@ h2.browse-title {
   margin: 0 !important;
   border: none !important;
   border-collapse: collapse !important;
-  border: 1px solid rgba(239, 184, 30, 1) !important; 
+  border: 1px solid rgba(239, 184, 30, 1) !important;
 }
 
 .table-container-custom thead th {
   background-color: rgba(33, 46, 67, 1) !important;
-  color: rgba(239, 184, 30, 1) !important; 
+  color: rgba(239, 184, 30, 1) !important;
   text-align: center;
   font-weight: bold;
   padding: 15px 15px !important;
@@ -577,21 +575,16 @@ h2.browse-title {
   transition: 0.3s;
 }
 
-.btn-gold-action:hover {
-  background-color: #9a7d32 !important;
-  transform: scale(1.05);
-}
 @media (max-width: 767px) {
-  
   .admin-dashboard-content h4 {
     font-size: 20px !important;
     text-align: center;
     margin-bottom: 20px !important;
   }
   .admin-dashboard-content .row.mb-5 {
-    margin-left: 0 !important;  
-    margin-right: 0 !important; 
-    gap: 15px; 
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    gap: 15px;
   }
   .col-md-3 {
     flex: 0 0 100% !important;
@@ -603,7 +596,7 @@ h2.browse-title {
   }
   .table-container-custom {
     margin: 20px 0 !important;
-    overflow-x: auto !important; 
+    overflow-x: auto !important;
   }
 
   .table-container-custom table {
@@ -833,12 +826,15 @@ h2.browse-title {
 
 .popup-overlay {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .popup-box {
@@ -892,7 +888,6 @@ h2.browse-title {
   font-weight: bold;
   padding: 6px 20px;
   border-radius: 10px;
-
 }
 
 @media (max-width: 768px) {
@@ -926,71 +921,74 @@ h2.browse-title {
   }
 }
 
-
 /* rejected properties  */
 
-.rejected-sproperties{
-color: var(--text) !important;
+.rejected-sproperties {
+  color: var(--text) !important;
 }
 
 .property-card-wrapper {
-    border: 1.5px solid var(--gold);
+  border: 1.5px solid var(--gold);
 }
 
 .property-main-box {
-    border-bottom: 2px solid var(--gold-soft) !important; 
-    
+  border-bottom: 2px solid var(--gold-soft) !important;
 }
 
 .property-info {
-    margin-left: 25px; 
-    flex-grow: 1;
+  margin-left: 25px;
+  flex-grow: 1;
 }
 /*  Rejected */
 .btn-rejected {
-    background-color: var(--gold);
-    color: var(--text) ;
-    border-radius: 5px;
-    padding: 4px 25px;
+  background-color: var(--gold);
+  color: var(--text);
+  border-radius: 5px;
+  padding: 4px 25px;
 }
 
 .property-info p {
-    margin-bottom: 10px;
-    color: var(--text);
+  margin-bottom: 10px;
+  color: var(--text);
 }
-
 
 /* empty state */
 
 .empty-state-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  text-align: center;
 }
 
 .state-icon {
-    width: 70px; /* حجم الأيقونة */
-    height: auto;
-    margin-bottom: 20px;
+  width: 70px; /* حجم الأيقونة */
+  height: auto;
+  margin-bottom: 20px;
 }
 
 .state-title {
-    color: var(--gold) !important;
-    font-weight: bold;
-    font-size: 1.6rem;
-    margin-bottom: 5px;
+  color: var(--gold) !important;
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin-bottom: 5px;
 }
 
-.state-text, .state-desc {
-    color: var(--navy) !important;
-    font-weight: bold;
-    font-size: 1.3rem;
+.state-text,
+.state-desc {
+  color: var(--navy) !important;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 .task-divider {
-    border: 1px dashed #ddd;
-    margin: 40px 0;
+  border: 1px dashed #ddd;
+  margin: 40px 0;
+}
+
+.logo-text {
+  text-decoration: none;
+  list-style: none;
 }
