@@ -380,7 +380,7 @@
 
         // Store in localStorage
         localStorage.setItem("id", result.userID);
-        localStorage.setItem("role", result.roleId == 2 ? "owner" : "student");
+        localStorage.setItem("role", result.roleId == 2 ? "owner" : result.roleId == 1 ? "admin" : "student");
 
         Swal.fire({
           icon: "success",
@@ -469,7 +469,7 @@
 
         // Save user info
         localStorage.setItem("id", result.userID);
-        localStorage.setItem("role", result.roleId == 2 ? "owner" : "student");
+        localStorage.setItem("role", result.roleId == 2 ? "owner" : result.roleId == 1 ? "admin" : "student");
 
         Swal.fire({
           icon: "success",
