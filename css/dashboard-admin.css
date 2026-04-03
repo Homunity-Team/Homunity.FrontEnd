@@ -945,6 +945,7 @@ h2.browse-title {
   color: var(--text);
   border-radius: 5px;
   padding: 4px 25px;
+  cursor: default !important;
 }
 
 .property-info p {

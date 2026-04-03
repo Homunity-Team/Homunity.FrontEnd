@@ -348,7 +348,7 @@ function renderRejectedCards(properties) {
                         <p class="mb-1 text-primary">Price: ${prop.price.toLocaleString()} EGP</p>
                         <p class="mb-0 text-muted small" style="font-size: 12px;">Created: ${date}</p>
                     </div>
-                    <button class="btn btn-rejected px-4 fw-bold ms-auto">Rejected</button>
+                    <button class=" btn-rejected border-0  px-4 fw-bold ms-auto">Rejected</button>
                 </div>
                 <div class="property-footer-box d-flex justify-content-between align-items-center p-3 bg-light">
                     <span class="fw-bold text-danger">
