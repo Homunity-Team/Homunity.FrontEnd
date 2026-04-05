@@ -23,245 +23,122 @@ body {
 
 /* nada */
 
-
-/* .testimonial-card {
-  background-color: #ffffff;
-  border: 3px solid; 
-  border-top: none; 
-  border-radius: 0 0 40px 40px;
+:root {
+  font-family:Lucide Bright;
+  --main-navy: #1a2a3a;
+  --main-gold: #efb81e;
+  --white: #ffffff;
+}
+.testimonial-card {
+  display: flex;
+  background-color:rgba(255, 255, 255, 1);
+  border-radius: 50px;
+  align-items: center;
   padding: 80px 20px 40px 20px;
-  position: relative;
   text-align: center;
   min-height: 380px;
-  margin-top: 60px;
-  display: flex;
+  margin-top: 80px;
+  position: relative;
   flex-direction: column;
-  align-items: center;
-  transition: transform 0.3s ease;
+  border: none;
 }
-
-.side-card {
-  border-color: #1a2a3a !important;
-}
-
-.featured-card {
-  border-color: rgba(239, 184, 30, 1) !important;
-}
-
-.testimonial-card::before, 
-.testimonial-card::after {
+.testimonial-card::before {
   content: "";
+  top: 0;
+   left: 0; 
+   right: 0; 
+   bottom: 0;
+  border-radius: 50px;
+  border: 4px solid; 
   position: absolute;
-  top: -30px;
-  width: 32%;
-  height: 40px;
-  border: 3px solid;
-  border-bottom: none;
+  clip-path: polygon(0% 0%, 35% 0%, 35% 15%, 65% 15%, 65% 0%, 100% 0%, 100% 100%, 0% 100%);
   z-index: 1;
 }
 
-.testimonial-card::before {
-  left: -3px;
-  border-right: none;
-  border-radius: 40px 0 0 0;
-}
-
-.testimonial-card::after {
-  right: -3px;
-  border-left: none;
-  border-radius: 0 40px 0 0;
-}
-
-.side-card::before, .side-card::after { border-color: #1a2a3a !important; }
-.featured-card::before, .featured-card::after { border-color: rgba(239, 184, 30, 1) !important; }
-
+.side-card::before { border-color: rgba(33, 46, 67, 1) !important; }
+.featured-card::before { border-color: rgba(239, 184, 30, 1) !important; }
 .line-dot {
-  position: absolute;
-  top: -34px; 
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  z-index: 5;
-  background-color: #fff;
-  border: 2px solid;
-}
-
-.dot-left { left: calc(32% - 6px); }
-.dot-right { right: calc(32% - 6px); }
-.side-card .line-dot { border-color: #1a2a3a; }
-.featured-card .line-dot { border-color: rgba(239, 184, 30, 1) !important; }
-.card-icon {
-  position: absolute;
-  top: -75px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  z-index: 10;
-  border: 6px solid #fff;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 55px;
-}
-.icon-yellow {
-  background-color: #ffc107;
-  background-image: url('data:image/svg+xml;...');
-}
-
-.icon-dark {
-  background-color: #1a2a3a;
-  background-image: url('data:image/svg+xml;...');
-}
-
-.stars {
-  color: #ffc107 !important; 
-  font-size: 1.25rem;
-  margin-bottom: 15px;
-}
-
-.testimonial-card h5 {
-  color: #1a2a3a;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.testimonial-card p {
-  font-style: italic;
-  color: #6c757d;
-  padding: 0 10px;
-  line-height: 1.6;
-}
-
-@media (max-width: 991px) {
-  .testimonial-card::before, .testimonial-card::after { width: 28%; }
-  .dot-left { left: calc(28% - 6px); }
-  .dot-right { right: calc(28% - 6px); }
-}
-
-@media (max-width: 576px) {
-  .testimonial-card::before, .testimonial-card::after { width: 20%; }
-  .dot-left { left: calc(20% - 6px); }
-  .dot-right { right: calc(20% - 6px); }
-} */
-/* --- 1. التنسيق العام والأساسي للكروت --- */
-.testimonial-card {
-  background-color: #ffffff; /* خلفية الكارت بيضاء */
-  border-radius: 40px; /* الـ Radius من التصميم */
-  padding: 80px 20px 40px 20px;
-  position: relative;
-  text-align: center;
-  min-height: 380px;
-  margin-top: 60px; /* مسافة للأيقونة */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  
-  /* نلغي الـ border الافتراضي تماماً عشان هنعمله مفرغ */
-  border: none !important;
-}
-
-/* --- 2. رسم البرواز والفتحة الشفافة (Mask Effect) --- */
-/* نستخدم عنصر وهمي يغطي الخط في النص تماماً */
-.testimonial-card .gap-mask {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%; height: 100%;
-  z-index: 1; /* تحت الأيقونة والنقاط */
-}
-
-/* لون البرواز العادي للكروت الجانبية (كحلي غامق) */
-.testimonial-card .gap-mask path {
-  fill: none;
-  stroke: #1a2a3a; /* لون برواز كروت الجوانب الكحلي */
-  stroke-width: 3px; /* سمك البرواز */
-}
-
-/* لون البرواز المميز للكارت الأوسط (عمر حسن) */
-.featured-mask path {
-  stroke: rgba(239, 184, 30, 1) !important; /* اللون الذهبي */
-}
-
-/* --- 3. الدوائر الصغيرة المفرغة (Outline Dots) في نهاية الخط --- */
-/* النقطة الشمال */
-.testimonial-card::before {
-  content: "";
-  position: absolute;
-  top: -6px; /* لتلمس الخط بالظبط */
-  left: calc(30% - 6px); /* نثبتها بالظبط عند حافة قطع البرواز الشمال */
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #fff; /* قلب النقطة أبيض لتبان مفرغة */
-  border: 2px solid; /* سمك إطار النقطة */
-  z-index: 5; /* فوق البرواز */
-}
-
-/* النقطة اليمين */
-.testimonial-card::after {
-  content: "";
-  position: absolute;
+  background-color: rgba(255, 255, 255, 1);
   top: -6px;
-  right: calc(30% - 6px); /* نثبتها بالظبط عند حافة قطع البرواز اليمين */
   width: 12px;
   height: 12px;
-  border-radius: 50%;
-  background-color: #fff; /* قلب النقطة أبيض لتبان مفرغة */
-  border: 2px solid;
-  z-index: 5;
-}
-
-/* ألوان النقاط المفرغة للكروت العادية (كحلي للجوانب) */
-.testimonial-card:not(.featured-card)::before,
-.testimonial-card:not(.featured-card)::after {
-  border-color: #1a2a3a;
-}
-
-/* ألوان النقاط المفرغة للكارت الذهبي */
-.featured-card::before,
-.featured-card::after {
-  border-color: rgba(239, 184, 30, 1) !important;
-}
-
-/* --- 4. الأيقونة الكبيرة (الشخص) --- */
-.card-icon {
   position: absolute;
+  border-radius: 50%;
+  border: 2px solid;
+  z-index: 10;
+}
+.dot-left { left: calc(35% - 6px); }
+.dot-right { right: calc(35% - 6px); }
+
+.side-card .line-dot { border-color: rgba(33, 46, 67, 1) }
+.featured-card .line-dot { border-color: rgba(239, 184, 30, 1) }
+
+.card-icon {
+  display: flex;
+  align-items: center;
   top: -55px;
   left: 50%;
-  transform: translateX(-50%);
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  z-index: 10; /* فوق كل حاجة */
-  
-  /* الـ Padding الأبيض حول الدائرة عشان يفصلها عن البرواز */
-  border: 8px solid #f8f9fa; /* نفس لون خلفية الـ py-5 bg-light */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 55px;
+  justify-content: center;
+  position: absolute;
+  border: 8px solid #f8f9fa;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+.icon-yellow { background-color:rgba(239, 184, 30, 1); }
+.icon-dark { background-color: rgba(33, 46, 67, 1); }
+
+.stars { color:rgba(239, 184, 30, 1) !important; margin-bottom: 10px; }
+.client-name { font-weight: bold; color: rgba(33, 46, 67, 1); }
+
+.cta-container {
+  background-color: rgba(33, 46, 67, 1) !important;
+  padding: 60px 20px;
+  text-align: center;
+  margin-top: 50px;
+  border-radius: 40px !important;
 }
 
-.icon-yellow {
-  background-color: #ffc107;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>');
+.cta-buttons-wrapper {
+  display: flex !important;
+  margin-top: 35px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
 }
 
-.icon-dark {
-  background-color: #1a2a3a;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>');
+.cta-btn-gold {
+  display: inline-flex !important;
+  background-color: rgba(239, 184, 30, 1) !important;
+  color:rgba(33, 46, 67, 1) !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  min-width: 200px !important;
+  height: 55px !important;
+  align-items: center;
+  border-radius: 50px !important;
+  justify-content: center;
+  border: none !important;
+  transition: 0.3s all ease;
 }
 
-/* باقي التنسيقات (النجوم، الخطوط، الـ Responsive) كما هي في كودك الأصلي */
-@media (max-width: 768px) {
-.testimonial-card {
-    margin-bottom: 80px;
-    width: 100%;
-    max-width: 350px;
-    margin-left: auto;
-    margin-right: auto;
+.cta-btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(239, 184, 30, 0.4);
 }
+
+@media (max-width: 991px) {
+  .testimonial-card::before {
+      clip-path: polygon(0% 0%, 30% 0%, 30% 15%, 70% 15%, 70% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  .dot-left { left: calc(30% - 6px); }
+  .dot-right { right: calc(30% - 6px); }
+}
+
+@media (max-width: 576px) {
+  .cta-btn-gold { width: 100% !important; }
 }
 
 /* mariam */
