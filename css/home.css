@@ -1,3 +1,8 @@
+:root {
+  --font-primary-color: #212e43;
+  --secondary-color: #f4c430;
+}
+
 @font-face {
   font-family: "LBRITE";
   src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
@@ -9,19 +14,163 @@ body {
   font-family: "LBRITE", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--light-bg);
   overflow-x: hidden;
+ 
+}
+.a{
+   text-decoration: none;
+   
+}
+/* israa  */
+.logo {
+  width: 80px;
+  height: 70px;
+}
+.tdrk{
+  background: var(--font-primary-color);
+}
+.bac{
+  background-image: url(../img/new-building\ 1.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.main {
+  background: var(--font-primary-color);
+  width: 90%;
+  border-radius: 0 50% 50% 0;
+}
+.contnt {
+  padding: 150px 150px 20px 150px; ;
+}
+.fsTitel {
+  font-size: 60px;
+  font-weight: bold;
+}
+.search-section {
+  background-color: #233142;
 }
 
+.main-search-bar {
+  padding: 20px 30px;
+  background-color: #fff;
+  border: 3px solid #ffbc00;
+  border-radius: 100px; 
+  max-width: 950px;
+  margin: 0 auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
-/* israa  */
+.custom-select-pill,
+.custom-input-pill {
+  border: 1px solid #233142 !important;
+  border-radius: 50px !important;
+  padding: 10px 25px !important;
+  color: #6c757d !important;
+  font-weight: 500;
+  min-width: 180px;
+  height: 50px;
+  background-position: right 15px center !important;
+}
 
+.btn-search-dark {
+  background-color: #233142;
+  color: #ffbc00;
+  border-radius: 50px;
+  padding: 10px 40px;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  height: 50px;
+  transition: 0.3s;
+}
 
+.btn-search-dark:hover {
+  background-color: #1a2531;
+  color: #fff;
+}
+
+/* لضمان التنسيق في الشاشات الصغيرة */
+@media (max-width: 992px) {
+  .main-search-bar {
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 20px;
+  }
+  .search-input-wrapper,
+  .search-button-wrapper {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .custom-select-pill,
+  .custom-input-pill,
+  .btn-search-dark {
+    width: 100%;
+  }
+}
+
+.room-img {
+  width: 150px;
+}
+.room-card {
+  background-color: #fff;
+  border: 6px solid #ffbc00; /* قللت السمك قليلاً ليناسب المساحة */
+  border-radius: 25px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  height: 100%; /* لتوحيد طول البطاقات */
+  transition: 0.3s;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+}
+
+.image-container {
+  background-color: #fdf6e9;
+  border-radius: 15px;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #233142;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.price {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.price span {
+  color: #ffbc00;
+}
+
+.btn-book {
+  background-color: #233142;
+  color: #ffbc00;
+  font-weight: bold;
+  border-radius: 50px;
+  width: 100%;
+  padding: 8px;
+}
 /* menna */
-
 
 /* hagar */
 
-
 /* nada */
-
 
 /* mariam */

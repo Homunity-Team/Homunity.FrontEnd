@@ -1,4 +1,3 @@
-~
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +11,234 @@
 
 <body>
     <!-- israa -->
+    <header class="p-3 position-fixed top-0 w-100  ">
+        <div class="container">
+            <div class="  d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img class="logo" src="../img/logo.png" alt="">
+                </a>
+                <ul class="nav  ps-5 gap-4  col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link text-warning px-2 ">Home</a></li>
+                    <li><a href="#" class="nav-link px-2 text-warning ">Features</a></li>
+                    <li><a href="#" class="nav-link px-2 text-warning ">Pricing</a></li>
+                    <li><a href="#" class="nav-link px-2 text-warning ">FAQs</a></li>
+                    <li><a href="#" class="nav-link px-2 text-warning ">About</a></li>
+                </ul>
 
+                <div class="text-end">
+                    <button id="butDashbord" type="button"
+                        class="btn text-warning rounded-4 px-4 btn-outline-dark tdrk border-0"></button>
+
+                    <button type="button" id="butLogin" class="btn btn-warning rounded-4 px-4 me-2">Log in</button>
+                    <button type="button" id="butSignup"
+                        class="btn text-warning rounded-4 px-4 btn-outline-dark tdrk">Sign-up</button>
+                </div>
+                <script>
+                    const login = document.getElementById("butLogin")
+                    const signup = document.getElementById("butSignup")
+                    const dashbord = document.getElementById("butDashbord")
+                    const id = localStorage.getItem("id")
+                    const role = localStorage.getItem("role");
+
+                    if (id) {
+                        login.classList.add('d-none')
+                        signup.classList.add('d-none')
+                        dashbord.classList.remove("d-none")
+                        if (role === "owner") {
+                            dashbord.innerHTML = `<a href="html/dashbord-owner.html" class="  link-warning a pe-3">Dashboard</a>`;
+                        }
+                        else if (role === "student") {
+                            dashbord.innerHTML = `<a href="html/dashbord.student.html" class="  link-warning a pe-3">Dashboard</a>`;
+                        } else if (role === "admin") {
+                            dashbord.innerHTML = `<a href="html/dashboard-admin.html" class="  link-warning a pe-3">Dashboard</a>`;
+
+                        }
+                        else {
+                            dashbord.innerHTML = `<h3 id="logout" class="hp-login-link pe-3 ">logout</h3>`;
+
+                        }
+                    } else {
+                        dashbord.classList.add('d-none')
+                        login.classList.remove('d-none')
+                        signup.classList.remove('d-none')
+                    }
+                </script>
+            </div>
+        </div>
+    </header>
+    <div class="bac">
+        <div class="main text-center py-5">
+            <div class="container">
+                <div class="contnt">
+                    <h2 class="text-warning text-start fsTitel pb-5"><span class="d-block">Find Your Safe Home
+                            Away</span> <span class="d-block text-center">From Home</span></h2>
+                    <p class="text-white fw-bold py-3">Comfortable and secure homes for expats.</p>
+                    <section class="search-section">
+                        <div class="container">
+                            <div class="main-search-bar d-flex align-items-center justify-content-between">
+
+                                <div style="flex: 2; margin: 0 5px;">
+                                    <select id="citySelectSearch" class="form-select custom-input-pill">
+                                        <option selected disabled>Location (City)</option>
+                                    </select>
+                                </div>
+
+                                <div style="flex: 2; margin: 0 5px;">
+                                    <select id="areaSelectSearch" class="form-select custom-input-pill">
+                                        <option selected disabled>Select Area</option>
+                                    </select>
+                                </div>
+
+                                <div style="flex: 1.5; margin: 0 5px;">
+                                    <input type="number" id="maxPriceInput" class="form-control custom-input-pill"
+                                        placeholder="Max Budget">
+                                </div>
+
+                                <div style="flex: 1; margin: 0 5px;">
+                                    <button id="searchBtn" class="btn btn-search-dark w-100">Search</button>
+                                </div>
+
+                            </div>
+                            <div class="text-center mt-2">
+                                <small id="errorMsg" class="text-warning" style="display:none;">Please select a city and
+                                    set
+                                    a budget.</small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="container py-5">
+                        <div id="resultsRow"
+                            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
+                        </div>
+                    </div>
+
+                    <script>
+                        const citySelect = document.getElementById("citySelectSearch");
+                        const areaSelect = document.getElementById("areaSelectSearch");
+                        const searchBtn = document.getElementById("searchBtn");
+                        const maxPriceInput = document.getElementById("maxPriceInput");
+                        const resultsRow = document.getElementById("resultsRow");
+                        const errorMsg = document.getElementById("errorMsg");
+
+                        // 1. جلب المدن عند تحميل الصفحة
+                        fetch("https://homunityapiv1.runasp.net/api/Location/cities")
+                            .then(res => res.json())
+                            .then(cities => {
+                                cities.forEach(city => {
+                                    const option = document.createElement("option");
+                                    option.value = city;
+                                    option.textContent = city;
+                                    citySelect.appendChild(option);
+                                });
+                            })
+                            .catch(err => console.error("Error fetching cities:", err));
+
+                        // 2. تحديث المناطق عند تغيير المدينة
+                        citySelect.addEventListener("change", () => {
+                            const selectedCity = citySelect.value;
+                            areaSelect.innerHTML = "<option selected disabled>Select Area</option>";
+
+                            fetch(`https://homunityapiv1.runasp.net/api/Location/areas?city=${encodeURIComponent(selectedCity)}`)
+                                .then(res => res.json())
+                                .then(areas => {
+                                    areas.forEach(area => {
+                                        const option = document.createElement("option");
+                                        option.value = area.area;
+                                        option.textContent = area.area;
+                                        areaSelect.appendChild(option);
+                                    });
+                                })
+                                .catch(err => console.error("Error fetching areas:", err));
+                        });
+
+                        searchBtn.addEventListener("click", () => {
+                            const city = citySelect.value;
+                            const area = areaSelect.value || "";
+                            const maxPrice = maxPriceInput.value;
+
+                            if (!city || !maxPrice) {
+                                errorMsg.style.display = "block";
+                                return;
+                            }
+                            errorMsg.style.display = "none";
+
+                            // مسح النتائج القديمة وإظهار رسالة تحميل
+                            resultsRow.innerHTML = '<div class="text-center w-100"><h3>Searching...</h3></div>';
+
+                            const url = `https://homunityapiv1.runasp.net/api/Properties/Search?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area)}&minPrice=0&maxPrice=${maxPrice}`;
+
+                            fetch(url)
+                                .then(res => res.json())
+                                .then(data => {
+                                    resultsRow.innerHTML = "";
+                                    const properties = data.properties || [];
+
+                                    if (properties.length === 0) {
+                                        resultsRow.innerHTML = '<div class="text-center w-100 text-warning"><h4>No properties found. Try a different budget or area.</h4></div>';
+                                        return;
+                                    }
+
+                                    properties.forEach(prop => {
+                                        const col = document.createElement("div");
+                                        col.className = "col";
+                                        col.innerHTML = `
+                            <div class="room-card">
+                                <div class="image-container">
+                                    <img src="${(prop.images && prop.images.length > 0) ? prop.images[0].imageUrl : 'https://via.placeholder.com/300x200?text=No+Image'}" 
+                                         alt="Property" 
+                                         onerror="this.src='https://via.placeholder.com/300x200?text=Room+Image'">
+                                </div>
+                                <h2 class="title">${prop.title}</h2>
+                                <p class="location">${prop.area || city}</p>
+                                <div class="price">
+                                    <span>$${prop.price}</span> / month
+                                </div>
+                                <button  class="btn payhome  btn-book">Book Now</button>
+                            </div>
+                        `;
+                                        resultsRow.appendChild(col);
+                                    });
+                                })
+                                .catch(err => {
+                                    resultsRow.innerHTML = '<div class="text-center w-100 text-danger"><h4>Service unavailable. Please try again later.</h4></div>';
+                                    console.error("Search Error:", err);
+                                });
+                        });
+
+
+                        const resultsContainer = document.getElementById("resultsRow");
+
+                        resultsContainer.addEventListener("click", (e) => {
+
+                            if (e.target.classList.contains("payhome")) {
+
+                                e.preventDefault();
+
+                                const userId = localStorage.getItem("id");
+                                const role = localStorage.getItem("role");
+
+
+                                if (userId) {
+                                    if (role === "student") {
+                                        window.location.href = "html/dashbord.student.html";
+                                    } else {
+                                        alert("is not student")
+                                    }
+                                } else {
+
+                                    window.location.href = "html/form.html";
+                                }
+                            }
+                        });
+
+                    </script>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
     <!-- menna -->
 
     <!-- hagar -->
