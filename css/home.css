@@ -168,6 +168,135 @@ body {
   padding: 8px;
 }
 /* menna */
+/* feature-home-landing*/ 
+ .title {
+            text-align: center;
+            margin: 40px 0;
+            font-weight: bold;
+            font-size: 45px;
+        }
+        .title span {
+            color: #efb81e;
+        }
+        .info-box {
+            background-color: #212e43;
+            color: white;
+            padding: 70px 30px 40px;
+            border-radius: 25px;
+            clip-path: polygon(
+                0 0,
+                100% 20%,   
+                100% 100%,
+                0 100%
+            );
+        }
+        .item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #efb814;
+            border-radius: 50%;
+            margin-right: 12px;
+            margin-top: 8px;
+        }
+        .btn-box {
+            text-align: center;
+            margin-top: 5px;
+        }
+        .main-btn {
+            background-color: #efb81e;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .right-img {
+            width: 150%;
+            max-width: 1000px;
+            filter: sepia(100%) stroke(10) saturate(200%) hue-rotate(190deg) brightness(40%) contrast(120%);
+            margin-left: -40%;
+           position: relative;
+    
+        }
+        
+      .section-title {
+        color: #efb81e; 
+         font-weight: 700;
+          font-size: 40px;
+          }
+    .section-subtitle {
+        color: #212e43 ;
+        font-size: 24px;
+        font-weight: 400;
+         word-spacing: 8px;
+         }
+      .property-card {
+         background-color: #212e43; 
+          border-radius: 12px;
+           padding: 25px 20px;
+            height: 100%;
+          }
+       .img-container {
+           border-radius: 15px;
+          padding: 10px;
+           margin-bottom: 20px;
+           display: flex;
+            justify-content: center;
+            align-items: center;
+             }
+        .img-container img {
+         max-width: 100%;
+          border-radius: 10px;
+          }
+        .property-type {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.property-location {
+    color: #a9bac8; 
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+.property-price {
+    color: #a9bac8;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.property-price span {
+    color: #efb81e;
+    font-weight: bold;
+}
+.btn-book {
+    background-color: #efb81e !important;
+    color: #1e2a3b !important;
+    font-weight: 500;
+    width: 50%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none !important;
+}
+    @media (max-width: 768px)
+     {
+            .info-box {
+                clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+                padding-top: 60px;
+                margin-bottom: 30px;
+            }
+            .btn-box {
+                margin-top: -15px;
+            }
+            .section-subtitle {
+                word-spacing: 2px;
+                font-size: 18px;
+            }
+        }
+/*end*/
+
 
 /* hagar */
 
