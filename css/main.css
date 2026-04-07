@@ -241,11 +241,11 @@ label {
 }
 
 .radio-option {
-  color: var(--font-primary-color);
+  color: var(--font-primary-color) !important;
 }
 
 input[type="radio"] {
-  accent-color: var(--font-primary-color);
+  accent-color: var(--font-primary-color) !important;
 }
 
 .submit-btn:hover {

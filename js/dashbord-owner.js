@@ -606,12 +606,12 @@ async function fetchProperties() {
       container.innerHTML = `
         <div class="col-12 text-center py-5">
             <div class="mb-3">
-                <img src="../img/icone-add-is-blank.svg" alt="No properties" style="width: 150px; opacity: 0.8;">
+                <img src="../img/icone-add-is-blank.svg" alt="No properties" style="width: 150px;">
             </div>
             <h2 class="fw-bold" style="color: #FFC107;">No properties yet.</h2>
-            <p class="fw-bold" style="color: #2D3E50; font-size: 1.2rem;">Click here to add your first property</p>
+            <p class="fw-bold" style="color: #212E43; font-size: 1.2rem;">Click here to add your first property</p>
             <button id="addPropertyy" class="btn mt-3 px-5 py-2 fw-bold" 
-                    style="background-color: #2D3E50; color: #FFC107; border-radius: 8px; font-size: 1.2rem;" 
+                    style="background-color: #212E43; color: #FFC107; border-radius: 8px; font-size: 1.2rem;" 
                     >
                 +Add
             </button>
@@ -954,9 +954,9 @@ function renderEmptyMessages() {
   if (!messagesContainer) return;
   messagesContainer.innerHTML = `
         <div class="text-center mt-5">
-            <img src="../img/Vector-removebg-preview.png" class="w-25 opacity-50" />
+            <img src="../img/Vector-removebg-preview.png" class="w-25" />
             <h4 class="text-warning mt-3">Messages (Future)</h4>
-            <p class="text-muted small">Placeholder for now <br /> Ready for future Chat Module</p>
+            <p style="color: #212E43;" class="small">Placeholder for now <br /> Ready for future Chat Module</p>
         </div>`;
 }
 
