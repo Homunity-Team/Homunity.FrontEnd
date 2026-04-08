@@ -50,25 +50,6 @@ for (let key in menuItems) {
   });
 }
 
-// // Search/filter functionality
-//     document.querySelector('.btn-search').addEventListener('click', function () {
-//       const city = document.querySelectorAll('.search-bar-wrapper select')[0].value;
-//       const area = document.querySelectorAll('.search-bar-wrapper select')[1].value;
-//       const minPrice = parseFloat(document.querySelectorAll('.search-bar-wrapper input')[0].value) || 0;
-//       const maxPrice = parseFloat(document.querySelectorAll('.search-bar-wrapper input')[1].value) || Infinity;
-
-//       const cards = document.querySelectorAll('#properties-grid > div');
-//       cards.forEach(card => {
-//         const areaText = card.querySelector('.prop-meta span:first-child').textContent.trim();
-//         const priceText = card.querySelector('.price').textContent.replace(/[^0-9]/g, '');
-//         const price = parseFloat(priceText);
-
-//         const areaMatch = (area === 'Area•' || areaText === area);
-//         const priceMatch = (price >= minPrice && price <= maxPrice);
-
-//         card.style.display = (areaMatch && priceMatch) ? '' : 'none';
-//       });
-//     });
 
 const cancel = document.getElementById("btn-cancel");
 cancel.addEventListener("click", () => {
@@ -107,7 +88,6 @@ function showToast(message, type = "success") {
   }, 3500);
 }
 
-// دالة التبديل بين الأقسام
 window.showSection = function (sectionId) {
   const sections = [
     "sectionHome",
@@ -124,14 +104,12 @@ window.showSection = function (sectionId) {
   window.scrollTo(0, 0);
 };
 
-// جلب حجوزات الطالب
 async function fetchMyBookings() {
   try {
     const response = await fetch(`${BASE_URL}/Booking/student/${STUDENT_ID}`);
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
 
-    // تحديث أرقام الإحصائيات إذا كانت موجودة
     const totalVal = document.getElementById("total-val");
     if (totalVal) {
       totalVal.innerText = data.length || 0;
@@ -187,7 +165,6 @@ async function fetchMyBookings() {
   }
 }
 
-// تحميل تفاصيل العقار
 window.loadPropertyDetails = async function (propId, bookId = null) {
   if (!propId) return;
   window.currentPropertyId = propId;
@@ -207,7 +184,6 @@ window.loadPropertyDetails = async function (propId, bookId = null) {
   }
 };
 
-// رندر صفحة العقار (تم تعديل المعرض هنا)
 function renderPropertyPage(prop) {
   const sec = document.getElementById("sectionPropirtie");
   if (!sec) return;
@@ -223,7 +199,6 @@ function renderPropertyPage(prop) {
   const gallery = sec.querySelector(".gallery-wrapper");
   const thumbs = sec.querySelector(".gallery-thumbs");
 
-  // 1. إنشاء السلايدر
   if (gallery) {
     gallery.innerHTML =
       images.length > 0
@@ -236,7 +211,6 @@ function renderPropertyPage(prop) {
         : '<div class="text-center p-5 w-100">No images available</div>';
   }
 
-  // 2. إنشاء الصور المصغرة مع وظيفة الضغط
   if (thumbs) {
     thumbs.innerHTML = images
       .map(
@@ -249,7 +223,6 @@ function renderPropertyPage(prop) {
       .join("");
   }
 
-  // الخدمات
   const services = prop.services || [];
   const servicesList = sec.querySelector(".amenities-list");
   if (servicesList) {
@@ -275,7 +248,6 @@ function renderPropertyPage(prop) {
   }
 }
 
-// دالة التحكم في السلايدر (المطلوبة للتعديل الأول)
 window.syncGallery = function (index, thumbEl) {
   const gallery = document.querySelector(".gallery-wrapper");
   const allThumbs = document.querySelectorAll(".gallery-thumbs img");
@@ -294,7 +266,6 @@ window.syncGallery = function (index, thumbEl) {
   }
 };
 
-// تأكيد الحجز
 window.confirmBooking = async function () {
   try {
     const res = await fetch(
@@ -313,7 +284,6 @@ window.confirmBooking = async function () {
   }
 };
 
-// إلغاء الحجز
 window.cancelBooking = async function () {
   if (!window.currentBookingId) return showToast("لا يوجد حجز محدد", "error");
   if (!confirm("هل تريد إلغاء الحجز؟")) return;
@@ -334,7 +304,6 @@ window.cancelBooking = async function () {
   }
 };
 
-// تهيئة عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
   if (!document.getElementById("toast-container")) {
     const tc = document.createElement("div");
