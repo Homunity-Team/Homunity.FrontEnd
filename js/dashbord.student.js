@@ -50,7 +50,6 @@ for (let key in menuItems) {
   });
 }
 
-
 const cancel = document.getElementById("btn-cancel");
 cancel.addEventListener("click", () => {
   hideAllSections(sections, "add");
@@ -273,14 +272,14 @@ window.confirmBooking = async function () {
       { method: "POST" },
     );
     if (res.ok) {
-      showToast("تم الحجز بنجاح!");
+      showToast(" Booking successful! ", "success");
       setTimeout(() => {
         window.showSection("sectionHome");
         fetchMyBookings();
       }, 1500);
     }
   } catch (e) {
-    showToast("فشل في إتمام الحجز", "error");
+    showToast(" Booking failed ", "error");
   }
 };
 
@@ -433,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadMyBookings() {
   const studentID = localStorage.getItem("id") || 10;
   const listContainer = document.getElementById("bookings-dynamic-list");
-  const emptyWrapper = document.getElementById("emptyStateWrapper");
+  const emptyWrapper = document.getElementById("emptyStateWrapperr");
 
   if (!listContainer) return;
 
@@ -449,12 +448,12 @@ async function loadMyBookings() {
     const bookings = await response.json();
 
     if (!bookings || bookings.length === 0) {
-      if (emptyWrapper) emptyWrapper.classList.remove("d-none");
+      emptyWrapper.classList.remove("d-none");
       listContainer.innerHTML = "";
       return;
     }
 
-    if (emptyWrapper) emptyWrapper.classList.add("d-none");
+    emptyWrapper.classList.add("d-none");
 
     listContainer.innerHTML = bookings
       .map((book) => {
@@ -503,7 +502,7 @@ async function loadMyBookings() {
   } catch (error) {
     console.error("Load Error:", error);
     listContainer.innerHTML =
-      '<div class="text-center text-danger py-5">Failed to load data.</div>';
+      '<div class="text-center text-gold-custom py-5">Error loading your bookings.</div>';
   }
 }
 
