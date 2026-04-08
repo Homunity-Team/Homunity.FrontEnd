@@ -1,0 +1,253 @@
+@font-face {
+  font-family: "LBRITE";
+  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
+    format("woff");
+  font-display: swap;
+}
+
+body {
+  font-family:
+    "LBRITE",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+
+:root {
+  --font-primary-color: #212e43;
+  --secondary-color: #f4c430;
+}
+
+.image-side {
+  width: 100%;
+  background: url("../img/img.webp") center/cover no-repeat;
+  background-color: var(--font-primary-color);
+  height: 100%;
+}
+.image-side2 {
+  width: 100%;
+  background: url("../img/img2.webp") center/cover no-repeat;
+  background-color: var(--font-primary-color);
+  height: 100%;
+}
+
+.form-box {
+  width: 100%;
+  width: 450px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 50px 0 0 60px;
+}
+
+.submit-btn {
+  background: var(--font-primary-color);
+  color: #fff;
+  padding: 12px;
+}
+label {
+  color: var(--font-primary-color);
+}
+
+.text-warning {
+  color: var(--secondary-color) !important;
+}
+
+.Welcome-secondry-line {
+  font-size: 16px;
+}
+
+.Welcome-secondry-line-signin {
+  font-size: 16px;
+}
+
+.text-container {
+  max-width: 580px;
+}
+.homunity-logo {
+  width: 100px;
+  height: 100px;
+}
+
+.homunity-logo2 {
+  width: 70px;
+  height: 70px;
+}
+
+.forget-line {
+  color: #7c7c7c;
+}
+
+.radio-option {
+  color: var(--font-primary-color) !important;
+}
+
+input[type="radio"] {
+  accent-color: var(--font-primary-color) !important;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+input:focus {
+  border-color: var(--font-primary-color);
+  box-shadow: 0 0 0 1px var(--font-primary-color);
+}
+
+
+    /* الـ Loader بتاعك كما هو */
+    #homunityLoader {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #fff9e6, #fff3cc, #ffe999);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    /* ===== التعديلات الجوهرية للـ Responsive ===== */
+
+    /* منع الزوم التلقائي في الايفون عند الضغط على الحقول */
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+
+    @media (max-width: 991px) {
+      .vh-100 {
+        height: auto !important;
+        min-height: 100vh;
+      }
+
+      /* إلغاء التثبيت (Fixed) تماماً في الموبايل */
+      .position-fixed {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
+        margin: 0 !important;
+      }
+
+      /* ضبط صندوق الفورم ليملأ الشاشة في الموبايل */
+      .form-box {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        padding: 40px 20px !important;
+        border-radius: 30px 30px 0 0 !important;
+        /* شكل دائري من فوق بس */
+        margin-top: -30px;
+        /* تداخل بسيط مع الخلفية لشكل جمالي */
+        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* ضبط الخلفية (الصورة) في الموبايل */
+      .image-side,
+      .image-side2 {
+        height: 300px !important;
+        /* تقليل طول الصورة في الموبايل */
+        min-height: 300px !important;
+      }
+
+      .container.row,
+      .row.h-100 {
+        flex-direction: column !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .col-lg-6 {
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
+      /* تصغير العناوين في الموبايل */
+      h1 {
+        font-size: 1.8rem !important;
+      }
+
+      .Welcome-secondry-line-signin {
+        font-size: 14px !important;
+        padding-bottom: 20px;
+      }
+    }
+
+    /* هيدر الموبايل */
+    .mobile-header {
+      display: none;
+    }
+
+    @media (max-width: 991px) {
+      .mobile-header {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+      }
+
+      .mobile-header img {
+        width: 80px !important;
+      }
+    }
+
+    @media (max-width: 991px) {
+
+      /* 1. نجعل الحاوية تملأ العرض */
+      .form-box {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        /* إلغاء التحديد */
+        height: auto !important;
+        top: auto !important;
+        right: auto !important;
+        padding: 40px 15px !important;
+        /* تقليل الحواف الجانبية */
+        border-radius: 0 !important;
+        /* اختياري: جعل الحواف حادة لتملأ الشاشة */
+      }
+
+      /* 2. نجعل الفورم نفسها تملأ عرض الـ div */
+      #signupForm,
+      #loginForm {
+        max-width: 100% !important;
+        /* أهم سطر */
+        width: 100% !important;
+        padding: 10px !important;
+      }
+
+      /* 3. التأكد من أن جميع المدخلات تملأ 100% */
+      .form-control {
+        width: 100% !important;
+        display: block;
+        font-size: 16px !important;
+        /* لمنع الزوم التلقائي */
+      }
+
+      /* 4. إلغاء أي هوامش في الـ Row تسبب خروج العناصر عن الشاشة */
+      .row {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+      }
+    }
+  
