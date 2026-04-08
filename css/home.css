@@ -29,14 +29,32 @@ body {
   --main-gold: #efb81e;
   --white: #ffffff;
 }
+.testimonials-header {
+  margin-bottom: 60px; 
+}
+.main-title {
+  color: rgba(239, 184, 30, 1); 
+  font-size: 2.5rem !important; 
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-family: 'Lucide Bright', serif;
+}
+
+.sub-title {
+  color: rgba(33, 46, 67, 1); 
+  font-size: 2.1rem !important;
+  font-weight: bold;
+  opacity: 0.9;
+}
+
 .testimonial-card {
   display: flex;
   background-color:rgba(255, 255, 255, 1);
   border-radius: 50px;
   align-items: center;
-  padding: 80px 20px 40px 20px;
+  padding: 80px 35px 40px 35px;
   text-align: center;
-  min-height: 380px;
+  min-height: 420px;
   margin-top: 80px;
   position: relative;
   flex-direction: column;
@@ -83,30 +101,54 @@ body {
   border-radius: 50%;
   justify-content: center;
   position: absolute;
-  border: 8px solid #f8f9fa;
+  border: 8px solid rgba(255, 255, 255, 1);
   transform: translateX(-50%);
   z-index: 5;
 }
 .icon-yellow { background-color:rgba(239, 184, 30, 1); }
 .icon-dark { background-color: rgba(33, 46, 67, 1); }
 
-.stars { color:rgba(239, 184, 30, 1) !important; margin-bottom: 10px; }
-.client-name { font-weight: bold; color: rgba(33, 46, 67, 1); }
-
+.stars { color:rgba(239, 184, 30, 1) !important; margin-bottom: 15px; font-size: 1.2rem;}
+.client-name { font-weight: bold; color: rgba(33, 46, 67, 1); font-size: 1.5rem; margin-bottom: 10px;}
+.client-quote {
+  font-style: italic;
+  color: rgba(33, 46, 67, 1); 
+  font-size: 1.1rem !important; 
+  line-height: 1.7 !important; 
+  padding: 0 10px !important;
+  margin: 0;
+}
 .cta-container {
+  display:block !important;
   background-color: rgba(33, 46, 67, 1) !important;
-  padding: 60px 20px;
+  padding: 60px 40px !important;
+  width: 85% !important;
+  min-width: 60% !important;
+  max-width: 95% !important;
   text-align: center;
-  margin-top: 50px;
+  margin: 60px auto !important;
   border-radius: 40px !important;
 }
-
+.cta-container h2 {
+  color:rgba(239, 184, 30, 1);
+  font-size: 2.8rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 15px !important;
+}
+.cta-description {
+  color: rgba(255, 255, 255, 1) !important;
+  font-size: 1.8rem !important; 
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  text-align: center;
+  width: 100% !important; 
+    margin: 0 auto 40px auto !important;
+  letter-spacing: 0.2px; 
+}
 .cta-buttons-wrapper {
   display: flex !important;
-  margin-top: 35px;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 25px;
+  gap: 30px;
 }
 
 .cta-btn-gold {
@@ -115,7 +157,7 @@ body {
   color:rgba(33, 46, 67, 1) !important;
   font-weight: bold !important;
   text-decoration: none !important;
-  min-width: 200px !important;
+  min-width: 220px !important;
   height: 55px !important;
   align-items: center;
   border-radius: 50px !important;
@@ -127,6 +169,14 @@ body {
 .cta-btn-gold:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(239, 184, 30, 0.4);
+}
+@media (max-width: 768px) {
+  .main-title {
+      font-size: 2rem !important;
+  }
+  .sub-title {
+      font-size: 1.1rem !important;
+  }
 }
 
 @media (max-width: 991px) {
