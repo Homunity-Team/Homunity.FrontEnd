@@ -1,12 +1,16 @@
 :root {
   --font-primary-color: #212e43;
   --secondary-color: #f4c430;
+  /* nada */
+  --main-navy: #1a2a3a;
+  --main-gold: #efb81e;
+  --white: #ffffff;
+  /* end */
 }
 
 @font-face {
   font-family: "LBRITE";
-  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff")
-    format("woff");
+  src: url("https://static.wfonts.com/data/2016/05/14/lucida-bright/LBRITE.woff") format("woff");
   font-display: swap;
 }
 
@@ -14,37 +18,46 @@ body {
   font-family: "LBRITE", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--light-bg);
   overflow-x: hidden;
- 
+
 }
-.a{
-   text-decoration: none;
-   
+
+.a {
+  text-decoration: none;
+
 }
+
 /* israa  */
 .logo {
   width: 80px;
   height: 70px;
 }
-.tdrk{
+
+.tdrk {
   background: var(--font-primary-color);
 }
-.bac{
+
+.bac {
   background-image: url(../img/new-building\ 1.svg);
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 .main {
   background: var(--font-primary-color);
   width: 90%;
   border-radius: 0 50% 50% 0;
 }
+
 .contnt {
-  padding: 150px 150px 20px 150px; ;
+  padding: 150px 150px 20px 150px;
+  ;
 }
+
 .fsTitel {
   font-size: 60px;
   font-weight: bold;
 }
+
 .search-section {
   background-color: #233142;
 }
@@ -53,7 +66,7 @@ body {
   padding: 20px 30px;
   background-color: #fff;
   border: 3px solid #ffbc00;
-  border-radius: 100px; 
+  border-radius: 100px;
   max-width: 950px;
   margin: 0 auto;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -95,11 +108,13 @@ body {
     border-radius: 20px;
     padding: 20px;
   }
+
   .search-input-wrapper,
   .search-button-wrapper {
     width: 100%;
     margin-bottom: 10px;
   }
+
   .custom-select-pill,
   .custom-input-pill,
   .btn-search-dark {
@@ -110,14 +125,17 @@ body {
 .room-img {
   width: 150px;
 }
+
 .room-card {
   background-color: #fff;
-  border: 6px solid #ffbc00; /* قللت السمك قليلاً ليناسب المساحة */
+  border: 6px solid #ffbc00;
+  /* قللت السمك قليلاً ليناسب المساحة */
   border-radius: 25px;
   padding: 12px;
   text-align: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  height: 100%; /* لتوحيد طول البطاقات */
+  height: 100%;
+  /* لتوحيد طول البطاقات */
   transition: 0.3s;
 }
 
@@ -167,10 +185,169 @@ body {
   width: 100%;
   padding: 8px;
 }
+
 /* menna */
 
 /* hagar */
 
 /* nada */
+
+:root {
+  font-family: Lucide Bright;
+  --main-navy: #1a2a3a;
+  --main-gold: #efb81e;
+  --white: #ffffff;
+}
+
+.testimonial-card {
+  display: flex;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 50px;
+  align-items: center;
+  padding: 80px 20px 40px 20px;
+  text-align: center;
+  min-height: 380px;
+  margin-top: 80px;
+  position: relative;
+  flex-direction: column;
+  border: none;
+}
+
+.testimonial-card::before {
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  border: 4px solid;
+  position: absolute;
+  clip-path: polygon(0% 0%, 35% 0%, 35% 15%, 65% 15%, 65% 0%, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+.side-card::before {
+  border-color: rgba(33, 46, 67, 1) !important;
+}
+
+.featured-card::before {
+  border-color: rgba(239, 184, 30, 1) !important;
+}
+
+.line-dot {
+  background-color: rgba(255, 255, 255, 1);
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid;
+  z-index: 10;
+}
+
+.dot-left {
+  left: calc(35% - 6px);
+}
+
+.dot-right {
+  right: calc(35% - 6px);
+}
+
+.side-card .line-dot {
+  border-color: rgba(33, 46, 67, 1)
+}
+
+.featured-card .line-dot {
+  border-color: rgba(239, 184, 30, 1)
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  top: -55px;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  justify-content: center;
+  position: absolute;
+  border: 8px solid #f8f9fa;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.icon-yellow {
+  background-color: rgba(239, 184, 30, 1);
+}
+
+.icon-dark {
+  background-color: rgba(33, 46, 67, 1);
+}
+
+.stars {
+  color: rgba(239, 184, 30, 1) !important;
+  margin-bottom: 10px;
+}
+
+.client-name {
+  font-weight: bold;
+  color: rgba(33, 46, 67, 1);
+}
+
+.cta-container {
+  background-color: rgba(33, 46, 67, 1) !important;
+  padding: 60px 20px;
+  text-align: center;
+  margin-top: 50px;
+  border-radius: 40px !important;
+}
+
+.cta-buttons-wrapper {
+  display: flex !important;
+  margin-top: 35px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.cta-btn-gold {
+  display: inline-flex !important;
+  background-color: rgba(239, 184, 30, 1) !important;
+  color: rgba(33, 46, 67, 1) !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  min-width: 200px !important;
+  height: 55px !important;
+  align-items: center;
+  border-radius: 50px !important;
+  justify-content: center;
+  border: none !important;
+  transition: 0.3s all ease;
+}
+
+.cta-btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(239, 184, 30, 0.4);
+}
+
+@media (max-width: 991px) {
+  .testimonial-card::before {
+    clip-path: polygon(0% 0%, 30% 0%, 30% 15%, 70% 15%, 70% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  .dot-left {
+    left: calc(30% - 6px);
+  }
+
+  .dot-right {
+    right: calc(30% - 6px);
+  }
+}
+
+@media (max-width: 576px) {
+  .cta-btn-gold {
+    width: 100% !important;
+  }
+}
 
 /* mariam */
