@@ -6,6 +6,12 @@
   --main-gold: #efb81e;
   --white: #ffffff;
   /* end */
+
+  /* hagar */
+  --yellow: #f4c430;
+  --dark: #233142;
+  /* end */
+
 }
 
 @font-face {
@@ -189,11 +195,6 @@ body {
 /* menna */
 
 /* hagar */
-:root {
-    --yellow:rgba(239, 184, 30, 1);
-    --dark:rgba(33, 46, 67, 1);
-
-}
 
 .step {
     display: flex;
@@ -398,13 +399,6 @@ body {
     justify-content: center;
 }
 /* nada */
-
-:root {
-  font-family: Lucide Bright;
-  --main-navy: #1a2a3a;
-  --main-gold: #efb81e;
-  --white: #ffffff;
-}
 
 .testimonial-card {
   display: flex;
