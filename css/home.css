@@ -189,7 +189,214 @@ body {
 /* menna */
 
 /* hagar */
+:root {
+    --yellow:rgba(239, 184, 30, 1);
+    --dark:rgba(33, 46, 67, 1);
 
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+/* diamond */
+.diamond-step {
+    width: 75px;
+    height: 75px;
+    background: var(--yellow);
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid var(--dark);
+    box-shadow: inset 0 0 0 4px #fff;
+    border-radius: 12px;
+}
+
+.diamond-step span {
+    transform: rotate(-45deg);
+    font-weight: bold;
+    font-size: 30px;
+}
+
+/* line */
+.connector-line {
+    width: 3px;
+    height: 50px;
+    background: var(--dark);
+    position: relative;
+    margin-bottom: 20px; 
+}
+
+.connector-line::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;        
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;         
+    height: 15px;
+    background: var(--dark);
+    border-radius: 50%;   
+    border: 3px solid var(--dark); 
+}
+/* card */
+.process-card {
+    background-color: var(--yellow); 
+    border-radius: 25px 25px 45px 45px;
+    width: 150px;
+    overflow: visible; 
+}
+
+/* header */
+.process-header {
+    background: var(--yellow);
+    padding: 20px 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px; 
+    color: var(--dark);
+    border-radius: 40px 40px 0 0; 
+}
+/* body */
+.process-body {
+    background: var(--dark);
+    color: rgba(255, 255, 255, 1);
+    padding: 20px 12px 15px;
+    text-align: center;
+    border-radius: 20px 20px 20px 20px;
+    position: relative;
+    min-height: 180px;
+}
+
+.process-body p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+.bi{
+    color: var(--dark);
+}
+/* icon */
+.icon-overlap {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 38px;
+    background: var(--yellow);
+    border: 3px solid var(--dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-overlap i {
+    font-size: 22px;
+}
+
+/* responsive */
+@media (max-width:768px){
+    .process-card {
+        margin-bottom: 60px;
+    }
+}
+
+/* Achievements */
+.achievement-card {
+    position: relative;
+    width: 200px;
+    height: 180px;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent; /* الأب شفاف */
+    z-index: 1;
+}
+
+.achievement-card2 {
+    position: relative;
+    width: 200px;
+    height: 180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+.achievement-card::before,
+.achievement-card2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--dark);
+    border: 2px solid var(--yellow);
+    border-radius: 20px;
+    z-index: -1; /* خلف النص */
+}
+
+.achievement-card::before {
+    clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 100%);
+}
+
+.achievement-card2::before {
+    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+}
+
+.achievement-card h3, .achievement-card2 h3 {
+    color: var(--yellow);
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.achievement-card p, .achievement-card2 p {
+    color: #fff;
+    font-size: 14px;
+    margin: 5px 0 0;
+}
+
+/* Animation */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.3s ease;
+}
+
+.fade-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.Our-Achievements
+{
+    color: var(--dark);
+    font-size: large;
+    top: 20px;
+}
+/* Responsive */
+@media (max-width:768px){
+    .process-card{
+        margin-bottom: 60px;
+    }
+}
+
+
+
+.row > div {
+    display: flex;
+    justify-content: center;
+}
 /* nada */
 
 :root {
