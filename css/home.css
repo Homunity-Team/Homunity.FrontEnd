@@ -1,15 +1,15 @@
 :root {
-  --font-primary-color: #212e43;
-  --secondary-color: #f4c430;
+  --font-primary-color: #212E43;
+  --secondary-color: #efb81e;
   /* nada */
-  --main-navy: #1a2a3a;
+  --main-navy: #212E43;
   --main-gold: #efb81e;
   --white: #ffffff;
   /* end */
 
   /* hagar */
-  --yellow: #f4c430;
-  --dark: #233142;
+  --yellow: #efb81e;
+  --dark: #212E43;
   /* end */
 
 }

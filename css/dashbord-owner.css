@@ -3,20 +3,16 @@
 ===================================================== */
 :root {
   --primary-blue: #212e43;
-  --primary-dark-blue: hsl(219, 37%, 17%);
+  --primary-dark-blue: #212e43;
   --primary-gold: #efb81e;
-  --gold-soft: #f1b42f;
-
+  --gold-soft: #efb81e;
   --light-bg: #f9f9f9;
   --white: #ffffff;
   --border-light: #eee;
-  --shadow-dark: rgba(0, 14, 37, 1);
-
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
-
   --transition: 0.3s ease;
 }
 
