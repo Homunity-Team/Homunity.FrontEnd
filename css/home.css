@@ -257,69 +257,130 @@ body {
         font-size: 35px;
          word-spacing: 8px;
          }
-      .property-card {
-         background-color: #212e43; 
-          border-radius: 12px;
-           padding: 25px 20px;
-            height: 100%;
-          }
-       .img-container {
-           border-radius: 15px;
-          padding: 10px;
-           margin-bottom: 20px;
-           display: flex;
-            justify-content: center;
-            align-items: center;
-             }
-        .img-container img {
-         max-width: 100%;
-          border-radius: 10px;
-          }
-        .property-type {
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 8px;
-}
-.property-location {
-    color: #a9bac8; 
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-.property-price {
-    color: #a9bac8;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-.property-price span {
-    color: #efb81e;
-    font-weight: bold;
-}
-.btn-book {
-    background-color: #efb81e !important;
-    color: #1e2a3b !important;
-    font-weight: 500;
-    width: 50%;
-    padding: 10px;
-    border-radius: 8px;
-    border: none !important;
-}
-    @media (max-width: 768px)
-     {
-            .info-box {
-                clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-                padding-top: 60px;
-                margin-bottom: 30px;
-            }
-            .btn-box {
-                margin-top: -15px;
-            }
-            .section-subtitle {
-                word-spacing: 2px;
-                font-size: 18px;
-            }
-        }
+
+         /*Property Card */
+    .property-card {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #212e43;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+      margin-bottom: 24px;
+      position: relative;
+      margin-left: auto;
+      width: calc(100% - 50px);
+    }
+
+    .property-card .card-img-wrapper {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      padding: 5px;
+    }
+
+    .property-card .card-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .badge-available {
+      background: #212e43;
+      color: #f5c518;
+    }
+
+    .badge-booked {
+      background:#212e43;
+      color: #f5c518;
+    }
+
+    .card-body-custom {
+      padding: 6px 18px 18px;
+    }
+
+    .card-body-custom .prop-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f5c518;
+      margin-bottom: 3px;
+    }
+
+    .card-body-custom .prop-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: #ccc;
+      margin-bottom: 8px;
+    }
+
+    .card-body-custom .prop-meta .price {
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-right: 12px;
+    }
+
+    .card-body-custom .prop-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+
+    .prop-details .bed-bath {
+      align-items: center;
+      gap: 5px;
+    }
+
+    .prop-details .bed-bath span {
+      font-size: 1rem;
+      color: #212e43;
+    }
+
+    .btn-action {
+      border-radius: 20px;
+      padding: 5px 18px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-view {
+      background: #f5c518;
+      color: #1a1a2e;
+    }
+
+    .btn-view:hover {
+      background: #e0b200;
+    }
+
+    .btn-booked {
+      background: #f5c518;
+      color: #1a1a2e;
+    }
+
+      
+     
+
+    
 /*end*/
+
 
 
 /* hagar */
