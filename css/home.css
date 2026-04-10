@@ -229,7 +229,9 @@ body {
         }
         .btn-box {
             text-align: center;
-            margin-top: 5px;
+            text-align: left;
+            padding-left: 50px;
+            margin-top: 2px;
         }
         .main-btn {
             background-color: #efb81e;
@@ -237,6 +239,11 @@ body {
             padding: 10px 30px;
             border-radius: 12px;
             font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            position: absolute;
+            margin-top: 370px;
+            margin-left: -500px;
         }
         .right-img {
             width: 150%;
@@ -374,11 +381,31 @@ body {
       background: #f5c518;
       color: #1a1a2e;
     }
+ 
+@media (max-width: 992px) {
 
-      
-     
+    .title {
+        font-size: 35px;
+    }
 
-    
+    .section-title {
+        font-size: 30px;
+    }
+
+    .section-subtitle {
+        font-size: 24px;
+    }
+
+    .info-box {
+        padding: 40px 20px;
+    }
+
+    .right-img {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
 /*end*/
 
 
