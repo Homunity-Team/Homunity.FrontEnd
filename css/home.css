@@ -38,7 +38,15 @@ body {
   height: 70px;
 }
 
+header {
+  background-color: var(--main-navy);
+  border-radius: 0 0 50px 50px;
+  z-index: 1000
+}
+
 .tdrk {
+  border: 2px solid var(--yellow);
+  border-radius: 1.16rem;
   background: var(--font-primary-color);
 }
 
