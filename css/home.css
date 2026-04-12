@@ -254,10 +254,7 @@ header {
             margin-left: -500px;
         }
         .right-img {
-            width: 150%;
-            max-width: 1000px;
-            filter: sepia(100%) stroke(10) saturate(200%) hue-rotate(190deg) brightness(40%) contrast(120%);
-            margin-left: -40%;
+          width: 500px;
            position: relative;
     
         }
