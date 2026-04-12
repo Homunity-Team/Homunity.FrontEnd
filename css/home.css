@@ -289,64 +289,49 @@ body {
 
 /* Achievements */
 .achievement-card {
-    position: relative;
-    width: 200px;
-    height: 180px;
-    margin: 0px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: transparent; /* الأب شفاف */
-    z-index: 1;
+  margin-top: 150px;
+  width: 300px;
+  height: 200px;
+  background: var(--dark);
+  position: relative;
+  border-radius: 15px;
+  border-top-right-radius:0;
+  
 }
 
-.achievement-card2 {
-    position: relative;
-    width: 200px;
-    height: 180px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
+.hhhh{
+  padding: 20px;
+  color: var(--yellow);
 }
-
-.achievement-card::before,
-.achievement-card2::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--dark);
-    border: 2px solid var(--yellow);
-    border-radius: 20px;
-    z-index: -1; /* خلف النص */
+.hh{
+  color: #fff;
 }
-
 .achievement-card::before {
-    clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 100%);
+  content: "";
+  width: 300px;
+  height: 100px;
+  background: var(--dark);
+  position: absolute;
+  transform: skewY(-19deg);
+  border-radius: 15px;
+  z-index: -8;
+  top: -48px;
+  left: 0;
+border-bottom-right-radius: 0px;
+
+}
+.achievement-card-left {
+    border-top-right-radius: 15px;  
+    border-top-left-radius: 0;     
 }
 
-.achievement-card2::before {
-    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+.achievement-card-left::before {
+    transform: skewY(19deg);  
+    border-bottom-right-radius: 15px;  
+    border-bottom-left-radius: 0px; 
 }
 
-.achievement-card h3, .achievement-card2 h3 {
-    color: var(--yellow);
-    font-size: 32px;
-    font-weight: bold;
-    margin: 0;
-}
 
-.achievement-card p, .achievement-card2 p {
-    color: #fff;
-    font-size: 14px;
-    margin: 5px 0 0;
-}
 
 /* Animation */
 .fade-up {
@@ -365,6 +350,7 @@ body {
     font-size: large;
     top: 20px;
 }
+
 /* Responsive */
 @media (max-width:768px){
     .process-card{
@@ -372,14 +358,11 @@ body {
     }
 }
 
-<<<<<<< Updated upstream
-=======
 
 .row > div {
     display: flex;
     justify-content: center;
 }
->>>>>>> Stashed changes
 /* nada */
 
 /* mariam */
