@@ -231,7 +231,16 @@ header {
 }
 @media (max-width: 992px) {
   .info-box::before {
-    width: 316px;
+    width: 300px;
+  }
+}
+@media (min-width: 1400px) {
+  .info-box {
+    border-top-right-radius: 75%;
+  }
+
+  .info-box::before {
+    width: 586px;
   }
 }
 .item {
@@ -397,7 +406,6 @@ header {
   background: #f5c518;
   color: #1a1a2e;
 }
-
 @media (max-width: 992px) {
   .title {
     font-size: 35px;
