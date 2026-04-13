@@ -176,7 +176,6 @@
                                     resultsRow.innerHTML = "";
                                     const properties = data.properties || [];
 
-                                    // جلب قائمة العقارات المحجوزة من اللوكل ستورج
                                     const bookedProperties = JSON.parse(localStorage.getItem("bookedProperties")) || [];
 
                                     if (properties.length === 0) {
@@ -187,7 +186,6 @@
                                     properties.forEach(prop => {
                                         const propId = prop.id || prop.propertyId || prop.propertyID;
 
-                                        // إذا كان الـ ID موجود في المحجوزين، لا تقم بإنشاء العنصر (تخطاه)
                                         if (bookedProperties.includes(propId.toString())) {
                                             return;
                                         }
@@ -248,14 +246,12 @@
                                             })
                                                 .then(res => {
                                                     if (res.ok) {
-                                                        // 1. حفظ الـ ID في اللوكل ستورج
                                                         let bookedProperties = JSON.parse(localStorage.getItem("bookedProperties")) || [];
                                                         if (!bookedProperties.includes(propertyId)) {
                                                             bookedProperties.push(propertyId);
                                                             localStorage.setItem("bookedProperties", JSON.stringify(bookedProperties));
                                                         }
 
-                                                        // 2. إخفاء العنصر فوراً من الصفحة
                                                         const card = document.getElementById(`prop-card-${propertyId}`);
                                                         if (card) {
                                                             card.parentElement.remove();
@@ -613,7 +609,7 @@
                         if (rr) rr.remove();
 
                         if (role === "owner") {
-                            dd.href = "html/dashbord.owner.html";
+                            dd.href = "./html/dashbord-owner.html";
                         }
                         else if (role === "student") {
                             dd.href = "html/dashbord.student.html";

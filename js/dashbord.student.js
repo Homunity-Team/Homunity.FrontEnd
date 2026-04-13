@@ -65,27 +65,6 @@ window.currentPropertyId = null;
 window.currentBookingId = null;
 
 // دالة التنبيهات (Toasts)
-function showToast(message, type = "success") {
-  const container = document.getElementById("toast-container");
-  if (!container) return;
-
-  const toast = document.createElement("div");
-  toast.className = `custom-toast ${type}`;
-  toast.style.cssText = `
-        background: #1a237e; color: #ffca28; padding: 15px 25px;
-        border-radius: 8px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        border-left: 5px solid ${type === "success" ? "#ffca28" : "#ff5252"};
-        animation: slideIn 0.5s ease-out; font-family: sans-serif; font-weight: bold;
-    `;
-
-  toast.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-check-circle" : "fa-exclamation-circle"} me-2"></i> ${message}`;
-  container.appendChild(toast);
-
-  setTimeout(() => {
-    toast.style.opacity = "0";
-    setTimeout(() => toast.remove(), 500);
-  }, 3500);
-}
 
 window.showSection = function (sectionId) {
   const sections = [
@@ -179,7 +158,7 @@ window.loadPropertyDetails = async function (propId, bookId = null) {
     }
   } catch (error) {
     console.error("Details Fetch Error:", error);
-    showToast("تعذر تحميل بيانات العقار", "error");
+    Toast.fire({ icon: "error", title: "عذراً، معرف العقار غير موجود" });
   }
 };
 
@@ -265,6 +244,13 @@ window.syncGallery = function (index, thumbEl) {
   }
 };
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+});
 window.confirmBooking = async function () {
   try {
     const res = await fetch(
@@ -272,19 +258,21 @@ window.confirmBooking = async function () {
       { method: "POST" },
     );
     if (res.ok) {
-      showToast(" Booking successful! ", "success");
+      Toast.fire({ icon: "success", title: "تم الحجز بنجاح وإخفاء العقار" });
       setTimeout(() => {
         window.showSection("sectionHome");
         fetchMyBookings();
       }, 1500);
     }
   } catch (e) {
-    showToast(" Booking failed ", "error");
+    Toast.fire({ icon: "error", title: "عذراً، معرف العقار غير موجود" });
   }
 };
 
 window.cancelBooking = async function () {
-  if (!window.currentBookingId) return showToast("لا يوجد حجز محدد", "error");
+  if (!window.currentBookingId)
+    return Toast.fire({ icon: "error", title: "عذراً، معرف العقار غير موجود" });
+
   if (!confirm("هل تريد إلغاء الحجز؟")) return;
 
   try {
@@ -292,14 +280,14 @@ window.cancelBooking = async function () {
       method: "DELETE",
     });
     if (res.ok) {
-      showToast("تم إلغاء الحجز بنجاح", "success");
+      Toast.fire({ icon: "success", title: "تم الحجز بنجاح وإخفاء العقار" });
       setTimeout(() => {
         window.showSection("sectionHome");
         fetchMyBookings();
       }, 1500);
     }
   } catch (e) {
-    showToast("خطأ في عملية الإلغاء", "error");
+    Toast.fire({ icon: "error", title: "عذراً، معرف العقار غير موجود" });
   }
 };
 
