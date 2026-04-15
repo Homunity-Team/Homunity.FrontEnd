@@ -28,6 +28,14 @@ body {
   text-decoration: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 80px; /* حسب ارتفاع الهيدر */
+}
+
 /* israa  */
 .logo {
   width: 80px;
