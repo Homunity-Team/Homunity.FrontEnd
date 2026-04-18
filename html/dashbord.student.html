@@ -267,7 +267,7 @@
     <section id="sectionMyBookings" class="px-4 pt-3 d-none">
       <h3 class="page-title mb-4">Bookings Page</h3>
 
-      <div class="row text-center mb-4 gx-2">
+      <div id="rowBookings" class="row text-center mb-4 gx-2 ">
         <div class="col-3-half">
           <div class="p-2 rounded-1 bg-navy-custom text-gold-custom fs-5">Property Title</div>
         </div>
@@ -282,28 +282,15 @@
         </div>
       </div>
 
-      <div id="bookings-dynamic-list">
+      <div id="bookings-dynamic-list"></div>
+
+      <div id="emptyStateWrapperr" class="d-none text-center py-5">
+        <div class="mb-3">
+          <img src="../img/Vector.svg" alt="" style="width: 250px;">
+        </div>
+        <h2 class="text-gold-custom fw-bold">Sorry!</h2>
+        <p class="text-navy-custom fw-medium">No bookings yet. Start by making your first reservation</p>
       </div>
-
-      <div id="emptyStateWrapperr " class="d-none text-center py-5">
-        <!-- No Booking yet! -->
-        <div class="">
-          <div class="text-center">
-            <div class="calendar-container mb-4">
-              <div class="d-flex flex-column align-items-center justify-content-center text-center w-100"
-                style="min-height: 50vh;">
-                <div class="calendar-container mb-4">
-                  <div class="calendar-white-content">
-                    <i class="fa-solid fa-xmark calendar-x-icon"></i>
-                  </div>
-                </div>
-                <h5 class="text-gold-custom fw-bold mb-4">No Booking yet!</h5>
-                <button class="btn btn-navy-custom px-3 py-2 shadow border-0">
-                  <span class="text-gold-custom">+Add Booking Properties</span>
-                </button>
-              </div>
-
-            </div>
     </section>
     <!-- section MyBooking Details -->
     <section id="sectionBookingDetails" class=" px-4 pt-3 d-none">

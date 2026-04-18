@@ -97,7 +97,7 @@ header {
   background-color: #233142;
   color: #ffbc00;
   border-radius: 50px;
-  padding: 10px 40px;
+  /* padding: 10px 40px; */
   font-weight: bold;
   font-size: 18px;
   border: none;
@@ -116,6 +116,10 @@ header {
     flex-direction: column;
     border-radius: 20px;
     padding: 20px;
+    
+  }
+  .contnt{
+    padding: 0;
   }
 
   .search-input-wrapper,
@@ -128,6 +132,7 @@ header {
   .custom-input-pill,
   .btn-search-dark {
     width: 100%;
+    margin: 20px 0;
   }
 }
 
@@ -195,6 +200,81 @@ header {
   padding: 8px;
 }
 
+/* الحاوية الخارجية للكارد */
+.room-card {
+  background: #fff;
+  border: 3px solid #c5a059; /* الإطار الذهبي */
+  border-radius: 25px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+}
+
+/* توحيد مقاس الصورة */
+.image-container {
+  width: 100%;
+  height: 200px; /* ارتفاع ثابت للصورة */
+  overflow: hidden;
+  padding: 10px; /* مسافة داخلية تشبه الصورة التي أرفقتها */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* لضمان عدم تمطيط الصورة */
+  border-radius: 20px;
+}
+
+/* توحيد مقاسات النصوص */
+.title-custom {
+  font-size: 1.4rem;
+  font-weight: 800;
+  height: 3.2rem; /* ارتفاع ثابت للعنوان (يسع سطرين) */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* يقطع النص الزائد بعد سطرين */
+  -webkit-box-orient: vertical;
+}
+
+.location-custom {
+  font-size: 1rem;
+  height: 1.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* يضع نقاط لو المكان طويل */
+}
+
+.price-custom {
+  font-size: 1.3rem;
+}
+
+/* زر الحجز المخصص */
+.btn-book-custom {
+  background-color: #1d293e; /* الكحلي */
+  color: #c5a059; /* الذهبي */
+  border-radius: 50px; /* شكل بيضاوي */
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-book-custom:hover {
+  background-color: #c5a059;
+  color: #1d293e;
+}
+
+.text-navy-custom {
+  color: #1d293e;
+}
+.text-gold-custom {
+  color: #c5a059;
+}
+.border-gold-custom {
+  border-color: #c5a059 !important;
+}
+
 /* menna */
 /* feature-home-landing*/
 .title {
@@ -210,37 +290,25 @@ header {
   margin: 112px 0 0 0;
   background-color: #212e43;
   color: white;
-  padding: 70px 30px 40px;
+  width: 400px;
+  padding: 0 20px;
   border-radius: 25px;
-  border-top-right-radius: 230px;
+  border-top-right-radius: 0;
   position: relative;
 }
 .info-box::before {
   content: "";
-  width: 496px;
+  width: 400px;
   height: 200px;
   background: #212e43;
   border-radius: 25px 25px 0 0;
   transform: skewY(16deg);
   position: absolute;
   left: 0;
-  top: -15px;
+  top: -80px;
   z-index: -132323;
 }
-@media (max-width: 992px) {
-  .info-box::before {
-    width: 300px;
-  }
-}
-@media (min-width: 1400px) {
-  .info-box {
-    border-top-right-radius: 75%;
-  }
 
-  .info-box::before {
-    width: 586px;
-  }
-}
 .item {
   display: flex;
   margin-bottom: 20px;
@@ -611,6 +679,7 @@ header {
 .row > div {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 /* nada */
 
@@ -784,3 +853,52 @@ header {
 }
 
 /* mariam */
+/* الألوان الأساسية */
+.bg-navy-custom {
+  background-color: #1d293e !important;
+}
+
+.text-gold-custom {
+  color: #c5a059 !important;
+}
+
+.text-light-gray {
+  color: #b0b0b0;
+}
+
+/* تنسيق الروابط */
+.footer-nav li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-nav a,
+.contact-list a {
+  color: #b0b0b0;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 1rem;
+}
+
+.footer-nav a:hover,
+.contact-list a:hover {
+  color: #ffffff;
+  padding-left: 5px; /* حركة بسيطة عند التمرير */
+}
+
+/* أيقونات التواصل */
+.social-link {
+  color: #ffffff;
+  font-size: 1.2rem;
+  transition: 0.3s;
+}
+
+.social-link:hover {
+  color: #c5a059;
+  transform: translateY(-3px);
+  display: inline-block;
+}
+
+/* تعديل حدود الفاصل */
+.border-secondary {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}

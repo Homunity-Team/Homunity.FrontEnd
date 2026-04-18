@@ -417,15 +417,17 @@ document.addEventListener("DOMContentLoaded", () => {
 //end search
 
 // srart booking request
+
 async function loadMyBookings() {
   const studentID = localStorage.getItem("id") || 10;
   const listContainer = document.getElementById("bookings-dynamic-list");
   const emptyWrapper = document.getElementById("emptyStateWrapperr");
 
-  if (!listContainer) return;
+  if (!listContainer || !emptyWrapper) return;
 
   listContainer.innerHTML =
     '<div class="text-center text-gold-custom py-5">Loading your bookings...</div>';
+  emptyWrapper.classList.add("d-none");
 
   try {
     const response = await fetch(
@@ -433,68 +435,77 @@ async function loadMyBookings() {
     );
     if (!response.ok) throw new Error("API Error");
 
-    const bookings = await response.json();
+    const data = await response.json();
+    const bookings = Array.isArray(data) ? data : [];
 
-    if (!bookings || bookings.length === 0) {
+    if (bookings.length === 0) {
+      document.getElementById("rowBookings").classList.add("d-none");
+      listContainer.classList.add("d-none");
       emptyWrapper.classList.remove("d-none");
-      listContainer.innerHTML = "";
       return;
     }
-
+      document.getElementById("rowBookings").classList.remove("d-none");
+      listContainer.classList.remove("d-none");
     emptyWrapper.classList.add("d-none");
 
     listContainer.innerHTML = bookings
       .map((book) => {
         const status = book.statusName || "N/A";
-        const title = book.property?.title || "Property";
-        const location = book.property?.location || "Location";
-        const img = book.property?.imageUrl || "../img/room1.1.jpg";
-        const bDate = book.createdAt;
-        const cDate = book.confirmedAt;
+        const property = book.property || {};
+        const title = property.title || "Property";
+        const location = property.location || "Location";
+        const img = property.imageUrl || "../img/room1.1.jpg";
+        const bDate = book.createdAt
+          ? new Date(book.createdAt).toLocaleDateString("en-GB")
+          : "N/A";
+        const cDate = book.confirmedAt
+          ? new Date(book.confirmedAt).toLocaleDateString("en-GB")
+          : "----------";
         const statusClass = status.toLowerCase().replace(/\s+/g, "-");
 
-        const bookData = JSON.stringify(book).replace(/'/g, "&apos;");
+        const safeBookData = encodeURIComponent(JSON.stringify(book));
 
         return `
-                <div class="row text-center mb-2 gx-2 align-items-stretch">
-                    <div class="col-3-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center gap-3 text-start">
-                            <img src="${img}" class="booking-img-sm rounded-2 shadow-sm" style="width:50px; height:50px; object-fit:cover" />
-                            <div>
-                                <div class="text-gold-custom fs-6">${title}</div>
-                                <div class="small text-white-50">${location}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center">
-                            <span class="status-badge-custom w-75 ${statusClass}">${status}</span>
-                        </div>
-                    </div>
-                    <div class="col-2-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center fs-13 text-white">
-                            ${bDate ? new Date(bDate).toLocaleDateString("en-GB") : "N/A"}
-                        </div>
-                    </div>
-                    <div class="col-3-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-between fs-13 text-white">
-                            <span>${cDate ? new Date(cDate).toLocaleDateString("en-GB") : "----------"}</span>
-                            <button class="btn-gold-action py-1 px-3 shadow-sm" onclick='renderBookingDetails(${bookData})'>
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
+          <div class="row text-center mb-2 gx-2 align-items-stretch">
+              <div class="col-3-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center gap-3 text-start">
+                      <img src="${img}" class="booking-img-sm rounded-2 shadow-sm" style="width:50px; height:50px; object-fit:cover" />
+                      <div>
+                          <div class="text-gold-custom fs-6">${title}</div>
+                          <div class="small text-white-50">${location}</div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-2-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center">
+                      <span class="status-badge-custom w-75 ${statusClass}">${status}</span>
+                  </div>
+              </div>
+              <div class="col-2-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center fs-13 text-white">
+                      ${bDate}
+                  </div>
+              </div>
+              <div class="col-3-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-between fs-13 text-white">
+                      <span>${cDate}</span>
+                      <button class="btn-gold-action py-1 px-3 shadow-sm" onclick="renderBookingDetails('${safeBookData}')">
+                          View Details
+                      </button>
+                  </div>
+              </div>
+          </div>`;
       })
       .join("");
   } catch (error) {
-    console.error("Load Error:", error);
-    listContainer.innerHTML =
-      '<div class="text-center text-gold-custom py-5">Error loading your bookings.</div>';
+    document.getElementById("rowBookings").classList.add("d-none");
+    listContainer.classList.add("d-none");
+    emptyWrapper.classList.remove("d-none");
   }
 }
 
-function renderBookingDetails(book) {
+function renderBookingDetails(encodedData) {
+  const book = JSON.parse(decodeURIComponent(encodedData));
   const detailsSection = document.getElementById("sectionBookingDetails");
   const listSection = document.getElementById("sectionMyBookings");
 
@@ -511,8 +522,10 @@ function renderBookingDetails(book) {
     prop.title || "Property";
   detailsSection.querySelector("p.mb-1").innerText =
     prop.location || "Location";
-  detailsSection.querySelector("h5:not(.text-gold-custom)").innerHTML =
-    `$${prop.price || 0} <small class="fs-5">/ month</small>`;
+
+  const priceEl = detailsSection.querySelector("h5:not(.text-gold-custom)");
+  if (priceEl)
+    priceEl.innerHTML = `$${prop.price || 0} <small class="fs-5">/ month</small>`;
 
   const infoRows = detailsSection.querySelectorAll(
     ".white-info-row span:last-child",
@@ -531,7 +544,8 @@ function renderBookingDetails(book) {
   window.scrollTo(0, 0);
 }
 
-loadMyBookings();
+document.addEventListener("DOMContentLoaded", loadMyBookings);
+
 document.addEventListener("click", function (e) {
   const btn =
     e.target.closest('[onclick*="sectionMyBookings"]') ||
@@ -540,6 +554,8 @@ document.addEventListener("click", function (e) {
     setTimeout(loadMyBookings, 50);
   }
 });
+
+
 // end booking request
 
 // start profile
