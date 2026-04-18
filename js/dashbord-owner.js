@@ -174,7 +174,7 @@ addPropertyForm.addEventListener("submit", async (e) => {
     }
   };
 
-  if (title.value.length < 5 || title.value.length > 15) {
+  if (title.value.length < 3 ) {
     toggleError("titleError", true);
     isValid = false;
   } else {
