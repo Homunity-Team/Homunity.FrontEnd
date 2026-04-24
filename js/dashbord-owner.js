@@ -153,8 +153,7 @@ areaSelect.addEventListener("change", () => {
 
 // end get location
 
-// Add this function after your fetchProperties function (or anywhere in your JS file)
-
+// start get owner stats
 async function fetchOwnerStats() {
   const ownerId = localStorage.getItem("id");
   if (!ownerId) return;
@@ -200,7 +199,7 @@ async function fetchOwnerStats() {
     
     if (pendingBooking) {
       pendingBooking.innerText = bookings.filter(
-        (b) => b.statusName === "In Progress"
+        (b) => b.statusName === "In-Process"
       ).length;
     } // need to fix the status name
     
@@ -215,8 +214,6 @@ async function fetchOwnerStats() {
   }
 }
 
-// Call this function when the page loads
-// Add this at the bottom of your file, after fetchProperties():
 fetchOwnerStats();
 
 
