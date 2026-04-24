@@ -220,7 +220,7 @@ function renderPropertyPage(prop) {
   if (detailsList) {
     detailsList.innerHTML = `
             <li><i class="fa-solid fa-diamond"></i> Price $${prop.price || 0} / month</li>
-            <li><i class="fa-solid fa-diamond"></i> ${prop.rooms || 0} Bedrooms</li>
+            <li><i class="fa-solid fa-diamond"></i> ${prop.rooms || 0} rooms</li>
             <li><i class="fa-solid fa-diamond"></i> Type: ${prop.propertyType || "N/A"}</li>
         `;
   }
