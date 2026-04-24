@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // end responsive sidebar
 
-
 const sections = {
   properties: document.getElementById("sectionProperties"),
   oneProperti: document.getElementById("oneProperti"),
@@ -161,14 +160,16 @@ async function fetchOwnerStats() {
   try {
     // Fetch properties for property stats
     const propResponse = await fetch(
-      `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`
+      `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`,
     );
     const propData = await propResponse.json();
-    const properties = Array.isArray(propData) ? propData : propData.properties || [];
+    const properties = Array.isArray(propData)
+      ? propData
+      : propData.properties || [];
 
     // Fetch bookings for booking stats
     const bookingResponse = await fetch(
-      `https://homunityapiv1.runasp.net/api/Booking/owner/${ownerId}`
+      `https://homunityapiv1.runasp.net/api/Booking/owner/${ownerId}`,
     );
     const bookingData = await bookingResponse.json();
     const bookings = bookingData.bookings || [];
@@ -180,43 +181,40 @@ async function fetchOwnerStats() {
     // Update Properties Status counts
     const approvedCount = document.getElementById("approved-count");
     const rejectedCount = document.getElementById("rejected-count");
-    
+
     if (approvedCount) {
       approvedCount.innerText = properties.filter(
-        (p) => p.propertyStatusID === 2
+        (p) => p.propertyStatusID === 2,
       ).length;
     }
-    
+
     if (rejectedCount) {
       rejectedCount.innerText = properties.filter(
-        (p) => p.propertyStatusID === 3
+        (p) => p.propertyStatusID === 3,
       ).length;
     }
 
     // Update Booking counts
     const pendingBooking = document.getElementById("pending-booking");
     const bookedCount = document.getElementById("booked-count");
-    
+
     if (pendingBooking) {
       pendingBooking.innerText = bookings.filter(
-        (b) => b.statusName === "In-Process"
+        (b) => b.statusName === "In-Process",
       ).length;
     } // need to fix the status name
-    
+
     if (bookedCount) {
       bookedCount.innerText = bookings.filter(
-        (b) => b.statusName === "Booked"
+        (b) => b.statusName === "Booked",
       ).length;
     }
-
   } catch (error) {
     console.error("Error fetching owner stats:", error);
   }
 }
 
 fetchOwnerStats();
-
-
 
 // start add property
 const addPropertyForm = document.getElementById("addPropertyForm");
@@ -335,8 +333,10 @@ addPropertyForm.addEventListener("submit", async (e) => {
     );
 
     if (response.ok) {
-      alert("Property Added Successfully!");
-      window.location.reload();
+      const result = await response.json();
+      const propId = result.propertyID || 0;
+
+      window.location.href = `../html/map.html?id=${propId}`;
     } else {
       const errorData = await response.json().catch(() => ({}));
       console.error(errorData);
@@ -549,7 +549,6 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
   e.preventDefault();
 
   function showError(input, messageId, isValidCondition, message) {
-
     const errorEl = document.getElementById(messageId);
 
     if (!isValidCondition) {
@@ -580,21 +579,27 @@ updatePropertyForm?.addEventListener("submit", async function (e) {
   const priceError = document.getElementById("priceErrorUpdate");
   const roomsError = document.getElementById("roomsErrorUpdate");
 
-
   // validation
-  showError(title, "titleErrorUpdate",
+  showError(
+    title,
+    "titleErrorUpdate",
     title.value.trim().length >= 5 && title.value.trim().length <= 100,
-    "Title must be between 5 and 100 characters.");
-
-  showError(price, "priceErrorUpdate",
-    price.value && parseFloat(price.value) >= 100,
-    "Price must be at least 100.");
-
-  showError(rooms, "roomsErrorUpdate",
-    rooms.value && parseInt(rooms.value) >= 1 && parseInt(rooms.value) <= 10,
-    "Rooms must be between 1 and 10."
+    "Title must be between 5 and 100 characters.",
   );
 
+  showError(
+    price,
+    "priceErrorUpdate",
+    price.value && parseFloat(price.value) >= 100,
+    "Price must be at least 100.",
+  );
+
+  showError(
+    rooms,
+    "roomsErrorUpdate",
+    rooms.value && parseInt(rooms.value) >= 1 && parseInt(rooms.value) <= 10,
+    "Rooms must be between 1 and 10.",
+  );
 
   // final check
   if (!isValid) return;
@@ -922,8 +927,8 @@ document.getElementById("confirmDeleteBtn").onclick = async function () {
       const error = await response.json();
       alert(
         "Error: " +
-        (error.message ||
-          "Could not delete property. It might have active bookings."),
+          (error.message ||
+            "Could not delete property. It might have active bookings."),
       );
     }
   } catch (err) {
