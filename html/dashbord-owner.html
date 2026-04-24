@@ -226,7 +226,7 @@
           </h2>
 
           <!-- فورم واحد فقط لكل البيانات -->
-          <form id="addPropertyForm" class="px-4 py-4">
+          <form id="addPropertyForm" class="px-4 py-4" novalidate>
             <div class="row g-4">
               <div class="col-lg-6 col-12">
                 <div class="mb-3">
@@ -431,7 +431,7 @@
             <h3 class="title">Update Property</h3>
           </div>
           <form id="updatePropertyForm"
-            class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4">
+            class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4" novalidate>
             <input type="hidden" id="propertyIdUpdate" name="propertyID" />
 
             <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
@@ -444,7 +444,7 @@
                   <label class="form-label fw-bold">Title</label>
                   <input class="form-control form-control-lg rounded-3" id="titleUpdate" name="title" type="text"
                     minlength="5" required />
-                  <div id="titleError" style="
+                  <div id="titleErrorUpdate" style="
                         color: #d93025;
                         font-size: 12px;
                         display: none;
@@ -458,7 +458,7 @@
                   <label class="form-label fw-bold">Price / Month</label>
                   <input class="form-control form-control-lg rounded-3" id="priceUpdate" name="price" type="number"
                     min="100" required />
-                  <div id="priceError" style="
+                  <div id="priceErrorUpdate" style="
                         color: #d93025;
                         font-size: 12px;
                         display: none;
@@ -472,7 +472,7 @@
                   <label class="form-label fw-bold">Rooms Count</label>
                   <input class="form-control form-control-lg rounded-3" id="roomsUpdate" name="rooms" type="number"
                     min="1" max="10" required />
-                  <div id="roomsError" style="
+                  <div id="roomsErrorUpdate" style="
                         color: #d93025;
                         font-size: 12px;
                         display: none;

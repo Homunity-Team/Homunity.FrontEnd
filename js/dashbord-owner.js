@@ -174,7 +174,7 @@ addPropertyForm.addEventListener("submit", async (e) => {
     }
   };
 
-  if (title.value.length < 3 ) {
+  if (title.value.length < 5) {
     toggleError("titleError", true);
     isValid = false;
   } else {
@@ -478,7 +478,60 @@ function checkImageLimit() {
 
 const updatePropertyForm = document.getElementById("updatePropertyForm");
 updatePropertyForm?.addEventListener("submit", async function (e) {
+  let isValid = true;
   e.preventDefault();
+
+  function showError(input, messageId, isValidCondition, message) {
+
+    const errorEl = document.getElementById(messageId);
+
+    if (!isValidCondition) {
+      input.classList.add("is-invalid");
+      if (errorEl) {
+        errorEl.style.display = "block";
+        errorEl.textContent = message;
+      }
+      isValid = false;
+    } else {
+      input.classList.remove("is-invalid");
+      if (errorEl) {
+        errorEl.style.display = "none";
+        errorEl.textContent = "";
+      }
+    }
+  }
+
+  // elements
+  const title = document.getElementById("titleUpdate");
+  const price = document.getElementById("priceUpdate");
+  const rooms = document.getElementById("roomsUpdate");
+  const street = document.getElementById("streetUpdate");
+  const city = document.getElementById("cityUpdate");
+  const area = document.getElementById("areaUpdate");
+
+  const titleError = document.getElementById("titleErrorUpdate");
+  const priceError = document.getElementById("priceErrorUpdate");
+  const roomsError = document.getElementById("roomsErrorUpdate");
+
+
+  // validation
+  showError(title, "titleErrorUpdate",
+    title.value.trim().length >= 5 && title.value.trim().length <= 100,
+    "Title must be between 5 and 100 characters.");
+
+  showError(price, "priceErrorUpdate",
+    price.value && parseFloat(price.value) >= 100,
+    "Price must be at least 100.");
+
+  showError(rooms, "roomsErrorUpdate",
+    rooms.value && parseInt(rooms.value) >= 1 && parseInt(rooms.value) <= 10,
+    "Rooms must be between 1 and 10."
+  );
+
+
+  // final check
+  if (!isValid) return;
+
   showLoader();
 
   try {
@@ -801,8 +854,8 @@ document.getElementById("confirmDeleteBtn").onclick = async function () {
       const error = await response.json();
       alert(
         "Error: " +
-          (error.message ||
-            "Could not delete property. It might have active bookings."),
+        (error.message ||
+          "Could not delete property. It might have active bookings."),
       );
     }
   } catch (err) {
