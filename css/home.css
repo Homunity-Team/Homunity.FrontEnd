@@ -902,3 +902,100 @@ header {
 .border-secondary {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
+
+.map-cta-section {
+    /* padding: 80px 0; */
+}
+
+.map-card-wrapper {
+    /* background: linear-gradient(135deg, var(--main-navy) 0%, #2c3e5a 100%); */
+    border-radius: 20px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--white);
+    box-shadow: 0 15px 35px rgba(33, 46, 67, 0.2);
+    position: relative;
+    overflow: hidden;
+    direction: ltr; /* Ensures Left-to-Right layout */
+    text-align: left;
+}
+
+.map-content {
+    max-width: 65%;
+    z-index: 2;
+}
+
+.section-title {
+    /* font-family: 'Poppins', sans-serif; Using a modern English font */
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: var(--main-gold);
+    margin-bottom: 20px;
+    
+}
+
+.section-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    color: var(--white);
+    opacity: 0.85;
+}
+
+.btn-go-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--main-gold);
+    color: var(--main-navy);
+    padding: 16px 35px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+}
+
+.btn-go-map:hover {
+    background-color: transparent;
+    border-color: var(--main-gold);
+    color: var(--main-gold);
+    transform: translateY(-3px);
+}
+
+.map-icon-bg {
+    width: 160px;
+    height: 160px;
+    background: rgba(239, 184, 30, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5.5rem;
+    color: var(--main-gold);
+    animation: bounce 3s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .map-card-wrapper {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .map-content {
+        max-width: 100%;
+        margin-bottom: 40px;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+}

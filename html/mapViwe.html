@@ -1,0 +1,1405 @@
+# Let's create the modified HTML file with the exact color scheme requested and improved search
+
+html_content = '''
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homunity - استكشاف السكن</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&family=Nunito:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --navy: #212e43;
+            --navy-dark: #212e43;
+            --gold: #efb81e;
+            --gold-soft: #efb81e;
+            --bg: #f4f5f7;
+            --white: #ffffff;
+            --border: #e2e5ea;
+            --text: #1b263b;
+            --radius: 14px;
+            --transition: all 0.25s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Tajawal', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text);
+        }
+
+        .logo {
+            text-decoration: none;
+            font-size: 32px;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .main-wrapper {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 400px;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 20px rgba(33, 46, 67, 0.12);
+            z-index: 1000;
+            overflow: hidden;
+            border-left: 1px solid var(--border);
+        }
+
+        .sidebar-header {
+            padding: 24px 24px 18px;
+            background: var(--navy);
+            color: var(--white);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(239, 184, 30, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .sidebar-header h5 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--gold);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-box {
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .search-input {
+            border-radius: 12px;
+            padding: 12px 16px 12px 40px;
+            border: 2px solid rgba(239, 184, 30, 0.25);
+            font-size: 0.9rem;
+            width: 100%;
+            font-family: 'Tajawal', sans-serif;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 4px rgba(239, 184, 30, 0.1);
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            font-size: 0.72rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(239, 184, 30, 0.3);
+            background: rgba(239, 184, 30, 0.1);
+            color: var(--gold);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+        }
+
+        #resultsCount {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #list {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 16px;
+        }
+
+        #list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        #list::-webkit-scrollbar-thumb:hover {
+            background: #c0c4cc;
+        }
+
+        /* ── PROPERTY CARD ── */
+        .property-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .property-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: transparent;
+            transition: var(--transition);
+        }
+
+        .property-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 24px rgba(33, 46, 67, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .property-card:hover::after {
+            background: var(--gold);
+        }
+
+        .property-card.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(239, 184, 30, 0.15);
+        }
+
+        .property-card.active::after {
+            background: var(--gold);
+        }
+
+        .card-thumb {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .property-card:hover .card-thumb {
+            transform: scale(1.03);
+        }
+
+        .card-body-inner {
+            padding: 14px 16px;
+        }
+
+        .card-prop-title {
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: var(--text);
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-price {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--gold);
+            background: rgba(239, 184, 30, 0.1);
+            padding: 3px 10px;
+            border-radius: 8px;
+        }
+
+        .card-type {
+            font-size: 0.72rem;
+            background: rgba(33, 46, 67, 0.06);
+            color: var(--navy);
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .card-location {
+            font-size: 0.78rem;
+            color: #7a8490;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-location i {
+            font-size: 0.7rem;
+            color: var(--gold);
+        }
+
+        .uni-badge {
+            font-size: 0.72rem;
+            background: rgba(239, 184, 30, 0.1);
+            color: #9a7a1a;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .no-location-badge {
+            font-size: 0.72rem;
+            background: #fff0f0;
+            color: #c0392b;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .highlight-match {
+            background: rgba(239, 184, 30, 0.25);
+            padding: 0 2px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        /* ── MAP ── */
+        #map {
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .leaflet-routing-container {
+            display: none !important;
+        }
+
+        /* ══════════════════════════════
+           PROPERTY DETAILS OVERLAY
+        ══════════════════════════════ */
+        #sectionPropirtie {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(27, 38, 59, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        #sectionPropirtie.d-none {
+            display: none !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        .modal-inner {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 860px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 32px;
+            animation: slideUp 0.35s ease;
+            scrollbar-width: thin;
+            box-shadow: 0 25px 60px rgba(33, 46, 67, 0.2);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.45rem;
+            color: var(--navy);
+        }
+
+        .badge-pending {
+            background: #fff8e1;
+            color: #8a6d0b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1.5px solid #f0d060;
+        }
+
+        .badge-approved {
+            background: #e8f5e9;
+            color: #1b5e20;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1.5px solid #a5d6a7;
+        }
+
+        /* Gallery */
+        .gallery-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 10px;
+            height: 180px;
+            margin-bottom: 14px;
+        }
+
+        .gallery-img-box {
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .gallery-img-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(33, 46, 67, 0.3), transparent 50%);
+            pointer-events: none;
+        }
+
+        .gallery-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-img-box:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-thumbs img {
+            width: 85px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2.5px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .gallery-thumbs img:hover,
+        .gallery-thumbs img.active {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* Info Cards */
+        .info-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .info-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 16px rgba(239, 184, 30, 0.08);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .card-address {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            color: #5a6478;
+            line-height: 1.65;
+            margin-bottom: 16px;
+        }
+
+        .details-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .details-list li {
+            font-weight: 700;
+            font-size: 0.86rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-list li i {
+            color: var(--gold);
+            font-size: 0.65rem;
+        }
+
+        .services-card .card-title {
+            margin-bottom: 16px;
+        }
+
+        .amenities-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .amenities-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.94rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .amenity-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--navy);
+            flex-shrink: 0;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 14px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+        }
+
+        .btn-book {
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 4px 16px rgba(239, 184, 30, 0.3);
+        }
+
+        .btn-book:hover {
+            background: #f5c842;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 184, 30, 0.4);
+        }
+
+        .btn-book:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-cancel {
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .btn-cancel:hover {
+            background: #2d3d56;
+            transform: translateY(-2px);
+        }
+
+        /* Loading Spinner */
+        .loader-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            color: var(--navy);
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #a0a8b4;
+        }
+
+        .empty-state i {
+            font-size: 2.8rem;
+            margin-bottom: 14px;
+            display: block;
+            color: #d0d4da;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* Toast */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--navy);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1.5px solid var(--gold);
+            box-shadow: 0 8px 24px rgba(33, 46, 67, 0.25);
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* No-location card tint */
+        .property-card.no-loc {
+            opacity: 0.7;
+        }
+
+        .property-card.no-loc:hover {
+            border-right-color: #ccc;
+            opacity: 0.85;
+        }
+
+        /* Search suggestions dropdown */
+        .search-suggestions {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(33, 46, 67, 0.15);
+            border: 1px solid var(--border);
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .search-suggestions.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: rgba(239, 184, 30, 0.08);
+            color: var(--navy);
+        }
+
+        .suggestion-item i {
+            color: var(--gold);
+            font-size: 0.75rem;
+        }
+
+        .suggestion-category {
+            font-size: 0.7rem;
+            color: #8894a6;
+            margin-right: auto;
+            padding: 2px 8px;
+            background: var(--bg);
+            border-radius: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-wrapper {
+                height: 140px;
+            }
+
+            .sidebar {
+                width: 340px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h5><i class="fa-solid fa-house-chimney"></i> استكشاف العقارات</h5>
+                <a class="logo" href="../index.html">Homunity</a>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="smartSearch" class="search-input"
+                        placeholder="ابحث بالعنوان أو المنطقة أو الجامعة..." oninput="smartFilter()"
+                        onkeydown="handleSearchKey(event)">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="search-filters" id="searchFilters">
+                    <span class="filter-chip active" data-filter="all" onclick="setFilter('all')">الكل</span>
+                    <span class="filter-chip" data-filter="apartment" onclick="setFilter('apartment')">شقق</span>
+                    <span class="filter-chip" data-filter="room" onclick="setFilter('room')">غرف</span>
+                    <span class="filter-chip" data-filter="near-uni" onclick="setFilter('near-uni')">قريب من
+                        جامعة</span>
+                </div>
+                <div id="resultsCount"></div>
+            </div>
+            <div id="list">
+                <div class="loader-wrap">
+                    <div class="spinner"></div>
+                    <span style="font-size:0.85rem; color: var(--navy);">جاري تحميل العقارات...</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <!-- Property Details Overlay -->
+    <section id="sectionPropirtie" class="d-none">
+        <div class="modal-inner">
+            <!-- Loading state -->
+            <div id="propLoader" class="loader-wrap">
+                <div class="spinner"></div>
+                <span style="font-size:0.85rem; color: var(--navy);">جاري تحميل التفاصيل...</span>
+            </div>
+
+            <!-- Content (hidden until loaded) -->
+            <div id="propContent" style="display:none">
+                <div class="page-header">
+                    <h1 class="page-title" id="propTitle">—</h1>
+                    <span id="propStatusBadge" class="badge-pending">قيد المراجعة</span>
+                </div>
+
+                <div class="gallery-wrapper" id="galleryMain"></div>
+                <div class="gallery-thumbs" id="galleryThumbs"></div>
+
+                <div class="info-row">
+                    <div class="info-card">
+                        <h3 class="card-title" id="detailTitle">—</h3>
+                        <p class="card-address" id="detailAddress">—</p>
+                        <p class="card-desc" id="detailDesc">—</p>
+                        <ul class="details-list">
+                            <li><i class="fa-solid fa-diamond"></i> <span id="detailPrice">—</span></li>
+                            <li><i class="fa-solid fa-diamond"></i> <span id="detailRooms">—</span></li>
+                            <li id="uniRow" style="display:none"><i class="fa-solid fa-diamond"></i> <span
+                                    id="detailUni">—</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card services-card">
+                        <h3 class="card-title">الخدمات</h3>
+                        <ul class="amenities-list" id="servicesList">
+                            <li style="color:#aaa;font-weight:400;font-size:0.82rem;">لا توجد خدمات مسجّلة</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-book" id="btnBook" onclick="bookProperty()">احجز الآن</button>
+                    <button class="btn-cancel" id="btn-cancel" onclick="closeDetails()">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast -->
+    <div class="toast-msg" id="toastMsg"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        // ── CONFIG ──
+        const API_BASE = 'https://homunityapiv1.runasp.net/api';
+        const PLACEHOLDER_IMG = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80';
+
+        const SERVICE_ICONS = {
+            wifi: 'fa-wifi', wind: 'fa-wind', shirt: 'fa-shirt',
+            flame: 'fa-fire', dumbbell: 'fa-dumbbell', parking: 'fa-square-parking',
+            snowflake: 'fa-snowflake'
+        };
+
+        let allProperties = [];
+        let allUniversities = [];
+        let currentPropertyID = null;
+        let markersLayer, routingControl, map;
+        let currentFilter = 'all';
+        let activeCard = null;
+
+        // ── MAP SETUP ──
+        map = L.map('map').setView([30.04, 31.23], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        markersLayer = L.layerGroup().addTo(map);
+
+        // Custom gold marker
+        function goldIcon() {
+            return L.divIcon({
+                className: '',
+                html: `<div style="
+                width:36px;height:36px;
+                background:linear-gradient(135deg, #efb81e, #d4a017);
+                border:3px solid #212e43;
+                border-radius:50% 50% 50% 0;
+                transform:rotate(-45deg);
+                box-shadow:0 3px 10px rgba(33,46,67,0.4);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+            "><i class="fa-solid fa-house" style="transform:rotate(45deg);color:#212e43;font-size:0.7rem;"></i></div>`,
+                iconSize: [36, 36],
+                iconAnchor: [18, 36],
+                popupAnchor: [0, -36]
+            });
+        }
+
+        // ── FETCH UNIVERSITIES FROM API ──
+        async function loadUniversities() {
+            try {
+                const res = await fetch(`${API_BASE}/Universities/GetAll`);
+                const data = await res.json();
+                allUniversities = data.universities || [];
+            } catch (err) {
+                console.warn('تعذّر تحميل الجامعات:', err.message);
+            }
+        }
+
+        // ── FETCH ALL PROPERTIES ──
+        async function loadProperties() {
+            try {
+                await loadUniversities();
+                const res = await fetch(`${API_BASE}/Properties/GetAllV2`);
+                const data = await res.json();
+                allProperties = data.properties || [];
+                renderList(allProperties);
+                renderMarkers(allProperties);
+            } catch (err) {
+                document.getElementById('list').innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>تعذّر تحميل العقارات<br><small>${err.message}</small></p>
+                </div>`;
+            }
+        }
+
+        // ── TEXT HIGHLIGHTER ──
+        function highlightText(text, query) {
+            if (!query || !text) return text;
+            const escapedQuery = query.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
+            const regex = new RegExp(`(${escapedQuery})`, 'gi');
+            return text.replace(regex, '<span class="highlight-match">$1</span>');
+        }
+
+        // ── RENDER LIST ──
+        function renderList(properties, query = '') {
+            const list = document.getElementById('list');
+            const count = document.getElementById('resultsCount');
+
+            count.innerHTML = `<i class="fa-solid fa-list-ul"></i> ${properties.length} عقار`;
+
+            if (!properties.length) {
+                list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-building"></i><p>لا توجد نتائج</p></div>`;
+                return;
+            }
+
+            list.innerHTML = '';
+            properties.forEach(p => {
+                const loc = p.location;
+                const hasLocation = loc && loc.latitude && loc.longitude;
+                const imgUrl = p.images?.[0]?.imageUrl || PLACEHOLDER_IMG;
+                const uniName = loc?.university?.name || '';
+                const distKm = loc?.university?.distance_km || '';
+                const area = loc ? `${loc.area}, ${loc.city}` : 'موقع غير محدد';
+                const typeLabel = p.propertyType === 'Apartment' ? 'شقة' : 'غرفة';
+
+                const card = document.createElement('div');
+                card.className = `property-card${!hasLocation ? ' no-loc' : ''}`;
+                card.dataset.id = p.propertyID;
+                card.innerHTML = `
+                <img src="${imgUrl}" class="card-thumb" alt="${p.title}" onerror="this.src='${PLACEHOLDER_IMG}'">
+                <div class="card-body-inner">
+                    <div class="card-prop-title">${highlightText(p.title, query)}</div>
+                    <div class="card-meta">
+                        <span class="card-price">${p.price.toLocaleString('ar-EG')} جنيه/شهر</span>
+                        <span class="card-type">${typeLabel}</span>
+                    </div>
+                    <div class="card-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        ${highlightText(area, query)}
+                    </div>
+                    ${uniName
+                        ? `<span class="uni-badge"><i class="fa-solid fa-graduation-cap"></i> ${highlightText(uniName, query)}${distKm ? ` · ${distKm} كم` : ''}</span>`
+                        : `<span class="no-location-badge"><i class="fa-solid fa-location-crosshairs"></i> بدون إحداثيات</span>`}
+                </div>`;
+                card.onclick = () => {
+                    if (activeCard) activeCard.classList.remove('active');
+                    card.classList.add('active');
+                    activeCard = card;
+                    openDetails(p.propertyID, hasLocation ? p : null);
+                };
+                list.appendChild(card);
+            });
+        }
+
+        // ── RENDER MAP MARKERS ──
+        function renderMarkers(properties) {
+            markersLayer.clearLayers();
+            properties.forEach(p => {
+                const loc = p.location;
+                if (!loc?.latitude || !loc?.longitude) return;
+                L.marker([loc.latitude, loc.longitude], { icon: goldIcon() })
+                    .addTo(markersLayer)
+                    .bindPopup(`<b style="color:#212e43;font-family:Tajawal;">${p.title}</b><br><span style="color:#5a6478;font-size:0.8rem;">${loc.area}, ${loc.city}</span>`)
+                    .on('click', () => openDetails(p.propertyID, p));
+            });
+        }
+
+        // ── BUILD SEARCH SUGGESTIONS ──
+        function buildSuggestions(query) {
+            const container = document.getElementById('searchSuggestions');
+            if (!query || query.length < 1) {
+                container.classList.remove('show');
+                return;
+            }
+
+            const q = query.toLowerCase().trim();
+            const suggestions = new Set();
+
+            // Collect unique suggestions
+            allProperties.forEach(p => {
+                const loc = p.location;
+                if (p.title.toLowerCase().includes(q)) suggestions.add({ text: p.title, type: 'عنوان', icon: 'fa-house' });
+                if (loc?.area?.toLowerCase().includes(q)) suggestions.add({ text: loc.area, type: 'منطقة', icon: 'fa-map-pin' });
+                if (loc?.city?.toLowerCase().includes(q)) suggestions.add({ text: loc.city, type: 'مدينة', icon: 'fa-city' });
+                if (loc?.street?.toLowerCase().includes(q)) suggestions.add({ text: loc.street, type: 'شارع', icon: 'fa-road' });
+            });
+
+            allUniversities.forEach(u => {
+                if (u.name?.toLowerCase().includes(q)) suggestions.add({ text: u.name, type: 'جامعة', icon: 'fa-graduation-cap' });
+            });
+
+            const arr = Array.from(suggestions).slice(0, 6);
+
+            if (!arr.length) {
+                container.classList.remove('show');
+                return;
+            }
+
+            container.innerHTML = arr.map(s => `
+            <div class="suggestion-item" onclick="applySuggestion('${s.text.replace(/'/g, "\\'")}')">
+                <i class="fa-solid ${s.icon}"></i>
+                <span>${highlightText(s.text, query)}</span>
+                <span class="suggestion-category">${s.type}</span>
+            </div>
+        `).join('');
+            container.classList.add('show');
+        }
+
+        function applySuggestion(text) {
+            document.getElementById('smartSearch').value = text;
+            document.getElementById('searchSuggestions').classList.remove('show');
+            smartFilter();
+        }
+
+        function handleSearchKey(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('searchSuggestions').classList.remove('show');
+            }
+        }
+
+        // ── SET FILTER ──
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.filter === filter);
+            });
+            smartFilter();
+        }
+
+        // ── SMART FILTER (PRECISE SEARCH) ──
+        function smartFilter() {
+            const q = document.getElementById('smartSearch').value.toLowerCase().trim();
+            document.getElementById('searchSuggestions').classList.remove('show');
+
+            if (q.length >= 1) {
+                buildSuggestions(q);
+            }
+
+            let filtered = allProperties;
+
+            // Apply type filter
+            if (currentFilter === 'apartment') {
+                filtered = filtered.filter(p => p.propertyType === 'Apartment');
+            } else if (currentFilter === 'room') {
+                filtered = filtered.filter(p => p.propertyType === 'Room');
+            } else if (currentFilter === 'near-uni') {
+                filtered = filtered.filter(p => p.location?.university?.universityId);
+            }
+
+            if (!q) {
+                renderList(filtered);
+                renderMarkers(filtered);
+                return;
+            }
+
+            // Precise multi-field search with scoring
+            const scored = filtered.map(p => {
+                const loc = p.location;
+                let score = 0;
+                const qWords = q.split(/\\s+/).filter(w => w.length > 0);
+
+                // Exact title match (highest priority)
+                const titleLower = p.title.toLowerCase();
+                if (titleLower === q) score += 100;
+                else if (titleLower.includes(q)) score += 50;
+                else {
+                    qWords.forEach(w => {
+                        if (titleLower.includes(w)) score += 15;
+                    });
+                }
+
+                // Area match
+                const areaLower = (loc?.area || '').toLowerCase();
+                if (areaLower === q) score += 80;
+                else if (areaLower.includes(q)) score += 40;
+                else {
+                    qWords.forEach(w => {
+                        if (areaLower.includes(w)) score += 12;
+                    });
+                }
+
+                // City match
+                const cityLower = (loc?.city || '').toLowerCase();
+                if (cityLower === q) score += 70;
+                else if (cityLower.includes(q)) score += 35;
+                else {
+                    qWords.forEach(w => {
+                        if (cityLower.includes(w)) score += 10;
+                    });
+                }
+
+                // Street match
+                const streetLower = (loc?.street || '').toLowerCase();
+                if (streetLower.includes(q)) score += 30;
+                else {
+                    qWords.forEach(w => {
+                        if (streetLower.includes(w)) score += 8;
+                    });
+                }
+
+                // University match (by ID or name)
+                const uniName = (loc?.university?.name || '').toLowerCase();
+                const uniId = loc?.university?.universityId;
+                const matchedUni = allUniversities.find(u => u.name.toLowerCase().includes(q));
+
+                if (matchedUni && uniId === matchedUni.universityId) score += 90;
+                else if (uniName.includes(q)) score += 45;
+                else {
+                    qWords.forEach(w => {
+                        if (uniName.includes(w)) score += 12;
+                    });
+                }
+
+                // Price match (if query is numeric)
+                const numQuery = parseFloat(q.replace(/,/g, ''));
+                if (!isNaN(numQuery) && p.price) {
+                    const priceDiff = Math.abs(p.price - numQuery) / numQuery;
+                    if (priceDiff < 0.1) score += 60;
+                    else if (priceDiff < 0.3) score += 30;
+                    else if (priceDiff < 0.5) score += 15;
+                }
+
+                // Property type match
+                const typeLower = (p.propertyType || '').toLowerCase();
+                if (typeLower.includes(q) || (q.includes('شق') && typeLower.includes('apartment')) || (q.includes('غرف') && typeLower.includes('room'))) {
+                    score += 25;
+                }
+
+                return { property: p, score };
+            });
+
+            // Sort by score descending, filter out zero scores
+            const result = scored
+                .filter(item => item.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .map(item => item.property);
+
+            renderList(result, q);
+            renderMarkers(result);
+        }
+
+        // ── OPEN DETAILS ──
+        async function openDetails(propertyID, propWithCoords) {
+            currentPropertyID = propertyID;
+
+            const overlay = document.getElementById('sectionPropirtie');
+            overlay.classList.remove('d-none');
+            document.getElementById('propLoader').style.display = 'flex';
+            document.getElementById('propContent').style.display = 'none';
+
+            try {
+                const res = await fetch(`${API_BASE}/Properties/GetByIDV2?id=${propertyID}`);
+                const data = await res.json();
+                const prop = data.property;
+                populateDetails(prop);
+
+                if (propWithCoords && prop.location?.latitude && prop.location?.university) {
+                    drawRoute(prop);
+                } else if (prop.location?.latitude) {
+                    map.flyTo([prop.location.latitude, prop.location.longitude], 15);
+                }
+
+            } catch (err) {
+                showToast('تعذّر تحميل تفاصيل العقار');
+                closeDetails();
+            }
+        }
+
+        // ── POPULATE DETAILS SECTION ──
+        function populateDetails(prop) {
+            const loc = prop.location;
+            const images = prop.images || [];
+            const statusMap = { 1: ['قيد المراجعة', 'badge-pending'], 2: ['مقبول', 'badge-approved'], 3: ['مرفوض', 'badge-pending'] };
+            const [statusText, statusClass] = statusMap[prop.propertyStatusID] || ['غير معروف', 'badge-pending'];
+
+            document.getElementById('propTitle').innerText = prop.title;
+            const badge = document.getElementById('propStatusBadge');
+            badge.innerText = statusText;
+            badge.className = statusClass;
+
+            document.getElementById('detailTitle').innerText = prop.title;
+            document.getElementById('detailAddress').innerText = loc ? `${loc.area}, ${loc.city} — ${loc.street}` : 'العنوان غير متوفر';
+            document.getElementById('detailDesc').innerText = prop.description || '—';
+            document.getElementById('detailPrice').innerText = `السعر: ${prop.price.toLocaleString('ar-EG')} جنيه / شهر`;
+            document.getElementById('detailRooms').innerText = `${prop.rooms} غرف`;
+
+            const uniRow = document.getElementById('uniRow');
+            if (loc?.university) {
+                document.getElementById('detailUni').innerText = `🎓 ${loc.university.name} (${loc.university.distance_km} كم)`;
+                uniRow.style.display = 'flex';
+            } else {
+                uniRow.style.display = 'none';
+            }
+
+            buildGallery(images);
+
+            const servicesList = document.getElementById('servicesList');
+            if (prop.services?.length) {
+                servicesList.innerHTML = prop.services.map(s => `
+                <li>
+                    <span class="amenity-icon"><i class="fa-solid ${SERVICE_ICONS[s.icon] || 'fa-star'}"></i></span>
+                    ${s.name}
+                </li>`).join('');
+            } else {
+                servicesList.innerHTML = '<li style="color:#aaa;font-weight:400;font-size:0.82rem;">لا توجد خدمات مسجّلة</li>';
+            }
+
+            document.getElementById('propLoader').style.display = 'none';
+            document.getElementById('propContent').style.display = 'block';
+        }
+
+        // ── GALLERY BUILDER ──
+        function buildGallery(images) {
+            const main = document.getElementById('galleryMain');
+            const thumbs = document.getElementById('galleryThumbs');
+            main.innerHTML = '';
+            thumbs.innerHTML = '';
+
+            const imgs = images.length ? images : [
+                { imageUrl: PLACEHOLDER_IMG },
+                { imageUrl: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80' },
+                { imageUrl: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80' }
+            ];
+
+            const display = imgs.slice(0, 3);
+            while (display.length < 3) display.push(display[0]);
+
+            display.forEach((img, i) => {
+                const box = document.createElement('div');
+                box.className = 'gallery-img-box';
+                box.innerHTML = `<img src="${img.imageUrl}" alt="صورة ${i + 1}" onerror="this.src='${PLACEHOLDER_IMG}'">`;
+                main.appendChild(box);
+            });
+
+            imgs.forEach((img, i) => {
+                const t = document.createElement('img');
+                t.src = img.imageUrl;
+                t.alt = `thumb ${i + 1}`;
+                if (i === 0) t.className = 'active';
+                t.onerror = () => t.src = PLACEHOLDER_IMG;
+                t.onclick = () => {
+                    document.querySelectorAll('.gallery-thumbs img').forEach(x => x.classList.remove('active'));
+                    t.classList.add('active');
+                    const mainImgs = document.querySelectorAll('.gallery-img-box img');
+                    if (mainImgs[1]) mainImgs[1].src = img.imageUrl;
+                };
+                thumbs.appendChild(t);
+            });
+        }
+
+        // ── DRAW ROUTE ──
+        function drawRoute(prop) {
+            if (routingControl) { map.removeControl(routingControl); routingControl = null; }
+            const loc = prop.location;
+            if (!loc?.latitude || !loc?.longitude) return;
+
+            const uniId = loc.university?.universityId;
+            const uniName = loc.university?.name;
+            const uni = allUniversities.find(u => u.universityId === uniId)
+                || allUniversities.find(u => u.name === uniName);
+
+            if (!uni) {
+                map.flyTo([loc.latitude, loc.longitude], 15);
+                return;
+            }
+
+            routingControl = L.Routing.control({
+                waypoints: [L.latLng(uni.latitude, uni.longitude), L.latLng(loc.latitude, loc.longitude)],
+                routeWhileDragging: false,
+                addWaypoints: false,
+                draggableWaypoints: false,
+                show: false,
+                lineOptions: { styles: [{ color: '#efb81e', weight: 5, opacity: 0.85 }] },
+                createMarker: () => null
+            }).addTo(map);
+
+            map.flyTo([loc.latitude, loc.longitude], 14);
+        }
+
+        // ── BOOK PROPERTY ──
+        async function bookProperty() {
+
+            const userId = localStorage.getItem('id')
+            const userRole = localStorage.getItem('role')
+            if (userRole !== "student") {
+                showToast('⚠️انت لست طالب ');
+                return;
+            }
+            if (!currentPropertyID) return;
+            const btn = document.getElementById('btnBook');
+            btn.disabled = true;
+            btn.innerText = 'جاري الحجز...';
+
+
+            try {
+                const res = await fetch(`${API_BASE}/Booking?PropertyId=${currentPropertyID}&StudentId=${userId}`, {
+                    method: 'POST',
+                    headers: { 'accept': '*/*' }
+                });
+
+                if (res.ok) {
+                    showToast('✅ تم إرسال طلب الحجز بنجاح!');
+                    setTimeout(() => closeDetails(), 1800);
+                    window.location.href = "./dashbord.student.html"
+                } else {
+                    showToast('⚠️ تعذّر إتمام الحجز. حاول مجدداً.');
+                }
+            } catch (err) {
+                showToast('❌ خطأ في الاتصال بالخادم');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'احجز الآن';
+            }
+        }
+
+        // ── CLOSE DETAILS ──
+        function closeDetails() {
+            document.getElementById('sectionPropirtie').classList.add('d-none');
+            if (routingControl) { map.removeControl(routingControl); routingControl = null; }
+            currentPropertyID = null;
+        }
+
+        // ── TOAST ──
+        function showToast(msg) {
+            const t = document.getElementById('toastMsg');
+            t.innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ── INIT ──
+        window.onload = loadProperties;
+
+        // Close suggestions on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-box')) {
+                document.getElementById('searchSuggestions').classList.remove('show');
+            }
+        });
+    </script>
+</body>
+
+</html>
