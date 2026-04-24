@@ -53,8 +53,8 @@ for (let key in menuItems) {
 const cancel = document.getElementById("btn-cancel");
 cancel.addEventListener("click", () => {
   hideAllSections(sections, "add");
-  sections.browserProperties.classList.remove("d-none");
-  menuItems.browserProperties.classList.add("active");
+  sections.home.classList.remove("d-none");
+  menuItems.home.classList.add("active");
 });
 
 // start home
@@ -92,7 +92,7 @@ async function fetchMyBookings() {
     if (totalVal) {
       totalVal.innerText = data.length || 0;
       document.getElementById("pending-val").innerText = data.filter(
-        (b) => b.statusName === "Pending" || b.statusName === "In Progress",
+        (b) => b.statusName === "Pending" || b.statusName === "In-Process",
       ).length;
       document.getElementById("confirmed-val").innerText = data.filter(
         (b) => b.statusName === "Booked",
@@ -258,11 +258,16 @@ window.confirmBooking = async function () {
       { method: "POST" },
     );
     if (res.ok) {
-      Toast.fire({ icon: "success", title: "تم الحجز بنجاح وإخفاء العقار" });
+      Toast.fire({ icon: "success", title: "تم الحجز بنجاح  " });
       setTimeout(() => {
-        window.showSection("sectionHome");
+        window.location.reload();
         fetchMyBookings();
       }, 1500);
+      const currentSaved = JSON.parse(
+        localStorage.getItem("bookedProperties") || "[]",
+      );
+      currentSaved.push(window.currentPropertyId);
+      localStorage.setItem("bookedProperties", JSON.stringify(currentSaved));
     }
   } catch (e) {
     Toast.fire({ icon: "error", title: "عذراً، معرف العقار غير موجود" });
@@ -276,13 +281,17 @@ window.cancelBooking = async function () {
   if (!confirm("هل تريد إلغاء الحجز؟")) return;
 
   try {
-    const res = await fetch(`${BASE_URL}/Booking/${window.currentBookingId}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `${BASE_URL}/Booking/${window.currentBookingId}/cancel`,
+      {
+        method: "PUT",
+      },
+    );
     if (res.ok) {
-      Toast.fire({ icon: "success", title: "تم الحجز بنجاح وإخفاء العقار" });
+      Toast.fire({ icon: "success", title: "تم الغاء الحجز بنجاح   " });
       setTimeout(() => {
-        window.showSection("sectionHome");
+        // window.showSection("sectionHome");
+        window.location.reload();
         fetchMyBookings();
       }, 1500);
     }
@@ -342,12 +351,20 @@ function displayProperties(properties) {
   const grid = document.getElementById("properties-grid");
   if (!grid) return;
 
-  if (properties.length === 0) {
-    grid.innerHTML = `<div class="col-12 text-center p-5"><h3>No properties found match your search.</h3></div>`;
+  const bookedIds = JSON.parse(
+    localStorage.getItem("bookedProperties") || "[]",
+  );
+
+  const filteredProperties = properties.filter(
+    (prop) => !bookedIds.includes(prop.propertyID),
+  );
+
+  if (filteredProperties.length === 0) {
+    grid.innerHTML = `<div class="col-12 text-center p-5"><h3>No properties available for booking right now.</h3></div>`;
     return;
   }
 
-  grid.innerHTML = properties
+  grid.innerHTML = filteredProperties
     .map(
       (prop) => `
         <div class="col-12 col-sm-6 col-lg-4">
@@ -417,15 +434,17 @@ document.addEventListener("DOMContentLoaded", () => {
 //end search
 
 // srart booking request
+
 async function loadMyBookings() {
   const studentID = localStorage.getItem("id") || 10;
   const listContainer = document.getElementById("bookings-dynamic-list");
   const emptyWrapper = document.getElementById("emptyStateWrapperr");
 
-  if (!listContainer) return;
+  if (!listContainer || !emptyWrapper) return;
 
   listContainer.innerHTML =
     '<div class="text-center text-gold-custom py-5">Loading your bookings...</div>';
+  emptyWrapper.classList.add("d-none");
 
   try {
     const response = await fetch(
@@ -433,77 +452,106 @@ async function loadMyBookings() {
     );
     if (!response.ok) throw new Error("API Error");
 
-    const bookings = await response.json();
+    const data = await response.json();
+    const bookings = Array.isArray(data) ? data : [];
 
-    if (!bookings || bookings.length === 0) {
+    if (bookings.length === 0) {
+      document.getElementById("rowBookings").classList.add("d-none");
+      listContainer.classList.add("d-none");
       emptyWrapper.classList.remove("d-none");
-      listContainer.innerHTML = "";
       return;
     }
-
+    document.getElementById("rowBookings").classList.remove("d-none");
+    listContainer.classList.remove("d-none");
     emptyWrapper.classList.add("d-none");
 
     listContainer.innerHTML = bookings
       .map((book) => {
         const status = book.statusName || "N/A";
-        const title = book.property?.title || "Property";
-        const location = book.property?.location || "Location";
-        const img = book.property?.imageUrl || "../img/room1.1.jpg";
-        const bDate = book.createdAt;
-        const cDate = book.confirmedAt;
+        const property = book.property || {};
+        const title = property.title || "Property";
+        const location = property.location || "Location";
+        const img = property.imageUrl || "../img/room1.1.jpg";
+        const bDate = book.createdAt
+          ? new Date(book.createdAt).toLocaleDateString("en-GB")
+          : "N/A";
+        const cDate = book.confirmedAt
+          ? new Date(book.confirmedAt).toLocaleDateString("en-GB")
+          : "----------";
         const statusClass = status.toLowerCase().replace(/\s+/g, "-");
 
-        const bookData = JSON.stringify(book).replace(/'/g, "&apos;");
+        const safeBookData = encodeURIComponent(JSON.stringify(book));
 
         return `
-                <div class="row text-center mb-2 gx-2 align-items-stretch">
-                    <div class="col-3-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center gap-3 text-start">
-                            <img src="${img}" class="booking-img-sm rounded-2 shadow-sm" style="width:50px; height:50px; object-fit:cover" />
-                            <div>
-                                <div class="text-gold-custom fs-6">${title}</div>
-                                <div class="small text-white-50">${location}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center">
-                            <span class="status-badge-custom w-75 ${statusClass}">${status}</span>
-                        </div>
-                    </div>
-                    <div class="col-2-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center fs-13 text-white">
-                            ${bDate ? new Date(bDate).toLocaleDateString("en-GB") : "N/A"}
-                        </div>
-                    </div>
-                    <div class="col-3-half">
-                        <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-between fs-13 text-white">
-                            <span>${cDate ? new Date(cDate).toLocaleDateString("en-GB") : "----------"}</span>
-                            <button class="btn-gold-action py-1 px-3 shadow-sm" onclick='renderBookingDetails(${bookData})'>
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
+          <div class="row text-center mb-2 gx-2 align-items-stretch">
+              <div class="col-3-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center gap-3 text-start">
+                      <img src="${img}" class="booking-img-sm rounded-2 shadow-sm" style="width:50px; height:50px; object-fit:cover" />
+                      <div>
+                          <div class="text-gold-custom fs-6">${title}</div>
+                          <div class="small text-white-50">${location}</div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-2-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center">
+                      <span class="status-badge-custom w-75 ${statusClass}">${status}</span>
+                  </div>
+              </div>
+              <div class="col-2-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-center fs-13 text-white">
+                      ${bDate}
+                  </div>
+              </div>
+              <div class="col-3-half">
+                  <div class="p-3 h-100 bg-navy-custom d-flex align-items-center justify-content-between fs-13 text-white">
+                      <span>${cDate}</span>
+                      <button class="btn-gold-action py-1 px-3 shadow-sm" onclick="renderBookingDetails('${safeBookData}')">
+                          View Details
+                      </button>
+                  </div>
+              </div>
+          </div>`;
       })
       .join("");
   } catch (error) {
-    console.error("Load Error:", error);
-    listContainer.innerHTML =
-      '<div class="text-center text-gold-custom py-5">Error loading your bookings.</div>';
+    document.getElementById("rowBookings").classList.add("d-none");
+    listContainer.classList.add("d-none");
+    emptyWrapper.classList.remove("d-none");
   }
 }
 
-function renderBookingDetails(book) {
+function renderBookingDetails(encodedData) {
+  const book = JSON.parse(decodeURIComponent(encodedData));
   const detailsSection = document.getElementById("sectionBookingDetails");
   const listSection = document.getElementById("sectionMyBookings");
+  const cancelBtn = document.querySelector(".btn-cancel-custom");
+  const statusText = document.querySelector(".white-info-row span.Pending");
 
   if (!detailsSection || !listSection) return;
+
+  if (book.statusName === "In-Process") {
+    cancelBtn.disabled = false;
+    cancelBtn.style.opacity = "1";
+    cancelBtn.style.cursor = "pointer";
+    cancelBtn.innerText = "Cancel Booking";
+    if (statusText) statusText.className = "Pending py-1 px-4";
+  } else {
+    cancelBtn.disabled = true;
+    cancelBtn.style.opacity = "0.5";
+    cancelBtn.style.cursor = "not-allowed";
+    cancelBtn.innerText = "Processing...";
+    if (statusText) statusText.className = "In-Process py-1 px-4";
+  }
 
   listSection.classList.add("d-none");
   detailsSection.classList.remove("d-none");
 
+  document.getElementById("idCansel").value = book.bookingId;
+  document.getElementById("idProprty").value = book.property.propertyId;
+
   const prop = book.property || {};
+  console.log(book);
 
   detailsSection.querySelector(".main-details-img").src =
     prop.imageUrl || "../img/room1.jpg";
@@ -511,12 +559,15 @@ function renderBookingDetails(book) {
     prop.title || "Property";
   detailsSection.querySelector("p.mb-1").innerText =
     prop.location || "Location";
-  detailsSection.querySelector("h5:not(.text-gold-custom)").innerHTML =
-    `$${prop.price || 0} <small class="fs-5">/ month</small>`;
+
+  const priceEl = detailsSection.querySelector("h5:not(.text-gold-custom)");
+  if (priceEl)
+    priceEl.innerHTML = `$${prop.price || 0} <small class="fs-5">/ month</small>`;
 
   const infoRows = detailsSection.querySelectorAll(
     ".white-info-row span:last-child",
   );
+
   if (infoRows.length >= 3) {
     infoRows[0].innerText = book.statusName || "Pending";
     infoRows[1].innerText = book.createdAt
@@ -530,8 +581,8 @@ function renderBookingDetails(book) {
   detailsSection.dataset.currentBookingId = book.bookingId;
   window.scrollTo(0, 0);
 }
+document.addEventListener("DOMContentLoaded", loadMyBookings);
 
-loadMyBookings();
 document.addEventListener("click", function (e) {
   const btn =
     e.target.closest('[onclick*="sectionMyBookings"]') ||
@@ -540,6 +591,7 @@ document.addEventListener("click", function (e) {
     setTimeout(loadMyBookings, 50);
   }
 });
+
 // end booking request
 
 // start profile
@@ -589,3 +641,84 @@ document.addEventListener("click", function (e) {
 
 loadUserProfile();
 // end profile
+
+async function fetchNotifications() {
+  const container = document.getElementById("notifications-container");
+
+  const studentId = localStorage.getItem("id");
+
+  if (!studentId) {
+    console.error("Student ID not found in localStorage");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `https://homunityapiv1.runasp.net/api/Booking/student/${studentId}`,
+    );
+    const data = await res.json();
+
+    if (!data || data.length === 0) {
+      container.innerHTML = `
+                <div class="text-center py-5">
+                    <div class="mb-3">
+                         <i class="fa-regular fa-bell-slash fa-3x text-gold-custom"></i>
+                    </div>
+                    <h5 class="text-gold-custom">No Notification yet!</h5>
+                </div>`;
+      return;
+    }
+
+    container.innerHTML = data
+      .map((notif) => {
+        let badgeClass = "";
+        let message = "";
+
+        if (notif.statusName === "Cancelled") {
+          badgeClass = "bg-danger";
+          message = `Your booking for <strong>${notif.property.title}</strong> has been cancelled.`;
+        } else if (notif.statusName === "In-Process") {
+          badgeClass = "bg-warning text-dark";
+          message = `Your booking request for <strong>${notif.property.title}</strong> is still waiting for approval.`;
+        } else {
+          badgeClass = "bg-success";
+          message = `Update on your booking for <strong>${notif.property.title}</strong>: ${notif.statusName}`;
+        }
+
+        if (!data || data.length === 0) {
+          container.innerHTML = `
+                <div class="empty-notif-wrapper text-center">
+                    <div class="icon-circle mb-4">
+                        <i class="fa-solid fa-bell-slash"></i>
+                        <div class="cross-line">×</div>
+                    </div>
+                    <h5 class="empty-text">No Notification yet!</h5>
+                </div>`;
+          return;
+        }
+
+        return `
+                <div class="notification-card d-flex justify-content-between align-items-center p-5 mb-3 shadow-sm" 
+                     style="background-color: #1e2738; border-radius: 12px; border-left: 5px solid ${notif.statusName === "Cancelled" ? "#dc3545" : "#f1b42f"}">
+                    <div class="text-white">
+                        <p class="mb-1" style="font-size: 0.9rem;">${message}</p>
+                        <small class="text-secondary">${new Date(notif.createdAt).toLocaleString("en-GB")}</small>
+                    </div>
+                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName}</span>
+                </div>
+            `;
+      })
+      .join("");
+  } catch (error) {
+    container.innerHTML = `
+                <div class="empty-notif-wrapper text-center ">
+                    <div class="icon-circle mb-4">
+                                  <img src="../img/no-notification.svg" class="no-notif-img" alt="No Notifications">
+
+                    </div>
+                    <h5 class="empty-text text-gold-custom">No Notification yet!</h5>
+                </div>`;
+    return;
+  }
+}
+fetchNotifications();
