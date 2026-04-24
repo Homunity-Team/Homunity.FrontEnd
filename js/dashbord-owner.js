@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 // end responsive sidebar
+
+
 const sections = {
   properties: document.getElementById("sectionProperties"),
   oneProperti: document.getElementById("oneProperti"),
@@ -150,6 +152,74 @@ areaSelect.addEventListener("change", () => {
 });
 
 // end get location
+
+// Add this function after your fetchProperties function (or anywhere in your JS file)
+
+async function fetchOwnerStats() {
+  const ownerId = localStorage.getItem("id");
+  if (!ownerId) return;
+
+  try {
+    // Fetch properties for property stats
+    const propResponse = await fetch(
+      `https://homunityapiv1.runasp.net/api/Properties/GetByOwner?ownerId=${ownerId}`
+    );
+    const propData = await propResponse.json();
+    const properties = Array.isArray(propData) ? propData : propData.properties || [];
+
+    // Fetch bookings for booking stats
+    const bookingResponse = await fetch(
+      `https://homunityapiv1.runasp.net/api/Booking/owner/${ownerId}`
+    );
+    const bookingData = await bookingResponse.json();
+    const bookings = bookingData.bookings || [];
+
+    // Update Total Properties
+    const totalProps = document.getElementById("total-props");
+    if (totalProps) totalProps.innerText = properties.length || 0;
+
+    // Update Properties Status counts
+    const approvedCount = document.getElementById("approved-count");
+    const rejectedCount = document.getElementById("rejected-count");
+    
+    if (approvedCount) {
+      approvedCount.innerText = properties.filter(
+        (p) => p.propertyStatusID === 2
+      ).length;
+    }
+    
+    if (rejectedCount) {
+      rejectedCount.innerText = properties.filter(
+        (p) => p.propertyStatusID === 3
+      ).length;
+    }
+
+    // Update Booking counts
+    const pendingBooking = document.getElementById("pending-booking");
+    const bookedCount = document.getElementById("booked-count");
+    
+    if (pendingBooking) {
+      pendingBooking.innerText = bookings.filter(
+        (b) => b.statusName === "In Progress"
+      ).length;
+    } // need to fix the status name
+    
+    if (bookedCount) {
+      bookedCount.innerText = bookings.filter(
+        (b) => b.statusName === "Booked"
+      ).length;
+    }
+
+  } catch (error) {
+    console.error("Error fetching owner stats:", error);
+  }
+}
+
+// Call this function when the page loads
+// Add this at the bottom of your file, after fetchProperties():
+fetchOwnerStats();
+
+
 
 // start add property
 const addPropertyForm = document.getElementById("addPropertyForm");
