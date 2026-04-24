@@ -323,7 +323,7 @@ function showPropertyDetails(prop) {
   document.getElementById("onePPrice").innerHTML =
     `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
   document.getElementById("onePRooms").innerHTML =
-    `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`;
+    `<i class="fas fa-diamond"></i> ${prop.rooms} rooms`;
   document.getElementById("onePBackBtn").onclick = () => {
     detailsSection.classList.add("d-none");
     listSection.classList.remove("d-none");
@@ -743,6 +743,7 @@ document
 
 //start get one propirti
 function showPropertyDetails(prop) {
+  console.log("DEBUG rooms:", prop.rooms, typeof prop.rooms);
   document.getElementById("oneProperti").classList.remove("d-none");
   sections.properties.classList.add("d-none");
 
@@ -776,7 +777,7 @@ function showPropertyDetails(prop) {
   document.getElementById("onePPrice").innerHTML =
     `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
   document.getElementById("onePRooms").innerHTML =
-    `<i class="fas fa-diamond"></i> ${prop.rooms} Bedrooms`; // 4. ملئ الخدمات (Amenities)
+    `<i class="fas fa-diamond"></i> ${prop.rooms} rooms`; // 4. ملئ الخدمات (Amenities)
 
   const amenitiesList = document.querySelector(".amenities-list");
   amenitiesList.innerHTML = ""; // مسح القديم
