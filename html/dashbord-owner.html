@@ -4,15 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Owner Dashboard</title>
-  <!-- normalize -->
   <link rel="stylesheet" href="../css/normalize.css" />
-  <!-- font awesome icons -->
   <link rel="stylesheet" href="../css/all.min.css" />
-  <!-- bootstrap css -->
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
-  <!-- css -->
   <link rel="stylesheet" href="../css/dashbord-owner.css" />
-  <!-- SweetAlert2 CSS & JS -->
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- SweetAlert2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +39,7 @@
   <div class="dashboard-container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <nav class="navbar navbar-expand-lg ">
+      <nav class="navbar navbar-expand-lg">
         <ul>
           <li id="properties" class="active">
             <i class="fa-solid fa-house"></i> Properties
@@ -49,7 +47,6 @@
           <li id="addProperties">
             <i class="fa-solid fa-plus"></i> Add Property
           </li>
-
           <li id="massageProperties">
             <i class="fa-solid fa-message"></i> Messages
           </li>
@@ -67,10 +64,8 @@
       <script>
         document.addEventListener("DOMContentLoaded", function () {
           const logout = document.getElementById("logout");
-
           if (logout) {
             logout.addEventListener("click", () => {
-              console.log("Clicked ✅");
               localStorage.clear();
               window.location.href = "../index.html";
             });
@@ -89,25 +84,27 @@
           </div>
           <a class="navbar-brand" href="../index.html">
             <img src="../img/logo.png" alt="Logo" style="max-height: 120px" />
-            <span class="h2 fs-4 ">Owner Dashboard</span>
+            <span class="h2 fs-4">Owner Dashboard</span>
           </a>
+        </div>
+      </header>
     </main>
   </div>
 
-
   <div class="dashboard-container">
-    <!-- Header     ده الجزء الثابت اللي فوق-->
     <main class="main-content">
+
+      <!-- ===== SECTION: Properties List ===== -->
       <section id="sectionProperties" class="">
         <section class="stats-container">
           <div class="stat-card">
             <h4>Total Properties</h4>
-            <span class="gold-text " id="total-props">0</span>
+            <span class="gold-text" id="total-props">0</span>
           </div>
           <div class="stat-card">
             <h4>Properties Statue</h4>
             <div class="sub-stat">
-              <span>Approved:</span> <span class="gold-text  ps-4" id="approved-count">0</span>
+              <span>Approved:</span> <span class="gold-text ps-4" id="approved-count">0</span>
             </div>
             <div class="sub-stat">
               <span>Rejected:</span>
@@ -127,159 +124,54 @@
           </div>
         </section>
         <style>
-          .property-card {
-            border: 2px solid #ffc107;
-            /* الإطار الأصفر */
-            border-radius: 5px;
-            background: #fff;
-            transition: transform 0.2s;
-            overflow: hidden;
-          }
-
-          .property-img {
-            width: 150px;
-            height: 110px;
-            object-fit: cover;
-            border-radius: 4px;
-          }
-
-          .property-title {
-            color: #1e283c;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 2px;
-          }
-
-          .property-info {
-            color: #4a5568;
-            font-size: 0.95rem;
-          }
-
-          .property-price {
-            color: #1e283c;
-            font-weight: bold;
-            font-size: 1.1rem;
-          }
-
-          .statuss-badge {
-            font-size: 0.75rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-          }
-
-          .badge-in-progress {
-            background-color: #fbc02d;
-            color: #fff;
-          }
-
-          .badge-approved {
-            background-color: #fbc02d;
-            color: #fff;
-          }
-
-          /* لون أصفر زي الصورة */
-          .badge-rejected {
-            background-color: #fbc02d;
-            color: #fff;
-          }
-
-          .btn-action {
-            background-color: #1e283c;
-            color: white;
-            border-radius: 5px;
-            padding: 5px 20px;
-            font-size: 0.9rem;
-            min-width: 140px;
-          }
-
-          .btn-action:hover {
-            color: #fbc02d;
-          }
-
-          /* Responsive */
+          .property-card { border: 2px solid #ffc107; border-radius: 5px; background: #fff; transition: transform 0.2s; overflow: hidden; }
+          .property-img { width: 150px; height: 110px; object-fit: cover; border-radius: 4px; }
+          .property-title { color: #1e283c; font-weight: bold; font-size: 1.2rem; margin-bottom: 2px; }
+          .property-info { color: #4a5568; font-size: 0.95rem; }
+          .property-price { color: #1e283c; font-weight: bold; font-size: 1.1rem; }
+          .statuss-badge { font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: bold; }
+          .badge-in-progress, .badge-approved, .badge-rejected { background-color: #fbc02d; color: #fff; }
+          .btn-action { background-color: #1e283c; color: white; border-radius: 5px; padding: 5px 20px; font-size: 0.9rem; min-width: 140px; }
+          .btn-action:hover { color: #fbc02d; }
           @media (max-width: 768px) {
-            .property-img {
-              width: 100%;
-              height: 200px;
-            }
-
-            .property-card {
-              text-align: center;
-            }
-
-            .d-flex-mobile {
-              flex-direction: column;
-              align-items: center;
-            }
+            .property-img { width: 100%; height: 200px; }
+            .property-card { text-align: center; }
+            .d-flex-mobile { flex-direction: column; align-items: center; }
           }
         </style>
-        <div id="propertiesContainer" class="row g-3">
-
-        </div>
+        <div id="propertiesContainer" class="row g-3"></div>
       </section>
+
+      <!-- ===== SECTION: Add Property ===== -->
       <section id="sectionAddProperties" class="d-none">
         <h2 class="py-3 ps-1 fw-bold">Add Property</h2>
         <div class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden">
-          <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
-            Basic Info
-          </h2>
+          <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
 
-          <!-- فورم واحد فقط لكل البيانات -->
           <form id="addPropertyForm" class="px-4 py-4" novalidate>
             <div class="row g-4">
               <div class="col-lg-6 col-12">
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="titleAdd">Title</label>
-                  <input class="form-control form-control-lg rounded-3" id="titleAdd" type="text"
-                    placeholder="Enter Title" minlength="5" required />
-                  <div id="titleError" style="
-                        color: #d93025;
-                        font-size: 12px;
-                        display: none;
-                        margin-top: 5px;
-                      ">
-                    Title must be between 5 and 15 characters.
-                  </div>
+                  <input class="form-control form-control-lg rounded-3" id="titleAdd" type="text" placeholder="Enter Title" minlength="5" required />
+                  <div id="titleError" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Title must be between 5 and 15 characters.</div>
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label fw-bold" for="priceAdd">Price <span class="text-warning">\</span>
-                    Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number"
-                    placeholder="Enter Price" min="100" required />
-                  <div id="priceError" style="
-                        color: #d93025;
-                        font-size: 12px;
-                        display: none;
-                        margin-top: 5px;
-                      ">
-                    Price must be at least 100.
-                  </div>
+                  <label class="form-label fw-bold" for="priceAdd">Price <span class="text-warning">\</span> Month</label>
+                  <input class="form-control form-control-lg rounded-3" id="priceAdd" type="number" placeholder="Enter Price" min="100" required />
+                  <div id="priceError" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Price must be at least 100.</div>
                 </div>
-
                 <div class="mb-0">
                   <label class="form-label fw-bold" for="roomsAdd">Rooms Count</label>
-                  <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number"
-                    placeholder="Enter Number Of Rooms" min="1" max="10" required />
-                  <div id="roomsError" style="
-                        color: #d93025;
-                        font-size: 12px;
-                        display: none;
-                        margin-top: 5px;
-                      ">
-                    Rooms must be between 1 and 10.
-                  </div>
+                  <input class="form-control form-control-lg rounded-3" id="roomsAdd" type="number" placeholder="Enter Number Of Rooms" min="1" max="10" required />
+                  <div id="roomsError" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Rooms must be between 1 and 10.</div>
                 </div>
               </div>
-
               <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
                 <div class="mb-3">
                   <label class="form-label fw-bold" for="descreptionAdd">Description</label>
-                  <textarea class="form-control rounded-3" id="descreptionAdd" rows="4"
-                    placeholder="Describe the property..."></textarea>
+                  <textarea class="form-control rounded-3" id="descreptionAdd" rows="4" placeholder="Describe the property..."></textarea>
                 </div>
-
                 <div class="mb-2">
                   <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
                   <div class="d-flex gap-4 flex-column">
@@ -296,52 +188,76 @@
               </div>
             </div>
 
-            <!-- Location + Services -->
+            <!-- ===== Location Section (Map Picker) ===== -->
             <div class="custom-card shadow-sm mt-4">
               <div class="card-header-custom">Location</div>
               <div class="p-4">
-                <div class="row align-items-end">
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">City</label>
-                    <select id="citySelect" class="form-select text-muted" required>
-                      <option selected disabled>Choose City</option>
-                    </select>
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <!-- Map Container -->
+                    <div id="addMapContainer" class="map-picker-wrapper">
+                      <div id="addMap" class="map-picker-map"></div>
+                      <!-- Search bar on top of map -->
+                      <div class="map-search-bar">
+                        <input type="text" id="addMapSearch" class="map-search-input" placeholder="Search for a location..." />
+                        <button type="button" id="addMapSearchBtn" class="map-search-btn">
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- GPS and Manual buttons -->
+                    <div class="map-action-btns mt-3 d-flex gap-3">
+                      <button type="button" id="addGpsBtn" class="btn-map-gps">
+                        <i class="fa-solid fa-location-crosshairs"></i> Use My Location
+                      </button>
+                      <button type="button" id="addManualBtn" class="btn-map-manual">
+                        <i class="fa-solid fa-map-pin"></i> Pick on Map
+                      </button>
+                    </div>
+                    <!-- Selected location info -->
+                    <div id="addLocationInfo" class="location-info-box d-none mt-3">
+                      <div class="location-info-inner">
+                        <i class="fa-solid fa-location-dot location-info-icon"></i>
+                        <div>
+                          <div class="location-info-address" id="addSelectedAddress">—</div>
+                          <div class="location-info-uni" id="addSelectedUni"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="addLocationError" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Please select a location on the map.</div>
+                    <!-- Hidden inputs -->
+                    <input type="hidden" id="addLat" />
+                    <input type="hidden" id="addLng" />
+                    <input type="hidden" id="addAddress" />
+                    <input type="hidden" id="addUniversityId" />
                   </div>
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Area</label>
-                    <select id="areaSelect" class="form-select text-muted" required>
-                      <option selected disabled>Choose Area</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Street</label>
-                    <input type="text" id="streetAdd" class="form-control" placeholder="Street Name" required />
-                  </div>
-                  <div class="col-md-3 mb-3 border-start ps-4">
+
+                  <!-- Services beside the map -->
+                  <div class="col-12 col-md-4 border-start ps-4 mt-3 mt-md-0">
                     <h5 class="fw-bold">Services</h5>
                     <div class="row">
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="wifi" /><label
-                            class="form-check-label small" for="wifi">Wifi</label>
+                          <input class="form-check-input" type="checkbox" id="wifi" />
+                          <label class="form-check-label small" for="wifi">Wifi</label>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="parking" /><label
-                            class="form-check-label small" title="Air Conditioning" for="parking">Air Conditioning</label>
+                          <input class="form-check-input" type="checkbox" id="parking" />
+                          <label class="form-check-label small" for="parking">Air Conditioning</label>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="gym" /><label
-                            class="form-check-label small" title="Washing Machine" for="gym">Washing Machine</label>
+                          <input class="form-check-input" type="checkbox" id="gym" />
+                          <label class="form-check-label small" for="gym">Washing Machine</label>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="ac" /><label
-                            class="form-check-label small" title="Water Heater" for="ac">Water Heater</label>
+                          <input class="form-check-input" type="checkbox" id="ac" />
+                          <label class="form-check-label small" for="ac">Water Heater</label>
                         </div>
                       </div>
                     </div>
@@ -350,155 +266,83 @@
               </div>
             </div>
 
-            <!-- Media Upload
-            <div class="custom-card shadow-sm mt-4">
-              <div class="card-header-custom">Media Upload</div>
-              <div class="p-4">
-                <div class="row align-items-center">
-                  <div class="col-auto text-center upload-divider">
-                    <input type="file" name="img" accept="image/png, image/jpg, image/webp" />
-                    <div class="small my-1">Or</div>
-                    <input type="file" name="video" size="30MB" />
-                  </div>
-                  <div class="col ps-4">
-                    <p class="mb-1 fw-bold">Drag & Drop or Browse</p>
-                    <p class="mb-1 small">
-                      Drag & drop up to 6 images (jpg/png/webp)
-                    </p>
-                    <p class="mb-3 small">Max size: 2MB each</p>
-                    <p class="mb-1 fw-bold">Upload a video</p>
-                    <p class="mb-0 small">Max: 1 video</p>
-                    <p class="mb-0 small">Maximum size: 30MB</p>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
+            <!-- Media Upload -->
             <div class="mt-4">
-
               <h2>Media Upload</h2>
-
               <div class="upload-card">
-
                 <div class="upload-container ms-5">
-
                   <div class="left-side">
-                    <div
-                      class="upload-icons-container d-flex flex-column align-items-center justify-content-center me-5">
-                      <label for="images" class="upload-icon"><img class="upload-img" src="../img/img-icon.svg"
-                          alt="image icon"></label>
+                    <div class="upload-icons-container d-flex flex-column align-items-center justify-content-center me-5">
+                      <label for="images" class="upload-icon"><img class="upload-img" src="../img/img-icon.svg" alt="image icon"></label>
                       <input type="file" id="images" name="img" accept="image/png, image/jpeg, image/webp" multiple>
-
                       <span class="text-warning">Or</span>
-
-                      <label for="video" class="upload-icon"><img class="upload-img" src="../img/vid-icoN.png"
-                          alt=""></label>
+                      <label for="video" class="upload-icon"><img class="upload-img" src="../img/vid-icoN.png" alt=""></label>
                       <input type="file" id="video" accept="video/*">
                     </div>
                   </div>
-
                   <div class="right-side">
                     <div class="drop-zone">
                       <strong>Drag & Drop or Browse</strong>
-                      <div class="h5">Drag & drop up to 6 images (<span class="text-warning">jpg</span> / <span
-                          class="text-warning">png</span> / <span class="text-warning">webp</span>)</div>
+                      <div class="h5">Drag & drop up to 6 images (<span class="text-warning">jpg</span> / <span class="text-warning">png</span> / <span class="text-warning">webp</span>)</div>
                       <div class="h5">Max size: 2MB each</div>
-
                       <strong>Upload a video</strong>
                       <div class="h5">Max: 1 video</div>
                       <div class="h5">Maximum size: 30MB</div>
                     </div>
-
                   </div>
-
                 </div>
               </div>
             </div>
 
-
             <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-submit">
-                Submit Property
-              </button>
+              <button type="submit" class="btn btn-submit">Submit Property</button>
               <button id="cancelAdd" type="button" class="btn btn-cancel">Cancel</button>
             </div>
           </form>
         </div>
       </section>
+
+      <!-- ===== SECTION: Update Property ===== -->
       <section id="sectionUpdateProperties" class="d-none">
         <div class="property-list-section">
           <div class="property-header-container">
             <h3 class="title">Update Property</h3>
           </div>
-          <form id="updatePropertyForm"
-            class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4" novalidate>
+          <form id="updatePropertyForm" class="borderFormAdd mb-5 mx-2 shadow-sm bg-white rounded-3 overflow-hidden px-4 py-4" novalidate>
             <input type="hidden" id="propertyIdUpdate" name="propertyID" />
 
-            <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">
-              Basic Info
-            </h2>
+            <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
 
             <div class="row g-4 mt-3">
               <div class="col-lg-6 col-12">
                 <div class="mb-3">
                   <label class="form-label fw-bold">Title</label>
-                  <input class="form-control form-control-lg rounded-3" id="titleUpdate" name="title" type="text"
-                    minlength="5" required />
-                  <div id="titleErrorUpdate" style="
-                        color: #d93025;
-                        font-size: 12px;
-                        display: none;
-                        margin-top: 5px;
-                      ">
-                    Title must be between 5 and 15 characters.
-                  </div>
+                  <input class="form-control form-control-lg rounded-3" id="titleUpdate" name="title" type="text" minlength="5" required />
+                  <div id="titleErrorUpdate" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Title must be between 5 and 15 characters.</div>
                 </div>
-
                 <div class="mb-3">
                   <label class="form-label fw-bold">Price / Month</label>
-                  <input class="form-control form-control-lg rounded-3" id="priceUpdate" name="price" type="number"
-                    min="100" required />
-                  <div id="priceErrorUpdate" style="
-                        color: #d93025;
-                        font-size: 12px;
-                        display: none;
-                        margin-top: 5px;
-                      ">
-                    Price must be at least 100.
-                  </div>
+                  <input class="form-control form-control-lg rounded-3" id="priceUpdate" name="price" type="number" min="100" required />
+                  <div id="priceErrorUpdate" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Price must be at least 100.</div>
                 </div>
-
                 <div class="mb-0">
                   <label class="form-label fw-bold">Rooms Count</label>
-                  <input class="form-control form-control-lg rounded-3" id="roomsUpdate" name="rooms" type="number"
-                    min="1" max="10" required />
-                  <div id="roomsErrorUpdate" style="
-                        color: #d93025;
-                        font-size: 12px;
-                        display: none;
-                        margin-top: 5px;
-                      ">
-                    Rooms must be between 1 and 10.
-                  </div>
+                  <input class="form-control form-control-lg rounded-3" id="roomsUpdate" name="rooms" type="number" min="1" max="10" required />
+                  <div id="roomsErrorUpdate" style="color:#d93025;font-size:12px;display:none;margin-top:5px;">Rooms must be between 1 and 10.</div>
                 </div>
               </div>
-
               <div class="col-lg-6 col-12 d-flex flex-column justify-content-between">
                 <div class="mb-3">
                   <label class="form-label fw-bold">Description</label>
-                  <textarea class="form-control rounded-3" id="descriptionUpdate" name="description" rows="4"
-                    required></textarea>
+                  <textarea class="form-control rounded-3" id="descriptionUpdate" name="description" rows="4" required></textarea>
                 </div>
-
                 <div class="mb-2">
                   <h3 class="fw-bold fs-5 mb-3">Property Type</h3>
-
                   <div class="d-flex gap-4">
                     <div class="form-check">
                       <input type="radio" name="propertyType" id="apartmentUpdate" value="Apartment">
                       <label for="apartmentUpdate">Apartment</label>
                     </div>
-
                     <div class="form-check">
                       <input type="radio" name="propertyType" id="roomUpdate" value="Room">
                       <label for="roomUpdate">Room</label>
@@ -508,112 +352,71 @@
               </div>
             </div>
 
-            <!-- Location -->
-            <!-- <div class="custom-card shadow-sm mt-4 p-4">
-              <h4 class="mb-3 fw-bold">Location</h4>
-
-              <div class="row align-items-end">
-                <div class="col-md-4 mb-3">
-                  <label class="form-label fw-bold">City</label>
-                  <select id="cityUpdate" name="city" class="form-select" required></select>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label class="form-label fw-bold">Area</label>
-                  <select id="areaUpdate" name="area" class="form-select" required></select>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label class="form-label fw-bold">Street</label>
-                  <input type="text" id="streetUpdate" name="street" class="form-control" required />
-                </div>
-              </div>
-            </div>
- -->
-            <!-- Services -->
-            <!-- <div class="custom-card shadow-sm mt-4 p-4">
-              <h4 class="fw-bold mb-3">Services</h4>
-
-              <div class="row">
-                <div class="col-6">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="wifi" id="wifiUpdate" />
-                    <label class="form-check-label">Wifi</label>
-                  </div>
-                </div>
-
-                <div class="col-6">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="parking" id="parkingUpdate" />
-                    <label class="form-check-label">Parking</label>
-                  </div>
-                </div>
-
-                <div class="col-6">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="gym" id="gymUpdate" />
-                    <label class="form-check-label">Gym</label>
-                  </div>
-                </div>
-
-                <div class="col-6">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="ac" id="acUpdate" />
-                    <label class="form-check-label">Air</label>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-
-
-
-            <!-- Location + Services -->
+            <!-- ===== Location Section (Map Picker) ===== -->
             <div class="custom-card shadow-sm mt-4">
               <div class="card-header-custom">Location</div>
               <div class="p-4">
-                <div class="row align-items-end">
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">City</label>
-                    <select id="cityUpdate" class="form-select text-muted" required>
-                      <option selected disabled></option>
-                    </select>
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <div id="updateMapContainer" class="map-picker-wrapper">
+                      <div id="updateMap" class="map-picker-map"></div>
+                      <div class="map-search-bar">
+                        <input type="text" id="updateMapSearch" class="map-search-input" placeholder="Search for a location..." />
+                        <button type="button" id="updateMapSearchBtn" class="map-search-btn">
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="map-action-btns mt-3 d-flex gap-3">
+                      <button type="button" id="updateGpsBtn" class="btn-map-gps">
+                        <i class="fa-solid fa-location-crosshairs"></i> Use My Location
+                      </button>
+                      <button type="button" id="updateManualBtn" class="btn-map-manual">
+                        <i class="fa-solid fa-map-pin"></i> Pick on Map
+                      </button>
+                    </div>
+                    <div id="updateLocationInfo" class="location-info-box d-none mt-3">
+                      <div class="location-info-inner">
+                        <i class="fa-solid fa-location-dot location-info-icon"></i>
+                        <div>
+                          <div class="location-info-address" id="updateSelectedAddress">—</div>
+                          <div class="location-info-uni" id="updateSelectedUni"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Hidden inputs -->
+                    <input type="hidden" id="updateLat" />
+                    <input type="hidden" id="updateLng" />
+                    <input type="hidden" id="updateAddress" />
+                    <input type="hidden" id="updateUniversityId" />
                   </div>
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Area</label>
-                    <select id="areaUpdate" class="form-select text-muted" required>
-                      <option selected disabled></option>
-                    </select>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <label class="form-label fw-bold h5">Street</label>
-                    <input type="text" id="streetUpdate" class="form-control" required />
-                  </div>
-                  <div class="col-md-3 mb-3 border-start ps-4">
+
+                  <!-- Services beside the map -->
+                  <div class="col-12 col-md-4 border-start ps-4 mt-3 mt-md-0">
                     <h5 class="fw-bold">Services</h5>
                     <div class="row">
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="wifiUpdate" /><label
-                            class="form-check-label small" for="wifiUpdate">Wifi</label>
+                          <input class="form-check-input" type="checkbox" id="wifiUpdate" />
+                          <label class="form-check-label small" for="wifiUpdate">Wifi</label>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="parkingUpdate" /><label
-                            class="form-check-label small" for="parkingUpdate">Air Conditioning</label>
+                          <input class="form-check-input" type="checkbox" id="parkingUpdate" />
+                          <label class="form-check-label small" for="parkingUpdate">Air Conditioning</label>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="gymUpdate" /><label
-                            class="form-check-label small" for="gymUpdate">Washing Machine</label>
+                          <input class="form-check-input" type="checkbox" id="gymUpdate" />
+                          <label class="form-check-label small" for="gymUpdate">Washing Machine</label>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="acUpdate" /><label
-                            class="form-check-label small" for="acUpdate">Water Heater</label>
+                          <input class="form-check-input" type="checkbox" id="acUpdate" />
+                          <label class="form-check-label small" for="acUpdate">Water Heater</label>
                         </div>
                       </div>
                     </div>
@@ -622,38 +425,29 @@
               </div>
             </div>
 
-
-
-
-
             <!-- Media -->
-            <!-- <div class="custom-card shadow-sm mt-4 p-4"> -->
             <div class="media-section">
               <h2 class="section-title">Media Upload</h2>
-
               <div id="allImg" class="upload-wrapper">
                 <input type="file" id="newImagesInput" multiple accept="image/*" class="d-none">
-                <button type="button" id="addImageBtn" onclick="document.getElementById('newImagesInput').click()">+ Add
-                  Image</button>
-
+                <button type="button" id="addImageBtn" onclick="document.getElementById('newImagesInput').click()">+ Add Image</button>
               </div>
             </div>
+
             <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-submit">
-                Submit Property
-              </button>
+              <button type="submit" class="btn btn-submit">Submit Property</button>
               <button id="cancelUpdate" type="button" class="btn btn-cancel">Cancel</button>
             </div>
           </form>
         </div>
       </section>
 
+      <!-- ===== SECTION: Booking ===== -->
       <section id="sectionBooking" class="d-none">
         <div class="booking-page container mt-5">
           <div class="page-header pb-4">
             <h2 class="fw-bold" style="color: #2D3E50;">Booking Requests</h2>
           </div>
-
           <div id="bookingMainContent">
             <div class="text-center py-5 mt-5">
               <div class="spinner-border text-warning" role="status"></div>
@@ -664,68 +458,20 @@
       </section>
 
       <style>
-        .custom-table-container {
-          border: 1px solid #dee2e6;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .custom-table thead {
-          background-color: #2D3E50;
-          color: #FFC107;
-        }
-
-        .custom-table th {
-          font-weight: 500;
-          padding: 15px;
-        }
-
-        .custom-table td {
-          vertical-align: middle;
-          padding: 12px;
-          color: #4a5568;
-        }
-
-        .prop-img {
-          width: 50px;
-          height: 50px;
-          object-fit: cover;
-          border-radius: 8px;
-          border: 1px solid #eee;
-        }
-
-        .btn-accept {
-          background-color: #FFC107;
-          color: #2D3E50;
-          font-weight: bold;
-          border: none;
-          padding: 5px 20px;
-          border-radius: 6px;
-        }
-
-        .btn-reject {
-          background-color: #2D3E50;
-          color: #FFC107;
-          font-weight: bold;
-          border: none;
-          padding: 5px 20px;
-          border-radius: 6px;
-        }
-
-        .btn-accept:hover {
-          background-color: #e5ac00;
-        }
-
-        .btn-reject:hover {
-          background-color: #1a2531;
-          color: #fff;
-        }
+        .custom-table-container { border: 1px solid #dee2e6; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .custom-table thead { background-color: #2D3E50; color: #FFC107; }
+        .custom-table th { font-weight: 500; padding: 15px; }
+        .custom-table td { vertical-align: middle; padding: 12px; color: #4a5568; }
+        .prop-img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
+        .btn-accept { background-color: #FFC107; color: #2D3E50; font-weight: bold; border: none; padding: 5px 20px; border-radius: 6px; }
+        .btn-reject { background-color: #2D3E50; color: #FFC107; font-weight: bold; border: none; padding: 5px 20px; border-radius: 6px; }
+        .btn-accept:hover { background-color: #e5ac00; }
+        .btn-reject:hover { background-color: #1a2531; color: #fff; }
       </style>
 
+      <!-- ===== SECTION: Settings ===== -->
       <section id="sectionSettingProperties" class="d-none">
         <h2 class="section-main-title fw-bold">Setting</h2>
-
         <div class="main-form-card">
           <h4 class="form-sub-heading">Update Profile</h4>
           <div class="row g-4 mt-2">
@@ -733,27 +479,22 @@
               <label class="field-label">First Name</label>
               <input id="firstName" type="text" class="form-control field-input" placeholder="Enter your First Name" />
               <span id="firstNameError" style="color: red; font-size: 12px"></span>
-              <div id="firstNameError"></div>
             </div>
             <div class="col-md-6">
               <label class="field-label">Last Name</label>
               <input id="lastName" type="text" class="form-control field-input" placeholder="Enter your Last Name" />
               <span id="lastNameError" style="color: red; font-size: 12px"></span>
-              <div id="lastNameError"></div>
             </div>
             <div class="col-md-6">
               <label class="field-label">Phone</label>
-              <input id="phone" type="text" class="form-control` field-input" placeholder="Enter your Number" />
+              <input id="phone" type="text" class="form-control field-input" placeholder="Enter your Number" />
               <span class="d-block" id="phoneError" style="color: red; font-size: 12px"></span>
-              <div class="d-inline" id="phoneError"></div>
             </div>
             <div class="col-12 mt-4">
-              <button type="submit" class="btn btn-save-data">
-                Save Changes</button>`
+              <button type="submit" class="btn btn-save-data">Save Changes</button>
             </div>
           </div>
         </div>
-
         <div class="action-bar-item mt-3">
           <div class="d-flex align-items-center">
             <i class="fa-solid fa-arrows-rotate me-3 gold-accent-icon"></i>
@@ -761,7 +502,6 @@
           </div>
           <i class="fa-solid fa-chevron-down opacity-50"></i>
         </div>
-
         <div class="action-bar-item mt-2">
           <div class="d-flex align-items-center">
             <i class="fa-solid fa-users me-3 gold-accent-icon"></i>
@@ -770,6 +510,7 @@
           <i class="fa-solid fa-chevron-down opacity-50"></i>
         </div>
       </section>
+
       <script>
         const phoneInput = document.getElementById("phone");
         const phoneError = document.getElementById("phoneError");
@@ -779,70 +520,52 @@
         const lastError = document.getElementById("lastNameError");
         const phoneRegex = /^01[0-2,5]{1}[0-9]{8}$/;
         phoneInput.addEventListener("input", function () {
-          if (phoneInput.value.trim() === "") {
-            phoneError.innerText = "";
-          } else if (!phoneRegex.test(phoneInput.value.trim())) {
-            phoneError.innerText = "Phone number is not valid!";
-          } else {
-            phoneError.innerText = "";
-          }
+          if (phoneInput.value.trim() === "") { phoneError.innerText = ""; }
+          else if (!phoneRegex.test(phoneInput.value.trim())) { phoneError.innerText = "Phone number is not valid!"; }
+          else { phoneError.innerText = ""; }
         });
         firstInput.addEventListener("input", function () {
           let val = firstInput.value.trim();
-          if (val === "") {
-            firstError.innerText = "";
-          } else if (val.length < 2 || val.length > 10) {
-            firstError.innerText =
-              "First Name must be between 2 and 10 characters";
-          } else {
-            firstError.innerText = "";
-          }
+          if (val === "") { firstError.innerText = ""; }
+          else if (val.length < 2 || val.length > 10) { firstError.innerText = "First Name must be between 2 and 10 characters"; }
+          else { firstError.innerText = ""; }
         });
         lastInput.addEventListener("input", function () {
           let val = lastInput.value.trim();
-          if (val === "") {
-            lastError.innerText = "";
-          } else if (val.length < 2 || val.length > 10) {
-            lastError.innerText =
-              "Last Name must be between 2 and 10 characters";
-          } else {
-            lastError.innerText = "";
-          }
+          if (val === "") { lastError.innerText = ""; }
+          else if (val.length < 2 || val.length > 10) { lastError.innerText = "Last Name must be between 2 and 10 characters"; }
+          else { lastError.innerText = ""; }
         });
       </script>
+
+      <!-- ===== SECTION: Property Details ===== -->
       <section id="oneProperti" class="d-none">
         <div id="onePProperty-details-section" class="content-section">
           <input type="text" hidden id="idPropirtie">
           <div class="container-fluid px-4">
             <div class="d-flex justify-content-between align-items-center mb-4 px-3">
               <h2 id="onePTitleHeader" class="fw-bold mb-0">Property Details</h2>
-              <p id="onePBackBtn" class="back-btn ">
-                <i class="fa-regular fa-circle-left "></i>
+              <p id="onePBackBtn" class="back-btn">
+                <i class="fa-regular fa-circle-left"></i>
               </p>
             </div>
             <div class="row justify-content-center mt-5 px-2">
               <div class="col-lg-12">
                 <div id="onePFeaturedGallery" class="featured-gallery-wrapper mb-4">
-                  <div class="side-img-box left d-none d-md-block"> <img id="onePSideImgLeft" src="../img/img.2.jpeg"
-                      class="gallery-img" />
+                  <div class="side-img-box left d-none d-md-block">
+                    <img id="onePSideImgLeft" src="../img/img.2.jpeg" class="gallery-img" />
                   </div>
-
                   <div class="main-img-box">
                     <img id="onePMainImg" src="../img/img.3.jpeg" class="gallery-img shadow" />
                   </div>
-
-                  <div class="side-img-box right d-none d-md-block"> <img id="onePSideImgRight" src="../img/img.5.jpeg"
-                      class="gallery-img" />
+                  <div class="side-img-box right d-none d-md-block">
+                    <img id="onePSideImgRight" src="../img/img.5.jpeg" class="gallery-img" />
                   </div>
                 </div>
-
                 <div id="onePThumbsContainer" class="d-flex justify-content-center gap-3 gap-md-5 mt-4">
-                  <img id="onePThumb1" src="../img/img.2.jpeg" class="rounded-3 img-thumbnail shadow-sm"
-                    style="width: 80px; height: 50px; cursor: pointer;" />
-                  <img id="onePThumb2" src="../img/img.3.jpeg" class="rounded-3 img-thumbnail shadow-sm border-warning"
-                    style="width: 80px; height: 50px; cursor: pointer;" />
-                  <img id="onePThumb3" src="../img/img.5.jpeg" class="rounded-3 img-thumbnail shadow-sm"
-                    style="width: 80px; height: 50px; cursor: pointer;" />
+                  <img id="onePThumb1" src="../img/img.2.jpeg" class="rounded-3 img-thumbnail shadow-sm" style="width:80px;height:50px;cursor:pointer;" />
+                  <img id="onePThumb2" src="../img/img.3.jpeg" class="rounded-3 img-thumbnail shadow-sm border-warning" style="width:80px;height:50px;cursor:pointer;" />
+                  <img id="onePThumb3" src="../img/img.5.jpeg" class="rounded-3 img-thumbnail shadow-sm" style="width:80px;height:50px;cursor:pointer;" />
                 </div>
               </div>
             </div>
@@ -853,29 +576,53 @@
           <div class="row mt-4 px-2 justify-content-center align-items-stretch g-4">
             <div class="col-md-12">
               <div class="row gap-4">
+                <!-- Basic Info Card -->
                 <div class="col-12 col-md-7 info-card">
                   <h3 id="onePTitle" class="studio-title">modern studio</h3>
                   <h5 id="onePAddress" class="studio-address">101 UI Street, City</h5>
-                  <p id="onePDescription" class="studio-desc">
-                    A comfortable and secure room located in a quiet area,
-                    designed to provide students with a safe and relaxing
-                    living environment close to essential services.
-                  </p>
-
+                  <p id="onePDescription" class="studio-desc">A comfortable and secure room.</p>
                   <ul id="onePDetailsList" class="details-list">
                     <li id="onePPrice"><i class="fas fa-diamond"></i> Price $350 / month</li>
                     <li id="onePRooms"><i class="fas fa-diamond"></i> 1 rooms</li>
                   </ul>
                 </div>
 
+                <!-- Amenities Card -->
                 <div class="col-12 col-md-4 info-card">
                   <h3 id="onePAmenitiesTitle" class="studio-title pb-3">Amenities</h3>
-                  <ul id="onePAmenitiesList " class="amenities-list d-flex flex-column gap-3 ">
+                  <ul id="onePAmenitiesList" class="amenities-list d-flex flex-column gap-3">
                     <li id="onePAmenity1"><span class="check-box"></span>wifi</li>
                     <li id="onePAmenity2"><span class="check-box"></span>Parking</li>
                     <li id="onePAmenity3"><span class="check-box"></span>Gym</li>
                     <li id="onePAmenity4"><span class="check-box"></span>Air Conditioning</li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Location Map Display (Details) ===== -->
+          <div class="row mt-4 px-2 justify-content-center">
+            <div class="col-md-12">
+              <div class="custom-card shadow-sm">
+                <div class="card-header-custom">Location</div>
+                <div class="p-4">
+                  <div id="detailsMapContainer" class="details-map-wrapper">
+                    <div id="detailsMap" class="details-map"></div>
+                    <div id="detailsMapInfo" class="details-map-info d-none">
+                      <i class="fa-solid fa-location-dot"></i>
+                      <span id="detailsMapAddress">—</span>
+                    </div>
+                    <div id="detailsMapNoLocation" class="details-map-no-location">
+                      <i class="fa-solid fa-map-location-dot"></i>
+                      <span>No location set for this property</span>
+                    </div>
+                  </div>
+                  <!-- University info if available -->
+                  <div id="detailsUniInfo" class="uni-info-box d-none mt-3">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span id="detailsUniText">—</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -905,183 +652,53 @@
                 </tbody>
               </table>
             </div>
-
-            <div class="property-actions-container ">
-              <button id="onePBtnUpdate" class="btn-custom  btn-update">Update</button>
+            <div class="property-actions-container">
+              <button id="onePBtnUpdate" class="btn-custom btn-update">Update</button>
               <button id="onePBtnDelete" class="btn-custom delete-btn btn-delete">Delete</button>
             </div>
           </div>
         </div>
       </section>
+
+      <!-- ===== SECTION: Messages ===== -->
       <section id="sectionMassageProperties" class="d-none">
         <div class="container py-4">
           <h2 class="fw-bold mb-4">Messages</h2>
           <div id="messagesList"></div>
         </div>
       </section>
+
       <style>
-        /* تصغير صورة العقار في الرسائل */
-        .msg-img-container {
-          width: 80px;
-          /* تصغير العرض */
-          height: 80px;
-          /* تصغير الطول */
-          overflow: hidden;
-          border-radius: 10px;
-        }
-
-        .msg-img-container img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        /* تحسين شكل كارت الرسائل */
-        .msg-card {
-          background-color: #2D3E50;
-          border: 1px solid #FFC107;
-          border-radius: 12px;
-          padding: 10px 15px;
-          color: white;
-          transition: 0.3s;
-        }
-
-        .msg-card:hover {
-          box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
-        }
-
-        /* نصوص الرسائل */
-        .msg-title {
-          color: #FFC107;
-          font-size: 1.1rem;
-          font-weight: bold;
-          margin-bottom: 2px;
-        }
-
-        .msg-text {
-          font-size: 0.85rem;
-          color: #e0e0e0;
-        }
-
-        .msg-card {
-          background-color: #2D3E50;
-          border: 1px solid #FFC107;
-          border-radius: 15px;
-          padding: 15px;
-          color: white;
-        }
-
-        .status-btn-mock {
-          background-color: #FFC107;
-          color: #2D3E50;
-          padding: 5px 15px;
-          border-radius: 20px;
-          font-weight: bold;
-          font-size: 0.85rem;
-          display: inline-block;
-        }
-
-        .custom-table thead {
-          background-color: #2D3E50;
-          color: #FFC107;
-        }
+        .msg-img-container { width: 80px; height: 80px; overflow: hidden; border-radius: 10px; }
+        .msg-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .msg-card { background-color: #2D3E50; border: 1px solid #FFC107; border-radius: 12px; padding: 10px 15px; color: white; transition: 0.3s; }
+        .msg-card:hover { box-shadow: 0 4px 15px rgba(255,193,7,0.2); }
+        .msg-title { color: #FFC107; font-size: 1.1rem; font-weight: bold; margin-bottom: 2px; }
+        .msg-text { font-size: 0.85rem; color: #e0e0e0; }
+        .status-btn-mock { background-color: #FFC107; color: #2D3E50; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; display: inline-block; }
+        .custom-table thead { background-color: #2D3E50; color: #FFC107; }
       </style>
     </main>
   </div>
 
+  <!-- Upload wrapper styles -->
   <style>
-    /* الحاوية الكبيرة الداكنة */
-    .upload-wrapper {
-      background-color: #1e283c !important;
-      /* اللون الكحلي الداكن */
-      padding: 20px;
-      border-radius: 15px;
-      color: white;
-      margin-top: 15px;
-    }
-
-    /* شبكة الصور (6 في الصف) */
-    .images-grid-layout {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      /* 6 أعمدة متساوية */
-      gap: 15px;
-    }
-
-    /* إطار الصورة المصغرة */
-    .thumb-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .thumb-img {
-      width: 100%;
-      /* تأخذ عرض العمود */
-      aspect-ratio: 1 / 1;
-      /* تجعل الصورة مربعة */
-      background-color: #fafaf5;
-      border: 1px solid #d1d1cc;
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    /* أيقونة الفيديو */
-    .video-thumb-bg {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #2c3e50;
-      position: relative;
-    }
-
-    .play-icon-overlay {
-      color: #fbc02d;
-      font-size: 2.5rem;
-    }
-
-    /* الأزرار الصفراء */
-    .add-btn-yellow,
-    .delete-btn-yellow {
-      background-color: #fbc02d !important;
-      color: #1e283c !important;
-      border: none;
-      font-weight: bold;
-      border-radius: 8px;
-      padding: 5px 15px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .delete-btn-yellow {
-      font-size: 11px;
-      width: 100%;
-    }
-
-    /* الفاصل الرأسي بين الصور والفيديو */
-    .border-end-divider {
-      border-right: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    /* للموبايل */
+    .upload-wrapper { background-color: #1e283c !important; padding: 20px; border-radius: 15px; color: white; margin-top: 15px; }
+    .images-grid-layout { display: grid; grid-template-columns: repeat(6,1fr); gap: 15px; }
+    .thumb-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .thumb-img { width: 100%; aspect-ratio: 1/1; background-color: #fafaf5; border: 1px solid #d1d1cc; border-radius: 10px; background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .video-thumb-bg { display: flex; align-items: center; justify-content: center; background-color: #2c3e50; position: relative; }
+    .play-icon-overlay { color: #fbc02d; font-size: 2.5rem; }
+    .add-btn-yellow, .delete-btn-yellow { background-color: #fbc02d !important; color: #1e283c !important; border: none; font-weight: bold; border-radius: 8px; padding: 5px 15px; cursor: pointer; transition: 0.3s; }
+    .delete-btn-yellow { font-size: 11px; width: 100%; }
+    .border-end-divider { border-right: 1px solid rgba(255,255,255,0.2); }
     @media (max-width: 992px) {
-      .images-grid-layout {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .border-end-divider {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        padding-bottom: 20px;
-      }
+      .images-grid-layout { grid-template-columns: repeat(3,1fr); }
+      .border-end-divider { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; }
     }
   </style>
 
-
-
+  <!-- Delete Modal -->
   <div id="deleteModal" class="custom-modal d-none">
     <div class="modal-content-delete">
       <h2 class="modal-title">Delete Property</h2>
@@ -1090,11 +707,8 @@
           <i class="fas fa-trash-alt"></i>
           <span class="warning-text-yellow">Delete Property</span>
         </div>
-
         <p class="confirm-msg">Are you sure you want to delete this property?</p>
-        <p class="small-warning">Pending bookings will be deleted. If there are any active bookings (Booked or
-          In-Process), this property cannot be deleted.</p>
-
+        <p class="small-warning">Pending bookings will be deleted. If there are any active bookings (Booked or In-Process), this property cannot be deleted.</p>
         <div class="property-preview-card">
           <img id="deletePropImg" src="" alt="property">
           <div class="prop-info">
@@ -1104,98 +718,27 @@
           </div>
         </div>
       </div>
-
       <div class="modal-actions">
         <button id="confirmDeleteBtn" class="btn-delete-final">Delete</button>
         <button id="cancelDeleteBtn" class="btn-cancel">Cancel</button>
       </div>
     </div>
     <style>
-      .custom-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-      }
-
-      .modal-content-delete {
-        background: #1e2738;
-        padding: 30px;
-        border-radius: 15px;
-        width: 90%;
-        max-width: 500px;
-        color: white;
-        text-align: center;
-      }
-
-      .delete-card-wrapper {
-        background: #2c3a50;
-        padding: 20px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-      }
-
-      .warning-text-yellow {
-        color: #ffc107;
-        font-weight: bold;
-        margin-left: 10px;
-      }
-
-      .property-preview-card {
-        background: white;
-        border-radius: 10px;
-        display: flex;
-        padding: 10px;
-        align-items: center;
-        margin-top: 15px;
-        color: #333;
-        text-align: left;
-      }
-
-      .property-preview-card img {
-        width: 100px;
-        height: 70px;
-        border-radius: 8px;
-        object-fit: cover;
-        margin-right: 15px;
-      }
-
-      .btn-delete-final {
-        background: #ffc107;
-        border: none;
-        padding: 10px 40px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        margin-right: 10px;
-      }
-
-      .btn-cancel {
-        background: #2c3a50;
-        border: 1px solid #444;
-        color: white;
-        padding: 10px 40px;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-
-      .status-badge {
-        background: #2c3a50;
-        color: #ffc107;
-        padding: 2px 10px;
-        border-radius: 4px;
-        font-size: 12px;
-      }
+      .custom-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+      .modal-content-delete { background: #1e2738; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; color: white; text-align: center; }
+      .delete-card-wrapper { background: #2c3a50; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+      .warning-text-yellow { color: #ffc107; font-weight: bold; margin-left: 10px; }
+      .property-preview-card { background: white; border-radius: 10px; display: flex; padding: 10px; align-items: center; margin-top: 15px; color: #333; text-align: left; }
+      .property-preview-card img { width: 100px; height: 70px; border-radius: 8px; object-fit: cover; margin-right: 15px; }
+      .btn-delete-final { background: #ffc107; border: none; padding: 10px 40px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-right: 10px; }
+      .btn-cancel { background: #2c3a50; border: 1px solid #444; color: white; padding: 10px 40px; border-radius: 8px; cursor: pointer; }
+      .status-badge { background: #2c3a50; color: #ffc107; padding: 2px 10px; border-radius: 4px; font-size: 12px; }
     </style>
   </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/dashbord-owner.js"></script>
-  <!-- ملف bootstrab . js  -->
-</body>        
+</body>
 </html>
