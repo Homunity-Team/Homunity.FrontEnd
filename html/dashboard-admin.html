@@ -8,37 +8,29 @@
   <link rel="stylesheet" href="../css/all.min.css" />
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/dashboard-admin.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 
 <body>
-  <!-- ══ HEADER ══ -->
+  <!-- HEADER -->
   <header class="header">
     <div class="header-left">
-      <!-- Hamburger (mobile only) -->
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-
-      <!-- Logo Icon Box -->
       <div class="logo-icon-box">
-        <img src="../img/logo.png" alt="Logo" style="max-height: 70px" />
+        <img src="../img/logo.png" alt="Logo" style="max-height:70px" />
       </div>
-
-      <!-- Logo Text -->
-      <a href="../index.html" class="logo-text ">Admin Dashboard</a>
+      <a href="../index.html" class="logo-text">Admin Dashboard</a>
     </div>
-
-    <!-- Avatar -->
-    <div class="header-avatar">
-      <i class="fa-solid fa-user"></i>
-    </div>
-
+    <div class="header-avatar"><i class="fa-solid fa-user"></i></div>
   </header>
 
-  <!-- ══ SIDEBAR OVERLAY ══ -->
+  <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- ══ SIDEBAR ══ -->
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <nav>
       <ul>
@@ -52,11 +44,12 @@
     </div>
   </aside>
 
-  <!-- ══ MAIN ══ -->
+  <!-- MAIN -->
   <main class="main-content">
+
+    <!-- Property Details Section -->
     <section id="propertyDetails" class="d-none">
       <h1 class="page-title mb-5">Property Details</h1>
-
 
       <!-- Gallery -->
       <div class="gallery-wrapper">
@@ -82,37 +75,45 @@
         <div class="info-card">
           <h3 class="card-title">modern studio</h3>
           <p class="card-address">101 UI City, Area</p>
-          <p class="card-desc">
-            A comfortable and secure room located in a quiet area, designed to
-            provide students with a safe and relaxing living environment close
-            to essential services.
-          </p>
+          <p class="card-desc">A comfortable and secure room located in a quiet area.</p>
           <ul class="details-list">
             <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
-            <li><i class="fa-solid fa-diamond"></i>3 rooms</li>
+            <li><i class="fa-solid fa-diamond"></i> 3 rooms</li>
           </ul>
         </div>
 
         <div class="info-card services-card">
           <h3 class="card-title">Services</h3>
           <ul class="amenities-list">
-            <li>
-              <span class="amenity-icon"><i class="fa-solid fa-wifi"></i></span>
-              wifi
-            </li>
-            <li>
-              <span class="amenity-icon"><i class="fa-solid fa-dumbbell"></i></span>
-              Gym
-            </li>
-            <li>
-              <span class="amenity-icon"><i class="fa-solid fa-square-parking"></i></span>
-              Parking
-            </li>
-            <li>
-              <span class="amenity-icon"><i class="fa-solid fa-snowflake"></i></span>
-              Air Conditioning
-            </li>
+            <li><span class="amenity-icon"><i class="fa-solid fa-wifi"></i></span> Wifi</li>
+            <li><span class="amenity-icon"><i class="fa-solid fa-dumbbell"></i></span> Gym</li>
+            <li><span class="amenity-icon"><i class="fa-solid fa-square-parking"></i></span> Parking</li>
+            <li><span class="amenity-icon"><i class="fa-solid fa-snowflake"></i></span> Air Conditioning</li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Location Map Section -->
+      <div class="admin-map-card mt-4 mb-4">
+        <div class="admin-map-header">
+          <i class="fa-solid fa-location-dot me-2"></i> Location
+        </div>
+        <div class="admin-map-body">
+          <div class="admin-map-wrapper">
+            <div id="adminDetailsMap" class="admin-details-map"></div>
+            <div id="adminDetailsMapNoLocation" class="admin-map-no-location">
+              <i class="fa-solid fa-map-location-dot"></i>
+              <span>No location set for this property</span>
+            </div>
+          </div>
+          <div id="adminDetailsMapInfo" class="admin-map-info d-none">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="adminDetailsMapAddress">—</span>
+          </div>
+          <div id="adminDetailsUniInfo" class="admin-uni-info d-none mt-2">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span id="adminDetailsUniText">—</span>
+          </div>
         </div>
       </div>
 
@@ -122,11 +123,10 @@
       </div>
     </section>
 
-    <!-- admin dashboard  -->
+    <!-- Admin Dashboard Section -->
     <section id="sectionHome" class="">
       <div class="admin-dashboard-content py-4 px-3">
         <h4 class="mb-4 fw-bold text-dark">Admin Dashboard Page</h4>
-
         <div class="row g-3 mb-5 justify-content-center">
           <div class="col-md-3">
             <div class="stat-card-custom">
@@ -184,25 +184,20 @@
                   <th class="text-center">Status</th>
                 </tr>
               </thead>
-              <tbody id="recentActionsBody">
-              </tbody>
+              <tbody id="recentActionsBody"></tbody>
             </table>
           </div>
         </div>
 
         <div id="emptyState" class="d-none text-center py-5">
-          <div class="py-5">
-            <img src="../img/Vector.svg" alt="No properties" class="mb-4" style="width: 150px; opacity: 0.5;">
-            <h2 class="text-warning fw-bold">No properties found</h2>
-            <p class="text-muted">Please check back later</p>
-          </div>
+          <img src="../img/Vector.svg" alt="No properties" class="mb-4" style="width:150px;opacity:0.5;">
+          <h2 class="text-warning fw-bold">No properties found</h2>
+          <p class="text-muted">Please check back later</p>
         </div>
       </div>
     </section>
 
-
-    <!-- Pending properties page -->
-
+    <!-- Pending Properties Section -->
     <section id="sectionPending" class="d-none">
       <div class="search-bar-wrapper mb-5">
         <select id="cityFilter">
@@ -228,10 +223,8 @@
 
       <section id="emptyState" class="d-none">
         <div class="empty-state-container text-center py-5">
-          <div class="empty-pending-state">
-            <img src="../img/Vector (1).svg" alt="No pending" class="state-icon" style="width: 150px; opacity: 0.6;">
-            <p class="state-text mt-4 fw-bold text-muted fs-5">No pending properties at the moment</p>
-          </div>
+          <img src="../img/Vector (1).svg" alt="No pending" class="state-icon" style="width:150px;opacity:0.6;">
+          <p class="state-text mt-4 fw-bold text-muted fs-5">No pending properties at the moment</p>
         </div>
       </section>
 
@@ -240,23 +233,18 @@
         <div id="pageNumbers" class="d-flex gap-2"></div>
         <button id="nextPage" class="btn btn-outline-warning btn-sm px-4 rounded-pill">Next</button>
       </div>
-
-      <div id="pageInfo" class="text-center text-muted mb-5" style="font-size: 12px;">
+      <div id="pageInfo" class="text-center text-muted mb-5" style="font-size:12px;">
         Page <span id="currentPageNum">1</span> of <span id="totalPageNum">1</span>
       </div>
     </section>
 
-
-    <!-- rejected properties pop-up  -->
+    <!-- Reject Popup -->
     <section id="rejectPopupSection" class="d-none">
       <div class="popup-overlay">
         <div class="popup-box">
-          <div class="popup-header">
-            Reject Property Popup
-          </div>
+          <div class="popup-header">Reject Property</div>
           <div class="popup-body">
-            <textarea id="reasonInput" class="reason-box" placeholder="write reason" maxlength="300"
-              oninput="countChars()"></textarea>
+            <textarea id="reasonInput" class="reason-box" placeholder="Write reason..." maxlength="300" oninput="countChars()"></textarea>
             <div class="popup-footer">
               <span>⚠️ Please provide a reason for rejection</span>
               <span id="charCount">0 / 300</span>
@@ -269,31 +257,110 @@
         </div>
       </div>
     </section>
-    <!--end-->
 
-
-    <!-- rejected properties -->
-    <section id="sectionRejected" class="d-none  rejected-properties px-3  ">
+    <!-- Rejected Properties Section -->
+    <section id="sectionRejected" class="d-none rejected-properties px-3">
       <h2 class="py-4 fw-bold">Rejected Properties Page</h2>
-
-      <div id="rejectedPropertiesContainer">
-      </div>
-
-      <section id="emptyState" class="d-none">
+      <div id="rejectedPropertiesContainer"></div>
+      <section id="emptyState2" class="d-none">
         <div class="empty-state-container">
-          <div class="rejected-state-wrapper">
-            <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
-            <p class="state-text">No rejected properties found</p>
-          </div>
+          <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
+          <p class="state-text">No rejected properties found</p>
+        </div>
       </section>
-
     </section>
-
-    <!-- empty state -->
 
   </main>
 
-  <script src="../js/dashboard-admin.js"></script>
-</body>
+  <!-- Map styles for admin details -->
+  <style>
+    .admin-map-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .admin-map-header {
+      background-color: #1e293b;
+      color: white;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+    .admin-map-body {
+      padding: 16px;
+    }
+    .admin-map-wrapper {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #e2e8f0;
+    }
+    .admin-details-map {
+      height: 280px;
+      width: 100%;
+      z-index: 1;
+    }
+    .admin-map-no-location {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #f1f5f9;
+      color: #94a3b8;
+      padding: 60px 20px;
+      font-size: 0.9rem;
+    }
+    .admin-map-no-location i { font-size: 1.4rem; }
+    .admin-map-info {
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 0 0 8px 8px;
+    }
+    .admin-map-info i { color: #efb81e; }
+    .admin-uni-info {
+      background: rgba(239,184,30,0.1);
+      border: 1.5px solid #efb81e;
+      border-radius: 10px;
+      padding: 10px 18px;
+      color: #1e293b;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-uni-info i { color: #efb81e; font-size: 1.1rem; }
+  </style>
 
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../js/dashboard-admin.js"></script>
+
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    hamburger.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      overlay.classList.toggle("open");
+    });
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    });
+    document.querySelectorAll(".sidebar nav ul li").forEach(li => {
+      li.addEventListener("click", () => {
+        document.querySelectorAll(".sidebar nav ul li").forEach(x => x.classList.remove("active"));
+        li.classList.add("active");
+        if (window.innerWidth <= 900) { sidebar.classList.remove("open"); overlay.classList.remove("open"); }
+      });
+    });
+  </script>
+</body>
 </html>
