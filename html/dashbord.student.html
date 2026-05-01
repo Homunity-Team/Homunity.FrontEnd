@@ -8,29 +8,26 @@
   <link rel="stylesheet" href="../css/all.min.css" />
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/dashbord-student.css" />
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .map-section-card { background:#fff; border:1px solid #e2e5ea; border-radius:12px; overflow:hidden; margin-top:16px; }
+    .map-section-card .map-header { background:#212e43; color:#fff; padding:10px 20px; font-weight:bold; font-size:1rem; display:flex; align-items:center; gap:10px; }
+    #studentDetailsMap { height:280px; border-radius:10px; z-index:1; }
+  </style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <body>
-  <!-- HEADER -->
   <header class="header">
     <div class="header-left">
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="logo-icon-box">
-        <img src="../img/logo.png" alt="Logo" style="max-height:70px" />
-      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="logo-icon-box"><img src="../img/logo.png" alt="Logo" style="max-height:70px" /></div>
       <a href="../index.html" class="logo-text">Student Dashboard</a>
     </div>
   </header>
 
-  <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <nav>
       <ul>
@@ -41,34 +38,23 @@
         <li id="booking"><i class="fa-regular fa-calendar-check"></i> My Bookings</li>
       </ul>
     </nav>
-    <div class="sidebar-logout" id="logoutBtn">
-      <i class="fa-solid fa-right-from-bracket"></i> Logout
-    </div>
+    <div class="sidebar-logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main-content">
-
     <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:9999;"></div>
 
-    <!-- Property Details Section -->
+    <!-- ══ PROPERTY DETAILS ══ -->
     <section id="sectionPropirtie" class="d-none">
       <div class="page-header">
         <h1 class="page-title">Property Details</h1>
         <span class="badge-pending">Pending Approval</span>
       </div>
 
-      <!-- Gallery -->
       <div class="gallery-wrapper">
-        <div class="gallery-img-box">
-          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" />
-        </div>
-        <div class="gallery-img-box">
-          <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="main room" />
-        </div>
-        <div class="gallery-img-box">
-          <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" />
-        </div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="main room" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" /></div>
       </div>
 
       <div class="gallery-thumbs flex justify-content-center">
@@ -77,18 +63,16 @@
         <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=200&q=70" alt="thumb 3" />
       </div>
 
-      <!-- Info Cards -->
       <div class="info-row">
         <div class="info-card">
           <h3 class="card-title">modern studio</h3>
           <p class="card-address">101 UI City, Area</p>
           <p class="card-desc">A comfortable and secure room located in a quiet area.</p>
           <ul class="details-list">
-            <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
+            <li><i class="fa-solid fa-diamond"></i> Price <span style="color:#efb81e;font-weight:700;">$350 / month</span></li>
             <li><i class="fa-solid fa-diamond"></i> 1 rooms</li>
           </ul>
         </div>
-
         <div class="info-card services-card">
           <h3 class="card-title">Services</h3>
           <ul class="amenities-list">
@@ -100,90 +84,46 @@
         </div>
       </div>
 
-      <!-- Location Map Section -->
-      <div class="student-map-card mt-4 mb-4">
-        <div class="student-map-header">
-          <i class="fa-solid fa-location-dot me-2"></i> Location
-        </div>
-        <div class="student-map-body">
-          <div class="student-map-wrapper">
-            <div id="studentDetailsMap" class="student-details-map"></div>
-            <div id="studentDetailsMapNoLocation" class="student-map-no-location">
-              <i class="fa-solid fa-map-location-dot"></i>
-              <span>No location set for this property</span>
-            </div>
-          </div>
-          <div id="studentDetailsMapInfo" class="student-map-info d-none">
-            <i class="fa-solid fa-location-dot"></i>
-            <span id="studentDetailsMapAddress">—</span>
-          </div>
-          <div id="studentDetailsUniInfo" class="student-uni-info d-none mt-2">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span id="studentDetailsUniText">—</span>
-          </div>
+      <!-- MAP VIEWER -->
+      <div id="studentMapSection" class="d-none">
+        <div class="map-section-card">
+          <div class="map-header"><i class="fa-solid fa-map-location-dot"></i> Property Location</div>
+          <div class="p-3"><div id="studentDetailsMap"></div></div>
         </div>
       </div>
 
       <div class="action-row">
-        <button class="btn-book" onclick="window.confirmBooking()">Book Now</button>
+        <button id="btnBook" class="btn-book">Book Now</button>
         <button id="btn-cancel" class="btn-cancel">Cancel</button>
       </div>
     </section>
 
-    <!-- Home Section -->
+    <!-- ══ HOME ══ -->
     <section id="sectionHome" class="py-4">
       <div class="container">
         <div class="row g-3 mb-4 text-center">
-          <div class="col-6 col-md-3">
-            <div class="stat-card shadow-sm">
-              <p class="text-white">Total Bookings</p>
-              <h3 id="total-val" class="text-warning">0</h3>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="stat-card shadow-sm">
-              <p class="text-white">Pending Bookings</p>
-              <p class="small text-white">In progress: <span id="pending-val" class="text-warning">0</span></p>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="stat-card shadow-sm">
-              <p class="text-white">Confirmed Bookings</p>
-              <p class="small text-white">Booked: <span id="confirmed-val" class="text-warning">0</span></p>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="stat-card shadow-sm">
-              <p class="text-white">Cancelled Bookings</p>
-              <p class="small text-white">Cancelled: <span id="cancelled-val" class="text-warning">0</span></p>
-            </div>
-          </div>
+          <div class="col-6 col-md-3"><div class="stat-card shadow-sm"><p class="text-white">Total Bookings</p><h3 id="total-val" class="text-warning">0</h3></div></div>
+          <div class="col-6 col-md-3"><div class="stat-card shadow-sm"><p class="text-white">Pending Bookings</p><p class="small text-white">In progress: <span id="pending-val" class="text-warning">0</span></p></div></div>
+          <div class="col-6 col-md-3"><div class="stat-card shadow-sm"><p class="text-white">Confirmed Bookings</p><p class="small text-white">Booked: <span id="confirmed-val" class="text-warning">0</span></p></div></div>
+          <div class="col-6 col-md-3"><div class="stat-card shadow-sm"><p class="text-white">Cancelled Bookings</p><p class="small text-white">Cancelled: <span id="cancelled-val" class="text-warning">0</span></p></div></div>
         </div>
-
-        <div id="empty-placeholder-div" class="d-none w-100 py-5">
-          <div class="figma-container-frame"></div>
-        </div>
-
+        <div id="empty-placeholder-div" class="d-none w-100 py-5"><div class="figma-container-frame"></div></div>
         <div class="row table-header-row p-3 mx-0 fw-bold align-items-center d-none d-md-flex">
           <div class="col-4">Property</div>
           <div class="col-4 text-end">Location</div>
           <div class="col-4 text-end pe-5">Status</div>
         </div>
-
         <div id="api-data-list"></div>
       </div>
-
       <div id="search-message-div" class="w-100 py-5">
         <div class="search-main-wrapper d-flex flex-column align-items-center justify-content-center">
           <img src="../img/no-prop.png" alt="Search" class="search-icon-visual" />
-          <p class="search-prompt-text">
-            Browse available properties and book your perfect <span class="break-word">place!</span>
-          </p>
+          <p class="search-prompt-text">Browse available properties and book your perfect place!</p>
         </div>
       </div>
     </section>
 
-    <!-- Browse Properties Section -->
+    <!-- ══ BROWSE ══ -->
     <section id="sectionBrowseProperties" class="d-none">
       <div class="container py-4">
         <h2 class="browse-title">Browse Properties</h2>
@@ -198,13 +138,13 @@
       </div>
     </section>
 
-    <!-- Notifications Section -->
+    <!-- ══ NOTIFICATIONS ══ -->
     <section id="sectionNotification" class="d-none px-4 pt-3">
       <h3 class="page-title mb-4">Notifications</h3>
       <div id="notifications-container"></div>
     </section>
 
-    <!-- My Bookings Section -->
+    <!-- ══ MY BOOKINGS ══ -->
     <section id="sectionMyBookings" class="px-4 pt-3 d-none">
       <h3 class="page-title mb-4">My Bookings</h3>
       <div id="rowBookings" class="row text-center mb-4 gx-2">
@@ -221,7 +161,7 @@
       </div>
     </section>
 
-    <!-- Booking Details Section -->
+    <!-- ══ BOOKING DETAILS ══ -->
     <section id="sectionBookingDetails" class="px-4 pt-3 d-none">
       <h3 class="page-title mb-4">Booking Details</h3>
       <input type="number" id="idCansel" hidden>
@@ -236,23 +176,13 @@
               <div>
                 <h5 class="text-gold-custom">Modern Studio</h5>
                 <p class="mb-1">Downtown</p>
-                <p><i class="text-gold-custom fa-solid fa-car"></i> 1 Bed | 1 Bath</p>
               </div>
               <h5>$300 <small class="fs-5">/ month</small></h5>
             </div>
             <div class="mb-4">
-              <div class="white-info-row">
-                <span>Booking Status</span>
-                <span class="Pending py-1 px-4">Pending</span>
-              </div>
-              <div class="white-info-row">
-                <span>Created Date</span>
-                <span>April 10, 2024</span>
-              </div>
-              <div class="white-info-row">
-                <span>Confirmed Date</span>
-                <span>----------</span>
-              </div>
+              <div class="white-info-row"><span>Booking Status</span><span class="Pending py-1 px-4">Pending</span></div>
+              <div class="white-info-row"><span>Created Date</span><span>April 10, 2024</span></div>
+              <div class="white-info-row"><span>Confirmed Date</span><span>----------</span></div>
             </div>
             <div class="text-center d-flex gap-3 justify-content-center">
               <button class="btn-cancel-custom px-4 py-1 shadow" onclick="cancelAndGoBack(this)">Cancel Booking</button>
@@ -262,7 +192,7 @@
       </div>
     </section>
 
-    <!-- Profile Section -->
+    <!-- ══ PROFILE ══ -->
     <section id="sectionProfile" class="d-none">
       <h2 class="page-title mb-4">Profile</h2>
       <div class="profile-container">
@@ -279,65 +209,37 @@
             <div class="col-md-6 mb-4">
               <label class="form-label">First Name</label>
               <input readonly type="text" id="firstName" class="form-control" placeholder="Enter Your First Name">
-              <span id="firstNameError" class="error">First Name must be between 2 and 10 characters</span>
             </div>
             <div class="col-md-6 mb-4">
               <label class="form-label">Last Name</label>
               <input readonly type="text" id="lastName" class="form-control" placeholder="Enter Your Last Name">
-              <span id="lastNameError" class="error">Last Name must be between 2 and 10 characters</span>
             </div>
             <div class="col-md-6 mb-4">
               <label class="form-label">Phone</label>
               <input readonly type="text" id="phone" class="form-control" placeholder="Enter Your Phone">
-              <span id="phoneError" class="error">Phone number is not valid</span>
             </div>
           </div>
           <div class="account-title">Account Status <span class="star">*</span></div>
           <div class="mt-3">
-            <div class="form-check mb-2">
-              <input readonly class="form-check-input" type="radio" name="status" id="statusActive" value="true">
-              <label class="form-check-label" for="statusActive">Active</label>
-            </div>
-            <div class="form-check">
-              <input readonly class="form-check-input" type="radio" name="status" id="statusInactive" value="false">
-              <label class="form-check-label" for="statusInactive">Inactive</label>
-            </div>
-            <div class="col-12 mt-4">
-              <button type="submit" class="btn btn-save-data">Save Changes</button>
-            </div>
+            <div class="form-check mb-2"><input readonly class="form-check-input" type="radio" name="status" id="statusActive" value="true"><label class="form-check-label" for="statusActive">Active</label></div>
+            <div class="form-check"><input readonly class="form-check-input" type="radio" name="status" id="statusInactive" value="false"><label class="form-check-label" for="statusInactive">Inactive</label></div>
+            <div class="col-12 mt-4"><button type="submit" class="btn btn-save-data">Save Changes</button></div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- Map styles for student details -->
-  <style>
-    .student-map-card { border: 2px solid #212e43; border-radius: 14px; overflow: hidden; }
-    .student-map-header { background-color: #212e43; color: white; padding: 10px 20px; font-weight: bold; font-size: 1.05rem; }
-    .student-map-body { padding: 16px; }
-    .student-map-wrapper { position: relative; border-radius: 12px; overflow: hidden; border: 2px solid #e2e8f0; }
-    .student-details-map { height: 280px; width: 100%; z-index: 1; }
-    .student-map-no-location { display: flex; align-items: center; justify-content: center; gap: 10px; background: #f1f5f9; color: #94a3b8; padding: 60px 20px; font-size: 0.9rem; }
-    .student-map-no-location i { font-size: 1.4rem; }
-    .student-map-info { background: #212e43; color: #fff; padding: 10px 16px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px; border-radius: 0 0 8px 8px; }
-    .student-map-info i { color: #efb81e; }
-    .student-uni-info { background: rgba(239,184,30,0.1); border: 1.5px solid #efb81e; border-radius: 10px; padding: 10px 18px; color: #212e43; font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-    .student-uni-info i { color: #efb81e; font-size: 1.1rem; }
-  </style>
-
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../js/dashbord.student.js"></script>
-
   <script>
     const hamburger = document.getElementById("hamburger");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
+    const sidebar   = document.getElementById("sidebar");
+    const overlay   = document.getElementById("sidebarOverlay");
 
     hamburger.addEventListener("click", () => { sidebar.classList.toggle("open"); overlay.classList.toggle("open"); });
-    overlay.addEventListener("click", () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); });
+    overlay.addEventListener("click",   () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); });
+
     document.querySelectorAll(".sidebar nav ul li").forEach(li => {
       li.addEventListener("click", () => {
         document.querySelectorAll(".sidebar nav ul li").forEach(x => x.classList.remove("active"));
@@ -350,71 +252,25 @@
       if (confirm("Are you sure you want to logout?")) { localStorage.clear(); window.location.href = "../index.html"; }
     });
 
-    // Profile validation
-    document.addEventListener("DOMContentLoaded", function () {
-      const phoneInput = document.getElementById("phone");
-      const phoneError = document.getElementById("phoneError");
-      const firstInput = document.getElementById("firstName");
-      const firstError = document.getElementById("firstNameError");
-      const lastInput = document.getElementById("lastName");
-      const lastError = document.getElementById("lastNameError");
-      const nameRegex = /^[A-Za-z]+$/;
-      const phoneRegex = /^0[0-9]{10}$/;
-
-      firstInput.addEventListener("input", function () {
-        const val = firstInput.value.trim();
-        if (!val) { firstError.innerText = "First Name is required"; firstError.style.display = "block"; }
-        else if (!nameRegex.test(val)) { firstError.innerText = "Letters only"; firstError.style.display = "block"; }
-        else if (val.length < 2 || val.length > 10) { firstError.innerText = "2-10 characters"; firstError.style.display = "block"; }
-        else { firstError.style.display = "none"; }
-      });
-
-      lastInput.addEventListener("input", function () {
-        const val = lastInput.value.trim();
-        if (!val) { lastError.innerText = "Last Name is required"; lastError.style.display = "block"; }
-        else if (!nameRegex.test(val)) { lastError.innerText = "Letters only"; lastError.style.display = "block"; }
-        else if (val.length < 2 || val.length > 10) { lastError.innerText = "2-10 characters"; lastError.style.display = "block"; }
-        else { lastError.style.display = "none"; }
-      });
-
-      phoneInput.addEventListener("input", function () {
-        const val = phoneInput.value.trim();
-        if (!val) { phoneError.innerText = "Phone is required"; phoneError.style.display = "block"; }
-        else if (!phoneRegex.test(val)) { phoneError.innerText = "Must be 11 digits starting with 0"; phoneError.style.display = "block"; }
-        else { phoneError.style.display = "none"; }
-      });
-    });
-
-    // Booking details nav
-    function showBookingDetails() {
-      document.getElementById("sectionMyBookings").classList.add("d-none");
-      document.getElementById("sectionBookingDetails").classList.remove("d-none");
-      window.scrollTo(0, 0);
-    }
-
+    // Cancel Booking from details
     window.cancelAndGoBack = async function (btn) {
-      const section = btn.closest("section");
-      const bookingId = section.querySelector("#idCansel").value;
+      const section    = btn.closest("section");
+      const bookingId  = section.querySelector("#idCansel").value;
       const propertyId = section.querySelector("#idProprty").value;
-      if (!bookingId) return Toast.fire({ icon: "error", title: "Booking ID not found" });
-      if (!confirm("Are you sure you want to cancel?")) return;
+      if (!bookingId) return;
+      if (!confirm("Cancel this booking?")) return;
       try {
-        const res = await fetch(`${BASE_URL}/Booking/${bookingId}/cancel`, {
+        const res = await fetch(`https://homunityapiv1.runasp.net/api/Booking/${bookingId}/cancel`, {
           method: "PUT", headers: { "Accept": "application/json", "Content-Type": "application/json" }
         });
         if (res.ok) {
-          if (propertyId) {
-            let bookedIds = JSON.parse(localStorage.getItem("bookedProperties") || "[]");
-            bookedIds = bookedIds.filter(id => id != propertyId);
-            localStorage.setItem("bookedProperties", JSON.stringify(bookedIds));
-          }
-          Toast.fire({ icon: "success", title: "Booking cancelled successfully" });
-          setTimeout(() => { window.location.reload(); }, 1500);
-        } else {
-          const errData = await res.json().catch(() => ({}));
-          Toast.fire({ icon: "error", title: errData.message || "Could not cancel" });
+          let bookedIds = JSON.parse(localStorage.getItem("bookedProperties") || "[]");
+          bookedIds = bookedIds.filter(id => id != propertyId);
+          localStorage.setItem("bookedProperties", JSON.stringify(bookedIds));
+          alert("Booking cancelled successfully!");
+          setTimeout(() => { if (window.showSection) window.showSection("sectionHome"); window.location.reload(); }, 1000);
         }
-      } catch (e) { console.error(e); Toast.fire({ icon: "error", title: "Connection error" }); }
+      } catch (e) { console.error(e); }
     };
   </script>
 </body>
