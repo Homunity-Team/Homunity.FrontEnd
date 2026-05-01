@@ -8,29 +8,26 @@
   <link rel="stylesheet" href="../css/all.min.css" />
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/dashboard-admin.css" />
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    .map-section-card { background:#fff; border:1px solid #e2e5ea; border-radius:12px; overflow:hidden; margin-top:16px; }
+    .map-section-card .map-header { background:#212e43; color:#fff; padding:10px 20px; font-weight:bold; font-size:1rem; display:flex; align-items:center; gap:10px; }
+    #adminDetailsMap { height:280px; border-radius:10px; z-index:1; }
+  </style>
 </head>
 
 <body>
-  <!-- HEADER -->
   <header class="header">
     <div class="header-left">
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="logo-icon-box">
-        <img src="../img/logo.png" alt="Logo" style="max-height:70px" />
-      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="logo-icon-box"><img src="../img/logo.png" alt="Logo" style="max-height:70px" /></div>
       <a href="../index.html" class="logo-text">Admin Dashboard</a>
     </div>
     <div class="header-avatar"><i class="fa-solid fa-user"></i></div>
   </header>
 
-  <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <nav>
       <ul>
@@ -39,49 +36,37 @@
         <li id="Rejected"><i class="fa-solid fa-xmark"></i> Rejected Properties</li>
       </ul>
     </nav>
-    <div class="sidebar-logout" id="logoutBtn">
-      <i class="fa-solid fa-right-from-bracket"></i> Logout
-    </div>
+    <div class="sidebar-logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main-content">
 
-    <!-- Property Details Section -->
+    <!-- ══ PROPERTY DETAILS ══ -->
     <section id="propertyDetails" class="d-none">
-      <h1 class="page-title mb-5">Property Details</h1>
+      <h1 class="page-title mb-4">Property Details</h1>
 
-      <!-- Gallery -->
-      <div class="gallery-wrapper">
-        <div class="gallery-img-box">
-          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" />
-        </div>
-        <div class="gallery-img-box">
-          <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="main room" />
-        </div>
-        <div class="gallery-img-box">
-          <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" />
-        </div>
+      <div class="gallery-wrapper" id="adminGalleryWrapper">
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="main room" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" /></div>
       </div>
 
-      <div class="gallery-thumbs flex justify-content-center">
+      <div class="gallery-thumbs" id="adminGalleryThumbs">
         <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=70" alt="thumb 1" class="active" />
         <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=200&q=70" alt="thumb 2" />
         <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=200&q=70" alt="thumb 3" />
       </div>
 
-      <!-- Info Cards -->
       <div class="info-row">
         <div class="info-card">
           <h3 class="card-title">modern studio</h3>
           <p class="card-address">101 UI City, Area</p>
           <p class="card-desc">A comfortable and secure room located in a quiet area.</p>
           <ul class="details-list">
-            <li><i class="fa-solid fa-diamond"></i> Price $350 / month</li>
+            <li><i class="fa-solid fa-diamond"></i> Price <span style="color:#efb81e;font-weight:700;">$350 / month</span></li>
             <li><i class="fa-solid fa-diamond"></i> 3 rooms</li>
           </ul>
         </div>
-
         <div class="info-card services-card">
           <h3 class="card-title">Services</h3>
           <ul class="amenities-list">
@@ -93,141 +78,66 @@
         </div>
       </div>
 
-      <!-- Location Map Section -->
-      <div class="admin-map-card mt-4 mb-4">
-        <div class="admin-map-header">
-          <i class="fa-solid fa-location-dot me-2"></i> Location
-        </div>
-        <div class="admin-map-body">
-          <div class="admin-map-wrapper">
-            <div id="adminDetailsMap" class="admin-details-map"></div>
-            <div id="adminDetailsMapNoLocation" class="admin-map-no-location">
-              <i class="fa-solid fa-map-location-dot"></i>
-              <span>No location set for this property</span>
-            </div>
-          </div>
-          <div id="adminDetailsMapInfo" class="admin-map-info d-none">
-            <i class="fa-solid fa-location-dot"></i>
-            <span id="adminDetailsMapAddress">—</span>
-          </div>
-          <div id="adminDetailsUniInfo" class="admin-uni-info d-none mt-2">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span id="adminDetailsUniText">—</span>
-          </div>
+      <!-- MAP VIEWER -->
+      <div id="adminMapSection" class="d-none">
+        <div class="map-section-card">
+          <div class="map-header"><i class="fa-solid fa-map-location-dot"></i> Property Location</div>
+          <div class="p-3"><div id="adminDetailsMap"></div></div>
         </div>
       </div>
 
-      <div class="action-row">
+      <div class="action-row mt-4">
         <button class="btn-book" onclick="handleApprove()">Approve</button>
         <button class="btn-cancel" onclick="openRejectPopup()">Reject</button>
       </div>
     </section>
 
-    <!-- Admin Dashboard Section -->
-    <section id="sectionHome" class="">
+    <!-- ══ DASHBOARD HOME ══ -->
+    <section id="sectionHome">
       <div class="admin-dashboard-content py-4 px-3">
         <h4 class="mb-4 fw-bold text-dark">Admin Dashboard Page</h4>
         <div class="row g-3 mb-5 justify-content-center">
-          <div class="col-md-3">
-            <div class="stat-card-custom">
-              <img src="../img/Vector.png" alt="icon" class="card-icon-img">
-              <p>Total Properties</p>
-              <h3 id="totalProperties">0</h3>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card-custom">
-              <img src="../img/Vector1.png" alt="icon" class="card-icon-img">
-              <p>Rejected Properties</p>
-              <h3 id="rejectedProperties">0</h3>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card-custom">
-              <img src="../img/Vector2.png" alt="icon" class="card-icon-img">
-              <p>Approved Properties</p>
-              <h3 id="approvedProperties">0</h3>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card-custom">
-              <img src="../img/Vector3.png" alt="icon" class="card-icon-img">
-              <p>Pending Properties</p>
-              <h3 id="pendingProperties">0</h3>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card-custom">
-              <img src="../img/Vector4.png" alt="icon" class="card-icon-img">
-              <p>Total Users</p>
-              <h3 id="totalUsers">0</h3>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card-custom">
-              <img src="../img/Vector5.png" alt="icon" class="card-icon-img">
-              <p>Total Bookings</p>
-              <h3 id="totalBookings">0</h3>
-            </div>
-          </div>
+          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector.png" alt="icon"><p>Total Properties</p><h3 id="totalProperties">0</h3></div></div>
+          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector1.png" alt="icon"><p>Rejected Properties</p><h3 id="rejectedProperties">0</h3></div></div>
+          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector2.png" alt="icon"><p>Approved Properties</p><h3 id="approvedProperties">0</h3></div></div>
+          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector3.png" alt="icon"><p>Pending Properties</p><h3 id="pendingProperties">0</h3></div></div>
+          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector4.png" alt="icon"><p>Total Users</p><h3 id="totalUsers">0</h3></div></div>
+          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector5.png" alt="icon"><p>Total Bookings</p><h3 id="totalBookings">0</h3></div></div>
         </div>
-
         <div id="tableWrapper">
           <div class="table-container-custom shadow-sm">
             <table class="table mb-0">
-              <thead>
-                <tr>
-                  <th>Property Title</th>
-                  <th>Owner Name</th>
-                  <th>City + Area</th>
-                  <th>Created Date</th>
-                  <th class="text-center">Status</th>
-                </tr>
-              </thead>
+              <thead><tr><th>Property Title</th><th>Owner Name</th><th>City + Area</th><th>Created Date</th><th class="text-center">Status</th></tr></thead>
               <tbody id="recentActionsBody"></tbody>
             </table>
           </div>
         </div>
-
         <div id="emptyState" class="d-none text-center py-5">
-          <img src="../img/Vector.svg" alt="No properties" class="mb-4" style="width:150px;opacity:0.5;">
+          <img src="../img/Vector.svg" alt="No properties" class="mb-4" style="width:150px;opacity:.5;">
           <h2 class="text-warning fw-bold">No properties found</h2>
           <p class="text-muted">Please check back later</p>
         </div>
       </div>
     </section>
 
-    <!-- Pending Properties Section -->
+    <!-- ══ PENDING PROPERTIES ══ -->
     <section id="sectionPending" class="d-none">
       <div class="search-bar-wrapper mb-5">
-        <select id="cityFilter">
-          <option selected>City•</option>
-          <option value="Cairo">Cairo</option>
-          <option value="Giza">Giza</option>
-          <option value="6th of October">6th of October</option>
-        </select>
-        <select id="areaFilter">
-          <option selected>Area•</option>
-          <option value="Dokki">Dokki</option>
-          <option value="Maadi">Maadi</option>
-          <option value="7th District">7th District</option>
-        </select>
+        <select id="cityFilter"><option selected>City•</option><option value="Cairo">Cairo</option><option value="Giza">Giza</option></select>
+        <select id="areaFilter"><option selected>Area•</option><option value="Dokki">Dokki</option><option value="Maadi">Maadi</option></select>
         <input type="number" id="minPrice" placeholder="Min Price" min="0" />
         <input type="number" id="maxPrice" placeholder="Max Price" min="0" />
         <button class="btn-search" id="searchBtn">Search</button>
       </div>
-
       <div class="container-fluid">
         <div class="row" id="properties-grid"></div>
       </div>
-
       <section id="emptyState" class="d-none">
         <div class="empty-state-container text-center py-5">
-          <img src="../img/Vector (1).svg" alt="No pending" class="state-icon" style="width:150px;opacity:0.6;">
-          <p class="state-text mt-4 fw-bold text-muted fs-5">No pending properties at the moment</p>
+          <img src="../img/Vector (1).svg" alt="No pending" class="state-icon" style="width:150px;opacity:.6;">
+          <p class="state-text mt-4 fw-bold text-muted fs-5">No pending properties</p>
         </div>
       </section>
-
       <div id="pagination-wrapper" class="d-flex justify-content-center align-items-center gap-3 mt-5 mb-2">
         <button id="prevPage" class="btn btn-outline-warning btn-sm px-4 rounded-pill">Previous</button>
         <div id="pageNumbers" class="d-flex gap-2"></div>
@@ -238,7 +148,7 @@
       </div>
     </section>
 
-    <!-- Reject Popup -->
+    <!-- ══ REJECT POPUP ══ -->
     <section id="rejectPopupSection" class="d-none">
       <div class="popup-overlay">
         <div class="popup-box">
@@ -258,11 +168,11 @@
       </div>
     </section>
 
-    <!-- Rejected Properties Section -->
+    <!-- ══ REJECTED PROPERTIES ══ -->
     <section id="sectionRejected" class="d-none rejected-properties px-3">
       <h2 class="py-4 fw-bold">Rejected Properties Page</h2>
       <div id="rejectedPropertiesContainer"></div>
-      <section id="emptyState2" class="d-none">
+      <section id="emptyState" class="d-none">
         <div class="empty-state-container">
           <img src="../img/Vector.svg" alt="No rejected" class="state-icon">
           <p class="state-text">No rejected properties found</p>
@@ -272,88 +182,14 @@
 
   </main>
 
-  <!-- Map styles for admin details -->
-  <style>
-    .admin-map-card {
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .admin-map-header {
-      background-color: #1e293b;
-      color: white;
-      padding: 10px 20px;
-      font-weight: bold;
-      font-size: 1.05rem;
-    }
-    .admin-map-body {
-      padding: 16px;
-    }
-    .admin-map-wrapper {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid #e2e8f0;
-    }
-    .admin-details-map {
-      height: 280px;
-      width: 100%;
-      z-index: 1;
-    }
-    .admin-map-no-location {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: #f1f5f9;
-      color: #94a3b8;
-      padding: 60px 20px;
-      font-size: 0.9rem;
-    }
-    .admin-map-no-location i { font-size: 1.4rem; }
-    .admin-map-info {
-      background: #1e293b;
-      color: #fff;
-      padding: 10px 16px;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-radius: 0 0 8px 8px;
-    }
-    .admin-map-info i { color: #efb81e; }
-    .admin-uni-info {
-      background: rgba(239,184,30,0.1);
-      border: 1.5px solid #efb81e;
-      border-radius: 10px;
-      padding: 10px 18px;
-      color: #1e293b;
-      font-size: 0.88rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .admin-uni-info i { color: #efb81e; font-size: 1.1rem; }
-  </style>
-
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../js/dashboard-admin.js"></script>
-
   <script>
     const hamburger = document.getElementById("hamburger");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
-
-    hamburger.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-      overlay.classList.toggle("open");
-    });
-    overlay.addEventListener("click", () => {
-      sidebar.classList.remove("open");
-      overlay.classList.remove("open");
-    });
+    const sidebar   = document.getElementById("sidebar");
+    const overlay   = document.getElementById("sidebarOverlay");
+    hamburger.addEventListener("click", () => { sidebar.classList.toggle("open"); overlay.classList.toggle("open"); });
+    overlay.addEventListener("click",   () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); });
     document.querySelectorAll(".sidebar nav ul li").forEach(li => {
       li.addEventListener("click", () => {
         document.querySelectorAll(".sidebar nav ul li").forEach(x => x.classList.remove("active"));
