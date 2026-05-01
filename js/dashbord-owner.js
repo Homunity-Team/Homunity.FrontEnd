@@ -135,7 +135,7 @@ function applyLocationToUI(lat, lng, address, nearest, prefix) {
 }
 
 // =====================================================
-// ADD MAP (تم تحسين GPS)
+// ADD MAP (FIXED GPS)
 // =====================================================
 let addMap = null, addMarker = null, addPickingMode = false;
 function initAddMap() {
@@ -170,26 +170,36 @@ async function setAddLocation(lat, lng) {
     applyLocationToUI(lat, lng, address, nearest, "add");
     if (nearest) addMarker.bindPopup(`<b>${address.split(",")[0]}</b><br><small>Near ${nearest.university.name}</small>`).openPopup();
 }
-document.getElementById("addGpsBtn").addEventListener("click", function () {
-    if (!navigator.geolocation) { alert("Geolocation not supported."); return; }
-    this.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Locating...`;
-    this.disabled = true;
-    const btn = this;
-    navigator.geolocation.getCurrentPosition(
-        async (pos) => {
-            initAddMap();
-            await setAddLocation(pos.coords.latitude, pos.coords.longitude);
-            btn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`;
-            btn.disabled = false;
-        },
-        () => {
-            alert("Could not get location. Please pick manually.");
-            btn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`;
-            btn.disabled = false;
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } // ✅ إصلاح الـ GPS
-    );
-});
+
+// ===== GPS FIX: Remove old listeners and add new one =====
+const addGpsBtn = document.getElementById("addGpsBtn");
+if (addGpsBtn) {
+    const newGpsBtn = addGpsBtn.cloneNode(true);
+    addGpsBtn.parentNode.replaceChild(newGpsBtn, addGpsBtn);
+    newGpsBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (!navigator.geolocation) { alert("Geolocation not supported."); return; }
+        this.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Locating...`;
+        this.disabled = true;
+        navigator.geolocation.getCurrentPosition(
+            async (pos) => {
+                console.log("GPS location:", pos.coords.latitude, pos.coords.longitude);
+                initAddMap();
+                await setAddLocation(pos.coords.latitude, pos.coords.longitude);
+                this.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`;
+                this.disabled = false;
+            },
+            (err) => {
+                console.error("GPS error:", err);
+                alert("Could not get location: " + err.message);
+                this.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`;
+                this.disabled = false;
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    });
+}
+
 document.getElementById("addManualBtn").addEventListener("click", function () { initAddMap(); addPickingMode ? setAddPickingMode(false) : setAddPickingMode(true); });
 document.getElementById("addMapSearchBtn").addEventListener("click", async function () {
     const query = document.getElementById("addMapSearch").value.trim();
@@ -203,7 +213,7 @@ document.getElementById("addMapSearch").addEventListener("keydown", (e) => { if 
 menuItems.addProperties.addEventListener("click", () => setTimeout(() => initAddMap(), 150));
 
 // =====================================================
-// ADD PROPERTY SUBMIT (مع إرسال City/Area/Street)
+// ADD PROPERTY SUBMIT (Fixed Address Sending)
 // =====================================================
 document.getElementById("addPropertyForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -218,6 +228,7 @@ document.getElementById("addPropertyForm").addEventListener("submit", async (e) 
     if (!price.value || parseFloat(price.value) < 100) { toggleErr("priceError", true); isValid = false; } else toggleErr("priceError", false);
     if (!rooms.value || parseInt(rooms.value) < 1 || parseInt(rooms.value) > 10) { toggleErr("roomsError", true); isValid = false; } else toggleErr("roomsError", false);
     if (!lat || !lng) { get("addLocationError").style.display = "block"; isValid = false; } else get("addLocationError").style.display = "none";
+    if (images.files.length === 0) { alert("At least one image is required."); isValid = false; }
     if (images.files.length > 6) { alert("Max 6 images."); isValid = false; }
     for (let f of images.files) { if (f.size > 2 * 1024 * 1024) { alert(`${f.name} too large.`); isValid = false; break; } }
     if (video.files.length > 0 && video.files[0].size > 30 * 1024 * 1024) { alert("Video too large."); isValid = false; }
@@ -232,8 +243,8 @@ document.getElementById("addPropertyForm").addEventListener("submit", async (e) 
         fd.append("Price", parseFloat(price.value));
         fd.append("Rooms", parseInt(rooms.value));
         fd.append("PropertyType", get("apartmentApp").checked ? "Apartment" : "Room");
-        // ✅ إرسال بيانات الموقع الكاملة (بدلاً من LocationID)
-        fd.append("City", "Cairo"); // يمكن جلبها من الخريطة إذا أردت، لكنها لا تؤثر لأننا نخزن Address كامل
+        // إرسال بيانات الموقع الكاملة
+        fd.append("City", "Cairo"); // يمكن استخراجها من العنوان إذا أردت، لكنها ليست ضرورية للتخزين
         fd.append("Area", "General");
         fd.append("Street", address);
         fd.append("Latitude", parseFloat(lat));
@@ -242,7 +253,6 @@ document.getElementById("addPropertyForm").addEventListener("submit", async (e) 
         if (universityId) fd.append("UniversityId", parseInt(universityId));
         for (let i = 0; i < images.files.length; i++) fd.append("Images", images.files[i]);
         if (video.files.length > 0) fd.append("Video", video.files[0]);
-        // خدمات مع أيقونات (نفس الأرقام)
         [{ id: "wifi", val: 1 }, { id: "parking", val: 2 }, { id: "gym", val: 3 }, { id: "ac", val: 4 }].forEach(s => {
             const el = get(s.id);
             if (el && el.checked) fd.append("Services", s.val);
@@ -275,7 +285,7 @@ document.getElementById("cancelAdd").addEventListener("click", () => {
 });
 
 // =====================================================
-// UPDATE MAP
+// UPDATE MAP (FIXED GPS)
 // =====================================================
 let updateMap = null, updateMarker = null, updatePickingMode = false;
 function initUpdateMap(lat, lng) {
@@ -311,17 +321,31 @@ async function setUpdateLocation(lat, lng) {
     applyLocationToUI(lat, lng, address, nearest, "update");
     if (nearest) updateMarker.bindPopup(`<b>${address.split(",")[0]}</b><br><small>Near ${nearest.university.name}</small>`).openPopup();
 }
-document.getElementById("updateGpsBtn").addEventListener("click", function () {
-    if (!navigator.geolocation) { alert("Geolocation not supported."); return; }
-    this.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Locating...`;
-    this.disabled = true;
-    const btn = this;
-    navigator.geolocation.getCurrentPosition(
-        async (pos) => { await setUpdateLocation(pos.coords.latitude, pos.coords.longitude); btn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`; btn.disabled = false; },
-        () => { alert("Could not get location."); btn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`; btn.disabled = false; },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
-});
+// GPS for Update
+const updateGpsBtn = document.getElementById("updateGpsBtn");
+if (updateGpsBtn) {
+    const newUpdateGpsBtn = updateGpsBtn.cloneNode(true);
+    updateGpsBtn.parentNode.replaceChild(newUpdateGpsBtn, updateGpsBtn);
+    newUpdateGpsBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (!navigator.geolocation) { alert("Geolocation not supported."); return; }
+        this.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Locating...`;
+        this.disabled = true;
+        navigator.geolocation.getCurrentPosition(
+            async (pos) => {
+                await setUpdateLocation(pos.coords.latitude, pos.coords.longitude);
+                this.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`;
+                this.disabled = false;
+            },
+            (err) => {
+                alert("Could not get location: " + err.message);
+                this.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Use My Location`;
+                this.disabled = false;
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    });
+}
 document.getElementById("updateManualBtn").addEventListener("click", function () { updatePickingMode ? setUpdatePickingMode(false) : setUpdatePickingMode(true); });
 document.getElementById("updateMapSearchBtn").addEventListener("click", async function () {
     const query = document.getElementById("updateMapSearch").value.trim();
@@ -340,11 +364,11 @@ async function fetchOwnerStats() {
     if (!ownerId) return;
     try {
         const [pRes, bRes] = await Promise.all([
-            fetch(`${API_BASE}/Properties/GetByOwner?ownerId=${ownerId}`),
+            fetch(`${API_BASE}/Properties/GetByOwnerV2?ownerId=${ownerId}`),
             fetch(`${API_BASE}/Booking/owner/${ownerId}`)
         ]);
         const pData = await pRes.json(), bData = await bRes.json();
-        const props = Array.isArray(pData) ? pData : pData.properties || [];
+        const props = pData.properties || [];
         const books = bData.bookings || [];
         const el = (id) => document.getElementById(id);
         if (el("total-props")) el("total-props").innerText = props.length;
@@ -357,7 +381,7 @@ async function fetchOwnerStats() {
 fetchOwnerStats();
 
 // =====================================================
-// UPDATE SECTION OPEN (مع تحسين الواجهة)
+// UPDATE SECTION OPEN (Fixed Address Display)
 // =====================================================
 let newPropertyFiles = [], newVideoFile = null;
 function openUpdateSection(prop) {
@@ -379,25 +403,26 @@ function openUpdateSection(prop) {
         prop.services.forEach(s => {
             const n = s.name.toLowerCase();
             if (n.includes("wifi")) get("wifiUpdate").checked = true;
-            if (n.includes("air")) get("parkingUpdate").checked = true;
-            if (n.includes("washing")) get("gymUpdate").checked = true;
-            if (n.includes("water")) get("acUpdate").checked = true;
+            if (n.includes("air conditioning")) get("parkingUpdate").checked = true;
+            if (n.includes("washing machine")) get("gymUpdate").checked = true;
+            if (n.includes("water heater")) get("acUpdate").checked = true;
         });
     }
-    // استخدام fullAddress أو بناء العنوان
     const loc = prop.location || {};
     const existingLat = loc.latitude || null;
     const existingLng = loc.longitude || null;
     const existingAddr = prop.fullAddress || loc.address || [loc.street, loc.area, loc.city].filter(Boolean).join(", ");
-    get("updateAddress").value = existingAddr || "";
     get("updateLat").value = existingLat || "";
     get("updateLng").value = existingLng || "";
+    get("updateAddress").value = existingAddr || "";
     if (existingLat && existingLng) {
         get("updateSelectedAddress").textContent = existingAddr;
         const nearest = findNearestUniversity(existingLat, existingLng);
         if (nearest) {
             get("updateUniversityId").value = nearest.university.universityId;
             get("updateSelectedUni").textContent = `📍 Nearest: ${nearest.university.name} (${nearest.distance} km)`;
+        } else {
+            get("updateSelectedUni").textContent = "";
         }
         get("updateLocationInfo").classList.remove("d-none");
     } else {
@@ -405,7 +430,7 @@ function openUpdateSection(prop) {
     }
     setTimeout(() => initUpdateMap(existingLat, existingLng), 200);
 
-    // إعادة بناء معرض الوسائط
+    // Media rebuild
     const mediaContainer = get("allImg");
     mediaContainer.innerHTML = `
         <div class="upload-wrapper w-100">
@@ -471,7 +496,7 @@ function checkImageLimit() {
 }
 
 // =====================================================
-// UPDATE PROPERTY SUBMIT (مع إرسال البيانات الكاملة)
+// UPDATE PROPERTY SUBMIT (Fixed Address)
 // =====================================================
 document.getElementById("updatePropertyForm")?.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -501,7 +526,6 @@ document.getElementById("updatePropertyForm")?.addEventListener("submit", async 
         fd.append("Price", parseFloat(price.value));
         fd.append("Rooms", parseInt(rooms.value));
         fd.append("PropertyType", get("apartmentUpdate").checked ? "Apartment" : "Room");
-        // إرسال بيانات الموقع الكاملة
         fd.append("City", "Cairo");
         fd.append("Area", "General");
         fd.append("Street", uAddr);
@@ -533,7 +557,7 @@ document.getElementById("cancelUpdate").onclick = () => {
 };
 
 // =====================================================
-// FETCH PROPERTIES LIST (استخدام fullAddress)
+// FETCH PROPERTIES LIST (Fixed Address Display)
 // =====================================================
 async function fetchProperties() {
     const container = document.getElementById("propertiesContainer");
@@ -554,13 +578,19 @@ async function fetchProperties() {
             if (prop.propertyStatusID === 2) { statusText = "Approved"; statusClass = "bg-success text-white"; }
             else if (prop.propertyStatusID === 3) { statusText = "Rejected"; statusClass = "bg-danger text-white"; }
             const imgUrl = prop.images && prop.images.length > 0 ? prop.images[0].imageUrl : "https://via.placeholder.com/150";
-            const addressDisplay = prop.fullAddress || (prop.location?.address) || [prop.location?.street, prop.location?.area, prop.location?.city].filter(Boolean).join(", ") || "Location not set";
+            // بناء العنوان بشكل صحيح
+            let addressDisplay = prop.fullAddress;
+            if (!addressDisplay || addressDisplay === "Default City, Default Area") {
+                addressDisplay = prop.location?.address || [prop.location?.street, prop.location?.area, prop.location?.city].filter(Boolean).join(", ");
+            }
+            if (!addressDisplay || addressDisplay.trim() === "") addressDisplay = "Location not set";
             const propJson = JSON.stringify(prop).replace(/"/g, "&quot;");
-            container.innerHTML += `<div class="col-12 mb-3"><div class="property-card p-3 shadow-sm border rounded-3 bg-white"><div class="d-flex d-flex-mobile align-items-start gap-3"><img src="${imgUrl}" style="width:120px;height:90px;object-fit:cover;border-radius:8px;" alt="property"><div class="flex-grow-1"><h4 class="mb-1 h6 fw-bold text-dark">${prop.title}</h4><p class="mb-1 text-muted small"><i class="fas fa-location-dot me-1"></i>${addressDisplay}</p><p class="mb-0 fw-bold" style="color:#efb81e;">$${prop.price} / month</p></div><div class="d-flex align-items-center gap-2 mt-2 flex-wrap justify-content-end"><span class="badge ${statusClass}" style="font-size:10px;padding:5px 10px;">${statusText}</span><button class="btn btn-sm px-4 fw-bold" style="background:transparent;color:#1e293b;border:2px solid #000;border-radius:20px;transition:0.2s;" onmouseover="this.style.backgroundColor='#212e43';this.style.color='#efb81e';this.style.borderColor='#212e43';" onmouseout="this.style.backgroundColor='transparent';this.style.color='#1e293b';this.style.borderColor='#000';" onclick='showPropertyDetails(${propJson})'> View Details </button></div></div></div></div>`;
+            container.innerHTML += `<div class="col-12 mb-3"><div class="property-card p-3 shadow-sm border rounded-3 bg-white"><div class="d-flex d-flex-mobile align-items-start gap-3"><img src="${imgUrl}" style="width:120px;height:90px;object-fit:cover;border-radius:8px;" alt="property"><div class="flex-grow-1"><h4 class="mb-1 h6 fw-bold text-dark">${escapeHtml(prop.title)}</h4><p class="mb-1 text-muted small"><i class="fas fa-location-dot me-1"></i>${escapeHtml(addressDisplay)}</p><p class="mb-0 fw-bold" style="color:#efb81e;">$${prop.price} / month</p></div><div class="d-flex align-items-center gap-2 mt-2 flex-wrap justify-content-end"><span class="badge ${statusClass}" style="font-size:10px;padding:5px 10px;">${statusText}</span><button class="btn btn-sm px-4 fw-bold" style="background:transparent;color:#1e293b;border:2px solid #000;border-radius:20px;transition:0.2s;" onmouseover="this.style.backgroundColor='#212e43';this.style.color='#efb81e';this.style.borderColor='#212e43';" onmouseout="this.style.backgroundColor='transparent';this.style.color='#1e293b';this.style.borderColor='#000';" onclick='showPropertyDetails(${propJson})'> View Details </button></div></div></div></div>`;
         });
     } catch (err) { console.error(err); container.innerHTML = "<p class='text-center text-danger py-5'>Error loading properties.</p>"; }
     finally { hideLoader(); }
 }
+function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 fetchProperties();
 document.getElementById("propertiesContainer").addEventListener("click", (e) => {
     if (e.target && e.target.id === "addPropertyy") {
@@ -573,7 +603,7 @@ document.getElementById("propertiesContainer").addEventListener("click", (e) => 
 });
 
 // =====================================================
-// DETAILS MAP (تم تحسينها)
+// DETAILS MAP
 // =====================================================
 let detailsMap = null;
 function initDetailsMap(lat, lng, address, uniName, distanceKm) {
@@ -605,13 +635,13 @@ function initDetailsMap(lat, lng, address, uniName, distanceKm) {
 }
 
 // =====================================================
-// SHOW PROPERTY DETAILS (معرض كامل + جدول حجوزات)
+// SHOW PROPERTY DETAILS (Gallery, Amenities, Bookings)
 // =====================================================
 async function showPropertyDetails(prop) {
     document.getElementById("oneProperti").classList.remove("d-none");
     sections.properties.classList.add("d-none");
 
-    // معرض الصور: بناء شبكة مرنة بدلاً من 3 صور فقط
+    // Build full gallery
     const images = (prop.images && prop.images.length > 0) ? prop.images : [];
     const galleryContainer = document.getElementById("onePFeaturedGallery");
     galleryContainer.innerHTML = `<div class="gallery-grid" id="fullGalleryGrid"></div><div class="thumbnails-row" id="thumbnailsRow"></div>`;
@@ -643,40 +673,45 @@ async function showPropertyDetails(prop) {
         });
     }
 
-    // معلومات أساسية
+    // Basic info
     document.getElementById("onePTitle").textContent = prop.title;
     document.getElementById("idPropirtie").value = prop.propertyID;
     const loc = prop.location || {};
-    const addrDisplay = prop.fullAddress || loc.address || [loc.street, loc.area, loc.city].filter(Boolean).join(", ") || "Location not set";
+    let addrDisplay = prop.fullAddress;
+    if (!addrDisplay || addrDisplay === "Default City, Default Area") {
+        addrDisplay = loc.address || [loc.street, loc.area, loc.city].filter(Boolean).join(", ");
+    }
+    if (!addrDisplay) addrDisplay = "Location not set";
     document.getElementById("onePAddress").textContent = addrDisplay;
     document.getElementById("onePDescription").textContent = prop.description;
     document.getElementById("onePPrice").innerHTML = `<i class="fas fa-diamond"></i> Price $${prop.price} / month`;
     document.getElementById("onePRooms").innerHTML = `<i class="fas fa-diamond"></i> ${prop.rooms} rooms`;
 
-    // Amenities مع أيقونات
+    // Amenities with icons
     const amenitiesList = document.querySelector(".amenities-list");
     amenitiesList.innerHTML = "";
     if (prop.services && prop.services.length > 0) {
         prop.services.forEach(s => {
             const li = document.createElement("li");
             let icon = "fa-solid fa-circle-check";
-            if (s.name.toLowerCase().includes("wifi")) icon = "fa-solid fa-wifi";
-            else if (s.name.toLowerCase().includes("air")) icon = "fa-regular fa-snowflake";
-            else if (s.name.toLowerCase().includes("washing")) icon = "fa-solid fa-jug-detergent";
-            else if (s.name.toLowerCase().includes("water")) icon = "fa-solid fa-water-ladder";
+            const name = s.name.toLowerCase();
+            if (name.includes("wifi")) icon = "fa-solid fa-wifi";
+            else if (name.includes("air")) icon = "fa-regular fa-snowflake";
+            else if (name.includes("washing")) icon = "fa-solid fa-jug-detergent";
+            else if (name.includes("water")) icon = "fa-solid fa-water-ladder";
             li.innerHTML = `<i class="${icon}" style="color:#efb81e; margin-right:12px;"></i> ${s.name}`;
             amenitiesList.appendChild(li);
         });
     } else { amenitiesList.innerHTML = "<li>No amenities available</li>"; }
 
-    // الخريطة
+    // Map
     const lat = loc.latitude || null;
     const lng = loc.longitude || null;
     const uniName = loc.university ? loc.university.name : null;
     const distKm = loc.university ? loc.university.distance_km : null;
     setTimeout(() => initDetailsMap(lat, lng, addrDisplay, uniName, distKm), 250);
 
-    // جدول الحجوزات الخاص بهذا العقار
+    // Bookings table for this property
     const tableBody = document.querySelector("#onePReservationsTable tbody");
     tableBody.innerHTML = '<tr><td colspan="3" class="text-center">Loading bookings...</td></tr>';
     try {
@@ -688,8 +723,8 @@ async function showPropertyDetails(prop) {
         } else {
             tableBody.innerHTML = bookings.map(b => `
                 <tr>
-                    <td>${b.studentName}</td>
-                    <td>${b.checkInDate || new Date(b.createdAt).toLocaleDateString()}</td>
+                    <td>${escapeHtml(b.studentName)}</td>
+                    <td>${b.checkInDate ? b.checkInDate : new Date(b.createdAt).toLocaleDateString()}</td>
                     <td>
                         <span class="status-badge ${b.statusName === 'Booked' ? 'confirmed' : (b.statusName === 'In-Process' ? 'pending' : 'cancelled')}">${b.statusName}</span>
                         ${b.statusName === 'In-Process' ? `<div class="mt-1"><button class="btn-accept-sm" onclick="handleBookingAction(${b.bookingId}, 'accept', ${prop.propertyID})">Accept</button> <button class="btn-reject-sm" onclick="handleBookingAction(${b.bookingId}, 'reject', ${prop.propertyID})">Reject</button></div>` : ''}
@@ -707,7 +742,6 @@ async function showPropertyDetails(prop) {
     document.getElementById("onePBtnUpdate").onclick = () => openUpdateSection(prop);
 }
 
-// دالة مساعدة لقبول/رفض الحجز من صفحة التفاصيل
 window.handleBookingAction = async (bookingId, action, propertyId) => {
     const ownerId = localStorage.getItem("id");
     const url = action === "accept" ? `${API_BASE}/Booking/${bookingId}/confirm?OwnerId=${ownerId}` : `${API_BASE}/Booking/${bookingId}/cancel`;
@@ -715,7 +749,6 @@ window.handleBookingAction = async (bookingId, action, propertyId) => {
         const res = await fetch(url, { method: "PUT", headers: { accept: "*/*" } });
         if (res.ok) {
             Swal.fire({ icon: "success", title: action === "accept" ? "Accepted!" : "Rejected!", timer: 1500, showConfirmButton: false });
-            // إعادة تحميل تفاصيل العقار لتحديث الجدول
             const refreshRes = await fetch(`${API_BASE}/Properties/GetByIDV2?id=${propertyId}`);
             const refreshData = await refreshRes.json();
             showPropertyDetails(refreshData.property);
@@ -756,14 +789,14 @@ document.getElementById("confirmDeleteBtn").onclick = async function () {
 };
 
 // =====================================================
-// BOOKING REQUESTS (نفس الموجود لكن بدون تغيير كبير)
+// BOOKING REQUESTS
 // =====================================================
-const ownerId = localStorage.getItem("id");
+const ownerIdBooking = localStorage.getItem("id");
 const bookingContainer = document.getElementById("bookingMainContent");
 const messagesContainer = document.getElementById("messagesList");
 async function fetchBookings() {
     try {
-        const res = await fetch(`${API_BASE}/Booking/owner/${ownerId}`);
+        const res = await fetch(`${API_BASE}/Booking/owner/${ownerIdBooking}`);
         const data = await res.json();
         const inProcess = (data.bookings || []).filter(b => b.statusName === "In-Process");
         const finished = (data.bookings || []).filter(b => b.statusName === "Booked" || b.statusName === "Cancelled");
@@ -772,7 +805,7 @@ async function fetchBookings() {
     } catch (e) { console.error(e); renderEmptyBooking(); }
 }
 window.handleAction = async (bookingId, type) => {
-    const url = type === "accept" ? `${API_BASE}/Booking/${bookingId}/confirm?OwnerId=${ownerId}` : `${API_BASE}/Booking/${bookingId}/cancel`;
+    const url = type === "accept" ? `${API_BASE}/Booking/${bookingId}/confirm?OwnerId=${ownerIdBooking}` : `${API_BASE}/Booking/${bookingId}/cancel`;
     try {
         const res = await fetch(url, { method: "PUT", headers: { accept: "*/*" } });
         if (res.ok) {
@@ -782,17 +815,17 @@ window.handleAction = async (bookingId, type) => {
     } catch (e) { console.error(e); alert("Connection error"); }
 };
 function renderTable(bookings) {
-    bookingContainer.innerHTML = `<div class="custom-table-container"><table class="table custom-table mb-0"><thead><tr><th>Image</th><th>Student Name</th><th>Property</th><th>Date</th><th class="text-center">Actions</th></tr></thead><tbody>${bookings.map(b => `<tr><td><img src="${b.property.imageUrl}" style="width:50px;height:50px;border-radius:8px;object-fit:cover;"></td><td>${b.studentName}</td><td>${b.property.title}</td><td>${new Date(b.createdAt).toLocaleDateString()}</td><td class="text-center"><button class="btn-reject me-1" onclick="handleAction(${b.bookingId},'reject')">Reject</button><button class="btn-accept" onclick="handleAction(${b.bookingId},'accept')">Accept</button></td></tr>`).join("")}</tbody></table></div>`;
+    bookingContainer.innerHTML = `<div class="custom-table-container"><table class="table custom-table mb-0"><thead><tr><th>Image</th><th>Student Name</th><th>Property</th><th>Date</th><th class="text-center">Actions</th></tr></thead><tbody>${bookings.map(b => `<tr><td><img src="${b.property.imageUrl}" style="width:50px;height:50px;border-radius:8px;object-fit:cover;"></td><td>${escapeHtml(b.studentName)}</td><td>${escapeHtml(b.property.title)}</td><td>${new Date(b.createdAt).toLocaleDateString()}</td><td class="text-center"><button class="btn-reject me-1" onclick="handleAction(${b.bookingId},'reject')">Reject</button><button class="btn-accept" onclick="handleAction(${b.bookingId},'accept')">Accept</button></td></tr>`).join("")}</tbody><tr></div>`;
 }
 function renderMessagesCards(bookings) {
     if (!messagesContainer) return;
-    messagesContainer.innerHTML = bookings.map(b => `<div class="msg-card mb-3"><div class="row align-items-center g-2"><div class="col-auto"><div style="width:70px;height:70px;overflow:hidden;border-radius:10px;"><img src="${b.property.imageUrl}" style="width:100%;height:100%;object-fit:cover;"></div></div><div class="col text-start ps-3"><div class="fw-bold text-warning">${b.property.title}</div><div class="small text-white">${b.studentName}</div><div class="text-white-50" style="font-size:0.7rem;">Status: ${b.statusName}</div></div><div class="col-auto"><span class="status-btn-mock">${b.statusName === "Cancelled" ? "Rejected" : "Booked"}</span></div></div></div>`).join("");
+    messagesContainer.innerHTML = bookings.map(b => `<div class="msg-card mb-3"><div class="row align-items-center g-2"><div class="col-auto"><div style="width:70px;height:70px;overflow:hidden;border-radius:10px;"><img src="${b.property.imageUrl}" style="width:100%;height:100%;object-fit:cover;"></div></div><div class="col text-start ps-3"><div class="fw-bold text-warning">${escapeHtml(b.property.title)}</div><div class="small text-white">${escapeHtml(b.studentName)}</div><div class="text-white-50" style="font-size:0.7rem;">Status: ${b.statusName}</div></div><div class="col-auto"><span class="status-btn-mock">${b.statusName === "Cancelled" ? "Rejected" : "Booked"}</span></div></div></div>`).join("");
 }
 function renderEmptyBooking() { bookingContainer.innerHTML = `<div class="col-12 text-center py-5 mt-5"><div class="mb-3"><img src="../img/icone-booking.svg" style="width:120px;"></div><h2 class="fw-bold" style="color:#FFC107;">No bookings yet.</h2></div>`; }
 function renderEmptyMessages() { if (messagesContainer) messagesContainer.innerHTML = `<div class="text-center mt-5"><h4 class="text-warning mt-3">No messages yet.</h4></div>`; }
 fetchBookings();
 
-// إضافة أنماط ديناميكية للمعرض الجديد (تضاف مرة واحدة)
+// Add dynamic styles for gallery
 if (!document.getElementById("dynamicGalleryStyles")) {
     const style = document.createElement("style");
     style.id = "dynamicGalleryStyles";
