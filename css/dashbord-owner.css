@@ -729,3 +729,53 @@ input[type="file"] { display: none; }
 .map-picking-banner.show {
   display: block;
 }
+/* =====================================================
+   Improved Services Icons & Cards
+   ===================================================== */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+.service-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    transition: 0.2s;
+    border: 1px solid #e2e8f0;
+}
+.service-item i {
+    font-size: 1.4rem;
+    color: #efb81e;
+    margin-bottom: 6px;
+    display: block;
+}
+.service-item span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* تحسين كروت التحديث وجعلها متناسقة */
+.update-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+.update-card-header {
+    background-color: #212e43;
+    color: #efb81e;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* تنسيق صفحة الرسائل */
+#sectionMassageProperties .container {
+    max-width: 900px;
+    margin: 0 auto;
+}
