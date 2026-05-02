@@ -37,6 +37,7 @@ const sections = {
     massageProperties: document.getElementById("sectionMassageProperties"),
 };
 const menuItems = {
+    properties: document.getElementById("properties"),
     addProperties: document.getElementById("addProperties"),
     booking: document.getElementById("BookingButton"),
     settingProperties: document.getElementById("settingProperties"),
@@ -242,8 +243,7 @@ document.getElementById("addPropertyForm").addEventListener("submit", async (e) 
         fd.append("Price", parseFloat(price.value));
         fd.append("Rooms", parseInt(rooms.value));
         fd.append("PropertyType", get("apartmentApp").checked ? "Apartment" : "Room");
-        // إرسال بيانات الموقع الكاملة
-        fd.append("City", "Cairo"); // يمكن استخراجها من العنوان إذا أردت، لكنها ليست ضرورية للتخزين
+        fd.append("City", "Cairo");
         fd.append("Area", "General");
         fd.append("Street", address);
         fd.append("Latitude", parseFloat(lat));
@@ -320,7 +320,6 @@ async function setUpdateLocation(lat, lng) {
     applyLocationToUI(lat, lng, address, nearest, "update");
     if (nearest) updateMarker.bindPopup(`<b>${address.split(",")[0]}</b><br><small>Near ${nearest.university.name}</small>`).openPopup();
 }
-// GPS for Update
 const updateGpsBtn = document.getElementById("updateGpsBtn");
 if (updateGpsBtn) {
     const newUpdateGpsBtn = updateGpsBtn.cloneNode(true);
@@ -577,7 +576,6 @@ async function fetchProperties() {
             if (prop.propertyStatusID === 2) { statusText = "Approved"; statusClass = "bg-success text-white"; }
             else if (prop.propertyStatusID === 3) { statusText = "Rejected"; statusClass = "bg-danger text-white"; }
             const imgUrl = prop.images && prop.images.length > 0 ? prop.images[0].imageUrl : "https://via.placeholder.com/150";
-            // بناء العنوان بشكل صحيح
             let addressDisplay = prop.fullAddress;
             if (!addressDisplay || addressDisplay === "Default City, Default Area") {
                 addressDisplay = prop.location?.address || [prop.location?.street, prop.location?.area, prop.location?.city].filter(Boolean).join(", ");
@@ -814,7 +812,7 @@ window.handleAction = async (bookingId, type) => {
     } catch (e) { console.error(e); alert("Connection error"); }
 };
 function renderTable(bookings) {
-    bookingContainer.innerHTML = `<div class="custom-table-container"><table class="table custom-table mb-0"><thead><tr><th>Image</th><th>Student Name</th><th>Property</th><th>Date</th><th class="text-center">Actions</th></tr></thead><tbody>${bookings.map(b => `<tr><td><img src="${b.property.imageUrl}" style="width:50px;height:50px;border-radius:8px;object-fit:cover;"></td><td>${escapeHtml(b.studentName)}</td><td>${escapeHtml(b.property.title)}</td><td>${new Date(b.createdAt).toLocaleDateString()}</td><td class="text-center"><button class="btn-reject me-1" onclick="handleAction(${b.bookingId},'reject')">Reject</button><button class="btn-accept" onclick="handleAction(${b.bookingId},'accept')">Accept</button></td></tr>`).join("")}</tbody><tr></div>`;
+    bookingContainer.innerHTML = `<div class="custom-table-container"><table class="table custom-table mb-0"><thead><tr><th>Image</th><th>Student Name</th><th>Property</th><th>Date</th><th class="text-center">Actions</th><table></thead><tbody>${bookings.map(b => `<tr><td><img src="${b.property.imageUrl}" style="width:50px;height:50px;border-radius:8px;object-fit:cover;"></td><td>${escapeHtml(b.studentName)}</td><td>${escapeHtml(b.property.title)}</td><td>${new Date(b.createdAt).toLocaleDateString()}</td><td class="text-center"><button class="btn-reject me-1" onclick="handleAction(${b.bookingId},'reject')">Reject</button><button class="btn-accept" onclick="handleAction(${b.bookingId},'accept')">Accept</button></td></tr>`).join("")}</tbody></table></div>`;
 }
 function renderMessagesCards(bookings) {
     if (!messagesContainer) return;
@@ -824,7 +822,7 @@ function renderEmptyBooking() { bookingContainer.innerHTML = `<div class="col-12
 function renderEmptyMessages() { if (messagesContainer) messagesContainer.innerHTML = `<div class="text-center mt-5"><h4 class="text-warning mt-3">No messages yet.</h4></div>`; }
 fetchBookings();
 
-// Add dynamic styles for gallery
+// Add dynamic styles for gallery if not already present
 if (!document.getElementById("dynamicGalleryStyles")) {
     const style = document.createElement("style");
     style.id = "dynamicGalleryStyles";
