@@ -3,190 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Dashboard - Homunity</title>
-    <!-- Fonts & Icons -->
+    <title>Owner Dashboard | Homunity</title>
+    <!-- CSS Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- Loader -->
     <div id="homunityLoader" class="loader-overlay d-none">
-        <div class="spinner"></div>
+        <div class="spinner-container">
+            <div class="spinner-border text-warning" role="status"></div>
+            <h3 class="mt-3 text-white">HOMUNITY</h3>
+        </div>
     </div>
 
-    <!-- Header -->
-    <header class="top-header">
-        <div class="logo">
-            <img src="../assets/logo.png" alt="Logo">
-            <span>Homunity</span>
-        </div>
-        <div class="nav-actions">
-            <i class="fa-regular fa-bell nav-icon"></i>
-            <div class="user-avatar-wrapper">
-                <i class="fa-solid fa-circle-user"></i>
-            </div>
-        </div>
-    </header>
-
-    <div class="dashboard-container">
+    <div class="dashboard-wrapper">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <nav>
+            <div class="sidebar-header">
+                <img src="../img/logo.png" alt="Logo">
+                <span>Homunity</span>
+            </div>
+            <nav class="sidebar-nav">
                 <ul>
-                    <li id="properties" class="active"><i class="fa-solid fa-house"></i> My Properties</li>
-                    <li id="addProperties"><i class="fa-solid fa-plus-circle"></i> Add Property</li>
-                    <li id="BookingButton"><i class="fa-solid fa-calendar-check"></i> Bookings</li>
-                    <li id="massageProperties"><i class="fa-solid fa-envelope"></i> Messages</li>
-                    <li id="settingProperties"><i class="fa-solid fa-gear"></i> Settings</li>
+                    <li id="menu-list" class="active"><i class="fa-solid fa-house"></i> My Properties</li>
+                    <li id="menu-add"><i class="fa-solid fa-plus-circle"></i> Add Property</li>
+                    <li id="menu-bookings"><i class="fa-solid fa-calendar-check"></i> Bookings</li>
+                    <li id="menu-messages"><i class="fa-solid fa-envelope"></i> Messages</li>
+                    <li id="menu-settings"><i class="fa-solid fa-gear"></i> Settings</li>
                 </ul>
             </nav>
-            <div class="logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
+            <div class="logout-btn" onclick="handleLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            
-            <!-- 1. Properties List Section -->
-            <section id="sectionProperties" class="unified-section">
-                <div class="stats-container">
-                    <div class="stat-card">Total: <span id="total-props">0</span></div>
-                    <div class="stat-card">Approved: <span id="approved-count">0</span></div>
-                    <div class="stat-card">Pending: <span id="pending-booking">0</span></div>
+            <!-- Properties Grid -->
+            <section id="section-list" class="dashboard-section animate-fade">
+                <div class="stats-row mb-4">
+                    <div class="stat-box">Total: <span id="stat-total">0</span></div>
+                    <div class="stat-box gold">Approved: <span id="stat-approved">0</span></div>
                 </div>
-                <div id="propertiesGrid" class="mt-4">
-                    <!-- Property cards injected here -->
-                </div>
+                <div id="propertiesGrid" class="row g-4"></div>
             </section>
 
-            <!-- 2. Add Property Section (The New Split Design) -->
-            <section id="sectionAddProperties" class="unified-section d-none">
+            <!-- Add Property (Split Design) -->
+            <section id="section-add" class="dashboard-section d-none">
                 <form id="addPropertyForm">
                     <div class="form-card mb-4">
-                        <h3 class="gold-text mb-3">General Information</h3>
+                        <h4 class="gold-text mb-4"><i class="fa-solid fa-info-circle"></i> Basic Information</h4>
                         <div class="row g-3">
-                            <div class="col-md-6"><input type="text" id="titleAdd" class="form-control-custom" placeholder="Property Title"></div>
-                            <div class="col-md-3"><input type="number" id="priceAdd" class="form-control-custom" placeholder="Price"></div>
-                            <div class="col-md-3"><input type="number" id="roomsAdd" class="form-control-custom" placeholder="Rooms"></div>
+                            <div class="col-md-6">
+                                <label>Title</label>
+                                <input type="text" id="add-title" class="form-control-custom" placeholder="e.g. Modern Student Room">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Price</label>
+                                <input type="number" id="add-price" class="form-control-custom" placeholder="0.00">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Rooms</label>
+                                <input type="number" id="add-rooms" class="form-control-custom" placeholder="1">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="split-header-container">
-                        <div class="header-box">Location</div>
-                        <div class="header-box">Services</div>
+                    <div class="split-header">
+                        <div class="split-label">Location Picker</div>
+                        <div class="split-label">Amenities / Services</div>
                     </div>
 
                     <div class="row g-4">
-                        <!-- Location Column -->
-                        <div class="col-lg-6">
-                            <div id="addMapContainer" class="map-wrapper-fixed">
-                                <div id="addMap" style="height: 300px; border-radius: 12px;"></div>
-                                <div class="mt-2 d-flex gap-2">
-                                    <button type="button" onclick="handleGPS('addGpsBtn', 'add')" id="addGpsBtn" class="btn-dark-custom btn-sm"><i class="fa-solid fa-location-crosshairs"></i> Use My Location</button>
-                                    <input type="text" id="addMapSearch" class="form-control-custom" placeholder="Search area...">
+                        <div class="col-lg-7">
+                            <div class="map-container-wrapper">
+                                <div id="map-add" class="leaflet-map"></div>
+                                <div class="map-tools">
+                                    <button type="button" class="btn-gps" onclick="forceGPS('add')">
+                                        <i class="fa-solid fa-location-crosshairs"></i> Get Current Location (Precise)
+                                    </button>
                                 </div>
-                                <input type="hidden" id="addLat"> <input type="hidden" id="addLng">
-                                <input type="hidden" id="addAddress"> <input type="hidden" id="addUniversityId">
-                                <div id="addLocationInfo" class="location-badge mt-2 d-none">
-                                    <span id="addSelectedAddress"></span><br>
-                                    <small id="addSelectedUni" class="gold-text"></small>
-                                </div>
+                                <div id="add-address-display" class="address-badge mt-2">No location selected</div>
+                                <input type="hidden" id="add-lat">
+                                <input type="hidden" id="add-lng">
+                                <input type="hidden" id="add-fullAddress">
                             </div>
                         </div>
-                        <!-- Services Column (Creative Grid) -->
-                        <div class="col-lg-6">
-                            <div class="services-grid-creative">
-                                <label class="service-card-item">
-                                    <input type="checkbox" name="services" value="1" id="wifi">
-                                    <div class="service-card-content"><i class="fa-solid fa-wifi"></i><span>WiFi</span></div>
-                                </label>
-                                <label class="service-card-item">
-                                    <input type="checkbox" name="services" value="2" id="parking">
-                                    <div class="service-card-content"><i class="fa-solid fa-car"></i><span>Parking</span></div>
-                                </label>
-                                <label class="service-card-item">
-                                    <input type="checkbox" name="services" value="4" id="ac">
-                                    <div class="service-card-content"><i class="fa-solid fa-snowflake"></i><span>Air Conditioning</span></div>
-                                </label>
-                                <label class="service-card-item">
-                                    <input type="checkbox" name="services" value="5" id="laundry">
-                                    <div class="service-card-content"><i class="fa-solid fa-soap"></i><span>Laundry</span></div>
-                                </label>
+                        <div class="col-lg-5">
+                            <div class="services-grid-wrapper" id="services-container">
+                                <!-- Services checkboxes dynamically loaded here -->
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <textarea id="descreptionAdd" class="form-control-custom" rows="3" placeholder="Description"></textarea>
-                    </div>
-                    
-                    <div class="mt-3">
-                        <label>Images (Max 6)</label>
-                        <input type="file" id="images" multiple class="form-control-custom" accept="image/*">
-                    </div>
-
-                    <div class="property-actions-container">
-                        <button type="submit" class="btn-custom btn-update">Save Property</button>
-                        <button type="button" id="cancelAdd" class="btn-custom btn-delete">Cancel</button>
+                    <div class="form-card mt-4">
+                        <label>Media (Images & Video)</label>
+                        <div class="row">
+                            <div class="col-md-6"><input type="file" id="add-images" multiple class="form-control mb-2" accept="image/*"></div>
+                            <div class="col-md-6"><input type="file" id="add-video" class="form-control" accept="video/*"></div>
+                        </div>
+                        <button type="submit" class="btn-gold-main mt-4 w-100">Publish Property</button>
                     </div>
                 </form>
             </section>
 
-            <!-- 3. Property Details Section (One Property - Modern Gallery) -->
-            <section id="oneProperti" class="unified-section d-none">
+            <!-- Property Details (Gallery Stage) -->
+            <section id="section-details" class="dashboard-section d-none">
+                <button class="btn btn-sm btn-outline-dark mb-3" onclick="showSection('list')">
+                    <i class="fa-solid fa-arrow-left"></i> Back to List
+                </button>
                 <div class="row">
                     <div class="col-lg-7">
-                        <div class="modern-gallery">
-                            <div id="onePMainStage" class="main-stage-container">
-                                <!-- Main Image/Video here -->
-                            </div>
-                            <div id="onePThumbs" class="thumbs-strip">
-                                <!-- Thumbnails here -->
-                            </div>
+                        <div class="gallery-stage">
+                            <div id="main-media-box" class="main-display"></div>
+                            <div id="thumbnails-strip" class="thumbs-nav"></div>
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="info-card">
-                            <h2 id="onePTitle" class="gold-text">Property Title</h2>
-                            <p id="onePAddress" class="text-muted"><i class="fa-solid fa-location-dot"></i> Address Loading...</p>
+                        <div class="details-info-card">
+                            <h2 id="det-title" class="gold-text">Property Name</h2>
+                            <p id="det-address" class="text-muted"><i class="fa-solid fa-map-pin"></i> Address loading...</p>
                             <hr>
-                            <h4 class="gold-text">Services</h4>
-                            <ul id="onePServices" class="amenities-list"></ul>
-                            <hr>
-                            <div id="detailsMap" style="height: 200px; border-radius: 12px;"></div>
+                            <h5>Included Services:</h5>
+                            <div id="det-services" class="det-services-list"></div>
+                            <div id="map-details" class="mini-map mt-3"></div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-5">
-                    <h3 class="gold-text">Recent Bookings</h3>
-                    <div class="table-container mt-3">
-                        <table class="custom-table" id="bookingsTable">
-                            <thead>
-                                <tr><th>Student</th><th>Date</th><th>Status</th></tr>
-                            </thead>
-                            <tbody id="bookingsList"></tbody>
-                        </table>
-                    </div>
-                </div>
             </section>
-
-            <!-- 4. Update, Messages, Settings (Placeholders for alignment) -->
-            <section id="sectionUpdateProperties" class="unified-section d-none">
-                <!-- Similar to Add Property but with Update logic -->
-            </section>
-            
-            <section id="sectionMassageProperties" class="unified-section d-none">
-                <h2 class="gold-text">Messages</h2>
-                <div id="messagesGrid" class="mt-3"></div>
-            </section>
-
         </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- JS Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
