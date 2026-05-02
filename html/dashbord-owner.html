@@ -96,78 +96,7 @@
       cursor: pointer;
       border: 2px solid transparent;
       transition: 0.2s;
-    }
-    .gallery-thumb.active-thumb {
-      border-color: #efb81e;
-      transform: scale(1.05);
-    }
-    .btn-accept-sm, .btn-reject-sm {
-      padding: 4px 12px;
-      font-size: 12px;
-      border-radius: 20px;
-      margin: 2px;
-      border: none;
-    }
-    .btn-accept-sm { background: #efb81e; color: #212e43; }
-    .btn-reject-sm { background: #212e43; color: #efb81e; }
-    @media (max-width: 768px) {
-      .gallery-main-img { height: 250px; }
-      .gallery-thumb { width: 50px; height: 50px; }
-    }
-    #homunityLoader {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #fff9e6, #fff3cc, #ffe999);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-  </style>
-</head>
-<body>
-
-<div id="homunityLoader" class="d-none">
-  <div class="text-center">
-    <div class="spinner-border homunity-spinner mb-4" role="status"></div>
-    <h2 class="fw-bold homunity-text">HOMUNITY</h2>
-  </div>
-</div>
-
-<div class="dashboard-container">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <nav class="navbar navbar-expand-lg">
-      <ul>
-        <li id="properties" class="active"><i class="fa-solid fa-house"></i> Properties</li>
-        <li id="addProperties"><i class="fa-solid fa-plus"></i> Add Property</li>
-        <li id="massageProperties"><i class="fa-solid fa-message"></i> Messages</li>
-        <li id="BookingButton"><i class="fa-solid fa-calendar-check"></i> Booking Request</li>
-        <li id="settingProperties"><i class="fa-solid fa-gear"></i> Settings</li>
-      </ul>
-    </nav>
-    <div id="logout" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const logout = document.getElementById("logout");
-        if (logout) {
-          logout.addEventListener("click", () => {
-            localStorage.clear();
-            window.location.href = "../index.html";
-          });
-        }
-      });
-    </script>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <header class="top-header">
-      <div class="logo">
-        <div class="text-end"><i class="fa-solid fa-bars menu-icon me-3 d-lg-none" id="sidebarToggle"></i></div>
-        <a class="navbar-brand" href="../index.html">
-          <img src="../img/logo.png" alt="Logo" style="max-height: 120px" />
-          <span class="h2 fs-4">Owner Dashboard</span>
+    } 
         </a>
       </div>
     </header>
@@ -247,43 +176,7 @@
         <input type="hidden" id="propertyIdUpdate" name="propertyID" />
         <h2 class="titelSection bGBlue text-white p-3 fs-4 mb-0">Basic Info</h2>
         <div class="row g-4 mt-3">
-          <div class="col-lg-6 col-12"><div class="mb-3"><label class="form-label fw-bold">Title</label><input class="form-control form-control-lg rounded-3" id="titleUpdate" type="text" minlength="5" required /><div id="titleErrorUpdate" class="error-message"></div></div>
-          <div class="mb-3"><label class="form-label fw-bold">Price / Month</label><input class="form-control form-control-lg rounded-3" id="priceUpdate" type="number" min="100" required /><div id="priceErrorUpdate" class="error-message"></div></div>
-          <div class="mb-0"><label class="form-label fw-bold">Rooms Count</label><input class="form-control form-control-lg rounded-3" id="roomsUpdate" type="number" min="1" max="10" required /><div id="roomsErrorUpdate" class="error-message"></div></div></div>
-          <div class="col-lg-6 col-12 d-flex flex-column justify-content-between"><div class="mb-3"><label class="form-label fw-bold">Description</label><textarea class="form-control rounded-3" id="descriptionUpdate" rows="4" required></textarea></div><div class="mb-2"><h3 class="fw-bold fs-5 mb-3">Property Type</h3><div class="d-flex gap-4"><div class="form-check"><input type="radio" name="propertyType" id="apartmentUpdate" value="Apartment"><label for="apartmentUpdate">Apartment</label></div><div class="form-check"><input type="radio" name="propertyType" id="roomUpdate" value="Room"><label for="roomUpdate">Room</label></div></div></div></div>
-        </div>
-
-        <!-- Location & Services (مقسم) -->
-        <div class="custom-card shadow-sm mt-4">
-          <div class="custom-card-header-split"><span><i class="fa-solid fa-map-location-dot"></i> Location</span><span><i class="fa-solid fa-concierge-bell"></i> Services</span></div>
-          <div class="p-4"><div class="row"><div class="col-12 col-md-8"><div id="updateMapContainer" class="map-picker-wrapper"><div id="updateMap" class="map-picker-map"></div><div class="map-search-bar"><input type="text" id="updateMapSearch" class="map-search-input" placeholder="Search for a location..." /><button type="button" id="updateMapSearchBtn" class="map-search-btn"><i class="fa-solid fa-magnifying-glass"></i></button></div></div><div class="map-action-btns mt-3 d-flex gap-3"><button type="button" id="updateGpsBtn" class="btn-map-gps"><i class="fa-solid fa-location-crosshairs"></i> Use My Location</button><button type="button" id="updateManualBtn" class="btn-map-manual"><i class="fa-solid fa-map-pin"></i> Pick on Map</button></div><div id="updateLocationInfo" class="location-info-box d-none mt-3"><div class="location-info-inner"><i class="fa-solid fa-location-dot location-info-icon"></i><div><div class="location-info-address" id="updateSelectedAddress">—</div><div class="location-info-uni" id="updateSelectedUni"></div></div></div></div><input type="hidden" id="updateLat" /><input type="hidden" id="updateLng" /><input type="hidden" id="updateAddress" /><input type="hidden" id="updateUniversityId" /></div><div class="col-12 col-md-4 ps-4 mt-3 mt-md-0"><div class="services-grid" id="servicesGridUpdate"><div class="service-item"><i class="fa-solid fa-wifi"></i><span>Wifi</span><input type="checkbox" id="wifiUpdate"></div><div class="service-item"><i class="fa-regular fa-snowflake"></i><span>Air Conditioning</span><input type="checkbox" id="parkingUpdate"></div><div class="service-item"><i class="fa-solid fa-jug-detergent"></i><span>Washing Machine</span><input type="checkbox" id="gymUpdate"></div><div class="service-item"><i class="fa-solid fa-water-ladder"></i><span>Water Heater</span><input type="checkbox" id="acUpdate"></div></div></div></div></div>
-        </div>
-
-        <div class="media-section"><h2 class="section-title">Media Upload</h2><div id="allImg" class="upload-wrapper"><input type="file" id="newImagesInput" multiple accept="image/*" class="d-none"><button type="button" id="addImageBtn" onclick="document.getElementById('newImagesInput').click()">+ Add Image</button></div></div>
-        <div class="d-flex gap-3 mt-4"><button type="submit" class="btn btn-submit">Submit Property</button><button id="cancelUpdate" type="button" class="btn btn-cancel">Cancel</button></div>
-      </form></div>
-    </section>
-
-    <!-- Booking Section -->
-    <section id="sectionBooking" class="d-none"><div class="booking-page container mt-5"><div class="page-header pb-4"><h2 class="fw-bold" style="color: #2D3E50;">Booking Requests</h2></div><div id="bookingMainContent"><div class="text-center py-5 mt-5"><div class="spinner-border text-warning" role="status"></div><p class="mt-2">Loading bookings...</p></div></div></div></section>
-
-    <!-- Property Details (معدلة لتعمل مع المعرض الجديد) -->
-    <section id="oneProperti" class="d-none">
-      <div class="content-section"><input type="hidden" id="idPropirtie">
-        <div class="container-fluid px-4"><div class="d-flex justify-content-between align-items-center mb-4 px-3"><h2 class="fw-bold mb-0">Property Details</h2><p id="onePBackBtn" class="back-btn"><i class="fa-regular fa-circle-left"></i></p></div>
-        <div class="row justify-content-center mt-5 px-2"><div class="col-lg-12"><div id="onePFeaturedGallery" class="featured-gallery-wrapper mb-4"></div></div></div></div>
-      </div>
-      <div class="studio-details-section"><div class="row mt-4 px-2 justify-content-center align-items-stretch g-4"><div class="col-md-12"><div class="row gap-4"><div class="col-12 col-md-7 info-card"><h3 id="onePTitle"></h3><h5 id="onePAddress"></h5><p id="onePDescription"></p><ul class="details-list"><li id="onePPrice"></li><li id="onePRooms"></li></ul></div><div class="col-12 col-md-4 info-card"><h3 class="studio-title pb-3">Amenities</h3><ul class="amenities-list" id="onePAmenitiesList"></ul></div></div></div></div>
-        <div class="row mt-4 px-2 justify-content-center"><div class="col-md-12"><div class="custom-card shadow-sm"><div class="card-header-custom">Location</div><div class="p-4"><div class="details-map-wrapper"><div id="detailsMap" class="details-map"></div><div id="detailsMapInfo" class="details-map-info d-none"><i class="fa-solid fa-location-dot"></i><span id="detailsMapAddress">—</span></div><div id="detailsMapNoLocation" class="details-map-no-location"><i class="fa-solid fa-map-location-dot"></i><span>No location set for this property</span></div></div><div id="detailsUniInfo" class="uni-info-box d-none mt-3"><i class="fa-solid fa-graduation-cap"></i><span id="detailsUniText">—</span></div></div></div></div></div>
-        <div class="row mt-5 px-4 justify-content-center"><div class="col-12 table-container overflow-auto"><table id="onePReservationsTable" class="custom-table"><thead><tr><th>Name</th><th>Check-in</th><th>Status</th></tr></thead><tbody><tr><td colspan="3" class="text-center">Loading bookings...</td></tr></tbody></table></div><div class="property-actions-container"><button id="onePBtnUpdate" class="btn-custom btn-update">Update</button><button id="onePBtnDelete" class="btn-custom delete-btn btn-delete">Delete</button></div></div>
-      </div>
-    </section>
-
-    <!-- Messages Section -->
-    <section id="sectionMassageProperties" class="d-none"><div class="container py-4"><h2 class="fw-bold mb-4">Messages</h2><div id="messagesList"></div></div></section>
-
-    <!-- Settings Section -->
-    <section id="sectionSettingProperties" class="d-none"><h2 class="section-main-title fw-bold">Setting</h2><div class="main-form-card"><h4 class="form-sub-heading">Update Profile</h4><div class="row g-4 mt-2"><div class="col-md-6"><label class="field-label">First Name</label><input id="firstName" type="text" class="form-control field-input" /><span id="firstNameError" style="color:red;font-size:12px"></span></div><div class="col-md-6"><label class="field-label">Last Name</label><input id="lastName" type="text" class="form-control field-input" /><span id="lastNameError" style="color:red;font-size:12px"></span></div><div class="col-md-6"><label class="field-label">Phone</label><input id="phone" type="text" class="form-control field-input" /><span id="phoneError" style="color:red;font-size:12px"></span></div><div class="col-12 mt-4"><button type="submit" class="btn btn-save-data">Save Changes</button></div></div></div><div class="action-bar-item mt-3"><div class="d-flex align-items-center"><i class="fa-solid fa-arrows-rotate me-3 gold-accent-icon"></i><span>Change Password</span></div><i class="fa-solid fa-chevron-down opacity-50"></i></div><div class="action-bar-item mt-2"><div class="d-flex align-items-center"><i class="fa-solid fa-users me-3 gold-accent-icon"></i><span>Users</span></div><i class="fa-solid fa-chevron-down opacity-50"></i></div></section>
+          <div class="col-lg  rties" class="d-none"><h2 class="section-main-title fw-bold">Setting</h2><div class="main-form-card"><h4 class="form-sub-heading">Update Profile</h4><div class="row g-4 mt-2"><div class="col-md-6"><label class="field-label">First Name</label><input id="firstName" type="text" class="form-control field-input" /><span id="firstNameError" style="color:red;font-size:12px"></span></div><div class="col-md-6"><label class="field-label">Last Name</label><input id="lastName" type="text" class="form-control field-input" /><span id="lastNameError" style="color:red;font-size:12px"></span></div><div class="col-md-6"><label class="field-label">Phone</label><input id="phone" type="text" class="form-control field-input" /><span id="phoneError" style="color:red;font-size:12px"></span></div><div class="col-12 mt-4"><button type="submit" class="btn btn-save-data">Save Changes</button></div></div></div><div class="action-bar-item mt-3"><div class="d-flex align-items-center"><i class="fa-solid fa-arrows-rotate me-3 gold-accent-icon"></i><span>Change Password</span></div><i class="fa-solid fa-chevron-down opacity-50"></i></div><div class="action-bar-item mt-2"><div class="d-flex align-items-center"><i class="fa-solid fa-users me-3 gold-accent-icon"></i><span>Users</span></div><i class="fa-solid fa-chevron-down opacity-50"></i></div></section>
   </main>
 </div>
 
