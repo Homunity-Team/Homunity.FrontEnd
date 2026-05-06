@@ -78,41 +78,14 @@
                             Away</span> <span class="d-block text-center">From Home</span></h2>
                     <!-- <p class="text-white fw-bold py-3">Comfortable and secure homes for expats.</p> -->
 
-                    <section class="map-cta-section">
-                        <div class="container">
-                            <div class="map-card-wrapper">
-                                <div class="map-content">
-                                    <h2 class="section-title">Explore Properties on the Map</h2>
-                                    <p class="section-desc">
-                                        Save your time and effort! Find the perfect home near your university or
-                                        workplace directly through our interactive map.
-                                    </p>
-                                    <a href="./html/mapViwe.html" class="btn-go-map">
-                                        <i class="fa-solid fa-map-location-dot"></i>
-                                        Open Interactive Map
-                                    </a>
-                                </div>
-                                <div class="map-visual">
-                                    <div class="map-icon-bg">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- <section class="search-section">
+
+                    <section class="search-section">
                         <div class="container">
                             <div class="main-search-bar d-flex align-items-center justify-content-between">
 
-                                <div style="flex: 2; margin: 0 5px;">
-                                    <select id="citySelectSearch" class="form-select custom-input-pill">
-                                        <option selected disabled>Location (City)</option>
-                                    </select>
-                                </div>
-
-                                <div style="flex: 2; margin: 0 5px;">
-                                    <select id="areaSelectSearch" class="form-select custom-input-pill">
-                                        <option selected disabled>Select Area</option>
+                                <div style="flex: 3; margin: 0 5px;">
+                                    <select id="universitySelectSearch" class="form-select custom-input-pill">
+                                        <option selected disabled value="">Select University</option>
                                     </select>
                                 </div>
 
@@ -126,10 +99,11 @@
                                 </div>
 
                             </div>
+
                             <div class="text-center mt-2">
-                                <small id="errorMsg" class="text-warning" style="display:none;">Please select a city and
-                                    set
-                                    a budget.</small>
+                                <small id="errorMsg" class="text-warning" style="display:none;">
+                                    Please select a university and set a budget.
+                                </small>
                             </div>
                         </div>
                     </section>
@@ -138,77 +112,69 @@
                         <div id="resultsRow"
                             class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- <script>
-                        const citySelect = document.getElementById("citySelectSearch");
-                        const areaSelect = document.getElementById("areaSelectSearch");
+                    <script>
+                        const universitySelect = document.getElementById("universitySelectSearch");
                         const searchBtn = document.getElementById("searchBtn");
                         const maxPriceInput = document.getElementById("maxPriceInput");
                         const resultsRow = document.getElementById("resultsRow");
                         const errorMsg = document.getElementById("errorMsg");
 
-                        // 1. جلب المدن عند تحميل الصفحة
-                        fetch("https://homunityapiv1.runasp.net/api/Location/cities")
+                        // 1. جلب قائمة الجامعات عند تحميل الصفحة وتعبئتها في قائمة الاختيار
+                        fetch("https://homunityapiv1.runasp.net/api/Universities/GetAll")
                             .then(res => res.json())
-                            .then(cities => {
-                                cities.forEach(city => {
+                            .then(data => {
+                                // الوصول إلى مصفوفة الجامعات داخل الكائن الراجع
+                                const universities = data.universities || [];
+                                universities.forEach(univ => {
                                     const option = document.createElement("option");
-                                    option.value = city;
-                                    option.textContent = city;
-                                    citySelect.appendChild(option);
+                                    option.value = univ.universityId; // إرسال الـ ID للسيرفر
+                                    option.textContent = univ.name;      // عرض اسم الجامعة للمستخدم
+                                    universitySelect.appendChild(option);
                                 });
                             })
-                            .catch(err => console.error("Error fetching cities:", err));
+                            .catch(err => console.error("Error fetching universities:", err));
 
-                        citySelect.addEventListener("change", () => {
-                            const selectedCity = citySelect.value;
-                            areaSelect.innerHTML = "<option selected disabled>Select Area</option>";
-
-                            fetch(`https://homunityapiv1.runasp.net/api/Location/areas?city=${encodeURIComponent(selectedCity)}`)
-                                .then(res => res.json())
-                                .then(areas => {
-                                    areas.forEach(area => {
-                                        const option = document.createElement("option");
-                                        option.value = area.area;
-                                        option.textContent = area.area;
-                                        areaSelect.appendChild(option);
-                                    });
-                                })
-                                .catch(err => console.error("Error fetching areas:", err));
-                        });
-
+                        // 2. معالجة حدث الضغط على زر البحث
                         searchBtn.addEventListener("click", () => {
-                            const city = citySelect.value;
-                            const area = areaSelect.value || "";
+                            const universityId = universitySelect.value;
                             const maxPrice = maxPriceInput.value;
 
-                            if (!city || !maxPrice) {
+                            // التحقق من أن المستخدم اختار الجامعة وحدد الميزانية
+                            if (!universityId || !maxPrice) {
                                 errorMsg.style.display = "block";
                                 return;
                             }
                             errorMsg.style.display = "none";
 
+                            // إظهار مؤشر التحميل داخل حاوية النتائج
                             resultsRow.innerHTML = '<div class="text-center w-100"><h3>Searching...</h3></div>';
 
-                            const url = `https://homunityapiv1.runasp.net/api/Properties/Search?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area)}&minPrice=0&maxPrice=${maxPrice}`;
+                            // رابط الـ API الجديد المعتمد على معرف الجامعة والحد الأقصى للسعر
+                            const url = `https://homunityapiv1.runasp.net/api/Properties/SearchByUniversity?universityId=${universityId}&maxPrice=${maxPrice}`;
 
-                            fetch(url)
+                            fetch(url, {
+                                headers: { 'accept': '*/*' }
+                            })
                                 .then(res => res.json())
                                 .then(data => {
                                     resultsRow.innerHTML = "";
                                     const properties = data.properties || [];
 
+                                    // جلب العقارات المحجوزة مسبقاً من الـ LocalStorage لاستثنائها من العرض
                                     const bookedProperties = JSON.parse(localStorage.getItem("bookedProperties")) || [];
 
                                     if (properties.length === 0) {
-                                        resultsRow.innerHTML = '<div class="text-center w-100 text-warning"><h4>No properties found.</h4></div>';
+                                        resultsRow.innerHTML = '<div class="text-center w-100 text-warning"><h4>No properties found near this university within your budget.</h4></div>';
                                         return;
                                     }
 
+                                    // بناء كروت العقارات المتوافقة مع البحث
                                     properties.forEach(prop => {
                                         const propId = prop.id || prop.propertyId || prop.propertyID;
 
+                                        // تخطي العقار إذا كان محجوزاً بالفعل
                                         if (bookedProperties.includes(propId.toString())) {
                                             return;
                                         }
@@ -216,88 +182,94 @@
                                         const col = document.createElement("div");
                                         col.className = "col";
                                         col.innerHTML = `
-                <div class="room-card" id="prop-card-${propId}">
-                    <div class="image-container">
-                        <img src="${(prop.images && prop.images.length > 0) ? prop.images[0].imageUrl : 'https://via.placeholder.com/300x200?text=No+Image'}" 
-                             alt="Property" 
-                             onerror="this.src='https://via.placeholder.com/300x200?text=Room+Image'">
+                    <div class="room-card" id="prop-card-${propId}">
+                        <div class="image-container">
+                            <img src="${(prop.images && prop.images.length > 0) ? prop.images[0].imageUrl : 'https://via.placeholder.com/300x200?text=No+Image'}" 
+                                 alt="Property" 
+                                 onerror="this.src='https://via.placeholder.com/300x200?text=Room+Image'">
+                        </div>
+                        <h2 class="title">${prop.title}</h2>
+                        <p class="location">${prop.address || 'Near University'}</p>
+                        <div class="price"><span>$${prop.price}</span> / month</div>
+                        <button class="btn payhome btn-book" data-id="${propId}">Book Now</button>
                     </div>
-                    <h2 class="title">${prop.title}</h2>
-                    <p class="location">${prop.area || city}</p>
-                    <div class="price"><span>$${prop.price}</span> / month</div>
-                    <button class="btn payhome btn-book" data-id="${propId}">Book Now</button>
-                </div>
-            `;
+                `;
                                         resultsRow.appendChild(col);
                                     });
                                 })
                                 .catch(err => {
+                                    console.error("Search error:", err);
                                     resultsRow.innerHTML = '<div class="text-center w-100 text-danger"><h4>Service unavailable.</h4></div>';
                                 });
-
-                            const resultsContainer = document.getElementById("resultsRow");
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
-
-                            resultsContainer.addEventListener("click", (e) => {
-                                if (e.target.classList.contains("payhome")) {
-                                    e.preventDefault();
-
-                                    const userId = localStorage.getItem("id");
-                                    const role = localStorage.getItem("role");
-                                    const propertyId = e.target.getAttribute("data-id");
-
-                                    if (!propertyId || propertyId === "undefined") {
-                                        Toast.fire({ icon: 'error', title: 'عذراً، معرف العقار غير موجود' });
-                                        return;
-                                    }
-
-                                    if (userId) {
-                                        if (role === "student") {
-                                            const bookingUrl = `https://homunityapiv1.runasp.net/api/Booking?PropertyId=${propertyId}&StudentId=${userId}`;
-
-                                            fetch(bookingUrl, {
-                                                method: 'POST',
-                                                headers: { 'accept': '*/*' },
-                                                body: ''
-                                            })
-                                                .then(res => {
-                                                    if (res.ok) {
-                                                        let bookedProperties = JSON.parse(localStorage.getItem("bookedProperties")) || [];
-                                                        if (!bookedProperties.includes(propertyId)) {
-                                                            bookedProperties.push(propertyId);
-                                                            localStorage.setItem("bookedProperties", JSON.stringify(bookedProperties));
-                                                        }
-
-                                                        const card = document.getElementById(`prop-card-${propertyId}`);
-                                                        if (card) {
-                                                            card.parentElement.remove();
-                                                        }
-
-                                                        Toast.fire({ icon: 'success', title: 'تم الحجز بنجاح وإخفاء العقار' });
-                                                    } else {
-                                                        Toast.fire({ icon: 'error', title: 'حدث خطأ أثناء الحجز' });
-                                                    }
-                                                })
-                                                .catch(err => {
-                                                    Toast.fire({ icon: 'warning', title: 'خطأ في الاتصال بالسيرفر' });
-                                                });
-                                        } else {
-                                            Toast.fire({ icon: 'info', title: 'يجب أن تكون طالباً للحجز' });
-                                        }
-                                    } else {
-                                        window.location.href = "html/form.html";
-                                    }
-                                }
-                            });
                         });
-                    </script> -->
+
+                        // 3. إدارة عملية الحجز (Booking Setup) عند الضغط على زر Book Now
+                        const resultsContainer = document.getElementById("resultsRow");
+
+                        // إعداد الـ SweetAlert Toast للتنبيهات السريعة
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+
+                        resultsContainer.addEventListener("click", (e) => {
+                            if (e.target.classList.contains("payhome")) {
+                                e.preventDefault();
+
+                                const userId = localStorage.getItem("id");
+                                const role = localStorage.getItem("role");
+                                const propertyId = e.target.getAttribute("data-id");
+
+                                if (!propertyId || propertyId === "undefined") {
+                                    Toast.fire({ icon: 'error', title: 'عذراً، معرف العقار غير موجود' });
+                                    return;
+                                }
+
+                                if (userId) {
+                                    if (role === "student") {
+                                        const bookingUrl = `https://homunityapiv1.runasp.net/api/Booking?PropertyId=${propertyId}&StudentId=${userId}`;
+
+                                        fetch(bookingUrl, {
+                                            method: 'POST',
+                                            headers: { 'accept': '*/*' },
+                                            body: ''
+                                        })
+                                            .then(res => {
+                                                if (res.ok) {
+                                                    // إضافة العقار المحجوز للقائمة المحلية كي لا يظهر مجدداً
+                                                    let bookedProps = JSON.parse(localStorage.getItem("bookedProperties")) || [];
+                                                    if (!bookedProps.includes(propertyId)) {
+                                                        bookedProps.push(propertyId);
+                                                        localStorage.setItem("bookedProperties", JSON.stringify(bookedProps));
+                                                    }
+
+                                                    // حذف كارت العقار من الواجهة فوراً بعد نجاح الحجز
+                                                    const card = document.getElementById(`prop-card-${propertyId}`);
+                                                    if (card) {
+                                                        card.parentElement.remove();
+                                                    }
+
+                                                    Toast.fire({ icon: 'success', title: 'تم الحجز بنجاح وإخفاء العقار' });
+                                                } else {
+                                                    Toast.fire({ icon: 'error', title: 'حدث خطأ أثناء الحجز' });
+                                                }
+                                            })
+                                            .catch(err => {
+                                                Toast.fire({ icon: 'warning', title: 'خطأ في الاتصال بالسيرفر' });
+                                            });
+                                    } else {
+                                        Toast.fire({ icon: 'info', title: 'يجب أن تكون طالباً للحجز' });
+                                    }
+                                } else {
+                                    // التوجيه لصفحة تسجيل الدخول إذا لم يكن المستخدم مسجلاً
+                                    window.location.href = "html/form.html";
+                                }
+                            }
+                        });
+                    </script>
 
 
                 </div>
@@ -413,7 +385,28 @@
     </section>
     <!--end-->
 
-
+    <section class="map-cta-section">
+        <div class="container">
+            <div class="map-card-wrapper">
+                <div class="map-content">
+                    <h2 class="section-title">Explore Properties on the Map</h2>
+                    <p class="section-desc">
+                        Save your time and effort! Find the perfect home near your university or
+                        workplace directly through our interactive map.
+                    </p>
+                    <a href="./html/mapViwe.html" class="btn-go-map">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        Open Interactive Map
+                    </a>
+                </div>
+                <div class="map-visual">
+                    <div class="map-icon-bg">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- hagar -->
 
 
