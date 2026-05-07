@@ -1,19 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Dashboard</title>
+  <title>Student Dashboard - Homunity</title>
   <link rel="stylesheet" href="../css/all.min.css" />
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/dashbord-student.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    .map-section-card { background:#fff; border:1px solid #e2e5ea; border-radius:12px; overflow:hidden; margin-top:16px; }
-    .map-section-card .map-header { background:#212e43; color:#fff; padding:10px 20px; font-weight:bold; font-size:1rem; display:flex; align-items:center; gap:10px; }
-    #studentDetailsMap { height:280px; border-radius:10px; z-index:1; }
+    /* أي تعديلات إضافية فورية - كل شيء تم دمجه في ملف CSS الخارجي */
   </style>
 </head>
 
@@ -230,48 +228,51 @@
     </section>
   </main>
 
+  <!-- ===== CHATBOT ELEMENTS (ADDED) ===== -->
+  <button id="homunity-chat-fab" title="الدردشة مع مساعد Homunity">
+    <i class="fa-solid fa-robot"></i>
+    <span class="chat-badge" id="chatBadge">1</span>
+  </button>
+
+  <div id="homunity-chat-window">
+    <div class="chat-header">
+      <div class="chat-avatar">H</div>
+      <div class="chat-header-info">
+        <h4>Homunity AI Assistant</h4>
+        <span>🟢 Online — مساعدك الذكي للسكن الطلابي</span>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-action-btn" id="chatClearBtn" title="مسح المحادثة"><i class="fa-solid fa-trash-can"></i></button>
+        <button class="chat-action-btn" id="chatCloseBtn" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <div class="chat-quick-suggestions" id="quickSuggestions">
+      <span class="quick-chip" data-msg="أريد شقة قريبة من جامعة القاهرة">🎓 قريب من جامعة القاهرة</span>
+      <span class="quick-chip" data-msg="ما هي أرخص الشقق المتاحة؟">💰 أرخص الشقق</span>
+      <span class="quick-chip" data-msg="أريد شقة بها واي فاي وتكييف">📶 واي فاي وتكييف</span>
+      <span class="quick-chip" data-msg="كيف أحجز شقة؟">📋 كيف أحجز؟</span>
+      <span class="quick-chip" data-msg="أريد غرفة لطالب واحد">🛏️ غرفة لطالب</span>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-welcome">
+        <div class="welcome-icon">🏠</div>
+        <h3>أهلاً بك في Homunity!</h3>
+        <p>أنا مساعدك الذكي، يمكنني مساعدتك في<br>إيجاد أفضل سكن طلابي مناسب لك.</p>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" placeholder="اكتب رسالتك هنا..." rows="1"></textarea>
+      <button class="chat-send-btn" id="chatSendBtn">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../js/dashbord.student.js"></script>
   <script>
-    const hamburger = document.getElementById("hamburger");
-    const sidebar   = document.getElementById("sidebar");
-    const overlay   = document.getElementById("sidebarOverlay");
-
-    hamburger.addEventListener("click", () => { sidebar.classList.toggle("open"); overlay.classList.toggle("open"); });
-    overlay.addEventListener("click",   () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); });
-
-    document.querySelectorAll(".sidebar nav ul li").forEach(li => {
-      li.addEventListener("click", () => {
-        document.querySelectorAll(".sidebar nav ul li").forEach(x => x.classList.remove("active"));
-        li.classList.add("active");
-        if (window.innerWidth <= 900) { sidebar.classList.remove("open"); overlay.classList.remove("open"); }
-      });
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      if (confirm("Are you sure you want to logout?")) { localStorage.clear(); window.location.href = "../index.html"; }
-    });
-
-    // Cancel Booking from details
-    window.cancelAndGoBack = async function (btn) {
-      const section    = btn.closest("section");
-      const bookingId  = section.querySelector("#idCansel").value;
-      const propertyId = section.querySelector("#idProprty").value;
-      if (!bookingId) return;
-      if (!confirm("Cancel this booking?")) return;
-      try {
-        const res = await fetch(`https://homunityapiv1.runasp.net/api/Booking/${bookingId}/cancel`, {
-          method: "PUT", headers: { "Accept": "application/json", "Content-Type": "application/json" }
-        });
-        if (res.ok) {
-          let bookedIds = JSON.parse(localStorage.getItem("bookedProperties") || "[]");
-          bookedIds = bookedIds.filter(id => id != propertyId);
-          localStorage.setItem("bookedProperties", JSON.stringify(bookedIds));
-          alert("Booking cancelled successfully!");
-          setTimeout(() => { if (window.showSection) window.showSection("sectionHome"); window.location.reload(); }, 1000);
-        }
-      } catch (e) { console.error(e); }
-    };
+    // Ensure any inline scripts or adjustments if needed
   </script>
 </body>
+
 </html>
