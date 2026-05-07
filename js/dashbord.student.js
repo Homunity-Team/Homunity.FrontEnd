@@ -1,3 +1,7 @@
+// ============================================================
+// هذا الملف يجمع كود الـ Dashboard الأصلي + كود الشات بوت المعدل
+// ============================================================
+
 const BASE_URL  = "https://homunityapiv1.runasp.net/api";
 const STUDENT_ID = localStorage.getItem("id");
 
@@ -48,13 +52,13 @@ for (let key in menuItems) {
 }
 
 const cancel = document.getElementById("btn-cancel");
-cancel.addEventListener("click", () => {
+cancel?.addEventListener("click", () => {
   hideAllSections(sections, "add");
   sections.home.classList.remove("d-none");
   menuItems.home.classList.add("active");
 });
 
-// ── Toast ──
+// Toast using SweetAlert2
 const Toast = Swal.mixin({
   toast: true, position: "top-end", showConfirmButton: false,
   timer: 3000, timerProgressBar: true,
@@ -143,7 +147,6 @@ window.loadPropertyDetails = async function (propId, bookId = null) {
   window.currentBookingId  = bookId;
 
   try {
-    // Use V2 to get university + location data
     const res  = await fetch(`${BASE_URL}/Properties/GetByIDV2?id=${propId}`);
     const data = await res.json();
     if (data?.property) {
@@ -211,8 +214,8 @@ function renderPropertyPage(prop) {
   const mapSection = document.getElementById("studentMapSection");
   if (loc.latitude && loc.longitude) {
     mapSection.classList.remove("d-none");
-    const uniLat  = loc.university ? null : null;
-    const uniLng  = loc.university ? null : null;
+    const uniLat  = loc.university ? loc.university.latitude : null;
+    const uniLng  = loc.university ? loc.university.longitude : null;
     const uniName = loc.university?.name || "";
     setTimeout(() => initStudentDetailsMap(loc.latitude, loc.longitude, uniLat, uniLng, uniName), 200);
   } else {
@@ -525,3 +528,213 @@ async function fetchNotifications() {
   }
 }
 fetchNotifications();
+
+// ==================================================================
+// ============= كود الشات بوت ======================================
+// ==================================================================
+let chatOpen = false;
+let isTyping = false;
+
+function getStudentId() {
+  return parseInt(localStorage.getItem("id") || "0");
+}
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById("homunity-chat-window");
+  const icon = document.querySelector("#homunity-chat-fab i");
+  const badge = document.getElementById("chatBadge");
+  win.classList.toggle("open", chatOpen);
+  if (icon) icon.className = chatOpen ? "fa-solid fa-xmark" : "fa-solid fa-robot";
+  if (badge) badge.style.display = "none";
+  if (chatOpen) {
+    loadChatHistory();
+    setTimeout(() => document.getElementById("chatInput").focus(), 300);
+  }
+}
+
+async function loadChatHistory() {
+  const studentId = getStudentId();
+  if (!studentId) return;
+  try {
+    const res = await fetch(`${BASE_URL}/Chat/history/${studentId}`);
+    const data = await res.json();
+    if (data.messages && data.messages.length > 0) {
+      const container = document.getElementById("chatMessages");
+      container.innerHTML = "";
+      data.messages.forEach(m => appendChatMessage(m.role, m.content, false));
+      scrollToChatBottom();
+    }
+  } catch (e) { console.warn("History load:", e); }
+}
+
+async function sendChatMessage() {
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if (!msg || isTyping) return;
+  const studentId = getStudentId();
+  if (!studentId) {
+    appendChatMessage("assistant", "⚠️ يرجى تسجيل الدخول أولاً للاستخدام المساعد.");
+    return;
+  }
+  // Remove welcome screen if exists
+  const welcome = document.querySelector("#chatMessages .chat-welcome");
+  if (welcome) welcome.remove();
+  // Hide quick suggestions after first message
+  const suggestionsDiv = document.getElementById("quickSuggestions");
+  if (suggestionsDiv) suggestionsDiv.style.display = "none";
+  input.value = "";
+  autoResizeChat(input);
+  appendChatMessage("user", msg);
+  showChatTyping();
+  isTyping = true;
+  const sendBtn = document.getElementById("chatSendBtn");
+  if (sendBtn) sendBtn.disabled = true;
+  try {
+    const res = await fetch(`${BASE_URL}/Chat/message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studentId, message: msg })
+    });
+    const data = await res.json();
+    hideChatTyping();
+    appendChatMessage("assistant", data.reply);
+    if (data.suggestions && data.suggestions.length > 0) renderChatSuggestions(data.suggestions);
+  } catch (e) {
+    hideChatTyping();
+    appendChatMessage("assistant", "عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.");
+  } finally {
+    isTyping = false;
+    if (sendBtn) sendBtn.disabled = false;
+    document.getElementById("chatInput").focus();
+  }
+}
+
+function sendQuickChat(text) {
+  document.getElementById("chatInput").value = text;
+  sendChatMessage();
+}
+
+function appendChatMessage(role, content, animate = true) {
+  const container = document.getElementById("chatMessages");
+  const isUser = role === "user";
+  const time = new Date().toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+  const row = document.createElement("div");
+  row.className = `msg-row ${isUser ? "user" : ""}`;
+  row.innerHTML = `
+    <div class="msg-avatar ${isUser ? "user" : "bot"}">${isUser ? "أنت" : "AI"}</div>
+    <div>
+      <div class="msg-bubble ${isUser ? "user" : "bot"}">${formatChatMessage(content)}</div>
+      <span class="msg-time">${time}</span>
+    </div>`;
+  if (!animate) row.style.animation = "none";
+  container.appendChild(row);
+  scrollToChatBottom();
+}
+
+function formatChatMessage(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(/\n/g, "<br>");
+}
+
+function renderChatSuggestions(suggestions) {
+  if (!suggestions.length) return;
+  const container = document.getElementById("chatMessages");
+  const cardsDiv = document.createElement("div");
+  cardsDiv.className = "msg-row";
+  const inner = document.createElement("div");
+  inner.innerHTML = `<div class="chat-prop-cards">${suggestions.map(p => `
+    <div class="chat-prop-card" onclick="openPropertyFromChat(${p.propertyID})">
+      <img src="${p.imageUrl || 'https://via.placeholder.com/54x44'}" onerror="this.src='https://via.placeholder.com/54x44'" />
+      <div class="chat-prop-info">
+        <div class="chat-prop-title">${p.title}</div>
+        <div class="chat-prop-price">$${p.price} / شهر</div>
+        <div class="chat-prop-addr">${p.address || "عنوان غير متاح"}</div>
+      </div>
+    </div>`).join("")}</div>`;
+  cardsDiv.appendChild(inner);
+  container.appendChild(cardsDiv);
+  scrollToChatBottom();
+}
+
+function openPropertyFromChat(id) {
+  if (typeof loadPropertyDetails === "function") loadPropertyDetails(id);
+  toggleChat(); // close chat after redirect?
+}
+
+function showChatTyping() {
+  const container = document.getElementById("chatMessages");
+  const row = document.createElement("div");
+  row.className = "msg-row"; row.id = "typingRow";
+  row.innerHTML = `<div class="msg-avatar bot">AI</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  container.appendChild(row);
+  scrollToChatBottom();
+}
+
+function hideChatTyping() {
+  const row = document.getElementById("typingRow");
+  if (row) row.remove();
+}
+
+async function clearChatHistory() {
+  const studentId = getStudentId();
+  if (!studentId) return;
+  if (!confirm("هل تريد مسح سجل المحادثة؟")) return;
+  try {
+    await fetch(`${BASE_URL}/Chat/clear/${studentId}`, { method: "DELETE" });
+    document.getElementById("chatMessages").innerHTML = `
+      <div class="chat-welcome">
+        <div class="welcome-icon">🏠</div>
+        <h3>أهلاً بك في Homunity!</h3>
+        <p>أنا مساعدك الذكي، يمكنني مساعدتك في<br>إيجاد أفضل سكن طلابي مناسب لك.</p>
+      </div>`;
+    const suggestionsDiv = document.getElementById("quickSuggestions");
+    if (suggestionsDiv) suggestionsDiv.style.display = "flex";
+  } catch (e) { console.warn("Clear error:", e); }
+}
+
+function scrollToChatBottom() {
+  const c = document.getElementById("chatMessages");
+  if (c) c.scrollTop = c.scrollHeight;
+}
+
+function autoResizeChat(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 100) + "px";
+}
+
+// Event binding for chat
+document.addEventListener("DOMContentLoaded", () => {
+  const fab = document.getElementById("homunity-chat-fab");
+  if (fab) fab.addEventListener("click", toggleChat);
+  const closeBtn = document.getElementById("chatCloseBtn");
+  if (closeBtn) closeBtn.addEventListener("click", toggleChat);
+  const clearBtn = document.getElementById("chatClearBtn");
+  if (clearBtn) clearBtn.addEventListener("click", clearChatHistory);
+  const sendBtn = document.getElementById("chatSendBtn");
+  if (sendBtn) sendBtn.addEventListener("click", sendChatMessage);
+  const chatInput = document.getElementById("chatInput");
+  if (chatInput) {
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChatMessage();
+      }
+    });
+    chatInput.addEventListener("input", (e) => autoResizeChat(e.target));
+  }
+  // quick chips
+  document.querySelectorAll(".quick-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const msg = chip.getAttribute("data-msg");
+      if (msg) sendQuickChat(msg);
+    });
+  });
+  // badge show after 3 sec if chat not open
+  setTimeout(() => {
+    const badge = document.getElementById("chatBadge");
+    if (badge && !chatOpen) badge.style.display = "flex";
+  }, 3000);
+});
