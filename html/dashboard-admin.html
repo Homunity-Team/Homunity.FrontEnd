@@ -10,9 +10,30 @@
   <link rel="stylesheet" href="../css/dashboard-admin.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    .map-section-card { background:#fff; border:1px solid #e2e5ea; border-radius:12px; overflow:hidden; margin-top:16px; }
-    .map-section-card .map-header { background:#212e43; color:#fff; padding:10px 20px; font-weight:bold; font-size:1rem; display:flex; align-items:center; gap:10px; }
-    #adminDetailsMap { height:280px; border-radius:10px; z-index:1; }
+    .map-section-card {
+      background: #fff;
+      border: 1px solid #e2e5ea;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+
+    .map-section-card .map-header {
+      background: #212e43;
+      color: #fff;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #adminDetailsMap {
+      height: 280px;
+      border-radius: 10px;
+      z-index: 1;
+    }
   </style>
 </head>
 
@@ -46,9 +67,12 @@
       <h1 class="page-title mb-4">Property Details</h1>
 
       <div class="gallery-wrapper" id="adminGalleryWrapper">
-        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="room 1" /></div>
-        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="main room" /></div>
-        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80" alt="room 3" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80"
+            alt="room 1" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"
+            alt="main room" /></div>
+        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&q=80"
+            alt="room 3" /></div>
       </div>
 
       <div class="gallery-thumbs" id="adminGalleryThumbs">
@@ -63,7 +87,8 @@
           <p class="card-address">101 UI City, Area</p>
           <p class="card-desc">A comfortable and secure room located in a quiet area.</p>
           <ul class="details-list">
-            <li><i class="fa-solid fa-diamond"></i> Price <span style="color:#efb81e;font-weight:700;">$350 / month</span></li>
+            <li><i class="fa-solid fa-diamond"></i> Price <span style="color:#efb81e;font-weight:700;">$350 /
+                month</span></li>
             <li><i class="fa-solid fa-diamond"></i> 3 rooms</li>
           </ul>
         </div>
@@ -76,13 +101,21 @@
             <li><span class="amenity-icon"><i class="fa-solid fa-snowflake"></i></span> Air Conditioning</li>
           </ul>
         </div>
+        <div class="info-card" id="info-card-map">
+
+        </div>
+        <div class="info-card" id="info-card-address">
+
+        </div>
       </div>
 
       <!-- MAP VIEWER -->
       <div id="adminMapSection" class="d-none">
         <div class="map-section-card">
           <div class="map-header"><i class="fa-solid fa-map-location-dot"></i> Property Location</div>
-          <div class="p-3"><div id="adminDetailsMap"></div></div>
+          <div class="p-3">
+            <div id="adminDetailsMap"></div>
+          </div>
         </div>
       </div>
 
@@ -97,17 +130,55 @@
       <div class="admin-dashboard-content py-4 px-3">
         <h4 class="mb-4 fw-bold text-dark">Admin Dashboard Page</h4>
         <div class="row g-3 mb-5 justify-content-center">
-          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector.png" alt="icon"><p>Total Properties</p><h3 id="totalProperties">0</h3></div></div>
-          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector1.png" alt="icon"><p>Rejected Properties</p><h3 id="rejectedProperties">0</h3></div></div>
-          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector2.png" alt="icon"><p>Approved Properties</p><h3 id="approvedProperties">0</h3></div></div>
-          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector3.png" alt="icon"><p>Pending Properties</p><h3 id="pendingProperties">0</h3></div></div>
-          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector4.png" alt="icon"><p>Total Users</p><h3 id="totalUsers">0</h3></div></div>
-          <div class="col-md-3"><div class="stat-card-custom"><img src="../img/Vector5.png" alt="icon"><p>Total Bookings</p><h3 id="totalBookings">0</h3></div></div>
+          <div class="col-md-3">
+            <div class="stat-card-custom"><img src="../img/Vector.png" alt="icon">
+              <p>Total Properties</p>
+              <h3 id="totalProperties">0</h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card-custom"><img src="../img/Vector1.png" alt="icon">
+              <p>Rejected Properties</p>
+              <h3 id="rejectedProperties">0</h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card-custom"><img src="../img/Vector2.png" alt="icon">
+              <p>Approved Properties</p>
+              <h3 id="approvedProperties">0</h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card-custom"><img src="../img/Vector3.png" alt="icon">
+              <p>Pending Properties</p>
+              <h3 id="pendingProperties">0</h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card-custom"><img src="../img/Vector4.png" alt="icon">
+              <p>Total Users</p>
+              <h3 id="totalUsers">0</h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card-custom"><img src="../img/Vector5.png" alt="icon">
+              <p>Total Bookings</p>
+              <h3 id="totalBookings">0</h3>
+            </div>
+          </div>
         </div>
         <div id="tableWrapper">
           <div class="table-container-custom shadow-sm">
             <table class="table mb-0">
-              <thead><tr><th>Property Title</th><th>Owner Name</th><th>City + Area</th><th>Created Date</th><th class="text-center">Status</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Property Title</th>
+                  <th>Owner Name</th>
+                  <th>City + Area</th>
+                  <th>Created Date</th>
+                  <th class="text-center">Status</th>
+                </tr>
+              </thead>
               <tbody id="recentActionsBody"></tbody>
             </table>
           </div>
@@ -123,8 +194,16 @@
     <!-- ══ PENDING PROPERTIES ══ -->
     <section id="sectionPending" class="d-none">
       <div class="search-bar-wrapper mb-5">
-        <select id="cityFilter"><option selected>City•</option><option value="Cairo">Cairo</option><option value="Giza">Giza</option></select>
-        <select id="areaFilter"><option selected>Area•</option><option value="Dokki">Dokki</option><option value="Maadi">Maadi</option></select>
+        <select id="cityFilter">
+          <option selected>City•</option>
+          <option value="Cairo">Cairo</option>
+          <option value="Giza">Giza</option>
+        </select>
+        <select id="areaFilter">
+          <option selected>Area•</option>
+          <option value="Dokki">Dokki</option>
+          <option value="Maadi">Maadi</option>
+        </select>
         <input type="number" id="minPrice" placeholder="Min Price" min="0" />
         <input type="number" id="maxPrice" placeholder="Max Price" min="0" />
         <button class="btn-search" id="searchBtn">Search</button>
@@ -154,7 +233,8 @@
         <div class="popup-box">
           <div class="popup-header">Reject Property</div>
           <div class="popup-body">
-            <textarea id="reasonInput" class="reason-box" placeholder="Write reason..." maxlength="300" oninput="countChars()"></textarea>
+            <textarea id="reasonInput" class="reason-box" placeholder="Write reason..." maxlength="300"
+              oninput="countChars()"></textarea>
             <div class="popup-footer">
               <span>⚠️ Please provide a reason for rejection</span>
               <span id="charCount">0 / 300</span>
@@ -186,10 +266,10 @@
   <script src="../js/dashboard-admin.js"></script>
   <script>
     const hamburger = document.getElementById("hamburger");
-    const sidebar   = document.getElementById("sidebar");
-    const overlay   = document.getElementById("sidebarOverlay");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
     hamburger.addEventListener("click", () => { sidebar.classList.toggle("open"); overlay.classList.toggle("open"); });
-    overlay.addEventListener("click",   () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); });
+    overlay.addEventListener("click", () => { sidebar.classList.remove("open"); overlay.classList.remove("open"); });
     document.querySelectorAll(".sidebar nav ul li").forEach(li => {
       li.addEventListener("click", () => {
         document.querySelectorAll(".sidebar nav ul li").forEach(x => x.classList.remove("active"));
@@ -199,4 +279,5 @@
     });
   </script>
 </body>
+
 </html>
