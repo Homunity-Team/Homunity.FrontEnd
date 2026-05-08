@@ -129,7 +129,7 @@ async function fetchMyBookings() {
                     </div>
                 </div>
                 <div class="col-12 col-md-4 text-md-end location-text mb-3 mb-md-0">
-                    ${item.property?.location.address || "No Location"}
+                    ${item.property?.location }
                 </div>
                 <div class="col-12 col-md-4 text-md-end pe-md-4">
                     <button class="status-btn">${item.statusName || "N/A"}</button>
@@ -362,118 +362,120 @@ document.addEventListener("DOMContentLoaded", () => {
 // start search
 const API_BASE = "https://homunityapiv1.runasp.net/api";
 
+// 1. جلب الجامعات عند تحميل الصفحة
 async function initSearchFilters() {
-  const citySelect = document.getElementById("citySelectSearch");
-  const areaSelect = document.getElementById("areaSelectSearch");
+    const universitySelect = document.getElementById("universitySelectSearch");
+    if (!universitySelect) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/Location/cities`);
-    const cities = await res.json();
-    cities.forEach((city) => {
-      const opt = new Option(city, city);
-      citySelect.add(opt);
-    });
+    try {
+        const res = await fetch(`${API_BASE}/Universities/GetAll`);
+        const data = await res.json();
+        
+        // مسح القائمة وإضافة خيار "الكل"
+        universitySelect.innerHTML = '<option value="all">All Universities</option>';
 
-    citySelect.addEventListener("change", async () => {
-      areaSelect.innerHTML = "<option disabled selected>Select Area</option>";
-      const resArea = await fetch(
-        `${API_BASE}/Location/areas?city=${encodeURIComponent(citySelect.value)}`,
-      );
-      const areas = await resArea.json();
-      areas.forEach((a) => {
-        const opt = new Option(a.area, a.area);
-        areaSelect.add(opt);
-      });
-    });
-  } catch (e) {
-    console.error("Filter Error:", e);
-  }
+        // التأكد من الوصول للمصفوفة داخل Object الجامعات
+        if (data.universities) {
+            data.universities.forEach((uni) => {
+                const opt = new Option(uni.name, uni.universityId);
+                universitySelect.add(opt);
+            });
+        }
+    } catch (e) {
+        console.error("Filter Error:", e);
+    }
 }
 
+// 2. وظيفة البحث المحدثة
+async function performSearch() {
+    const uniId = document.getElementById("universitySelectSearch").value;
+    const maxP = document.getElementById("maxPriceInput").value || 1000000;
+    const grid = document.getElementById("properties-grid");
+
+    let url;
+    // إذا اختار "كل الجامعات" نستخدم الـ Endpoint الأساسي
+    if (uniId === "all") {
+        url = `${API_BASE}/Properties/GetAll`;
+    } else {
+        // إذا اختار جامعة نستخدم الـ API الخاص بالبحث بالجامعة
+        url = `${API_BASE}/Properties/SearchByUniversity?universityId=${uniId}&maxPrice=${maxP}`;
+    }
+
+    try {
+        grid.innerHTML = '<div class="col-12 text-center p-5"><h3>Searching...</h3></div>';
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // التعامل مع اختلاف شكل الـ Response بين الـ GetAll والـ Search
+        const properties = data.properties || data; 
+        displayProperties(Array.isArray(properties) ? properties : []);
+    } catch (e) {
+        console.error("Search Error:", e);
+        grid.innerHTML = '<div class="col-12 text-center p-5 text-danger"><h3>Error fetching properties.</h3></div>';
+    }
+}
+
+// 3. عرض العقارات (بدون تغيير في التصميم)
 function displayProperties(properties) {
-  const grid = document.getElementById("properties-grid");
-  if (!grid) return;
+    const grid = document.getElementById("properties-grid");
+    if (!grid) return;
 
-  const bookedIds = JSON.parse(
-    localStorage.getItem("bookedProperties") || "[]",
-  );
+    const bookedIds = JSON.parse(localStorage.getItem("bookedProperties") || "[]");
 
-  const filteredProperties = properties.filter(
-    (prop) => !bookedIds.includes(prop.propertyID),
-  );
+    const filteredProperties = properties.filter(
+        (prop) => !bookedIds.includes(prop.propertyID),
+    );
 
-  if (filteredProperties.length === 0) {
-    grid.innerHTML = `<div class="col-12 text-center p-5"><h3>No properties available for booking right now.</h3></div>`;
-    return;
-  }
+    if (filteredProperties.length === 0) {
+        grid.innerHTML = `<div class="col-12 text-center p-5"><h3>No properties available.</h3></div>`;
+        return;
+    }
 
-  grid.innerHTML = filteredProperties
-    .map(
-      (prop) => `
-        <div class="col-12 col-sm-6 col-lg-4">
-            <div class="property-card">
-                <div class="card-img-wrapper">
-                    <span class="status-badge badge-available">Available</span>
-                    <img src="${prop.images?.[0]?.imageUrl || "../img/img.4.jpeg"}" alt="${prop.title}" />
-                </div>
-                <div class="card-body-custom">
-                    <div class="prop-name">${prop.title}</div>
-                    <div class="prop-meta">
-                        <span>${prop.location?.street || prop.location?.address}</span>
-                        <span class="price">$${prop.price} / month</span>
+    grid.innerHTML = filteredProperties
+        .map((prop) => `
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="property-card">
+                    <div class="card-img-wrapper">
+                        <span class="status-badge badge-available">Available</span>
+                        <img src="${prop.images?.[0]?.imageUrl || "../img/img.4.jpeg"}" alt="${prop.title}" />
                     </div>
-                    <div class="prop-details">
-                        <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> ${prop.rooms} Rooms</div>
-                        <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyID})">View Details</button>
+                    <div class="card-body-custom">
+                        <div class="prop-name">${prop.title}</div>
+                        <div class="prop-meta">
+                            <span>${prop.location?.street || prop.location?.address || "Location Details"}</span>
+                            <span class="price">$${prop.price} / month</span>
+                        </div>
+                        <div class="prop-details">
+                            <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> ${prop.rooms} Rooms</div>
+                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyID})">View Details</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `,
-    )
-    .join("");
+        `).join("");
 }
 
-async function performSearch() {
-  const city = document.getElementById("citySelectSearch").value;
-  const area = document.getElementById("areaSelectSearch").value;
-  const minP = document.getElementById("minPriceInput").value || 0;
-  const maxP = document.getElementById("maxPriceInput").value || 999999;
-
-  let url = `${API_BASE}/Properties/GetAll`;
-  if (city !== "City•") {
-    url = `${API_BASE}/Properties/Search?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area !== "Area•" ? area : "")}&minPrice=${minP}&maxPrice=${maxP}`;
-  }
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    displayProperties(data.properties || []);
-  } catch (e) {
-    console.error("Search Error:", e);
-  }
-}
-
+// جلب كل العقارات في البداية
 async function loadAllProperties() {
-  try {
-    const res = await fetch(`${API_BASE}/Properties/GetAll`);
-    const data = await res.json();
-    displayProperties(data.properties || []);
-  } catch (e) {
-    console.error("Load Error:", e);
-  }
+    try {
+        const res = await fetch(`${API_BASE}/Properties/GetAll`);
+        const data = await res.json();
+        displayProperties(data.properties || []);
+    } catch (e) {
+        console.error("Load Error:", e);
+    }
 }
 
+// التنسيق عند تشغيل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
-  initSearchFilters();
-  loadAllProperties();
+    initSearchFilters();
+    loadAllProperties();
 
-  const searchBtn = document.getElementById("searchBtn");
-  if (searchBtn) {
-    searchBtn.onclick = performSearch;
-  }
+    const searchBtn = document.getElementById("searchBtn");
+    if (searchBtn) {
+        searchBtn.onclick = performSearch;
+    }
 });
-
 //end search
 
 // srart booking request
