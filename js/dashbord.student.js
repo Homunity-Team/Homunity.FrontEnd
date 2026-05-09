@@ -444,7 +444,7 @@ function displayProperties(properties) {
                         </div>
                         <div class="prop-details">
                             <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> ${prop.rooms} Rooms</div>
-                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyId})">View Details</button>
+                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyId ||prop.propertyID})">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -748,7 +748,7 @@ async function fetchNotifications() {
                         <p class="mb-1" style="font-size: 0.9rem;">${message}</p>
                         <small class="text-secondary">${new Date(notif.createdAt).toLocaleString("en-GB")}</small>
                     </div>
-                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName}</span>
+                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName} </span>
                 </div>
             `;
       })

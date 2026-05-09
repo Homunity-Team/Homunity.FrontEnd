@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/dashbord-student.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
+  <link rel="stylesheet" href="../css/payment.css">
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     .map-section-card {
@@ -302,6 +303,171 @@
       </div>
     </section>
   </main>
+
+
+  <!-- ===== PAYMENT MODAL ===== -->
+  <div id="paymentOverlay" >
+    <div class="payment-card">
+
+      <!-- Header -->
+      <div class="pay-header">
+        <div class="pay-logo">H</div>
+        <div class="pay-header-info">
+          <h3>Homunity Payment</h3>
+          <span>Mock Payment System — بيئة اختبار آمنة</span>
+        </div>
+        <button class="pay-close" onclick="closePayment()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Secure bar -->
+      <div class="pay-secure-bar">
+        <i class="fa-solid fa-lock"></i>
+        <span>جلسة دفع آمنة ومشفرة — Secure Payment Session</span>
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <!-- Property Summary -->
+      <div class="pay-property-summary">
+        <img id="payPropImg" src="https://via.placeholder.com/70x58" class="pay-prop-img" alt="property" />
+        <div class="pay-prop-info">
+          <div class="pay-prop-title" id="payPropTitle">—</div>
+          <div class="pay-prop-student" id="payStudentName">—</div>
+          <span class="pay-amount-badge">$<span id="payAmount">0</span> / شهر</span>
+        </div>
+      </div>
+
+      <!-- Steps -->
+      <div class="pay-steps">
+        <div class="pay-step active" id="step1">
+          <div class="step-dot">1</div>
+          <div class="step-label">بيانات البطاقة</div>
+        </div>
+        <div class="pay-step" id="step2">
+          <div class="step-dot"><i class="fa-solid fa-spinner fa-spin" style="display:none"></i><span>2</span></div>
+          <div class="step-label">معالجة</div>
+        </div>
+        <div class="pay-step" id="step3">
+          <div class="step-dot">✓</div>
+          <div class="step-label">مكتمل</div>
+        </div>
+      </div>
+
+      <!-- PANEL 1: Card Form -->
+      <div class="pay-panel active" id="panelCard">
+        <!-- Visual card -->
+        <div class="credit-card-visual">
+          <div class="card-chip"></div>
+          <div class="card-number-display" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+          <div class="card-bottom">
+            <div class="card-holder">
+              <span>Card Holder</span>
+              <strong id="cardHolderDisplay">FULL NAME</strong>
+            </div>
+            <div class="card-expiry-display">
+              <span>EXPIRES</span>
+              <strong id="cardExpiryDisplay">MM/YY</strong>
+            </div>
+          </div>
+          <i class="fa-brands fa-cc-visa card-brand" id="cardBrandIcon"></i>
+        </div>
+
+        <!-- Test card hint -->
+        <div class="test-card-hint">
+          <strong><i class="fa-solid fa-circle-info me-1"></i> بطاقة الاختبار (انسخها بضغطة)</strong>
+          رقم البطاقة: <code onclick="fillTestCard()">4111 1111 1111 1111</code> |
+          الانتهاء: <code onclick="fillTestExpiry()">12/26</code> |
+          CVV: <code onclick="fillTestCvv()">123</code>
+        </div>
+
+        <div id="payErrorMsg" class="pay-error"></div>
+
+        <div class="pay-form-group">
+          <label>رقم البطاقة</label>
+          <input type="text" class="pay-input" id="cardNumber" placeholder="4111 1111 1111 1111" maxlength="19"
+            oninput="formatCardNumber(this)" autocomplete="cc-number" />
+        </div>
+        <div class="pay-form-group">
+          <label>اسم حامل البطاقة</label>
+          <input type="text" class="pay-input" id="cardHolder" placeholder="AHMED MOHAMED"
+            oninput="updateCardHolder(this)" style="text-transform:uppercase;" />
+        </div>
+        <div class="pay-row">
+          <div class="pay-form-group">
+            <label>تاريخ الانتهاء</label>
+            <input type="text" class="pay-input" id="cardExpiry" placeholder="MM/YY" maxlength="5"
+              oninput="formatExpiry(this)" />
+          </div>
+          <div class="pay-form-group">
+            <label>CVV</label>
+            <input type="text" class="pay-input" id="cardCvv" placeholder="123" maxlength="3"
+              oninput="this.value=this.value.replace(/\D/g,'')" />
+          </div>
+        </div>
+
+        <button class="pay-btn" id="payNowBtn" onclick="processPayment()">
+          <i class="fa-solid fa-lock"></i> ادفع الآن — $<span id="payBtnAmount">0</span>
+        </button>
+        <button class="pay-btn-ghost" onclick="closePayment()">إلغاء</button>
+      </div>
+
+      <!-- PANEL 2: Processing -->
+      <div class="pay-panel" id="panelProcessing">
+        <div class="pay-processing">
+          <div class="processing-ring"></div>
+          <h4>جاري معالجة الدفع...</h4>
+          <p>يرجى الانتظار، لا تغلق الصفحة</p>
+        </div>
+      </div>
+
+      <!-- PANEL 3: Success -->
+      <div class="pay-panel" id="panelSuccess">
+        <div class="pay-success">
+          <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+          <h3>تم الدفع بنجاح! 🎉</h3>
+          <p>تهانينا! تم تأكيد حجزك بنجاح.<br>ستجد تفاصيل حجزك في صفحة حجوزاتي.</p>
+          <div class="success-receipt">
+            <div class="receipt-row">
+              <span class="receipt-label">رقم الطلب</span>
+              <span class="receipt-value gold" id="receiptOrderId">—</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">العقار</span>
+              <span class="receipt-value" id="receiptProperty">—</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">المبلغ المدفوع</span>
+              <span class="receipt-value gold">$<span id="receiptAmount">0</span></span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">الحالة</span>
+              <span class="receipt-value green">✓ مؤكد ومدفوع</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">وقت الدفع</span>
+              <span class="receipt-value" id="receiptTime">—</span>
+            </div>
+          </div>
+          <button class="pay-btn" onclick="closePaymentSuccess()">
+            <i class="fa-solid fa-house"></i> العودة للرئيسية
+          </button>
+        </div>
+      </div>
+
+      <!-- PANEL 4: Failed -->
+      <div class="pay-panel" id="panelFailed">
+        <div class="pay-failed">
+          <div class="failed-icon"><i class="fa-solid fa-xmark"></i></div>
+          <h3>فشل الدفع</h3>
+          <p id="failedMsg">حدث خطأ في معالجة الدفع. يرجى التحقق من بيانات البطاقة والمحاولة مرة أخرى.</p>
+          <button class="pay-btn" onclick="retryPayment()">
+            <i class="fa-solid fa-rotate-right"></i> حاول مرة أخرى
+          </button>
+          <button class="pay-btn-ghost" onclick="closePayment()">إلغاء</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 
 
@@ -1060,6 +1226,7 @@
     }, 3000);
   </script>
 
+  <script src="../js/payment.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../js/dashbord.student.js"></script>
   <script>
