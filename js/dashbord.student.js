@@ -129,7 +129,7 @@ async function fetchMyBookings() {
                     </div>
                 </div>
                 <div class="col-12 col-md-4 text-md-end location-text mb-3 mb-md-0">
-                    ${item.property?.location }
+                    ${item.property?.address}
                 </div>
                 <div class="col-12 col-md-4 text-md-end pe-md-4">
                     <button class="status-btn">${item.statusName || "N/A"}</button>
@@ -360,79 +360,84 @@ document.addEventListener("DOMContentLoaded", () => {
 // end home
 
 // start search
-const API_BASE = "https://homunityapiv1.runasp.net/api";
 
 // 1. جلب الجامعات عند تحميل الصفحة
 async function initSearchFilters() {
-    const universitySelect = document.getElementById("universitySelectSearch");
-    if (!universitySelect) return;
+  const universitySelect = document.getElementById("universitySelectSearch");
+  if (!universitySelect) return;
 
-    try {
-        const res = await fetch(`${API_BASE}/Universities/GetAll`);
-        const data = await res.json();
-        
-        // مسح القائمة وإضافة خيار "الكل"
-        universitySelect.innerHTML = '<option value="all">All Universities</option>';
+  try {
+    const res = await fetch(`${API_BASE}/Universities/GetAll`);
+    const data = await res.json();
 
-        // التأكد من الوصول للمصفوفة داخل Object الجامعات
-        if (data.universities) {
-            data.universities.forEach((uni) => {
-                const opt = new Option(uni.name, uni.universityId);
-                universitySelect.add(opt);
-            });
-        }
-    } catch (e) {
-        console.error("Filter Error:", e);
+    // مسح القائمة وإضافة خيار "الكل"
+    universitySelect.innerHTML =
+      '<option value="all">All Universities</option>';
+
+    // التأكد من الوصول للمصفوفة داخل Object الجامعات
+    if (data.universities) {
+      data.universities.forEach((uni) => {
+        const opt = new Option(uni.name, uni.universityId);
+        universitySelect.add(opt);
+      });
     }
+  } catch (e) {
+    console.error("Filter Error:", e);
+  }
 }
 
 // 2. وظيفة البحث المحدثة
 async function performSearch() {
-    const uniId = document.getElementById("universitySelectSearch").value;
-    const maxP = document.getElementById("maxPriceInput").value || 1000000;
-    const grid = document.getElementById("properties-grid");
+  const uniId = document.getElementById("universitySelectSearch").value;
+  const maxP = document.getElementById("maxPriceInput").value || 1000000;
+  const grid = document.getElementById("properties-grid");
 
-    let url;
-    // إذا اختار "كل الجامعات" نستخدم الـ Endpoint الأساسي
-    if (uniId === "all") {
-        url = `${API_BASE}/Properties/GetAll`;
-    } else {
-        // إذا اختار جامعة نستخدم الـ API الخاص بالبحث بالجامعة
-        url = `${API_BASE}/Properties/SearchByUniversity?universityId=${uniId}&maxPrice=${maxP}`;
-    }
+  let url;
+  // إذا اختار "كل الجامعات" نستخدم الـ Endpoint الأساسي
+  if (uniId === "all") {
+    url = `${API_BASE}/Properties/GetAll`;
+  } else {
+    // إذا اختار جامعة نستخدم الـ API الخاص بالبحث بالجامعة
+    url = `${API_BASE}/Properties/SearchByUniversity?universityId=${uniId}&maxPrice=${maxP}`;
+  }
 
-    try {
-        grid.innerHTML = '<div class="col-12 text-center p-5"><h3>Searching...</h3></div>';
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        // التعامل مع اختلاف شكل الـ Response بين الـ GetAll والـ Search
-        const properties = data.properties || data; 
-        displayProperties(Array.isArray(properties) ? properties : []);
-    } catch (e) {
-        console.error("Search Error:", e);
-        grid.innerHTML = '<div class="col-12 text-center p-5 text-danger"><h3>Error fetching properties.</h3></div>';
-    }
+  try {
+    grid.innerHTML =
+      '<div class="col-12 text-center p-5"><h3>Searching...</h3></div>';
+    const res = await fetch(url);
+    const data = await res.json();
+
+    // التعامل مع اختلاف شكل الـ Response بين الـ GetAll والـ Search
+    const properties = data.properties || data;
+    displayProperties(Array.isArray(properties) ? properties : []);
+  } catch (e) {
+    console.error("Search Error:", e);
+    grid.innerHTML =
+      '<div class="col-12 text-center p-5 text-danger"><h3>Error fetching properties.</h3></div>';
+  }
 }
 
 // 3. عرض العقارات (بدون تغيير في التصميم)
 function displayProperties(properties) {
-    const grid = document.getElementById("properties-grid");
-    if (!grid) return;
+  const grid = document.getElementById("properties-grid");
+  if (!grid) return;
 
-    const bookedIds = JSON.parse(localStorage.getItem("bookedProperties") || "[]");
+  const bookedIds = JSON.parse(
+    localStorage.getItem("bookedProperties") || "[]",
+  );
 
-    const filteredProperties = properties.filter(
-        (prop) => !bookedIds.includes(prop.propertyID),
-    );
+  const filteredProperties = properties.filter(
+    (prop) => !bookedIds.includes(prop.propertyID),
+  );
 
-    if (filteredProperties.length === 0) {
-        grid.innerHTML = `<div class="col-12 text-center p-5"><h3>No properties available.</h3></div>`;
-        return;
-    }
+  if (filteredProperties.length === 0) {
+    grid.innerHTML = `<div class="col-12 text-center p-5"><h3>No properties available.</h3></div>`;
+    return;
+  }
 
-    grid.innerHTML = filteredProperties
-        .map((prop) => `
+  grid.innerHTML = filteredProperties
+    .map(
+      (prop) => `
             <div class="col-12 col-sm-6 col-lg-4">
                 <div class="property-card">
                     <div class="card-img-wrapper">
@@ -452,29 +457,31 @@ function displayProperties(properties) {
                     </div>
                 </div>
             </div>
-        `).join("");
+        `,
+    )
+    .join("");
 }
 
 // جلب كل العقارات في البداية
 async function loadAllProperties() {
-    try {
-        const res = await fetch(`${API_BASE}/Properties/GetAll`);
-        const data = await res.json();
-        displayProperties(data.properties || []);
-    } catch (e) {
-        console.error("Load Error:", e);
-    }
+  try {
+    const res = await fetch(`${API_BASE}/Properties/GetAll`);
+    const data = await res.json();
+    displayProperties(data.properties || []);
+  } catch (e) {
+    console.error("Load Error:", e);
+  }
 }
 
 // التنسيق عند تشغيل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
-    initSearchFilters();
-    loadAllProperties();
+  initSearchFilters();
+  loadAllProperties();
 
-    const searchBtn = document.getElementById("searchBtn");
-    if (searchBtn) {
-        searchBtn.onclick = performSearch;
-    }
+  const searchBtn = document.getElementById("searchBtn");
+  if (searchBtn) {
+    searchBtn.onclick = performSearch;
+  }
 });
 //end search
 
@@ -515,7 +522,7 @@ async function loadMyBookings() {
         const status = book.statusName || "N/A";
         const property = book.property || {};
         const title = property.title || "Property";
-        const location = property.location || "Location";
+        const location = property.address || "Location";
         const img = property.imageUrl || "../img/room1.1.jpg";
         const bDate = book.createdAt
           ? new Date(book.createdAt).toLocaleDateString("en-GB")
@@ -534,7 +541,7 @@ async function loadMyBookings() {
                       <img src="${img}" class="booking-img-sm rounded-2 shadow-sm" style="width:50px; height:50px; object-fit:cover" />
                       <div>
                           <div class="text-gold-custom fs-6">${title}</div>
-                          <div class="small text-white-50">${location.address}</div>
+                          <div class="small text-white-50">${location}</div>
                       </div>
                   </div>
               </div>
