@@ -306,7 +306,7 @@
 
 
   <!-- ===== PAYMENT MODAL ===== -->
-  <div id="paymentOverlay" >
+  <div id="paymentOverlay">
     <div class="payment-card">
 
       <!-- Header -->
@@ -1002,7 +1002,7 @@
 
     <!-- Header -->
     <div class="chat-header">
-      <div class="chat-avatar">H</div>
+      <div class=""><img style="width: 50px ; height: 50px; " src="../img/logo.png" alt=""></div>
       <div class="chat-header-info">
         <h4>Homunity AI Assistant</h4>
         <span>🟢 Online — مساعدك الذكي للسكن الطلابي</span>
@@ -1031,6 +1031,7 @@
         <p>أنا مساعدك الذكي، يمكنني مساعدتك في<br>إيجاد أفضل سكن طلابي مناسب لك.</p>
       </div>
     </div>
+
 
     <!-- Input -->
     <div class="chat-input-area">
@@ -1131,7 +1132,7 @@
       const row = document.createElement("div");
       row.className = `msg-row ${isUser ? "user" : ""}`;
       row.innerHTML = `
-    <div class="msg-avatar ${isUser ? "user" : "bot"}">${isUser ? "أنت" : "AI"}</div>
+    <div class=" ${isUser ? "user" : "bot"}">${isUser ? "أنت" : '<img style="width: 50px ; height: 50px;"  src="../img/logo.png" alt="">'}</div>
     <div>
       <div class="msg-bubble ${isUser ? "user" : "bot"}">${formatMessage(content)}</div>
       <span class="msg-time">${time}</span>
@@ -1179,7 +1180,7 @@
       const container = document.getElementById("chatMessages");
       const row = document.createElement("div");
       row.className = "msg-row"; row.id = "typingRow";
-      row.innerHTML = `<div class="msg-avatar bot">AI</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+      row.innerHTML = `<div class=" bot"><img style="width: 50px ; height: 50px; "  src="../img/logo.png" alt=""></div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
       container.appendChild(row);
       scrollToBottom();
     }

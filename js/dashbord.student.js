@@ -748,7 +748,7 @@ async function fetchNotifications() {
                         <p class="mb-1" style="font-size: 0.9rem;">${message}</p>
                         <small class="text-secondary">${new Date(notif.createdAt).toLocaleString("en-GB")}</small>
                     </div>
-                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName} </span>
+                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName} <button class="btn btn-success o " >pay now</button> </span>
                 </div>
             `;
       })
