@@ -302,6 +302,763 @@
     </section>
   </main>
 
+
+
+  <style>
+    /* ===== CHATBOT FLOATING BUTTON ===== */
+    #homunity-chat-fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 62px;
+      height: 62px;
+      background: linear-gradient(135deg, #efb81e, #d4a017);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(239, 184, 30, 0.45);
+      z-index: 9998;
+      border: none;
+      transition: transform 0.25s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.25s;
+      animation: fabPulse 3s ease-in-out infinite;
+    }
+
+    #homunity-chat-fab:hover {
+      transform: scale(1.12);
+      box-shadow: 0 10px 32px rgba(239, 184, 30, 0.6);
+    }
+
+    #homunity-chat-fab i {
+      font-size: 1.6rem;
+      color: #1e293b;
+    }
+
+    #homunity-chat-fab .chat-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 20px;
+      height: 20px;
+      background: #ef4444;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+      display: none;
+    }
+
+    @keyframes fabPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 6px 24px rgba(239, 184, 30, 0.45);
+      }
+
+      50% {
+        box-shadow: 0 6px 32px rgba(239, 184, 30, 0.75);
+      }
+    }
+
+    /* ===== CHAT WINDOW ===== */
+    #homunity-chat-window {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      width: 380px;
+      height: 520px;
+      background: #0f1923;
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(239, 184, 30, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 9997;
+      transform: scale(0.85) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(.34, 1.56, .64, 1), opacity 0.25s ease;
+    }
+
+    #homunity-chat-window.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ===== CHAT HEADER ===== */
+    .chat-header {
+      background: linear-gradient(135deg, #1e293b 0%, #212e43 100%);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(239, 184, 30, 0.2);
+      flex-shrink: 0;
+    }
+
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #efb81e, #d4a017);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #1e293b;
+      font-weight: 900;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .chat-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 50%;
+      border: 2px solid #1e293b;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-info h4 {
+      color: #efb81e;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .chat-header-info span {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.72rem;
+    }
+
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-action-btn {
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.07);
+      border: none;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .chat-action-btn:hover {
+      background: rgba(239, 184, 30, 0.15);
+      color: #efb81e;
+    }
+
+    /* ===== QUICK SUGGESTIONS ===== */
+    .chat-quick-suggestions {
+      padding: 10px 14px 6px;
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: none;
+      background: #111c28;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .chat-quick-suggestions::-webkit-scrollbar {
+      display: none;
+    }
+
+    .quick-chip {
+      background: rgba(239, 184, 30, 0.1);
+      border: 1px solid rgba(239, 184, 30, 0.25);
+      color: #efb81e;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+
+    .quick-chip:hover {
+      background: rgba(239, 184, 30, 0.2);
+      border-color: #efb81e;
+    }
+
+    /* ===== MESSAGES AREA ===== */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #0f1923;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(239, 184, 30, 0.2) transparent;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: rgba(239, 184, 30, 0.2);
+      border-radius: 4px;
+    }
+
+    /* ===== MESSAGE BUBBLES ===== */
+    .msg-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      animation: msgIn 0.3s ease;
+    }
+
+    .msg-row.user {
+      flex-direction: row-reverse;
+    }
+
+    @keyframes msgIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .msg-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .msg-avatar.bot {
+      background: linear-gradient(135deg, #efb81e, #d4a017);
+      color: #1e293b;
+    }
+
+    .msg-avatar.user {
+      background: #212e43;
+      color: #efb81e;
+      border: 1px solid rgba(239, 184, 30, 0.3);
+    }
+
+    .msg-bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.83rem;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+
+    .msg-bubble.bot {
+      background: #1a2535;
+      color: #e2e8f0;
+      border-radius: 4px 16px 16px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .msg-bubble.user {
+      background: linear-gradient(135deg, #efb81e, #d4a017);
+      color: #1e293b;
+      border-radius: 16px 4px 16px 16px;
+      font-weight: 600;
+    }
+
+    .msg-time {
+      font-size: 0.62rem;
+      color: rgba(255, 255, 255, 0.25);
+      margin-top: 4px;
+      display: block;
+      text-align: left;
+    }
+
+    .msg-row.user .msg-time {
+      text-align: right;
+    }
+
+    /* ===== TYPING INDICATOR ===== */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 14px;
+      background: #1a2535;
+      border-radius: 4px 16px 16px 16px;
+      width: fit-content;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      background: #efb81e;
+      border-radius: 50%;
+      animation: typingBounce 1.2s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingBounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      30% {
+        transform: translateY(-6px);
+        opacity: 1;
+      }
+    }
+
+    /* ===== PROPERTY CARDS in chat ===== */
+    .chat-prop-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .chat-prop-card {
+      background: #1e293b;
+      border: 1px solid rgba(239, 184, 30, 0.2);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .chat-prop-card:hover {
+      border-color: #efb81e;
+      background: #253347;
+    }
+
+    .chat-prop-card img {
+      width: 54px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .chat-prop-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .chat-prop-title {
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chat-prop-price {
+      color: #efb81e;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .chat-prop-addr {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.68rem;
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ===== WELCOME MESSAGE ===== */
+    .chat-welcome {
+      text-align: center;
+      padding: 20px 10px;
+      animation: msgIn 0.5s ease;
+    }
+
+    .chat-welcome .welcome-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .chat-welcome h3 {
+      color: #efb81e;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .chat-welcome p {
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    /* ===== INPUT AREA ===== */
+    .chat-input-area {
+      padding: 12px 14px;
+      background: #111c28;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: #1a2535;
+      border: 1.5px solid rgba(239, 184, 30, 0.2);
+      border-radius: 14px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 0.83rem;
+      outline: none;
+      resize: none;
+      min-height: 42px;
+      max-height: 100px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      direction: rtl;
+      line-height: 1.4;
+    }
+
+    .chat-input::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .chat-input:focus {
+      border-color: rgba(239, 184, 30, 0.5);
+    }
+
+    .chat-send-btn {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #efb81e, #d4a017);
+      border: none;
+      border-radius: 12px;
+      color: #1e293b;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+
+    .chat-send-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(239, 184, 30, 0.4);
+    }
+
+    .chat-send-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      #homunity-chat-window {
+        width: calc(100vw - 20px);
+        left: 10px;
+        right: 10px;
+        bottom: 90px;
+      }
+
+      #homunity-chat-fab {
+        bottom: 20px;
+        left: 20px;
+      }
+    }
+  </style>
+
+  <button id="homunity-chat-fab" onclick="toggleChat()" title="Chat with Homunity AI">
+    <i class="fa-solid fa-robot" id="chatFabIcon"></i>
+    <span class="chat-badge" id="chatBadge">1</span>
+  </button>
+
+  <!-- ===== CHAT WINDOW ===== -->
+  <div id="homunity-chat-window">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-avatar">H</div>
+      <div class="chat-header-info">
+        <h4>Homunity AI Assistant</h4>
+        <span>🟢 Online — مساعدك الذكي للسكن الطلابي</span>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-action-btn" onclick="clearChat()" title="مسح المحادثة"><i
+            class="fa-solid fa-trash-can"></i></button>
+        <button class="chat-action-btn" onclick="toggleChat()" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <!-- Quick suggestions -->
+    <div class="chat-quick-suggestions" id="quickSuggestions">
+      <span class="quick-chip" onclick="sendQuick('أريد شقة قريبة من جامعة القاهرة')">🎓 قريب من جامعة القاهرة</span>
+      <span class="quick-chip" onclick="sendQuick('ما هي أرخص الشقق المتاحة؟')">💰 أرخص الشقق</span>
+      <span class="quick-chip" onclick="sendQuick('أريد شقة بها واي فاي وتكييف')">📶 واي فاي وتكييف</span>
+      <span class="quick-chip" onclick="sendQuick('كيف أحجز شقة؟')">📋 كيف أحجز؟</span>
+      <span class="quick-chip" onclick="sendQuick('أريد غرفة لطالب واحد')">🛏️ غرفة لطالب</span>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-welcome">
+        <div class="welcome-icon">🏠</div>
+        <h3>أهلاً بك في Homunity!</h3>
+        <p>أنا مساعدك الذكي، يمكنني مساعدتك في<br>إيجاد أفضل سكن طلابي مناسب لك.</p>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" placeholder="اكتب رسالتك هنا..." rows="1"
+        onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
+      <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+
+  </div>
+  <script>
+    // =====================================================
+    // CHATBOT JS
+    // =====================================================
+    const API_BASE = "https://homunityapiv1.runasp.net/api";
+    let chatOpen = false;
+    let isTyping = false;
+
+    function getStudentId() {
+      return parseInt(localStorage.getItem("id") || "0");
+    }
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      const win = document.getElementById("homunity-chat-window");
+      const icon = document.getElementById("chatFabIcon");
+      const badge = document.getElementById("chatBadge");
+      win.classList.toggle("open", chatOpen);
+      icon.className = chatOpen ? "fa-solid fa-xmark" : "fa-solid fa-robot";
+      badge.style.display = "none";
+      if (chatOpen) {
+        loadHistory();
+        setTimeout(() => document.getElementById("chatInput").focus(), 300);
+      }
+    }
+
+    async function loadHistory() {
+      const studentId = getStudentId();
+      if (!studentId) return;
+      try {
+        const res = await fetch(`${API_BASE}/Chat/history/${studentId}`);
+        const data = await res.json();
+        if (data.messages && data.messages.length > 0) {
+          const container = document.getElementById("chatMessages");
+          container.innerHTML = "";
+          data.messages.forEach(m => appendMessage(m.role, m.content, false));
+          scrollToBottom();
+        }
+      } catch (e) { console.warn("History load:", e); }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("chatInput");
+      const msg = input.value.trim();
+      if (!msg || isTyping) return;
+      const studentId = getStudentId();
+      if (!studentId) { appendMessage("assistant", "⚠️ يرجى تسجيل الدخول أولاً للاستخدام المساعد."); return; }
+      // Remove welcome screen on first message
+      const welcome = document.querySelector(".chat-welcome");
+      if (welcome) welcome.remove();
+      // Hide quick suggestions after first message
+      document.getElementById("quickSuggestions").style.display = "none";
+      input.value = ""; autoResize(input);
+      appendMessage("user", msg);
+      showTyping();
+      isTyping = true;
+      document.getElementById("chatSendBtn").disabled = true;
+      try {
+        const res = await fetch(`${API_BASE}/Chat/message`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ studentId, message: msg })
+        });
+        const data = await res.json();
+        hideTyping();
+        appendMessage("assistant", data.reply);
+        if (data.suggestions && data.suggestions.length > 0) renderSuggestions(data.suggestions);
+      } catch (e) {
+        hideTyping();
+        appendMessage("assistant", "عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.");
+      } finally {
+        isTyping = false;
+        document.getElementById("chatSendBtn").disabled = false;
+        document.getElementById("chatInput").focus();
+      }
+    }
+
+    function sendQuick(text) {
+      document.getElementById("chatInput").value = text;
+      sendMessage();
+    }
+
+    function appendMessage(role, content, animate = true) {
+      const container = document.getElementById("chatMessages");
+      const isUser = role === "user";
+      const time = new Date().toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+      const row = document.createElement("div");
+      row.className = `msg-row ${isUser ? "user" : ""}`;
+      row.innerHTML = `
+    <div class="msg-avatar ${isUser ? "user" : "bot"}">${isUser ? "أنت" : "AI"}</div>
+    <div>
+      <div class="msg-bubble ${isUser ? "user" : "bot"}">${formatMessage(content)}</div>
+      <span class="msg-time">${time}</span>
+    </div>`;
+      if (!animate) row.style.animation = "none";
+      container.appendChild(row);
+      scrollToBottom();
+    }
+
+    function formatMessage(text) {
+      // Convert markdown-like formatting
+      return text
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(/\n/g, "<br>");
+    }
+
+    function renderSuggestions(suggestions) {
+      if (!suggestions.length) return;
+      const container = document.getElementById("chatMessages");
+      const cardsDiv = document.createElement("div");
+      cardsDiv.className = "msg-row";
+      const inner = document.createElement("div");
+      inner.innerHTML = `<div class="chat-prop-cards">${suggestions.map(p => `
+    <div class="chat-prop-card" onclick="openProperty(${p.propertyID})">
+      <img src="${p.imageUrl || 'https://via.placeholder.com/54x44'}" onerror="this.src='https://via.placeholder.com/54x44'" />
+      <div class="chat-prop-info">
+        <div class="chat-prop-title">${p.title}</div>
+        <div class="chat-prop-price">$${p.price} / شهر</div>
+        <div class="chat-prop-addr">${p.address || "عنوان غير متاح"}</div>
+      </div>
+    </div>`).join("")}</div>`;
+      cardsDiv.appendChild(inner);
+      container.appendChild(cardsDiv);
+      scrollToBottom();
+    }
+
+    function openProperty(id) {
+      // Trigger property details in student dashboard
+      if (typeof loadPropertyDetails === "function") loadPropertyDetails(id);
+      toggleChat();
+    }
+
+    function showTyping() {
+      const container = document.getElementById("chatMessages");
+      const row = document.createElement("div");
+      row.className = "msg-row"; row.id = "typingRow";
+      row.innerHTML = `<div class="msg-avatar bot">AI</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+      container.appendChild(row);
+      scrollToBottom();
+    }
+
+    function hideTyping() {
+      const row = document.getElementById("typingRow");
+      if (row) row.remove();
+    }
+
+    async function clearChat() {
+      const studentId = getStudentId();
+      if (!studentId) return;
+      if (!confirm("هل تريد مسح سجل المحادثة؟")) return;
+      try {
+        await fetch(`${API_BASE}/Chat/clear/${studentId}`, { method: "DELETE" });
+        document.getElementById("chatMessages").innerHTML = `
+      <div class="chat-welcome">
+        <div class="welcome-icon">🏠</div>
+        <h3>أهلاً بك في Homunity!</h3>
+        <p>أنا مساعدك الذكي، يمكنني مساعدتك في<br>إيجاد أفضل سكن طلابي مناسب لك.</p>
+      </div>`;
+        document.getElementById("quickSuggestions").style.display = "flex";
+      } catch (e) { console.warn("Clear error:", e); }
+    }
+
+    function scrollToBottom() {
+      const c = document.getElementById("chatMessages");
+      c.scrollTop = c.scrollHeight;
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    function autoResize(el) {
+      el.style.height = "auto";
+      el.style.height = Math.min(el.scrollHeight, 100) + "px";
+    }
+
+    // Show badge on load to attract attention
+    setTimeout(() => {
+      const badge = document.getElementById("chatBadge");
+      if (badge && !chatOpen) badge.style.display = "flex";
+    }, 3000);
+  </script>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="../js/dashbord.student.js"></script>
   <script>
