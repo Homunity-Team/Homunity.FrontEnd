@@ -444,7 +444,7 @@ function displayProperties(properties) {
                         </div>
                         <div class="prop-details">
                             <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> ${prop.rooms} Rooms</div>
-                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyId ||prop.propertyID})">View Details</button>
+                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyId || prop.propertyID})">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -712,7 +712,6 @@ async function fetchNotifications() {
                 </div>`;
       return;
     }
-
     container.innerHTML = data
       .map((notif) => {
         let badgeClass = "";
@@ -724,8 +723,11 @@ async function fetchNotifications() {
         } else if (notif.statusName === "In-Process") {
           badgeClass = "bg-warning text-dark";
           message = `Your booking request for <strong>${notif.property.title}</strong> is still waiting for approval.`;
-        } else {
+        } else if (notif.statusName === "Booked") {
           badgeClass = "bg-success";
+          message = `Your booking request for <strong>${notif.property.title}</strong> is still waiting for approval.`;
+        } else {
+          badgeClass = "bg-info";
           message = `Update on your booking for <strong>${notif.property.title}</strong>: ${notif.statusName}`;
         }
 
@@ -740,7 +742,29 @@ async function fetchNotifications() {
                 </div>`;
           return;
         }
-
+        if (badgeClass === "bg-info") {
+          return `
+                <div class="notification-card d-flex justify-content-between align-items-center p-5 mb-3 shadow-sm" 
+                     style="background-color: #1e2738; border-radius: 12px; border-left: 5px solid ${notif.statusName === "Cancelled" ? "#dc3545" : "#f1b42f"}">
+                    <div class="text-white">
+                        <p class="mb-1" style="font-size: 0.9rem;">${message}</p>
+                        <small class="text-secondary">${new Date(notif.createdAt).toLocaleString("en-GB")}</small>
+                    </div>
+                    <span class="badge ${badgeClass} d-inline-flex align-items-center rounded-pill p-2 ps-4 shadow-sm border border-light">
+                        <!-- نص الحالة -->
+                        <span class="me-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                            ${notif.statusName}
+                        </span>
+                        
+                        <!-- زر الدفع -->
+                        <button onclick="openPayment(${notif.bookingId})" class="btn btn-light btn-sm fw-bold shadow-sm px-3" 
+                                style="border-radius: 50px; color: #198754;">
+                            <i class="bi bi-wallet2 me-1"></i> Pay Now
+                        </button>
+                    </span>                
+                    </div>
+            `;
+        }
         return `
                 <div class="notification-card d-flex justify-content-between align-items-center p-5 mb-3 shadow-sm" 
                      style="background-color: #1e2738; border-radius: 12px; border-left: 5px solid ${notif.statusName === "Cancelled" ? "#dc3545" : "#f1b42f"}">
@@ -748,7 +772,7 @@ async function fetchNotifications() {
                         <p class="mb-1" style="font-size: 0.9rem;">${message}</p>
                         <small class="text-secondary">${new Date(notif.createdAt).toLocaleString("en-GB")}</small>
                     </div>
-                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName} <button class="btn btn-success o " >pay now</button> </span>
+                    <span class="badge ${badgeClass} p-2 px-4" style="border-radius: 8px;">${notif.statusName}  </span>
                 </div>
             `;
       })
