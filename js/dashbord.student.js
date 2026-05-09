@@ -361,7 +361,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // start search
 
-// 1. جلب الجامعات عند تحميل الصفحة
 async function initSearchFilters() {
   const universitySelect = document.getElementById("universitySelectSearch");
   if (!universitySelect) return;
@@ -370,11 +369,9 @@ async function initSearchFilters() {
     const res = await fetch(`${API_BASE}/Universities/GetAll`);
     const data = await res.json();
 
-    // مسح القائمة وإضافة خيار "الكل"
     universitySelect.innerHTML =
       '<option value="all">All Universities</option>';
 
-    // التأكد من الوصول للمصفوفة داخل Object الجامعات
     if (data.universities) {
       data.universities.forEach((uni) => {
         const opt = new Option(uni.name, uni.universityId);
@@ -386,18 +383,15 @@ async function initSearchFilters() {
   }
 }
 
-// 2. وظيفة البحث المحدثة
 async function performSearch() {
   const uniId = document.getElementById("universitySelectSearch").value;
   const maxP = document.getElementById("maxPriceInput").value || 1000000;
   const grid = document.getElementById("properties-grid");
 
   let url;
-  // إذا اختار "كل الجامعات" نستخدم الـ Endpoint الأساسي
   if (uniId === "all") {
     url = `${API_BASE}/Properties/GetAll`;
   } else {
-    // إذا اختار جامعة نستخدم الـ API الخاص بالبحث بالجامعة
     url = `${API_BASE}/Properties/SearchByUniversity?universityId=${uniId}&maxPrice=${maxP}`;
   }
 
@@ -407,7 +401,6 @@ async function performSearch() {
     const res = await fetch(url);
     const data = await res.json();
 
-    // التعامل مع اختلاف شكل الـ Response بين الـ GetAll والـ Search
     const properties = data.properties || data;
     displayProperties(Array.isArray(properties) ? properties : []);
   } catch (e) {
@@ -417,7 +410,6 @@ async function performSearch() {
   }
 }
 
-// 3. عرض العقارات (بدون تغيير في التصميم)
 function displayProperties(properties) {
   const grid = document.getElementById("properties-grid");
   if (!grid) return;
@@ -452,7 +444,7 @@ function displayProperties(properties) {
                         </div>
                         <div class="prop-details">
                             <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> ${prop.rooms} Rooms</div>
-                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyID})">View Details</button>
+                            <button class="btn-action btn-view" onclick="loadPropertyDetails(${prop.propertyId})">View Details</button>
                         </div>
                     </div>
                 </div>
