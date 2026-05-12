@@ -1261,3 +1261,9 @@ h2.browse-title {
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.imgCard{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -224,7 +224,7 @@ function renderUI(list) {
                 <div class="property-card">
                     <div class="card-img-wrapper">
                         <span class="status-badge badge-Pending">Pending</span>
-                        <img src="${prop.thumbnail}" alt="${prop.title}" onerror="this.src='../img/placeholder.jpg'" />
+                        <img class="imgCard" src="${prop.thumbnail}" alt="${prop.title}" onerror="this.src='../img/placeholder.jpg'" />
                     </div>
                     <div class="card-body-custom">
                         <div class="prop-name text-truncate">${prop.title}</div>

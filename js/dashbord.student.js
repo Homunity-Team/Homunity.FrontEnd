@@ -434,7 +434,7 @@ function displayProperties(properties) {
                 <div class="property-card">
                     <div class="card-img-wrapper">
                         <span class="status-badge badge-available">Available</span>
-                        <img src="${prop.images?.[0]?.imageUrl || "../img/img.4.jpeg"}" alt="${prop.title}" />
+                        <img class="imgCard" src="${prop.images?.[0]?.imageUrl || "../img/img.4.jpeg"}" alt="${prop.title}" />
                     </div>
                     <div class="card-body-custom">
                         <div class="prop-name">${prop.title}</div>

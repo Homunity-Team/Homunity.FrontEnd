@@ -2,6 +2,7 @@
 // AUTH CHECK
 // =====================================================
 document.addEventListener("DOMContentLoaded", () => {
+  hideLoader();
   const userRole = localStorage.getItem("role");
   const userID = localStorage.getItem("id");
   if (userRole !== "owner" || !userID) {
@@ -809,8 +810,9 @@ document
       "Rooms must be 1-10.",
     );
     if (!isValid) return;
-    showLoader();
+   
     try {
+       showLoader();
       const propId = Number(get("propertyIdUpdate").value);
       const uLat = get("updateLat").value,
         uLng = get("updateLng").value,
@@ -864,6 +866,7 @@ document
       });
       const resData = await res.json();
       if (res.ok) {
+        hideLoader();
         await Swal.fire({
           icon: "success",
           title: "Updated!",
@@ -875,16 +878,16 @@ document
         fetchProperties();
         fetchOwnerStats();
       } else
+        hideLoader();
         Swal.fire({
           icon: "error",
           title: "Failed",
           text: resData.message || "Check your inputs.",
         });
     } catch (err) {
+      hideLoader();
       console.error(err);
       Swal.fire({ icon: "error", title: "Connection Error" });
-    } finally {
-      hideLoader();
     }
   });
 document.getElementById("cancelUpdate").onclick = () => {
