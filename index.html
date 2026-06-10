@@ -10,499 +10,912 @@
     <title>Your safe home</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<style>
+    :root {
+        --navy-dark: #1e293b;
+        --navy-navbar: #232d3f;
+        --navy-hover: #111827;
+        --gold-primary: #f5c453;
+        --gold-hover: #e0b043;
+        --gold-dark: #d4901a;
+        --text-dark: #1a1a1a;
+        --text-muted: #666666;
+        --bg-light: #f4f4f2;
+        --white: #ffffff;
+        --text-shadow: rgba(0, 0, 0, 0.4);
+        --box-shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.25);
+        --box-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--white);
+        color: var(--text-dark);
+        overflow-x: hidden;
+    }
+
+    .hero-section {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+            url('./img/home1.svg') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar-container {
+        padding-top: 0;
+        margin-top: 0;
+        max-width: 100% !important;
+    }
+
+    .custom-navbar {
+        background-color: var(--navy-navbar);
+        border-bottom-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        box-shadow: var(--box-shadow-md);
+        border: 2px solid var(--gold-primary);
+        border-top: none;
+        width: 85%;
+        margin: 0 auto;
+    }
+
+    .logo-text {
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: 1.5px;
+        font-size: 1.2rem;
+    }
+
+    .gold-text {
+        color: var(--gold-primary);
+    }
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: rgba(255, 255, 255, 0.75);
+        font-weight: 500;
+        transition: color 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .custom-navbar .navbar-nav .nav-link:hover,
+    .custom-navbar .navbar-nav .nav-link.active {
+        color: var(--gold-primary) !important;
+    }
+
+    .btn-gold {
+        background-color: var(--gold-primary);
+        color: var(--navy-dark) !important;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-gold:hover {
+        background-color: var(--gold-hover);
+        transform: translateY(-1px);
+    }
+
+    .btn-outline-navy {
+        background-color: var(--navy-dark);
+        color: var(--white) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-weight: 500;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-navy:hover {
+        background-color: var(--navy-hover);
+        border-color: var(--gold-primary);
+    }
+
+    .hero-content {
+        flex-grow: 1;
+        padding-bottom: 80px;
+    }
+
+    .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--navy-dark);
+        line-height: 1.2;
+        text-shadow: 1px 2px 4px rgba(255, 255, 255, 0.6);
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: #475569;
+        font-weight: 400;
+    }
+
+    .search-wrapper {
+        background-color: var(--white);
+        border: 4px solid var(--gold-primary);
+        border-radius: 50px;
+        padding: 20px 35px 25px 35px;
+        width: 100%;
+        max-width: 650px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .search-hint {
+        font-size: 0.85rem;
+        font-weight: 400;
+    }
+
+    .custom-select-input {
+        border: 1px solid #cbd5e1;
+        border-radius: 20px !important;
+        padding: 10px 20px;
+        color: #64748b;
+        font-size: 0.95rem;
+        background-position: right 20px center;
+    }
+
+    .custom-select-input:focus {
+        border-color: var(--gold-primary);
+        box-shadow: 0 0 0 0.25rem rgba(245, 196, 83, 0.25);
+    }
+
+    .btn-search {
+        background-color: var(--navy-dark);
+        color: var(--gold-primary);
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 10px 25px;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-search:hover {
+        background-color: #0f172a;
+        color: var(--white);
+    }
+
+    .properties-section {
+        background-color: var(--white);
+    }
+
+    .section-title-properties {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--gold-primary);
+    }
+
+    .section-subtitle-properties {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--navy-dark);
+    }
+
+    .property-card {
+        background-color: var(--navy-navbar);
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .property-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .property-img-container {
+        width: 100%;
+        height: 160px;
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #e2e8f0;
+    }
+
+    .property-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .property-type {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--white);
+    }
+
+    .property-location {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .property-price {
+        font-size: 1rem;
+        color: var(--white);
+    }
+
+    .btn-book {
+        background-color: var(--gold-primary);
+        color: var(--navy-dark) !important;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 8px 30px;
+        width: 80%;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-book:hover {
+        background-color: var(--gold-hover);
+        transform: scale(1.03);
+    }
+
+    .why-section {
+        background: var(--bg-light);
+        padding: 70px 0 60px;
+        width: 100%;
+    }
+
+    .why-heading {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 2.6rem;
+        font-weight: 900;
+        color: var(--text-dark);
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+
+    .why-heading span {
+        color: var(--gold-primary);
+    }
+
+    .why-subtitle {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 0;
+    }
+
+    .feature-card {
+        border: 2px solid var(--gold-primary);
+        border-radius: 6px;
+        background: var(--white);
+        padding: 20px 28px;
+        text-align: center;
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        line-height: 1.55;
+        transition: transform 0.2s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .cards-col {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .img-col {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .img-col img {
+        max-height: 400px;
+        width: 100%;
+        object-fit: contain;
+        display: block;
+    }
+
+    .btn-explore {
+        background: var(--gold-primary);
+        color: var(--navy-dark);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 14px 40px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background .2s, transform .15s;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .btn-explore:hover {
+        background: var(--gold-hover);
+        transform: translateY(-2px);
+        color: var(--navy-dark);
+    }
+
+    .process-section {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .badge-how-it-works {
+        color: var(--gold-hover);
+        border: 2px solid var(--gold-primary);
+        padding: 8px 24px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        display: inline-block;
+    }
+
+    .process-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--navy-dark);
+    }
+
+    .gold-highlight {
+        color: var(--gold-primary);
+    }
+
+    .process-subtitle {
+        max-width: 500px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .step-item {
+        position: relative;
+        z-index: 2;
+    }
+
+    .circle-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+    }
+
+    .main-circle {
+        width: 100%;
+        height: 100%;
+        background-color: var(--navy-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px rgba(30, 41, 59, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .step-item:hover .main-circle {
+        transform: scale(1.05);
+    }
+
+    .circle-text {
+        color: var(--white);
+        font-size: 0.85rem;
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    .step-number {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--gold-primary);
+        color: var(--navy-dark);
+        font-weight: 700;
+        font-size: 0.85rem;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--white);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 3;
+    }
+
+    .step-description {
+        font-size: 0.82rem;
+        line-height: 1.6;
+        padding: 0 5px;
+        font-weight: 400;
+    }
+
+    .location-banner-wrapper {
+        background: linear-gradient(rgba(15, 76, 129, 0.85), rgba(15, 76, 129, 0.85)),
+            url('./img/eeeq.svg') no-repeat center center;
+        background-size: cover;
+        min-height: 380px;
+        display: flex;
+        align-items: center;
+    }
+
+    .z-2 {
+        z-index: 2;
+    }
+
+    .map-pin-container {
+        position: relative;
+        width: 140px;
+        height: 180px;
+        filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+        animation: floatAnimation 3s ease-in-out infinite;
+    }
+
+    .pin-3d {
+        width: 130px;
+        height: 130px;
+        background: radial-gradient(circle at 35% 35%, #ffdf6d 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .pin-inner-circle {
+        width: 65px;
+        height: 65px;
+        background: radial-gradient(circle at center, var(--white) 60%, #e2e8f0 100%);
+        border-radius: 50%;
+        transform: rotate(45deg);
+        box-shadow: inset 2px 4px 8px rgba(0, 0, 0, 0.3), 2px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes floatAnimation {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    .banner-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.6rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .banner-subtitle {
+        font-size: 1.1rem;
+        max-width: 600px;
+        font-weight: 400;
+    }
+
+    .btn-explore-locations {
+        background-color: var(--navy-dark);
+        color: var(--white);
+        font-weight: 500;
+        font-size: 0.95rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--box-shadow-sm);
+        transition: all 0.3s ease;
+    }
+
+    .btn-explore-locations:hover {
+        background-color: var(--navy-hover);
+        color: var(--gold-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    @media (min-width: 992px) {
+        .process-steps-container::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 12%;
+            width: 76%;
+            height: 2px;
+            background-color: #e2e8f0;
+            z-index: 1;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .custom-navbar {
+            width: 100%;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            margin-top: 40px;
+        }
+
+        .search-wrapper {
+            border-radius: 25px;
+            padding: 20px;
+            margin: 0 15px;
+        }
+
+        .step-item {
+            margin-bottom: 20px;
+        }
+
+        .step-description {
+            max-width: 250px;
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .why-heading {
+            font-size: 1.9rem;
+        }
+
+        .img-col {
+            margin-top: 30px;
+        }
+
+        .location-banner-wrapper {
+            min-height: auto;
+        }
+
+        .banner-title {
+            font-size: 1.8rem;
+        }
+
+        .banner-subtitle {
+            font-size: 0.95rem;
+        }
+
+        .map-pin-container {
+            width: 100px;
+            height: 130px;
+        }
+
+        .pin-3d {
+            width: 100px;
+            height: 100px;
+        }
+
+        .pin-inner-circle {
+            width: 50px;
+            height: 50px;
+        }
+    }
+</style>
 
 <body>
     <!-- mohamed -->
-    <header class="p-1 position-fixed top-0 w-100  ">
-        <div class="container">
-            <div class="  d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white">
-                    <img class="logo" src="./img/logo.png" alt="">
+    <header class="hero-section">
+
+        <div class="container navbar-container ">
+
+            <nav class="navbar navbar-expand-lg navbar-dark custom-navbar position-relative">
+                <a class="  " href="#">
+                    <div class="logo-placeholder me-2">
+                        <div class="logo-icon-box"><img src="../img/logo.png" alt="Logo" style="max-height:70px" />
+                        </div>
+                    </div>
                 </a>
-                <ul class="nav  ps-5 gap-4  col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#home" class="nav-link text-warning px-2 ">Home</a></li>
-                    <li><a href="#properti" class="nav-link px-2 text-warning ">Properties</a></li>
-                    <li><a href="#about" class="nav-link px-2 text-warning ">About</a></li>
-                    <li><a href="#reviews" class="nav-link px-2 text-warning ">Reviews</a></li>
-                    <li><a href="#works" class="nav-link px-2 text-warning ">How it Works</a></li>
-                </ul>
+                <div class="container-fluid px-4">
+                    <button class="navbar-toggler" type="text/ajax" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="text-end">
-                    <button id="butDashbord" type="button"
-                        class="btn text-warning rounded-4 px-4 btn-outline-dark tdrk"></button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav gap-3">
+                            <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Properties</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">How It Works</a></li>
+                        </ul>
+                    </div>
 
-                    <button type="button" id="butLogin" class="btn btn-warning rounded-4 px-4 me-2"><a
-                            href="html/form.html" class="  link-light a pe-3">Log in</a></button>
-                    <button type="button" id="butSignup"
-                        class="btn text-warning rounded-4 px-4 btn-outline-dark tdrk"><a href="html/form.html"
-                            class="  link-warning a pe-3">Sign-up</a></button>
+                    <div class="d-none d-lg-flex gap-2">
+                        <a href="#" class="btn btn-gold px-4 py-2">Log In</a>
+                        <a href="#" class="btn btn-outline-navy px-4 py-2">Sign Up</a>
+                    </div>
                 </div>
-                <script>
-                    const login = document.getElementById("butLogin")
-                    const signup = document.getElementById("butSignup")
-                    const dashbord = document.getElementById("butDashbord")
-                    const id = localStorage.getItem("id")
-                    const role = localStorage.getItem("role");
+            </nav>
+        </div>
 
-                    if (id) {
-                        login.classList.add('d-none')
-                        signup.classList.add('d-none')
-                        dashbord.classList.remove("d-none")
-                        if (role === "owner") {
-                            dashbord.innerHTML = `<a href="html/dashbord-owner.html" class="  link-warning a pe-3">Dashboard</a>`;
-                        }
-                        else if (role === "student") {
-                            dashbord.innerHTML = `<a href="html/dashbord.student.html" class="  link-warning a pe-3">Dashboard</a>`;
-                        } else if (role === "admin") {
-                            dashbord.innerHTML = `<a href="html/dashboard-admin.html" class="  link-warning a pe-3">Dashboard</a>`;
+        <div class="container hero-content text-center d-flex flex-column justify-content-center align-items-center">
+            <h1 class="hero-title mb-3">Find Your Safe Home Away<br>From Home</h1>
+            <p class="hero-subtitle mb-5">Comfortable and secure homes for expats.</p>
 
-                        }
-                        else {
-                            dashbord.innerHTML = `<h3 id="logout" class="hp-login-link pe-3 ">logout</h3>`;
+            <div class="search-wrapper row g-0 align-items-center">
+                <div class="search-hint col-12 text-muted mb-2">Choose your university at a price that suits you.</div>
 
-                        }
-                    } else {
-                        dashbord.classList.add('d-none')
-                        login.classList.remove('d-none')
-                        signup.classList.remove('d-none')
-                    }
-                </script>
+                <div class="col-md-4 px-2 mb-2 mb-md-0">
+                    <div class="input-group-custom">
+                        <select class="form-select custom-select-input">
+                            <option selected disabled>University</option>
+                            <option value="1">Cairo University</option>
+                            <option value="2">Ain Shams University</option>
+                            <option value="3">Banha University</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 px-2 mb-2 mb-md-0">
+                    <div class="input-group-custom">
+                        <select class="form-select custom-select-input">
+                            <option selected disabled>Budget</option>
+                            <option value="1">$200 - $400</option>
+                            <option value="2">$400 - $700</option>
+                            <option value="3">$700+</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 px-2">
+                    <button class="btn btn-search w-100">Search</button>
+                </div>
             </div>
         </div>
+
     </header>
-    <div id="home" class="bac">
-        <div class="main text-center py-5">
-            <div class="container">
-                <div class="contnt">
-                    <h2 class="text-warning text-start fsTitel pb-5"><span class="d-block">Find Your Safe Home
-                            Away</span> <span class="d-block text-center">From Home</span></h2>
-                    <!-- <p class="text-white fw-bold py-3">Comfortable and secure homes for expats.</p> -->
 
+    <section class="properties-section py-5">
+        <div class="container text-center py-4">
 
-                    <section class="search-section">
-                        <div class="container">
-                            <div class="main-search-bar d-flex align-items-center justify-content-between">
+            <h2 class="section-title-properties mb-2">Most Viewed Properties</h2>
+            <p class="section-subtitle-properties mb-5">Browse the properties that everyone is checking out.</p>
 
-                                <div style="flex: 3; margin: 0 5px;">
-                                    <select id="universitySelectSearch" class="form-select custom-input-pill">
-                                        <option selected disabled value="">Select University</option>
-                                    </select>
-                                </div>
+            <div class="row g-4 justify-content-center">
 
-                                <div style="flex: 1.5; margin: 0 5px;">
-                                    <input type="number" id="maxPriceInput" class="form-control custom-input-pill"
-                                        placeholder="Max Budget">
-                                </div>
-
-                                <div style="flex: 1; margin: 0 5px;">
-                                    <button id="searchBtn" class="btn btn-search-dark w-100">Search</button>
-                                </div>
-
-                            </div>
-
-                            <div class="text-center mt-2">
-                                <small id="errorMsg" class="text-warning" style="display:none;">
-                                    Please select a university and set a budget.
-                                </small>
-                            </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="property-card">
+                        <div class="property-img-container">
+                            <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600"
+                                alt="Private Room">
                         </div>
-                    </section>
-
-                    <div class="container py-5">
-                        <div id="resultsRow"
-                            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
-                        </div>
+                        <h3 class="property-type mt-3">Private Room</h3>
+                        <p class="property-location text-white-50">Near Public Transport</p>
+                        <p class="property-price mt-2"><span class="gold-highlight">$450</span> / month</p>
+                        <a href="#" class="btn btn-book mt-3">Book</a>
                     </div>
+                </div>
 
-                    <script>
-                        const universitySelect = document.getElementById("universitySelectSearch");
-                        const searchBtn = document.getElementById("searchBtn");
-                        const maxPriceInput = document.getElementById("maxPriceInput");
-                        const resultsRow = document.getElementById("resultsRow");
-                        const errorMsg = document.getElementById("errorMsg");
-
-                        // 1. جلب قائمة الجامعات عند تحميل الصفحة وتعبئتها في قائمة الاختيار
-                        fetch("https://homunityapiv1.runasp.net/api/Universities/GetAll")
-                            .then(res => res.json())
-                            .then(data => {
-                                // الوصول إلى مصفوفة الجامعات داخل الكائن الراجع
-                                const universities = data.universities || [];
-                                universities.forEach(univ => {
-                                    const option = document.createElement("option");
-                                    option.value = univ.universityId; // إرسال الـ ID للسيرفر
-                                    option.textContent = univ.name;      // عرض اسم الجامعة للمستخدم
-                                    universitySelect.appendChild(option);
-                                });
-                            })
-                            .catch(err => console.error("Error fetching universities:", err));
-
-                        // 2. معالجة حدث الضغط على زر البحث
-                        searchBtn.addEventListener("click", () => {
-                            const universityId = universitySelect.value;
-                            const maxPrice = maxPriceInput.value;
-
-                            // التحقق من أن المستخدم اختار الجامعة وحدد الميزانية
-                            if (!universityId || !maxPrice) {
-                                errorMsg.style.display = "block";
-                                return;
-                            }
-                            errorMsg.style.display = "none";
-
-                            // إظهار مؤشر التحميل داخل حاوية النتائج
-                            resultsRow.innerHTML = '<div class="text-center w-100"><h3>Searching...</h3></div>';
-
-                            // رابط الـ API الجديد المعتمد على معرف الجامعة والحد الأقصى للسعر
-                            const url = `https://homunityapiv1.runasp.net/api/Properties/SearchByUniversity?universityId=${universityId}&maxPrice=${maxPrice}`;
-
-                            fetch(url, {
-                                headers: { 'accept': '*/*' }
-                            })
-                                .then(res => res.json())
-                                .then(data => {
-                                    resultsRow.innerHTML = "";
-                                    const properties = data.properties || [];
-
-                                    // جلب العقارات المحجوزة مسبقاً من الـ LocalStorage لاستثنائها من العرض
-                                    const bookedProperties = JSON.parse(localStorage.getItem("bookedProperties")) || [];
-
-                                    if (properties.length === 0) {
-                                        resultsRow.innerHTML = '<div class="text-center w-100 text-warning"><h4>No properties found near this university within your budget.</h4></div>';
-                                        return;
-                                    }
-
-                                    // بناء كروت العقارات المتوافقة مع البحث
-                                    properties.forEach(prop => {
-                                        const propId = prop.id || prop.propertyId || prop.propertyID;
-
-                                        // تخطي العقار إذا كان محجوزاً بالفعل
-                                        if (bookedProperties.includes(propId.toString())) {
-                                            return;
-                                        }
-
-                                        const col = document.createElement("div");
-                                        col.className = "col";
-                                        col.innerHTML = `
-                    <div class="room-card" id="prop-card-${propId}">
-                        <div class="image-container">
-                            <img src="${(prop.images && prop.images.length > 0) ? prop.images[0].imageUrl : 'https://via.placeholder.com/300x200?text=No+Image'}" 
-                                 alt="Property" 
-                                 onerror="this.src='https://via.placeholder.com/300x200?text=Room+Image'">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="property-card">
+                        <div class="property-img-container">
+                            <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=600"
+                                alt="Private Room">
                         </div>
-                        <h2 class="title">${prop.title}</h2>
-                        <p class="location">${prop.address || 'Near University'}</p>
-                        <div class="price"><span>$${prop.price}</span> / month</div>
-                        <button class="btn payhome btn-book" data-id="${propId}">Book Now</button>
+                        <h3 class="property-type mt-3">Private Room</h3>
+                        <p class="property-location text-white-50">Near University</p>
+                        <p class="property-price mt-2"><span class="gold-highlight">$350</span> / month</p>
+                        <a href="#" class="btn btn-book mt-3">Book</a>
                     </div>
-                `;
-                                        resultsRow.appendChild(col);
-                                    });
-                                })
-                                .catch(err => {
-                                    console.error("Search error:", err);
-                                    resultsRow.innerHTML = '<div class="text-center w-100 text-danger"><h4>Service unavailable.</h4></div>';
-                                });
-                        });
+                </div>
 
-                        // 3. إدارة عملية الحجز (Booking Setup) عند الضغط على زر Book Now
-                        const resultsContainer = document.getElementById("resultsRow");
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="property-card">
+                        <div class="property-img-container">
+                            <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=600"
+                                alt="Private Room">
+                        </div>
+                        <h3 class="property-type mt-3">Private Room</h3>
+                        <p class="property-location text-white-50">Downtown Area</p>
+                        <p class="property-price mt-2"><span class="gold-highlight">$250</span> / month</p>
+                        <a href="#" class="btn btn-book mt-3">Book</a>
+                    </div>
+                </div>
 
-                        // إعداد الـ SweetAlert Toast للتنبيهات السريعة
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
-
-                        resultsContainer.addEventListener("click", (e) => {
-                            if (e.target.classList.contains("payhome")) {
-                                e.preventDefault();
-
-                                const userId = localStorage.getItem("id");
-                                const role = localStorage.getItem("role");
-                                const propertyId = e.target.getAttribute("data-id");
-
-                                if (!propertyId || propertyId === "undefined") {
-                                    Toast.fire({ icon: 'error', title: 'عذراً، معرف العقار غير موجود' });
-                                    return;
-                                }
-
-                                if (userId) {
-                                    if (role === "student") {
-                                        const bookingUrl = `https://homunityapiv1.runasp.net/api/Booking?PropertyId=${propertyId}&StudentId=${userId}`;
-
-                                        fetch(bookingUrl, {
-                                            method: 'POST',
-                                            headers: { 'accept': '*/*' },
-                                            body: ''
-                                        })
-                                            .then(res => {
-                                                if (res.ok) {
-                                                    // إضافة العقار المحجوز للقائمة المحلية كي لا يظهر مجدداً
-                                                    let bookedProps = JSON.parse(localStorage.getItem("bookedProperties")) || [];
-                                                    if (!bookedProps.includes(propertyId)) {
-                                                        bookedProps.push(propertyId);
-                                                        localStorage.setItem("bookedProperties", JSON.stringify(bookedProps));
-                                                    }
-
-                                                    // حذف كارت العقار من الواجهة فوراً بعد نجاح الحجز
-                                                    const card = document.getElementById(`prop-card-${propertyId}`);
-                                                    if (card) {
-                                                        card.parentElement.remove();
-                                                    }
-
-                                                    Toast.fire({ icon: 'success', title: 'تم الحجز بنجاح وإخفاء العقار' });
-                                                } else {
-                                                    Toast.fire({ icon: 'error', title: 'حدث خطأ أثناء الحجز' });
-                                                }
-                                            })
-                                            .catch(err => {
-                                                Toast.fire({ icon: 'warning', title: 'خطأ في الاتصال بالسيرفر' });
-                                            });
-                                    } else {
-                                        Toast.fire({ icon: 'info', title: 'يجب أن تكون طالباً للحجز' });
-                                    }
-                                } else {
-                                    // التوجيه لصفحة تسجيل الدخول إذا لم يكن المستخدم مسجلاً
-                                    window.location.href = "html/form.html";
-                                }
-                            }
-                        });
-                    </script>
-
-
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="property-card">
+                        <div class="property-img-container">
+                            <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=600"
+                                alt="Private Room">
+                        </div>
+                        <h3 class="property-type mt-3">Private Room</h3>
+                        <p class="property-location text-white-50">5 Minutes from Campus</p>
+                        <p class="property-price mt-2"><span class="gold-highlight">$400</span> / month</p>
+                        <a href="#" class="btn btn-book mt-3">Book</a>
+                    </div>
                 </div>
 
             </div>
         </div>
-
-    </div>
-    <!-- menna -->
-    <!--feature-home-landing-->
-    <section>
+    </section>
+    <section class="why-section">
         <div class="container">
-            <h2 class="title">
-                Why Choose <span>HOMUNITY</span>
-            </h2>
-            <div class="row align-items-center">
+
+            <!-- Title & Subtitle -->
+            <div class="text-center mb-5">
+                <h2 class="why-heading">Why Choose <span>HOMUNITY</span></h2>
+                <p class="why-subtitle">Secure bookings, smart assistance, better choices.</p>
+            </div>
+
+            <!-- Main Row -->
+            <div class="row align-items-center g-4">
+
+                <!-- LEFT: 4 Feature Cards -->
                 <div class="col-md-6">
-                    <div class="info-box">
-                        <div class="item">
-                            <div class="dot"></div>
-                            <p>We make finding your next home simple, secure, and stress-free.</p>
+                    <div class="cards-col">
+
+                        <div class="feature-card">
+                            Enjoy a simple, fast, and user-friendly platform designed to
+                            simplify the student housing journey.
                         </div>
-                        <div class="item">
-                            <div class="dot"></div>
-                            <p>With Homunity, finding a place to live feels easy and comfortable.</p>
+
+                        <div class="feature-card">
+                            Browse verified properties, compare options, and find
+                            accommodation that matches your needs and budget.
                         </div>
-                        <div class="item">
-                            <div class="dot"></div>
-                            <p>We make finding your next home simple, secure, and stress-free.</p>
+
+                        <div class="feature-card">
+                            Complete your booking with confidence through our secure
+                            and reliable payment gateway.
                         </div>
+
+                        <div class="feature-card">
+                            Our intelligent chatbot provides instant answers and personalized
+                            recommendations to help students find the perfect
+                            accommodation.
+                        </div>
+
                     </div>
-                    <div class="btn-box">
-                        <button class="main-btn">Explore Rooms</button>
+
+                    <!-- Button under cards -->
+                    <div class="text-center mt-4">
+                        <a href="#" class="btn-explore">Explore Rooms</a>
                     </div>
                 </div>
-                <div class="col-md-6 text-center">
-                    <img src="./img/m16.svg" alt="mm" class="right-img">
+
+                <!-- RIGHT: House image -->
+                <div class="col-md-6 img-col">
+                    <img src="./img/HOMUNITY (16) 2.svg" alt="Agent holding a house model" />
                 </div>
+
             </div>
         </div>
-        <section id="properti" class="properties-section py-5 ">
-            <div class="container text-center">
-                <h2 class="section-title">Most Viewed Properties</h2>
-                <p class="section-subtitle mb-5">Browse the properties that everyone is checking out.</p>
-
-
-                <!-- Property Cards Grid -->
-                <div class="row" id="properties-grid">
-                    <!-- Card 1: City Studio - Available -->
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="property-card">
-                            <div class="card-img-wrapper">
-                                <span class="status-badge badge-available">Available</span>
-                                <img src="./img/Cozy-Room.jpg" alt="City Studio" />
-                            </div>
-                            <div class="card-body-custom">
-                                <div class="prop-name">City Studio</div>
-                                <div class="prop-meta">
-                                    <span>Dokki</span>
-                                    <span class="price">$300 / month</span>
-                                </div>
-                                <div class="prop-details">
-                                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                                    <button class="btn-action btn-view">View Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="property-card">
-                            <div class="card-img-wrapper">
-                                <span class="status-badge badge-booked">Available</span>
-                                <img src="./img/iimg2.jpeg" alt="Prime Studio" />
-                            </div>
-                            <div class="card-body-custom">
-                                <div class="prop-name">Prime Studio</div>
-                                <div class="prop-meta">
-                                    <span>Maadi</span>
-                                    <span class="price">$300 / month</span>
-                                </div>
-                                <div class="prop-details">
-                                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                                    <button class="btn-action btn-booked">View Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Smart Studio - Available -->
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="property-card">
-                            <div class="card-img-wrapper">
-                                <span class="status-badge badge-available">Available</span>
-                                <img src="./img/Luxury-Studio.jpg" alt="Smart Studio" />
-                            </div>
-                            <div class="card-body-custom">
-                                <div class="prop-name">Smart Studio</div>
-                                <div class="prop-meta">
-                                    <span>Zamalek</span>
-                                    <span class="price">$300 / month</span>
-                                </div>
-                                <div class="prop-details">
-                                    <div class="bed-bath"><span><i class="fa-solid fa-bed"></i></span> 2 Rooms</div>
-                                    <button class="btn-action btn-view">View Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-        </section>
     </section>
-    <!--end-->
 
-    <section class="map-cta-section">
-        <div class="container">
-            <div class="map-card-wrapper">
-                <div class="map-content">
-                    <h2 class="section-title">Explore Properties on the Map</h2>
-                    <p class="section-desc">
-                        Save your time and effort! Find the perfect home near your university or
-                        workplace directly through our interactive map.
+
+    <section class="process-section py-5 bg-white">
+        <div class="container py-4">
+
+            <div class="text-center mb-5">
+                <span class="badge-how-it-works mb-3">How It Works</span>
+                <h2 class="process-title mt-2">Homunity <span class="gold-highlight">Process</span></h2>
+                <p class="process-subtitle mx-auto text-muted mt-3">
+                    Find and book your ideal student accommodation in just a few simple steps.
+                </p>
+            </div>
+
+            <div class="row justify-content-center align-items-start process-steps-container position-relative g-4">
+
+                <div class="col-lg-2 col-md-4 col-sm-6 text-center step-item">
+                    <div class="circle-wrapper mx-auto mb-4">
+                        <span class="step-number">01</span>
+                        <div class="main-circle">
+                            <span class="circle-text">Search &<br>Filter</span>
+                        </div>
+                    </div>
+                    <p class="step-description text-muted">
+                        Select your city, area, and price range using our smart search tool to find available
+                        properties.
                     </p>
-                    <a href="./html/mapViwe.html" class="btn-go-map">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                        Open Interactive Map
-                    </a>
-                </div>
-                <div class="map-visual">
-                    <div class="map-icon-bg">
-                        <i class="fa-solid fa-location-dot"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- hagar -->
-
-
-    <section id="works" class="how-it-works py-5 text-center">
-        <div class="container">
-            <h2 class="text-warning  mb-5 fw-bold">How It Works</h2>
-
-            <div class="row justify-content-center g-5">
-
-                <!-- 01 -->
-                <div class="col-12 col-md-4">
-                    <div class="step">
-
-                        <div class="diamond-step">
-                            <span>01</span>
-                        </div>
-
-                        <div class="connector-line"></div>
-
-                        <div class="process-card">
-                            <div class="process-header">
-                                Search & Filter
-                            </div>
-                            <div class="process-body">
-                                <p>
-                                    Select your city, area, and price range using our smart search tool to find
-                                    available properties. </p>
-
-                                <div class="icon-overlap ">
-                                    <i class=" bi bi-search  fs-5"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
 
-                <!-- 02 -->
-                <div class="col-12 col-md-4">
-                    <div class="step">
-
-                        <div class="diamond-step">
-                            <span>02</span>
+                <div class="col-lg-2 col-md-4 col-sm-6 text-center step-item">
+                    <div class="circle-wrapper mx-auto mb-4">
+                        <span class="step-number">02</span>
+                        <div class="main-circle">
+                            <span class="circle-text">Pick Your<br>Room</span>
                         </div>
-
-                        <div class="connector-line"></div>
-
-                        <div class="process-card">
-                            <div class="process-header">
-                                Pick Your Room </div>
-                            <div class="process-body">
-                                <p>
-                                    Browse detailed listings with photos and real pricing to find your perfect match.
-                                </p>
-
-                                <div class="icon-overlap">
-                                    <i class="bi bi-geo-alt"></i>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    <p class="step-description text-muted">
+                        Browse detailed listings with photos and real pricing to find your perfect match.
+                    </p>
                 </div>
 
-                <!-- 03 -->
-                <div class="col-12 col-md-4">
-                    <div class="step">
-
-                        <div class="diamond-step">
-                            <span>03</span>
+                <div class="col-lg-2 col-md-4 col-sm-6 text-center step-item">
+                    <div class="circle-wrapper mx-auto mb-4">
+                        <span class="step-number">03</span>
+                        <div class="main-circle">
+                            <span class="circle-text">Book<br>Securely</span>
                         </div>
-
-                        <div class="connector-line"></div>
-
-                        <div class="process-card">
-                            <div class="process-header">
-                                Book Securely
-                            </div>
-
-                            <div class="process-body">
-                                <p>
-                                    Complete your booking through our secure
-                                    platform and get instant confirmation.
-                                </p>
-                                <div class="icon-overlap">
-                                    <i class="bi bi-check"></i>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    <p class="step-description text-muted">
+                        Complete your booking through our secure platform and get instant confirmation.
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6 text-center step-item">
+                    <div class="circle-wrapper mx-auto mb-4">
+                        <span class="step-number">04</span>
+                        <div class="main-circle">
+                            <span class="circle-text">Owner<br>Review</span>
+                        </div>
+                    </div>
+                    <p class="step-description text-muted">
+                        The property owner reviews your request and confirms availability.
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6 text-center step-item">
+                    <div class="circle-wrapper mx-auto mb-4">
+                        <span class="step-number">05</span>
+                        <div class="main-circle">
+                            <span class="circle-text">Payment<br>Verification</span>
+                        </div>
+                    </div>
+                    <p class="step-description text-muted">
+                        Verify your payment details and submit your booking request for approval.
+                    </p>
                 </div>
 
             </div>
         </div>
     </section>
+
+
+    <section class="location-banner-section my-5">
+        <div class="container-fluid px-0">
+            <div class="location-banner-wrapper position-relative overflow-hidden">
+                <div class="container h-100 position-relative z-2">
+                    <div class="row align-items-center h-100 py-5 px-3 px-md-5">
+
+                        <div
+                            class="col-lg-4 col-md-5 text-center text-md-start mb-4 mb-md-0 d-flex justify-content-center align-items-center">
+                            <div class="map-pin-container">
+                                <div class="pin-3d">
+                                    <div class="pin-inner-circle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-lg-8 col-md-7 text-center d-flex flex-column justify-content-center align-items-center text-white">
+                            <h2 class="banner-title mb-3">Choose the Right Location</h2>
+                            <p class="banner-subtitle mb-4 text-white-50">
+                                Easily locate accommodations that match your preferences and budget.
+                            </p>
+                            <a href="./html/mapViwe.html" class="btn btn-explore-locations px-4 py-2">Explore
+                                Locations</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
     <!-- Achievements -->
