@@ -616,20 +616,18 @@
 
 <body>
     <!-- mohamed -->
-    <header class="hero-section">
-
-        <div class="container navbar-container ">
-
+<header class="hero-section">
+        <div class="container navbar-container">
             <nav class="navbar navbar-expand-lg navbar-dark custom-navbar position-relative">
-                <a class="  " href="#">
+                <a class="" href="#">
                     <div class="logo-placeholder me-2">
-                        <div class="logo-icon-box"><img src="../img/logo.png" alt="Logo" style="max-height:70px" />
+                        <div class="logo-icon-box">
+                            <img src="../img/logo.png" alt="Logo" style="max-height:70px" />
                         </div>
                     </div>
                 </a>
                 <div class="container-fluid px-4">
-                    <button class="navbar-toggler" type="text/ajax" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
@@ -644,8 +642,9 @@
                     </div>
 
                     <div class="d-none d-lg-flex gap-2">
-                        <a href="#" class="btn btn-gold px-4 py-2">Log In</a>
-                        <a href="#" class="btn btn-outline-navy px-4 py-2">Sign Up</a>
+                        <button id="butDashbord" type="button" class="btn btn-outline-navy px-4 py-2 d-none"></button>
+                        <a href="html/form.html" id="butLogin" class="btn btn-gold px-4 py-2">Log In</a>
+                        <a href="html/form.html" id="butSignup" class="btn btn-outline-navy px-4 py-2">Sign Up</a>
                     </div>
                 </div>
             </nav>
@@ -660,97 +659,229 @@
 
                 <div class="col-md-4 px-2 mb-2 mb-md-0">
                     <div class="input-group-custom">
-                        <select class="form-select custom-select-input">
-                            <option selected disabled>University</option>
-                            <option value="1">Cairo University</option>
-                            <option value="2">Ain Shams University</option>
-                            <option value="3">Banha University</option>
+                        <select id="universitySelectSearch" class="form-select custom-select-input">
+                            <option selected disabled value="">Select University</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="col-md-4 px-2 mb-2 mb-md-0">
                     <div class="input-group-custom">
-                        <select class="form-select custom-select-input">
-                            <option selected disabled>Budget</option>
-                            <option value="1">$200 - $400</option>
-                            <option value="2">$400 - $700</option>
-                            <option value="3">$700+</option>
-                        </select>
+                        <input type="number" id="maxPriceInput" class="form-control custom-select-input " placeholder="Max Budget ($)">
                     </div>
                 </div>
 
                 <div class="col-md-4 px-2">
-                    <button class="btn btn-search w-100">Search</button>
+                    <button id="searchBtn" class="btn btn-search w-100">Search</button>
                 </div>
             </div>
+            
+            <div class="text-center mt-3">
+                <small id="errorMsg" class="text-warning" style="display:none;">
+                    Please select a university and set a budget.
+                </small>
+            </div>
         </div>
-
     </header>
 
-    <section class="properties-section py-5">
+    <section id="propertiesSection" class="properties-section py-5 d-none">
         <div class="container text-center py-4">
+            <h2 class="section-title-properties mb-2">Search Results</h2>
+            <p class="section-subtitle-properties mb-5">Browse the properties found near your university.</p>
 
-            <h2 class="section-title-properties mb-2">Most Viewed Properties</h2>
-            <p class="section-subtitle-properties mb-5">Browse the properties that everyone is checking out.</p>
-
-            <div class="row g-4 justify-content-center">
-
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                    <div class="property-card">
-                        <div class="property-img-container">
-                            <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600"
-                                alt="Private Room">
-                        </div>
-                        <h3 class="property-type mt-3">Private Room</h3>
-                        <p class="property-location text-white-50">Near Public Transport</p>
-                        <p class="property-price mt-2"><span class="gold-highlight">$450</span> / month</p>
-                        <a href="#" class="btn btn-book mt-3">Book</a>
-                    </div>
+            <div id="dynamicResultsRow" class="row g-4 justify-content-center">
                 </div>
-
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                    <div class="property-card">
-                        <div class="property-img-container">
-                            <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=600"
-                                alt="Private Room">
-                        </div>
-                        <h3 class="property-type mt-3">Private Room</h3>
-                        <p class="property-location text-white-50">Near University</p>
-                        <p class="property-price mt-2"><span class="gold-highlight">$350</span> / month</p>
-                        <a href="#" class="btn btn-book mt-3">Book</a>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                    <div class="property-card">
-                        <div class="property-img-container">
-                            <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=600"
-                                alt="Private Room">
-                        </div>
-                        <h3 class="property-type mt-3">Private Room</h3>
-                        <p class="property-location text-white-50">Downtown Area</p>
-                        <p class="property-price mt-2"><span class="gold-highlight">$250</span> / month</p>
-                        <a href="#" class="btn btn-book mt-3">Book</a>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                    <div class="property-card">
-                        <div class="property-img-container">
-                            <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=600"
-                                alt="Private Room">
-                        </div>
-                        <h3 class="property-type mt-3">Private Room</h3>
-                        <p class="property-location text-white-50">5 Minutes from Campus</p>
-                        <p class="property-price mt-2"><span class="gold-highlight">$400</span> / month</p>
-                        <a href="#" class="btn btn-book mt-3">Book</a>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // === أولاً: إدارة حالة الهيدر والأزرار (Dashboard / Login / Signup) ===
+        const loginBtn = document.getElementById("butLogin");
+        const signupBtn = document.getElementById("butSignup");
+        const dashbordBtn = document.getElementById("butDashbord");
+        const id = localStorage.getItem("id");
+        const role = localStorage.getItem("role");
+
+        if (id) {
+            if (loginBtn) loginBtn.classList.add('d-none');
+            if (signupBtn) signupBtn.classList.add('d-none');
+            dashbordBtn.classList.remove("d-none");
+            
+            if (role === "owner") {
+                dashbordBtn.innerHTML = `<a href="html/dashbord-owner.html" class="text-decoration-none text-white">Dashboard</a>`;
+            } else if (role === "student") {
+                dashbordBtn.innerHTML = `<a href="html/dashbord.student.html" class="text-decoration-none text-white">Dashboard</a>`;
+            } else if (role === "admin") {
+                dashbordBtn.innerHTML = `<a href="html/dashboard-admin.html" class="text-decoration-none text-white">Dashboard</a>`;
+            } else {
+                dashbordBtn.innerHTML = `<span id="logout" style="cursor:pointer;">Logout</span>`;
+                dashbordBtn.addEventListener('click', () => {
+                    localStorage.clear();
+                    window.location.reload();
+                });
+            }
+        } else {
+            dashbordBtn.classList.add('d-none');
+            if (loginBtn) loginBtn.classList.remove('d-none');
+            if (signupBtn) signupBtn.classList.remove('d-none');
+        }
+
+        // === ثانياً: منطق جلب الجامعات والبحث عن العقارات ===
+        const universitySelect = document.getElementById("universitySelectSearch");
+        const searchBtn = document.getElementById("searchBtn");
+        const maxPriceInput = document.getElementById("maxPriceInput");
+        const propertiesSection = document.getElementById("propertiesSection");
+        const dynamicResultsRow = document.getElementById("dynamicResultsRow");
+        const errorMsg = document.getElementById("errorMsg");
+
+        // إعداد SweetAlert Toast
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+
+        // 1. جلب قائمة الجامعات وتعبئتها في الـ Select
+        fetch("https://homunityapiv1.runasp.net/api/Universities/GetAll")
+            .then(res => res.json())
+            .then(data => {
+                const universities = data.universities || [];
+                universities.forEach(univ => {
+                    const option = document.createElement("option");
+                    option.value = univ.universityId; 
+                    option.textContent = univ.name;      
+                    universitySelect.appendChild(option);
+                });
+            })
+            .catch(err => console.error("Error fetching universities:", err));
+
+        // 2. معالجة حدث الضغط على زر البحث
+        searchBtn.addEventListener("click", () => {
+            const universityId = universitySelect.value;
+            const maxPrice = maxPriceInput.value;
+
+            if (!universityId || !maxPrice) {
+                errorMsg.style.display = "block";
+                return;
+            }
+            errorMsg.style.display = "none";
+
+            // إظهار السكشن وتفريغه ووضع كلمة جاري البحث
+            propertiesSection.classList.remove("d-none");
+            dynamicResultsRow.innerHTML = '<div class="text-center w-100 text-white"><h3>Searching...</h3></div>';
+
+            const url = `https://homunityapiv1.runasp.net/api/Properties/SearchByUniversity?universityId=${universityId}&maxPrice=${maxPrice}`;
+
+            fetch(url, { headers: { 'accept': '*/*' } })
+                .then(res => res.json())
+                .then(data => {
+                    dynamicResultsRow.innerHTML = "";
+                    const properties = data.properties || [];
+                    const bookedProperties = JSON.parse(localStorage.getItem("bookedProperties")) || [];
+
+                    if (properties.length === 0) {
+                        dynamicResultsRow.innerHTML = '<div class="text-center w-100 text-warning"><h4>No properties found near this university within your budget.</h4></div>';
+                        return;
+                    }
+
+                    // بناء كروت العقارات المتوافقة بالتصميم الجديد
+                    properties.forEach(prop => {
+                        const propId = prop.id || prop.propertyId || prop.propertyID;
+
+                        // استثناء العقارات المحجوزة المخزنة محلياً
+                        if (bookedProperties.includes(propId.toString())) {
+                            return;
+                        }
+
+                        const col = document.createElement("div");
+                        col.className = "col-xl-3 col-lg-4 col-md-6 col-sm-12";
+                        col.id = `prop-card-container-${propId}`;
+                        col.innerHTML = `
+                            <div class="property-card" id="prop-card-${propId}">
+                                <div class="property-img-container">
+                                    <img src="${(prop.images && prop.images.length > 0) ? prop.images[0].imageUrl : 'https://via.placeholder.com/300x200?text=No+Image'}" 
+                                         alt="Property" 
+                                         onerror="this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600'">
+                                </div>
+                                <h3 class="property-type mt-3">${prop.title}</h3>
+                                <p class="property-location text-white-50">${prop.address || 'Near University'}</p>
+                                <p class="property-price mt-2"><span class="gold-highlight">$${prop.price}</span> / month</p>
+                                <button class="btn btn-book payhome mt-3 w-100" data-id="${propId}">Book</button>
+                            </div>
+                        `;
+                        dynamicResultsRow.appendChild(col);
+                    });
+
+                    // إذا كانت كل العقارات الراجعة محجوزة مسبقاً ومخفية
+                    if (dynamicResultsRow.innerHTML === "") {
+                        dynamicResultsRow.innerHTML = '<div class="text-center w-100 text-warning"><h4>All properties found are already booked.</h4></div>';
+                    }
+                })
+                .catch(err => {
+                    console.error("Search error:", err);
+                    dynamicResultsRow.innerHTML = '<div class="text-center w-100 text-danger"><h4>Service unavailable.</h4></div>';
+                });
+        });
+
+        // 3. إدارة عملية الحجز (Booking)
+        dynamicResultsRow.addEventListener("click", (e) => {
+            if (e.target.classList.contains("payhome")) {
+                e.preventDefault();
+
+                const userId = localStorage.getItem("id");
+                const userRole = localStorage.getItem("role");
+                const propertyId = e.target.getAttribute("data-id");
+
+                if (!propertyId || propertyId === "undefined") {
+                    Toast.fire({ icon: 'error', title: 'عذراً، معرف العقار غير موجود' });
+                    return;
+                }
+
+                if (userId) {
+                    if (userRole === "student") {
+                        const bookingUrl = `https://homunityapiv1.runasp.net/api/Booking?PropertyId=${propertyId}&StudentId=${userId}`;
+
+                        fetch(bookingUrl, {
+                            method: 'POST',
+                            headers: { 'accept': '*/*' },
+                            body: ''
+                        })
+                        .then(res => {
+                            if (res.ok) {
+                                // حفظ في الـ LocalStorage لمنع الظهور مجدداً
+                                let bookedProps = JSON.parse(localStorage.getItem("bookedProperties")) || [];
+                                if (!bookedProps.includes(propertyId)) {
+                                    bookedProps.push(propertyId);
+                                    localStorage.setItem("bookedProperties", JSON.stringify(bookedProps));
+                                }
+
+                                // إخفاء الكارت فوراً من الواجهة
+                                const cardContainer = document.getElementById(`prop-card-container-${propertyId}`);
+                                if (cardContainer) {
+                                    cardContainer.remove();
+                                }
+
+                                Toast.fire({ icon: 'success', title: 'تم الحجز بنجاح وإخفاء العقار' });
+                            } else {
+                                Toast.fire({ icon: 'error', title: 'حدث خطأ أثناء الحجز' });
+                            }
+                        })
+                        .catch(err => {
+                            Toast.fire({ icon: 'warning', title: 'خطأ في الاتصال بالسيرفر' });
+                        });
+                    } else {
+                        Toast.fire({ icon: 'info', title: 'يجب أن تكون طالباً للحجز' });
+                    }
+                } else {
+                    window.location.href = "html/form.html";
+                }
+            }
+        });
+    </script>
     <section class="why-section">
         <div class="container">
 
