@@ -43,7 +43,7 @@ a {
   background-color: var(--navy-navbar);
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
-  padding: 15px 0;
+  padding: 15px 15px;
   box-shadow: var(--box-shadow-md);
   border: 2px solid var(--gold-primary);
   border-top: none;
@@ -831,5 +831,8 @@ a {
 @media (max-width: 576px) {
   .cta-btn-gold {
     width: 100% !important;
+  }
+  .navbar-container {
+    position: relative;
   }
 }
